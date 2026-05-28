@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagramコース Jun 2026 | SNS運用を学ぶ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700&family=Teko:wght@600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-body: #fdf4ff;
+            --bg-card: #ffffff;
+            --text-main: #1e1035;
+            --text-sub: #64748b;
+            --ig-purple: #833ab4;
+            --ig-magenta: #c13584;
+            --ig-orange: #f77737;
+            --ig-grad: linear-gradient(45deg, #833ab4, #c13584, #f77737);
+            --shadow: 0 20px 50px rgba(131, 58, 180, 0.12);
+        }
+        body {
+            font-family: "Noto Sans JP", sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            margin: 0; padding: 0;
+            height: 100vh;
+            display: flex; align-items: center; justify-content: center;
+            overflow: hidden;
+        }
+        .modal-container {
+            width: 95%; max-width: 1300px; height: 90vh;
+            background: var(--bg-card);
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+            display: grid; grid-template-columns: 1.5fr 1fr;
+            overflow: hidden; position: relative;
+        }
+        /* ── カレンダー ── */
+        .calendar-area { height: 100%; border-right: 1px solid #ede9f5; overflow-y: auto; }
+        .calendar-grid {
+            display: grid; grid-template-columns: repeat(7, 1fr);
+            grid-auto-rows: minmax(80px, auto);
+            width: 100%; background: #fff; padding: 20px; box-sizing: border-box; gap: 5px;
+        }
+        .day-name {
+            text-align: center; font-size: 0.8rem; font-weight: bold; color: #b39ddb;
+            display: flex; align-items: center; justify-content: center; height: 40px;
+        }
+        .cal-cell {
+            border-top: 1px solid #ede9f5; padding: 5px; position: relative;
+            font-family: "Roboto", sans-serif; font-size: 0.9rem; color: #334155;
+            transition: 0.2s; border-radius: 8px;
+        }
+        .cal-cell.other-month { color: #d1c4e9; background: #faf8ff; }
+        .cal-cell.has-event { cursor: pointer; background: #fdf0ff; border-top-color: transparent; }
+        .cal-cell.has-event:hover {
+            background: var(--ig-grad); color: #fff; transform: scale(1.05); z-index: 10;
+            box-shadow: 0 10px 20px rgba(193, 53, 132, 0.35);
+        }
+        .date-num { display: block; margin-bottom: 5px; font-weight: bold; }
+        .ev-pill {
+            background: var(--ig-grad); color: #fff; font-size: 0.7rem; padding: 2px 6px;
+            border-radius: 4px; display: block; overflow: hidden;
+            white-space: nowrap; text-overflow: ellipsis; opacity: 0.85;
+        }
+        .cal-cell.has-event:hover .ev-pill { background: rgba(255,255,255,0.25); color: #fff; }
+        .cal-popup {
+            position: absolute; bottom: 100%; left: 50%;
+            transform: translateX(-50%) translateY(10px);
+            background: #1e1035; color: #fff; padding: 10px 15px; border-radius: 8px;
+            width: 200px; text-align: center; font-size: 0.9rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            opacity: 0; pointer-events: none;
+            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 20;
+        }
+        .cal-popup::after {
+            content: ""; position: absolute; top: 100%; left: 50%; margin-left: -6px;
+            border-width: 6px; border-style: solid;
+            border-color: #1e1035 transparent transparent transparent;
+        }
+        .cal-cell.has-event:hover .cal-popup { opacity: 1; transform: translateX(-50%) translateY(-10px); }
+        /* ── リスト ── */
+        .list-area {
+            padding: 40px; display: flex; flex-direction: column;
+            height: 100%; box-sizing: border-box; background: #fff;
+            position: relative; overflow: hidden;
+        }
+        .brand-header { margin-bottom: 30px; padding-bottom: 15px; position: relative; }
+        .brand-header::after {
+            content: ""; position: absolute; bottom: 0; left: 0; width: 100%; height: 4px;
+            background: var(--ig-grad); border-radius: 2px;
+        }
+        h1 {
+            font-family: "Teko", sans-serif; font-size: 2.5rem; margin: 0;
+            line-height: 1.1; text-transform: uppercase; letter-spacing: 1px;
+            background: var(--ig-grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        h1 span { opacity: 0.8; }
+        .subtitle {
+            font-family: "Roboto", sans-serif; font-size: 0.9rem; font-weight: 700;
+            color: var(--ig-orange); letter-spacing: 2px; text-transform: uppercase; margin-top: 5px;
+        }
+        .curriculum-list { overflow-y: auto; flex: 1; padding-right: 10px; padding-bottom: 80px; min-height: 0; }
+        .curriculum-list::-webkit-scrollbar { width: 6px; }
+        .curriculum-list::-webkit-scrollbar-thumb { background: #e9d5f5; border-radius: 3px; }
+        .c-item {
+            display: flex; gap: 20px; padding: 20px;
+            border: 1px solid #ede9f5; border-radius: 16px; margin-bottom: 15px;
+            transition: 0.2s; align-items: center; cursor: pointer;
+            text-decoration: none; color: inherit;
+        }
+        .c-item:hover { border-color: var(--ig-magenta); box-shadow: 0 5px 15px rgba(193,53,132,0.08); transform: translateX(5px); }
+        .date-box {
+            background: #fdf0ff; color: var(--text-main);
+            width: 60px; height: 60px; border-radius: 12px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            flex-shrink: 0; font-family: "Teko", sans-serif; line-height: 1; font-weight: bold;
+        }
+        .db-month { font-size: 0.9rem; font-weight: 500; color: #b39ddb; }
+        .db-day { font-size: 2rem; font-weight: 700; color: var(--ig-purple); }
+        .c-content { flex: 1; }
+        .day-tag {
+            font-size: 0.7rem; font-weight: 700; color: #fff;
+            background: var(--ig-grad);
+            padding: 2px 8px; border-radius: 4px; display: inline-block;
+            margin-bottom: 5px; letter-spacing: 0.5px;
+        }
+        h4 { margin: 0; font-size: 1.1rem; color: #334155; }
+        p { margin: 2px 0 0; font-size: 0.85rem; color: #64748b; }
+        /* ── TODAY ── */
+        .cal-cell.is-today {
+            border: 2px solid var(--ig-orange) !important;
+            box-shadow: 0 0 15px rgba(247, 119, 55, 0.4); z-index: 10;
+        }
+        .cal-cell.is-today::after {
+            content: "TODAY"; position: absolute; top: -12px; right: -10px;
+            background: var(--ig-orange); color: #fff; font-size: 0.65rem; padding: 2px 8px;
+            border-radius: 10px; font-weight: 900;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            font-family: "Teko", sans-serif; letter-spacing: 1px;
+            animation: bounce-badge 2s infinite; pointer-events: none;
+        }
+        .c-item.is-today-list {
+            border-color: var(--ig-orange); background: #fff8f3;
+            transform: translateX(5px); box-shadow: 0 5px 15px rgba(247,119,55,0.15);
+        }
+        @keyframes bounce-badge {
+            0%,20%,50%,80%,100% { transform: translateY(0); }
+            40% { transform: translateY(-5px); }
+            60% { transform: translateY(-3px); }
+        }
+        @media (max-width: 900px) {
+            body { height: auto; padding: 20px; overflow: auto; display: block; }
+            .modal-container { width: 100%; height: auto; display: flex; flex-direction: column; }
+            .calendar-area { height: 500px; border-right: none; border-bottom: 1px solid #ede9f5; }
+            .calendar-grid { padding: 10px; }
+            .list-area { height: auto; }
+        }
+    </style>
+</head>
+<body>
+    <div class="modal-container">
+        <!-- ── カレンダー ── -->
+        <div class="calendar-area">
+            <div class="calendar-grid">
+                <div class="day-name">Sun</div><div class="day-name">Mon</div><div class="day-name">Tue</div>
+                <div class="day-name">Wed</div><div class="day-name">Thu</div><div class="day-name">Fri</div>
+                <div class="day-name">Sat</div>
+
+                <!-- Week 1: May 31 – Jun 6 -->
+                <div class="cal-cell other-month"><span class="date-num">31</span></div>
+                <div class="cal-cell"><span class="date-num">1</span></div>
+                <a href="./vol01-1.html" class="cal-cell has-event" style="text-decoration:none;display:block;color:inherit;">
+                    <span class="date-num">2</span><span class="ev-pill">DAY 01</span>
+                    <div class="cal-popup">インスタグラムとは？特徴・アカウント作成</div>
+                </a>
+                <a href="./vol02-1.html" class="cal-cell has-event" style="text-decoration:none;display:block;color:inherit;">
+                    <span class="date-num">3</span><span class="ev-pill">DAY 02</span>
+                    <div class="cal-popup">企業運用の目的・収益化の成功事例</div>
+                </a>
+                <a href="./vol03-1.html" class="cal-cell has-event" style="text-decoration:none;display:block;color:inherit;">
+                    <span class="date-num">4</span><span class="ev-pill">DAY 03</span>
+                    <div class="cal-popup">アカウント設計</div>
+                </a>
+                <div class="cal-cell"><span class="date-num">5</span></div>
+                <div class="cal-cell"><span class="date-num">6</span></div>
+
+                <!-- Week 2: Jun 7 – 13 -->
+                <div class="cal-cell"><span class="date-num">7</span></div>
+                <div class="cal-cell"><span class="date-num">8</span></div>
+                <a href="./vol04-1.html" class="cal-cell has-event" style="text-decoration:none;display:block;color:inherit;">
+                    <span class="date-num">9</span><span class="ev-pill">DAY 04</span>
+                    <div class="cal-popup">連動アプリと各アプリの特性</div>
+                </a>
+                <a href="./vol05-1.html" class="cal-cell has-event" style="text-decoration:none;display:block;color:inherit;">
+                    <span class="date-num">10</span><span class="ev-pill">DAY 05</span>
+                    <div class="cal-popup">画像・動画・テンプレート素材</div>
+                </a>
+                <a href="./vol06-1.html" class="cal-cell has-event" style="text-decoration:none;display:block;color:inherit;">
+                    <span class="date-num">11</span><span class="ev-pill">DAY 06</span>
+                    <div class="cal-popup">Canvaによる画像・動画作成</div>
+                </a>
+                <div class="cal-cell"><span class="date-num">12</span></div>
+                <div class="cal-cell"><span class="date-num">13</span></div>
+
+                <!-- Week 3: Jun 14 – 20 -->
+                <div class="cal-cell"><span class="date-num">14</span></div>
+                <div class="cal-cell"><span class="date-num">15</span></div>
+                <a href="./vol07-1.html" class="cal-cell has-event" style="text-decoration:none;display:block;color:inherit;">
+                    <span class="date-num">16</span><span class="ev-pill">DAY 07</span>
+                    <div class="cal-popup">フィード投稿</div>
+                </a>
+                <a href="./vol08-1.html" class="cal-cell has-event" style="text-decoration:none;display:block;color:inherit;">
+                    <span class="date-num">17</span><span class="ev-pill">DAY 08</span>
+                    <div class="cal-popup">リール投稿</div>
+                </a>
+                <a href="./vol09-1.html" class="cal-cell has-event" style="text-decoration:none;display:block;color:inherit;">
+                    <span class="date-num">18</span><span class="ev-pill">DAY 09</span>
+                    <div class="cal-popup">ストーリーズ・ハイライト</div>
+                </a>
+                <div class="cal-cell"><span class="date-num">19</span></div>
+                <div class="cal-cell"><span class="date-num">20</span></div>
+
+                <!-- Week 4: Jun 21 – 27 -->
+                <div class="cal-cell"><span class="date-num">21</span></div>
+                <div class="cal-cell"><span class="date-num">22</span></div>
+                <a href="./vol10-1.html" class="cal-cell has-event" style="text-decoration:none;display:block;color:inherit;">
+                    <span class="date-num">23</span><span class="ev-pill">DAY 10</span>
+                    <div class="cal-popup">インスタグラムが伸びるポイント</div>
+                </a>
+                <a href="./vol11-1.html" class="cal-cell has-event" style="text-decoration:none;display:block;color:inherit;">
+                    <span class="date-num">24</span><span class="ev-pill">DAY 11</span>
+                    <div class="cal-popup">フィード投稿と資料生成AI</div>
+                </a>
+                <a href="./vol12-1.html" class="cal-cell has-event" style="text-decoration:none;display:block;color:inherit;">
+                    <span class="date-num">25</span><span class="ev-pill">DAY 12</span>
+                    <div class="cal-popup">リール投稿と動画生成AI</div>
+                </a>
+                <div class="cal-cell"><span class="date-num">26</span></div>
+                <div class="cal-cell"><span class="date-num">27</span></div>
+
+                <!-- Week 5: Jun 28 – Jul 4 -->
+                <div class="cal-cell"><span class="date-num">28</span></div>
+                <a href="./vol13-1.html" class="cal-cell has-event" style="text-decoration:none;display:block;color:inherit;">
+                    <span class="date-num">29</span><span class="ev-pill">DAY 13</span>
+                    <div class="cal-popup">SNSの炎上事例から学ぶコンプライアンス</div>
+                </a>
+                <div class="cal-cell"><span class="date-num">30</span></div>
+                <div class="cal-cell other-month"><span class="date-num">1</span></div>
+                <div class="cal-cell other-month"><span class="date-num">2</span></div>
+                <div class="cal-cell other-month"><span class="date-num">3</span></div>
+                <div class="cal-cell other-month"><span class="date-num">4</span></div>
+            </div>
+        </div>
+
+        <!-- ── カリキュラムリスト ── -->
+        <div class="list-area">
+            <div class="brand-header">
+                <h1>INSTAGRAM <span>COURSE</span></h1>
+                <div class="subtitle">Jun 2026 — SNS運用マスターコース</div>
+            </div>
+            <div class="curriculum-list">
+                <a href="./vol01-1.html" class="c-item">
+                    <div class="date-box"><span class="db-month">Tue</span><span class="db-day">02</span></div>
+                    <div class="c-content"><span class="day-tag">DAY 01</span>
+                        <h4>インスタグラムとは？特徴・アカウント作成</h4>
+                        <p>他SNSとの違い／アルゴリズム概要／ビジネスアカウント作成</p>
+                    </div>
+                </a>
+                <a href="./vol02-1.html" class="c-item">
+                    <div class="date-box"><span class="db-month">Wed</span><span class="db-day">03</span></div>
+                    <div class="c-content"><span class="day-tag">DAY 02</span>
+                        <h4>企業が運用をする目的・収益化の成功事例</h4>
+                        <p>フォロワーを売上につなげる企業事例／KPI設計の考え方</p>
+                    </div>
+                </a>
+                <a href="./vol03-1.html" class="c-item">
+                    <div class="date-box"><span class="db-month">Thu</span><span class="db-day">04</span></div>
+                    <div class="c-content"><span class="day-tag">DAY 03</span>
+                        <h4>アカウント設計</h4>
+                        <p>プロフィール設計／世界観づくり／ターゲット設定の戦略</p>
+                    </div>
+                </a>
+                <a href="./vol04-1.html" class="c-item">
+                    <div class="date-box"><span class="db-month">Tue</span><span class="db-day">09</span></div>
+                    <div class="c-content"><span class="day-tag">DAY 04</span>
+                        <h4>インスタグラム連動アプリと各アプリの特性</h4>
+                        <p>Creator Studio・Later・Metaビジネスマネージャー等の周辺ツール</p>
+                    </div>
+                </a>
+                <a href="./vol05-1.html" class="c-item">
+                    <div class="date-box"><span class="db-month">Wed</span><span class="db-day">10</span></div>
+                    <div class="c-content"><span class="day-tag">DAY 05</span>
+                        <h4>画像・動画・テンプレート素材</h4>
+                        <p>無料・有料素材サイトの使い方／著作権フリー素材の探し方</p>
+                    </div>
+                </a>
+                <a href="./vol06-1.html" class="c-item">
+                    <div class="date-box"><span class="db-month">Thu</span><span class="db-day">11</span></div>
+                    <div class="c-content"><span class="day-tag">DAY 06</span>
+                        <h4>Canvaによる画像・動画作成</h4>
+                        <p>フィード画像・リール用動画をCanvaで実際に制作する</p>
+                    </div>
+                </a>
+                <a href="./vol07-1.html" class="c-item">
+                    <div class="date-box"><span class="db-month">Tue</span><span class="db-day">16</span></div>
+                    <div class="c-content"><span class="day-tag">DAY 07</span>
+                        <h4>フィード投稿</h4>
+                        <p>キャプション・ハッシュタグ・投稿タイミングの最適化</p>
+                    </div>
+                </a>
+                <a href="./vol08-1.html" class="c-item">
+                    <div class="date-box"><span class="db-month">Wed</span><span class="db-day">17</span></div>
+                    <div class="c-content"><span class="day-tag">DAY 08</span>
+                        <h4>リール投稿</h4>
+                        <p>短尺動画の構成・BGM・エフェクト／伸びるリールの法則</p>
+                    </div>
+                </a>
+                <a href="./vol09-1.html" class="c-item">
+                    <div class="date-box"><span class="db-month">Thu</span><span class="db-day">18</span></div>
+                    <div class="c-content"><span class="day-tag">DAY 09</span>
+                        <h4>ストーリーズ・ハイライト</h4>
+                        <p>ストーリーズの活用法／ハイライトでプロフィールを強化する</p>
+                    </div>
+                </a>
+                <a href="./vol10-1.html" class="c-item">
+                    <div class="date-box"><span class="db-month">Tue</span><span class="db-day">23</span></div>
+                    <div class="c-content"><span class="day-tag">DAY 10</span>
+                        <h4>インスタグラムが伸びるポイント</h4>
+                        <p>アルゴリズム攻略／エンゲージメント率／インサイト分析</p>
+                    </div>
+                </a>
+                <a href="./vol11-1.html" class="c-item">
+                    <div class="date-box"><span class="db-month">Wed</span><span class="db-day">24</span></div>
+                    <div class="c-content"><span class="day-tag">DAY 11</span>
+                        <h4>フィード投稿と資料生成AI</h4>
+                        <p>AIでキャプション・ハッシュタグを自動生成／投稿計画の効率化</p>
+                    </div>
+                </a>
+                <a href="./vol12-1.html" class="c-item">
+                    <div class="date-box"><span class="db-month">Thu</span><span class="db-day">25</span></div>
+                    <div class="c-content"><span class="day-tag">DAY 12</span>
+                        <h4>リール投稿と動画生成AI</h4>
+                        <p>AI動画ツールでリールコンテンツを効率制作する</p>
+                    </div>
+                </a>
+                <a href="./vol13-1.html" class="c-item">
+                    <div class="date-box"><span class="db-month">Mon</span><span class="db-day">29</span></div>
+                    <div class="c-content"><span class="day-tag">DAY 13</span>
+                        <h4>SNSの炎上事例から学ぶコンプライアンス</h4>
+                        <p>著作権・肖像権・炎上パターンと企業としての対策</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const today = new Date();
+            if (today.getFullYear() !== 2026) return;
+            const m = today.getMonth(); // 5 = June
+            const d = today.getDate();
+            if (m === 5) {
+                document.querySelectorAll('.cal-cell:not(.other-month)').forEach(c => {
+                    const numSpan = c.querySelector('.date-num');
+                    if (numSpan && parseInt(numSpan.textContent) === d) c.classList.add('is-today');
+                });
+                document.querySelectorAll('.c-item').forEach(item => {
+                    const dbDay = item.querySelector('.db-day');
+                    if (dbDay && parseInt(dbDay.textContent) === d) {
+                        item.classList.add('is-today-list');
+                        setTimeout(() => item.scrollIntoView({ behavior: 'smooth', block: 'center' }), 600);
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
+<!-- cache-bust: 2026-05-28T10:00:00 -->
