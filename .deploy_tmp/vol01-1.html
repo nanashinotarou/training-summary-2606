@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 01 | InstagramをAIで制する</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700;900&family=Teko:wght@600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-body: #fdf4ff;
+            --bg-card: rgba(255, 255, 255, 0.92);
+            --bg-card-solid: #ffffff;
+            --text-main: #1e1035;
+            --text-sub: #64748b;
+            --ig-purple: #833ab4;
+            --ig-magenta: #c13584;
+            --ig-orange: #f77737;
+            --ig-grad: linear-gradient(45deg, #833ab4, #c13584, #f77737);
+            --ig-light: #f3e8ff;
+            --shadow-soft: 0 10px 30px rgba(131, 58, 180, 0.08);
+            --shadow-hover: 0 15px 40px rgba(193, 53, 132, 0.18);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.7);
+            --radius-large: 24px;
+            --radius-medium: 16px;
+            --radius-small: 8px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background-color: var(--bg-body);
+            background-image:
+                radial-gradient(at 0% 0%, rgba(255, 255, 255, 0.9) 0, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(243, 232, 255, 0.9) 0, transparent 50%);
+            background-attachment: fixed;
+            color: var(--text-main);
+            min-height: 100vh;
+            padding: 24px 20px 60px;
+        }
+
+        .top-nav {
+            max-width: 900px;
+            margin: 0 auto 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--ig-purple);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.95rem;
+            padding: 8px 14px;
+            border-radius: 30px;
+            background: #fff;
+            border: 1px solid #ede9f5;
+            transition: 0.2s;
+        }
+
+        .back-link:hover {
+            border-color: var(--ig-magenta);
+            box-shadow: var(--shadow-soft);
+            transform: translateX(-3px);
+        }
+
+        .progress-pill {
+            font-family: 'Roboto', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #fff;
+            background: var(--ig-grad);
+            padding: 6px 14px;
+            border-radius: 20px;
+            letter-spacing: 0.5px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: var(--glass-border);
+            border-radius: var(--radius-large);
+            box-shadow: var(--shadow-soft);
+            overflow: hidden;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .header {
+            padding: 36px 40px 28px;
+            text-align: center;
+            border-bottom: 2px solid var(--ig-light);
+        }
+
+        .header-tag {
+            display: inline-block;
+            background: var(--ig-grad);
+            color: #fff;
+            font-weight: 700;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-family: 'Roboto', sans-serif;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            margin-bottom: 14px;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            font-weight: 900;
+            background: var(--ig-grad);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 16px;
+            line-height: 1.35;
+        }
+
+        .lead {
+            font-size: 1.05rem;
+            line-height: 1.85;
+            color: #475569;
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        .slide-img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: var(--radius-medium);
+            margin: 24px 0;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid #ede9f5;
+        }
+
+        .cover-slide {
+            margin: 0;
+            border-radius: 0;
+            border: none;
+            box-shadow: none;
+        }
+
+        .content {
+            padding: 40px;
+            background: var(--bg-card-solid);
+        }
+
+        .section {
+            margin-bottom: 48px;
+            padding-bottom: 48px;
+            border-bottom: 1px dashed #e9d5f5;
+        }
+
+        .section:last-of-type {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        h2 {
+            font-size: 1.55rem;
+            color: var(--text-main);
+            border-left: 5px solid var(--ig-magenta);
+            padding-left: 15px;
+            margin: 0 0 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h2 .sec-num {
+            font-family: 'Teko', sans-serif;
+            font-size: 1.1rem;
+            color: var(--ig-orange);
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        p {
+            line-height: 1.85;
+            margin-bottom: 16px;
+            color: #475569;
+            font-size: 1.02rem;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #fdf0ff, #fff8f3);
+            border: 1px solid #e9d5f5;
+            border-left: 5px solid var(--ig-purple);
+            border-radius: var(--radius-medium);
+            padding: 22px 26px;
+            margin: 20px 0;
+        }
+
+        .highlight-box p:last-child { margin-bottom: 0; }
+
+        .card-grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 16px;
+            margin: 24px 0;
+        }
+
+        .info-card {
+            background: #fff;
+            border: 1px solid #ede9f5;
+            border-radius: var(--radius-medium);
+            padding: 22px;
+            box-shadow: var(--shadow-soft);
+            transition: 0.25s;
+        }
+
+        .info-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-hover);
+            border-color: #e9d5f5;
+        }
+
+        .info-card-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--ig-light);
+            color: var(--ig-purple);
+            font-size: 1.2rem;
+            margin-bottom: 12px;
+        }
+
+        .info-card h3 {
+            font-size: 1.05rem;
+            color: var(--ig-purple);
+            margin-bottom: 10px;
+        }
+
+        .info-card p {
+            font-size: 0.92rem;
+            margin-bottom: 0;
+            line-height: 1.7;
+        }
+
+        .sub-note {
+            font-size: 0.88rem;
+            color: var(--text-sub);
+            background: #faf8ff;
+            border: 1px solid #ede9f5;
+            border-radius: var(--radius-small);
+            padding: 14px 18px;
+            margin-top: 16px;
+            line-height: 1.7;
+        }
+
+        .sub-note strong { color: var(--ig-magenta); }
+
+        .step-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            margin: 20px 0;
+        }
+
+        .step-card {
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+            background: #fff;
+            border: 1px solid #ede9f5;
+            border-radius: var(--radius-medium);
+            padding: 18px 20px;
+            transition: 0.2s;
+        }
+
+        .step-card:hover {
+            border-color: var(--ig-magenta);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .step-num {
+            flex-shrink: 0;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--ig-grad);
+            color: #fff;
+            font-family: 'Roboto', sans-serif;
+            font-weight: 900;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .step-card h4 {
+            font-size: 1rem;
+            color: var(--text-main);
+            margin-bottom: 4px;
+        }
+
+        .step-card p {
+            font-size: 0.92rem;
+            margin-bottom: 0;
+        }
+
+        .checklist {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+        }
+
+        .checklist li {
+            position: relative;
+            padding: 14px 18px 14px 48px;
+            margin-bottom: 10px;
+            background: #faf8ff;
+            border: 1px solid #ede9f5;
+            border-radius: var(--radius-small);
+            font-size: 0.98rem;
+            line-height: 1.65;
+            color: #334155;
+        }
+
+        .checklist li::before {
+            content: '\f00c';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 24px;
+            height: 24px;
+            background: var(--ig-grad);
+            color: #fff;
+            border-radius: 50%;
+            font-size: 0.65rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .use-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 14px;
+            margin: 20px 0;
+        }
+
+        .use-card {
+            text-align: center;
+            padding: 22px 16px;
+            background: #fff;
+            border: 1px solid #ede9f5;
+            border-radius: var(--radius-medium);
+            transition: 0.2s;
+        }
+
+        .use-card:hover {
+            border-color: var(--ig-magenta);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .use-card i {
+            font-size: 1.8rem;
+            background: var(--ig-grad);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .use-card h4 {
+            font-size: 0.95rem;
+            color: var(--ig-purple);
+            margin-bottom: 8px;
+        }
+
+        .use-card p {
+            font-size: 0.85rem;
+            margin-bottom: 0;
+            line-height: 1.6;
+        }
+
+        .warning-box {
+            background: #fff5f5;
+            border: 2px solid #fca5a5;
+            border-radius: var(--radius-medium);
+            padding: 24px 26px;
+            margin-top: 24px;
+        }
+
+        .warning-box h3 {
+            color: #b91c1c;
+            font-size: 1.1rem;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .warning-box ul {
+            margin: 0;
+            padding-left: 1.3rem;
+            color: #7f1d1d;
+            line-height: 1.85;
+            font-size: 0.96rem;
+        }
+
+        .warning-box li { margin-bottom: 8px; }
+
+        .io-card h3 {
+            font-size: 0.95rem;
+            margin-bottom: 6px;
+        }
+
+        .io-card .badge {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: #fff;
+            background: var(--ig-grad);
+            padding: 2px 8px;
+            border-radius: 10px;
+            margin-bottom: 8px;
+        }
+
+        .practice-steps {
+            counter-reset: practice;
+            list-style: none;
+            padding: 0;
+            margin: 24px 0;
+        }
+
+        .practice-steps li {
+            counter-increment: practice;
+            position: relative;
+            padding: 20px 20px 20px 70px;
+            margin-bottom: 14px;
+            background: linear-gradient(135deg, #fdf0ff, #fff);
+            border: 1px solid #e9d5f5;
+            border-radius: var(--radius-medium);
+            transition: 0.2s;
+        }
+
+        .practice-steps li:hover {
+            border-color: var(--ig-magenta);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .practice-steps li::before {
+            content: 'Step ' counter(practice);
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-family: 'Roboto', sans-serif;
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: #fff;
+            background: var(--ig-grad);
+            padding: 6px 10px;
+            border-radius: 8px;
+            white-space: nowrap;
+            letter-spacing: 0.5px;
+        }
+
+        .practice-steps li strong {
+            display: block;
+            font-size: 1rem;
+            color: var(--text-main);
+            margin-bottom: 6px;
+        }
+
+        .practice-steps li span {
+            font-size: 0.92rem;
+            color: #64748b;
+            line-height: 1.7;
+        }
+
+        .next-step-box {
+            background: var(--ig-light);
+            border: 1px solid #e9d5f5;
+            border-radius: var(--radius-medium);
+            padding: 20px 24px;
+            margin-top: 24px;
+            text-align: center;
+        }
+
+        .next-step-box p {
+            margin-bottom: 0;
+            color: var(--text-main);
+            font-weight: 500;
+        }
+
+        .tool-link-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--ig-grad);
+            color: #fff;
+            padding: 14px 32px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.05rem;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 8px 20px rgba(193, 53, 132, 0.25);
+        }
+
+        .tool-link-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 28px rgba(193, 53, 132, 0.35);
+        }
+
+        .tool-link-btn.secondary {
+            background: #fff;
+            color: var(--text-main);
+            border: 2px solid #ede9f5;
+            box-shadow: none;
+        }
+
+        .tool-link-btn.secondary:hover {
+            border-color: var(--ig-magenta);
+        }
+
+        .footer-nav {
+            padding: 36px 40px 44px;
+            text-align: center;
+            background: #faf8ff;
+            border-top: 1px solid #ede9f5;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            align-items: center;
+        }
+
+        .home-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 56px;
+            height: 56px;
+            background: var(--ig-grad);
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.3rem;
+            text-decoration: none;
+            box-shadow: 0 10px 25px rgba(193, 53, 132, 0.35);
+            transition: 0.3s;
+            z-index: 1000;
+        }
+
+        .home-float:hover {
+            transform: translateY(-4px) scale(1.05);
+        }
+
+        @media (max-width: 768px) {
+            body { padding: 12px 10px 50px; }
+            .header, .content, .footer-nav { padding: 24px 18px; }
+            .header h1 { font-size: 1.5rem; }
+            .card-grid-3, .use-grid { grid-template-columns: 1fr; }
+            .practice-steps li { padding-left: 18px; padding-top: 52px; }
+            .practice-steps li::before {
+                top: 14px;
+                left: 16px;
+                transform: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="top-nav">
+        <a href="./index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> ホームへ戻る</a>
+        <span class="progress-pill">Day 01 / 13</span>
+    </nav>
+
+    <div class="container">
+        <header class="header">
+            <span class="header-tag">DAY 01</span>
+            <h1>Day 01 ─ InstagramをAIで制する</h1>
+            <p class="lead">Instagramで成果を出すには、アイデア出し・文章作成・分析、すべてにAIを活用することが近道です。Day 01はその入口として、GoogleのAI"Gemini（ジェミニ）"を使いこなす練習からスタートします。</p>
+        </header>
+
+        <img src="./assets/day01_slide1.png" alt="Day 01 表紙スライド" class="slide-img cover-slide">
+
+        <main class="content">
+
+            <!-- セクション1 -->
+            <section class="section" id="sec1">
+                <h2><span class="sec-num">01</span> なぜDay1からAI？</h2>
+                <img src="./assets/day01_slide2.png" alt="なぜDay1からAI？" class="slide-img">
+                <div class="highlight-box">
+                    <p>Instagram運用では、<strong>ネタ出し・キャプション作成・競合分析・投稿計画</strong>など、毎日「考える作業」が山積みになります。これらをすべて手作業でこなすのは、時間も体力も限界があります。</p>
+                    <p>本コースでは、AIを「魔法の自動化ツール」ではなく<strong>「優秀なアシスタント（道具）」</strong>として使いこなす姿勢を大切にします。Geminiに丸投げするのではなく、<strong>自分の意図を伝え、出てきた案を選び、最終チェックは自分で行う</strong>——その習慣が、13日間の土台になります。</p>
+                </div>
+                <p>Day 02以降でInstagramの具体的な運用（アカウント設計・投稿・分析）に入る前に、まず「AIという相棒」の使い方を身につけましょう。</p>
+            </section>
+
+            <!-- セクション2 -->
+            <section class="section" id="sec2">
+                <h2><span class="sec-num">02</span> AI・生成AI・LLMの基礎知識</h2>
+                <img src="./assets/day01_slide3.png" alt="AI基礎知識" class="slide-img">
+                <div class="card-grid-3">
+                    <div class="info-card">
+                        <div class="info-card-icon"><i class="fa-solid fa-brain"></i></div>
+                        <h3>AI（人工知能）</h3>
+                        <p>人間の知能を再現する技術の総称。3度のブームを経て、現在は機械学習・深層学習が主流です。</p>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-card-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                        <h3>生成AI</h3>
+                        <p>画像・テキスト・動画・音声を"創り出す"AI。ChatGPT、Stable Diffusion、Geminiなどが代表例です。</p>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-card-icon"><i class="fa-solid fa-comments"></i></div>
+                        <h3>LLM（大規模言語モデル）</h3>
+                        <p>大量のテキストデータで学習した自然言語処理モデル。GeminiやGPTの中核技術です。</p>
+                    </div>
+                </div>
+                <div class="sub-note">
+                    <strong>補足：</strong>AIには「強いAI／弱いAI」、「汎用型AI／特化型AI」などの分類もあります。日常で使うGeminiは<strong>汎用型の生成AI（LLMベース）</strong>。Instagramのキャプション生成から競合分析まで、幅広いタスクに対応できます。
+                </div>
+            </section>
+
+            <!-- セクション3 -->
+            <section class="section" id="sec3">
+                <h2><span class="sec-num">03</span> Geminiの基本操作と4つのコツ</h2>
+                <img src="./assets/day01_slide4.png" alt="Gemini基本操作3ポイント" class="slide-img">
+                <h3 style="font-size:1.15rem; color:var(--ig-purple); margin-bottom:14px;"><i class="fa-solid fa-list-ol"></i> 基本操作の3大ポイント</h3>
+                <div class="step-cards">
+                    <div class="step-card">
+                        <span class="step-num">1</span>
+                        <div>
+                            <h4>入力欄 ─ 検索ではなく「部下に頼む口調」で書く</h4>
+                            <p>キーワードだけでなく、「〇〇のInstagramキャプションを3案、カジュアルなトーンで」と具体的に依頼する。</p>
+                        </div>
+                    </div>
+                    <div class="step-card">
+                        <span class="step-num">2</span>
+                        <div>
+                            <h4>モード選択 ─ 日常タスクは高速モード、複雑な分析は思考モード</h4>
+                            <p>アイデア出しや短文作成は高速で十分。競合分析や長文要約は思考モードで精度を上げる。</p>
+                        </div>
+                    </div>
+                    <div class="step-card">
+                        <span class="step-num">3</span>
+                        <div>
+                            <h4>チャット履歴 ─ 過去のやり取りをいつでも呼び出せる</h4>
+                            <p>前回のブレスト結果を引き継いで会話を続けられる。テーマの深掘りに便利です。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <img src="./assets/day01_slide5.png" alt="プロンプト4つのコツ" class="slide-img">
+                <h3 style="font-size:1.15rem; color:var(--ig-purple); margin: 28px 0 14px;"><i class="fa-solid fa-pen-nib"></i> プロンプトを磨く4ステップ</h3>
+                <ol class="checklist">
+                    <li>雑なメモ書きでOK、完璧な文章は不要</li>
+                    <li>目的（何に使うか）を伝える ─ 例：「Instagramのフィード投稿用」</li>
+                    <li>条件（文字数・トーン・フォーマット）を追加する</li>
+                    <li>「足りない情報があれば先に質問して」と一言添える</li>
+                </ol>
+            </section>
+
+            <!-- セクション4 -->
+            <section class="section" id="sec4">
+                <h2><span class="sec-num">04</span> Geminiの活用シーンと注意点</h2>
+                <div class="use-grid">
+                    <div class="use-card">
+                        <i class="fa-solid fa-envelope"></i>
+                        <h4>メール・文章作成</h4>
+                        <p>下書きを作ってもらい、自分でトーンや内容を仕上げる</p>
+                    </div>
+                    <div class="use-card">
+                        <i class="fa-solid fa-file-pdf"></i>
+                        <h4>資料・PDF要約</h4>
+                        <p>長い文書や競合レポートを一瞬で3行にまとめる</p>
+                    </div>
+                    <div class="use-card">
+                        <i class="fa-solid fa-calendar-check"></i>
+                        <h4>タスク整理</h4>
+                        <p>Google Calendar / Gmail / Drive との連携で業務を効率化</p>
+                    </div>
+                </div>
+
+                <img src="./assets/day01_slide9.png" alt="スマホ活用・音声入力" class="slide-img">
+
+                <img src="./assets/day01_slide11.png" alt="注意点" class="slide-img">
+
+                <div class="warning-box">
+                    <h3><i class="fa-solid fa-triangle-exclamation"></i> 注意事項</h3>
+                    <ul>
+                        <li><strong>ハルシネーション：</strong>AIは自信満々に間違えることがあります。数字・法律・医療情報は必ず自分で確認してください。</li>
+                        <li><strong>個人情報・機密情報は入力しない：</strong>顧客データや社内機密はGeminiに送らない。</li>
+                        <li><strong>AIの回答は「下書き」として使う：</strong>最終的な投稿内容・公開判断は必ず自分で行いましょう。</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- セクション5 -->
+            <section class="section" id="sec5">
+                <h2><span class="sec-num">05</span> Google I/O 2026 最新Gemini機能</h2>
+                <div class="card-grid-3">
+                    <div class="info-card io-card">
+                        <span class="badge">NEW</span>
+                        <h3>Gemini 3.5 Flash</h3>
+                        <p>無料・爆速・100万トークン対応。日常のInstagram運用タスクに最適な高速モデルです。</p>
+                    </div>
+                    <div class="info-card io-card">
+                        <span class="badge">NEW</span>
+                        <h3>Gemini Omni</h3>
+                        <p>会話するだけで動画生成・編集が可能。リール制作の下準備にも活用できます。</p>
+                    </div>
+                    <div class="info-card io-card">
+                        <span class="badge">NEW</span>
+                        <h3>Gemini Spark</h3>
+                        <p>AIが裏で自動タスク処理する「自走型エージェント」。投稿スケジュール整理などに期待。</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- セクション6 -->
+            <section class="section" id="sec6">
+                <h2><span class="sec-num">06</span> 実習：「推し」を決めよう！</h2>
+                <img src="./assets/day01_slide13.png" alt="実習・今日からのアクション" class="slide-img">
+                <p>Geminiをブレインストームの相手にして、自分がInstagramで発信したいテーマ（＝「推し」）を1つ決めましょう。</p>
+
+                <ol class="practice-steps">
+                    <li>
+                        <strong>Geminiを開く</strong>
+                        <span>PCでもスマホでもOK。<a href="https://gemini.google.com/" target="_blank" rel="noopener" style="color:var(--ig-magenta); font-weight:700;">gemini.google.com</a> にアクセス。</span>
+                    </li>
+                    <li>
+                        <strong>ブレストを依頼する</strong>
+                        <span>「私がInstagramで発信したいジャンルを10個ブレストして」と入力する。</span>
+                    </li>
+                    <li>
+                        <strong>会話を重ねて絞り込む</strong>
+                        <span>「もっとニッチなものを追加して」「〇〇に絞って詳しく」など、対話しながらテーマを深掘りする。</span>
+                    </li>
+                    <li>
+                        <strong>「推し」テーマを1つ決定する</strong>
+                        <span>自分が一番ワクワクするテーマを1つ選び、メモしておく（Day 02以降で使います）。</span>
+                    </li>
+                </ol>
+
+                <div class="next-step-box">
+                    <p>決めたテーマは <strong>Day 02以降のアカウント設計</strong> に活かします。今日のゴールは「完璧なテーマ」ではなく、<strong>AIと一緒に考える体験</strong>をすることです。</p>
+                </div>
+
+                <div style="text-align:center; margin-top:28px;">
+                    <a href="https://gemini.google.com/" target="_blank" rel="noopener" class="tool-link-btn">
+                        <i class="fa-solid fa-robot"></i> Gemini を開いて実習する
+                    </a>
+                </div>
+            </section>
+
+        </main>
+
+        <footer class="footer-nav">
+            <a href="#" class="tool-link-btn">Day 02へ <i class="fa-solid fa-arrow-right"></i></a>
+            <a href="./index.html" class="tool-link-btn secondary"><i class="fa-solid fa-house"></i> ホームへ戻る</a>
+        </footer>
+    </div>
+
+    <a href="./index.html" class="home-float" title="ホームに戻る"><i class="fa-solid fa-house"></i></a>
+
+</body>
+</html>
+<!-- cache-bust: 2026-06-02T10:00:00 -->
