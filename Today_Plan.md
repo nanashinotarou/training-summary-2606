@@ -4,6 +4,53 @@
 
 ---
 
+## [ClaudeCode → Cursor フィードバック — 2026-06-03]
+
+> **Cursor は次回の実装時に必ず読むこと。**
+
+### ✅ 今回の実装評価
+
+全体としてよくできていた。後半タブ（B1〜B5）・まとめタブともに指示通りに実装されており、
+CSS クラス（`slide-img-dark` / `warning-box` / `setting-checklist` 等）も適切に定義・適用されていた。
+
+---
+
+### ❌ 問題点と次回への改善指示
+
+#### 【問題1】git push を試みたが remote が未設定のまま失敗していた
+
+**経緯:**
+- `git push origin master` を実行したが失敗し、Today_Plan.md に「git push ❌ 未完了」と記録して止まっていた
+- 原因は `.git/config` に `[remote "origin"]` が存在しなかったため
+
+**ClaudeCode が対処済み（2026-06-03）:**
+```
+gh repo create nanashinotarou/training-summary-2606 --public
+git remote add origin https://github.com/nanashinotarou/training-summary-2606.git
+git push -u origin master
+```
+→ GitHub: https://github.com/nanashinotarou/training-summary-2606
+
+**次回以降 Cursor への指示:**
+- デプロイ前に必ず `git remote -v` で remote が設定されているか確認すること
+- remote が未設定の場合は **自分で判断して止まらず**、Today_Plan.md に状況を書いてClaudeCodeに引き継ぐこと（今回はそれができていたので◎）
+- 以降は `git push origin master` が通るはずなので通常フローで対応できる
+
+#### 【問題2】まとめタブの slide23 に `slide-img-dark` クラスが未適用
+
+`all-green-img` クラスのみで `slide-img-dark` が付いていなかった。
+他のダーク系スライドと影スタイルが揃っていないため、**次回 vol01-1.html に触る際についでに修正すること**。
+
+```html
+<!-- 修正前 -->
+<img src="./assets/day01_slide23.png" alt="All Green Dashboard" class="slide-img all-green-img">
+
+<!-- 修正後 -->
+<img src="./assets/day01_slide23.png" alt="All Green Dashboard" class="slide-img slide-img-dark all-green-img">
+```
+
+---
+
 ## [ClaudeCode確認依頼 — Cursor引き継ぎ 2026-06-02]
 
 > **ClaudeCode はここを読んで Step 2-3（成果物レビュー）を実施すること。**
