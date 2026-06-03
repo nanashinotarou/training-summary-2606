@@ -159,7 +159,7 @@ details.video-item[open] summary { border-radius: var(--radius-small) var(--radi
 ### HTML構造
 ```html
 <div class="video-section">
-    <div class="video-section-title">📺 参考動画（前半）</div>
+    <div class="video-section-title">📺 授業の元動画（前半）</div>
     <details class="video-item">
         <summary>① 動画タイトル（再生時間）</summary>
         <div class="video-embed">
