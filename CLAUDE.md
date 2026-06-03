@@ -193,6 +193,106 @@ function _updateTimerDisplay() {
 
 **⚠️ 1ページに実習が複数ある場合** は、タイマーの `id` と関数名にサフィックスをつけて重複を避けること（例: `practiceTimer2`、`toggleTimer2`）。
 
+### 実習ワークシート（入力・コピー対応）
+
+**思考・記入系の実習には入力可能な付箋カードを使うこと。** ツール操作実習（Canvaで実際に作るなど）には不要。
+
+#### 仕様
+- `<textarea>` で自由入力可能
+- フォーカス時に枠がオレンジのソリッドボーダーに変化（入力中の視覚フィードバック）
+- 各カード右上に個別コピーボタン（`【タイトル】\n内容` 形式）
+- グリッド下部に「全項目まとめてコピー」ボタン（全カードを2行空けて連結）
+- プレースホルダーに回答例を入れて迷わせない
+
+#### CSSテンプレート
+
+```css
+.worksheet-card {
+    background: #fffef5; border: 2px dashed #fcd34d;
+    border-radius: var(--radius-medium); padding: 16px 16px 12px;
+    min-height: 150px; position: relative; transition: border-color 0.2s, box-shadow 0.2s;
+}
+.worksheet-card:focus-within {
+    border-color: #f59e0b; border-style: solid;
+    box-shadow: 0 0 0 3px rgba(252,211,77,0.3);
+}
+.worksheet-card strong { display: block; color: var(--ig-purple); font-size: 0.9rem; margin-bottom: 4px; }
+.ws-hint { font-size: 0.78rem; color: #9ca3af; margin-bottom: 8px; line-height: 1.4; }
+.worksheet-card textarea {
+    width: 100%; min-height: 80px; background: transparent; border: none; outline: none;
+    resize: vertical; padding: 2px 0;
+    font-family: 'Noto Sans JP', sans-serif; font-size: 0.92rem; color: var(--text-main); line-height: 1.75;
+}
+.worksheet-card textarea::placeholder { color: #d1d5db; font-size: 0.85rem; }
+.ws-copy-btn {
+    position: absolute; top: 10px; right: 10px;
+    background: none; border: 1px solid #fcd34d; border-radius: 6px;
+    padding: 3px 8px; font-size: 0.72rem; color: #a16207;
+    cursor: pointer; transition: 0.2s; opacity: 0.6; font-family: 'Noto Sans JP', sans-serif;
+}
+.ws-copy-btn:hover { background: #fef9c3; opacity: 1; }
+.ws-copy-btn.ws-copied { background: #d1fae5; border-color: #10b981; color: #065f46; opacity: 1; }
+.ws-copy-all-btn {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    width: 100%; margin-top: 12px; padding: 13px;
+    background: #fff; border: 2px solid #fcd34d; border-radius: var(--radius-medium);
+    font-family: 'Noto Sans JP', sans-serif; font-size: 0.95rem; font-weight: 700;
+    color: #a16207; cursor: pointer; transition: 0.2s;
+}
+.ws-copy-all-btn:hover { background: #fffbeb; border-color: #f59e0b; }
+.ws-copy-all-btn.ws-copied { background: #d1fae5; border-color: #10b981; color: #065f46; }
+```
+
+#### HTMLテンプレート
+
+```html
+<div class="worksheet-grid">
+    <div class="worksheet-card" id="ws-1">
+        <button class="ws-copy-btn" onclick="copyCard('ws-1', this)">📋 コピー</button>
+        <strong>1. 項目タイトル</strong>
+        <div class="ws-hint">問いかけ・ヒント文</div>
+        <textarea placeholder="回答例..."></textarea>
+    </div>
+    <!-- 項目数分繰り返す（id は ws-1, ws-2, ws-3... と連番） -->
+</div>
+<button class="ws-copy-all-btn" id="wsCopyAllBtn" onclick="copyAllCards()">
+    📋 X項目をまとめてコピー
+</button>
+```
+
+#### JSテンプレート
+
+```javascript
+function copyCard(cardId, btn) {
+    const card  = document.getElementById(cardId);
+    const title = card.querySelector('strong').textContent;
+    const text  = card.querySelector('textarea').value.trim() || '（未入力）';
+    navigator.clipboard.writeText(`【${title}】\n${text}`).then(() => {
+        btn.textContent = '✓ コピー済';
+        btn.classList.add('ws-copied');
+        setTimeout(() => { btn.textContent = '📋 コピー'; btn.classList.remove('ws-copied'); }, 2000);
+    });
+}
+
+function copyAllCards() {
+    const ids   = ['ws-1','ws-2','ws-3','ws-4']; // 項目数に合わせて変更
+    const lines = ids.map(id => {
+        const card  = document.getElementById(id);
+        const title = card.querySelector('strong').textContent;
+        const text  = card.querySelector('textarea').value.trim() || '（未入力）';
+        return `【${title}】\n${text}`;
+    });
+    navigator.clipboard.writeText(lines.join('\n\n')).then(() => {
+        const btn = document.getElementById('wsCopyAllBtn');
+        btn.textContent = '✓ コピーしました！';
+        btn.classList.add('ws-copied');
+        setTimeout(() => { btn.textContent = '📋 X項目をまとめてコピー'; btn.classList.remove('ws-copied'); }, 2500);
+    });
+}
+```
+
+**⚠️ 1ページに複数ワークシートがある場合** は、`id`・関数名にサフィックスをつけること（例: `ws-a-1`、`copyCard2`）。
+
 ### Cursor向け実装禁則（過去の失敗から）
 
 - **タブ名・見出しに英語を混入しない。** Today_Plan.md に「前半」と書いてあれば「前半」のみ。「前半 (First Half)」のような英語サブタイトルを勝手に追加しないこと（Day01で発生した問題）
