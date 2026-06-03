@@ -313,11 +313,133 @@
             display: flex; flex-direction: column; gap: 14px; align-items: center;
         }
 
+        .card-grid-3 {
+            display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 14px; margin: 24px 0;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #fdf0ff, #fff8f3);
+            border: 1px solid #e9d5f5; border-left: 5px solid var(--ig-magenta);
+            border-radius: var(--radius-medium); padding: 22px 26px; margin: 20px 0;
+        }
+        .highlight-box p { margin-bottom: 0; font-weight: 600; color: var(--text-main); }
+
+        .flow-steps {
+            display: flex; flex-direction: column; gap: 12px; margin: 20px 0;
+        }
+        .flow-step {
+            display: flex; gap: 14px; align-items: flex-start;
+            background: #fff; border: 1px solid #ede9f5;
+            border-radius: var(--radius-medium); padding: 16px 18px;
+        }
+        .flow-step-num {
+            flex-shrink: 0; font-family: 'Roboto', sans-serif;
+            font-size: 0.75rem; font-weight: 700; color: #fff;
+            background: var(--ig-grad); padding: 6px 10px; border-radius: 8px;
+        }
+        .flow-step h4 { font-size: 0.98rem; margin-bottom: 4px; color: var(--ig-purple); }
+        .flow-step p { font-size: 0.9rem; margin-bottom: 0; }
+
+        .flow-horizontal {
+            display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
+            gap: 8px; margin: 24px 0; padding: 20px;
+            background: #faf8ff; border: 1px solid #ede9f5; border-radius: var(--radius-medium);
+        }
+        .flow-h-item {
+            background: #fff; border: 1px solid #ede9f5;
+            border-radius: var(--radius-small); padding: 14px 16px;
+            text-align: center; min-width: 140px; flex: 1;
+        }
+        .flow-h-item strong { display: block; color: var(--ig-purple); margin-bottom: 4px; font-size: 0.95rem; }
+        .flow-h-item span { font-size: 0.82rem; color: #64748b; line-height: 1.5; }
+        .flow-arrow { color: var(--ig-magenta); font-size: 1.2rem; font-weight: 700; }
+
+        .compare-card {
+            background: #fff; border: 1px solid #ede9f5;
+            border-radius: var(--radius-medium); padding: 20px;
+            box-shadow: var(--shadow-soft);
+        }
+        .compare-card.low { border-top: 4px solid var(--canva-cyan); }
+        .compare-card.high { border-top: 4px solid var(--ig-magenta); }
+        .compare-card h4 { font-size: 1rem; color: var(--ig-purple); margin-bottom: 10px; }
+        .compare-card ul { margin: 0; padding-left: 1.2rem; font-size: 0.88rem; line-height: 1.7; color: #475569; }
+
+        .iceberg-box {
+            background: linear-gradient(180deg, #e0f2fe 0%, #f0f9ff 35%, #faf8ff 35%);
+            border: 1px solid #bae6fd; border-radius: var(--radius-medium);
+            padding: 24px; margin: 20px 0;
+        }
+        .iceberg-top, .iceberg-bottom { padding: 16px; border-radius: var(--radius-small); }
+        .iceberg-top { background: rgba(255,255,255,0.9); margin-bottom: 12px; }
+        .iceberg-bottom { background: rgba(131,58,180,0.08); border: 1px dashed var(--ig-purple); }
+        .iceberg-top h4, .iceberg-bottom h4 { font-size: 0.95rem; color: var(--ig-purple); margin-bottom: 8px; }
+        .iceberg-top p, .iceberg-bottom p { font-size: 0.9rem; margin-bottom: 0; }
+
+        .persona-example {
+            background: #fffbeb; border: 1px solid #fde68a;
+            border-left: 5px solid #f59e0b; border-radius: var(--radius-medium);
+            padding: 22px; margin: 20px 0;
+        }
+        .persona-example h4 { color: #b45309; margin-bottom: 12px; }
+        .persona-example p { font-size: 0.92rem; margin-bottom: 8px; }
+        .persona-example p:last-child { margin-bottom: 0; }
+
+        .worksheet-grid {
+            display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px; margin: 24px 0;
+        }
+        .worksheet-card {
+            background: #fffef5; border: 2px dashed #fcd34d;
+            border-radius: var(--radius-medium); padding: 20px;
+            min-height: 120px;
+        }
+        .worksheet-card strong {
+            display: block; color: var(--ig-purple); font-size: 0.95rem; margin-bottom: 8px;
+        }
+        .worksheet-card span { font-size: 0.85rem; color: #64748b; line-height: 1.6; }
+
+        .timer-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: #1e1035; color: #fff;
+            font-family: 'Roboto', sans-serif; font-size: 1.4rem; font-weight: 700;
+            padding: 10px 24px; border-radius: 30px; margin: 16px 0;
+        }
+
+        .sticky-grid {
+            display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px; margin: 24px 0;
+        }
+        .sticky-card {
+            padding: 20px; border-radius: 4px;
+            box-shadow: 2px 4px 8px rgba(0,0,0,0.1);
+            font-size: 0.95rem; line-height: 1.65;
+        }
+        .sticky-card:nth-child(1) { background: #fef08a; transform: rotate(-1deg); }
+        .sticky-card:nth-child(2) { background: #bbf7d0; transform: rotate(1deg); }
+        .sticky-card:nth-child(3) { background: #fbcfe8; transform: rotate(-0.5deg); }
+        .sticky-card:nth-child(4) { background: #bfdbfe; transform: rotate(0.5deg); }
+        .sticky-card strong { display: block; margin-bottom: 6px; color: var(--text-main); }
+
+        .closing-message {
+            text-align: center; font-size: 1.2rem; font-weight: 700;
+            color: var(--ig-purple); margin: 28px 0 16px; line-height: 1.6;
+        }
+
+        .caution-box {
+            background: #fffbeb; border: 2px solid #f59e0b;
+            border-left: 6px solid #d97706; border-radius: var(--radius-medium);
+            padding: 20px 24px; margin: 20px 0;
+        }
+        .caution-box p { margin-bottom: 0; color: #92400e; font-weight: 600; font-size: 0.98rem; }
+
         @media (max-width: 768px) {
             body { padding: 10px 5px; }
             .header, .tab-content { padding: 24px 18px; }
             .header h1 { font-size: 1.5rem; }
-            .card-grid-2, .before-after-grid { grid-template-columns: 1fr; }
+            .card-grid-2, .before-after-grid, .card-grid-3, .worksheet-grid, .sticky-grid { grid-template-columns: 1fr; }
+            .flow-horizontal { flex-direction: column; }
+            .flow-arrow { transform: rotate(90deg); }
             .practice-steps li { padding-left: 18px; padding-top: 52px; }
             .practice-steps li::before { top: 14px; left: 16px; transform: none; }
         }
@@ -370,7 +492,8 @@
             <div class="goal-list">
                 <h4>後半で学ぶこと</h4>
                 <ul>
-                    <li>後半リサーチ完了後に更新予定</li>
+                    <li>企業がInstagramを運用する本質的な目的（KPI・指名検索・UGC）</li>
+                    <li>推し発信テーマの言語化とターゲット（ペルソナ）の設計</li>
                 </ul>
             </div>
 
@@ -545,10 +668,283 @@
 
         <!-- 後半 -->
         <div id="second" class="tab-content">
-            <div class="placeholder-box">
-                <i class="fa-solid fa-hourglass-half"></i>
-                <p><strong>後半コンテンツは準備中です。</strong><br>リサーチ完了後に追記します。</p>
-            </div>
+            <img src="./assets/day02_slide15.png" alt="後半 表紙" class="slide-img cover-slide">
+
+            <section class="section">
+                <h2><span class="sec-num">01</span> 初心者が陥りがちな「最大の罠」</h2>
+                <p>Instagramを始めたばかりの多くの担当者が、まずこの落とし穴にはまります。</p>
+                <img src="./assets/day02_slide16.png" alt="フォロワー至上主義の罠" class="slide-img">
+                <div class="highlight-box">
+                    <p>「フォロワーを増やさなきゃ！」という思考が、アカウントの成長を止める</p>
+                </div>
+                <div class="before-after-grid">
+                    <div class="ba-card before">
+                        <h4>❌ フォロワー至上主義</h4>
+                        <p>自社に興味がない人まで集めてしまう。プレゼントキャンペーンなど施策が逆効果になることも。</p>
+                    </div>
+                    <div class="ba-card after">
+                        <h4>✅ コンテンツファースト</h4>
+                        <p>いいコンテンツ → エンゲージメント → リーチ拡大 → フォロワー増加（フォロワーは「結果」）</p>
+                    </div>
+                </div>
+                <div class="sub-note">Instagramのアルゴリズムは「フォロワー主義」から「コンテンツ・エンゲージメント重視」に変化している。</div>
+            </section>
+
+            <section class="section">
+                <h2><span class="sec-num">02</span> 企業Instagram運用の「真の目的」</h2>
+                <img src="./assets/day02_slide17.png" alt="トリプルメディア" class="slide-img">
+                <h3 class="sub-heading">企業のSNS運用は「トリプルメディア」で捉える</h3>
+                <div class="card-grid-3">
+                    <div class="info-card canva-accent">
+                        <div class="info-card-icon"><i class="fa-solid fa-mobile-screen"></i></div>
+                        <h3>📱 オウンドメディア</h3>
+                        <p>公式アカウント・カタログ</p>
+                    </div>
+                    <div class="info-card canva-accent">
+                        <div class="info-card-icon"><i class="fa-solid fa-comments"></i></div>
+                        <h3>💬 アーンドメディア</h3>
+                        <p>UGC・口コミ・第三者からの共感</p>
+                    </div>
+                    <div class="info-card canva-accent">
+                        <div class="info-card-icon"><i class="fa-solid fa-bullhorn"></i></div>
+                        <h3>📣 ペイドメディア</h3>
+                        <p>広告</p>
+                    </div>
+                </div>
+                <div class="sub-note">Instagramはオウンドとアーンド、両方の役割を担っています。</div>
+
+                <img src="./assets/day02_slide18.png" alt="KPI/KGI ファネル" class="slide-img">
+                <h3 class="sub-heading">追うべき数字はフォロワー数ではなく「指名検索」と「リンクのタップ」</h3>
+                <div class="flow-steps">
+                    <div class="flow-step">
+                        <span class="flow-step-num">Step 1</span>
+                        <div>
+                            <h4>アクション</h4>
+                            <p>投稿・リールでいいね・保存してもらう</p>
+                        </div>
+                    </div>
+                    <div class="flow-step">
+                        <span class="flow-step-num">KPI</span>
+                        <div>
+                            <h4>中間目標</h4>
+                            <p>プロフィールへのアクセス → リンクタップ（LINE・HPへ）</p>
+                        </div>
+                    </div>
+                    <div class="flow-step">
+                        <span class="flow-step-num">KGI</span>
+                        <div>
+                            <h4>最終目標</h4>
+                            <p>Instagramの外での指名検索数アップ・サイトセッション・来店</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="tips-box">
+                    <h4><i class="fa-solid fa-lightbulb"></i> Tips</h4>
+                    <p>最終的な売上・予約は「Instagramの外（HP・LINE）」で発生します。この橋渡しがSNSの役割。</p>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2><span class="sec-num">03</span> 商材の「単価」でSNS戦略が180度変わる</h2>
+                <img src="./assets/day02_slide19.png" alt="単価別戦略 比較表" class="slide-img">
+                <div class="card-grid-2">
+                    <div class="compare-card low">
+                        <h4>【低単価商材】～数千円</h4>
+                        <ul>
+                            <li>例：カフェ・日用品・コスメ</li>
+                            <li>メイン戦略：口コミ（UGC）獲得ゲーム</li>
+                            <li>最重要KPI：UGC発生数・リーチ数</li>
+                            <li>アプローチ：マス（広く多くの人へ）</li>
+                        </ul>
+                    </div>
+                    <div class="compare-card high">
+                        <h4>【高単価商材】数万円〜</h4>
+                        <ul>
+                            <li>例：美容クリニック・高級ホテル・BtoB</li>
+                            <li>メイン戦略：信頼獲得・CVR向上</li>
+                            <li>最重要KPI：保存数・リンクタップ・指名検索</li>
+                            <li>アプローチ：比較検討層へ「このお店なら安心」</li>
+                        </ul>
+                    </div>
+                </div>
+                <p style="font-weight:600; text-align:center;">自社はどちらの戦略をとるべきか、考えてみましょう！</p>
+
+                <h3 class="sub-heading">低単価の戦略：口コミ（UGC）を「狙って」生み出す</h3>
+                <img src="./assets/day02_slide20.png" alt="UGC 4ステップ" class="slide-img">
+                <p>お客様は「理由」がないと投稿しません。自然に撮影したくなるUX・ギミック設計が必要です。</p>
+                <div class="step-card">
+                    <span class="step-num">1</span>
+                    <div><h4>来店（Visit）</h4><p>お店に来る</p></div>
+                </div>
+                <div class="step-card">
+                    <span class="step-num">2</span>
+                    <div><h4>体験（Experience）</h4><p>驚き・感動・映えの発見</p></div>
+                </div>
+                <div class="step-card">
+                    <span class="step-num">3</span>
+                    <div><h4>ギミック（Gimmick）</h4><p>思わず撮影したくなる仕掛け・オペレーション</p></div>
+                </div>
+                <div class="step-card">
+                    <span class="step-num">4</span>
+                    <div><h4>投稿（UGC）</h4><p>ストーリーズで拡散、フォロワーに教える</p></div>
+                </div>
+                <div class="tips-box">
+                    <h4><i class="fa-solid fa-lightbulb"></i> Tips</h4>
+                    <p>投稿してもらうだけでは口コミは増えない。「投稿したくなる状況」を設計するのがプロの仕事。</p>
+                </div>
+
+                <img src="./assets/day02_slide21.png" alt="仕掛けの具体例" class="slide-img">
+                <h3 class="sub-heading">思わず撮りたくなる「仕掛け」の具体例</h3>
+                <div class="card-grid-3">
+                    <div class="info-card">
+                        <h3>🥩 焼肉屋（声かけ）</h3>
+                        <p>大盛りの肉を持ってくる際に「今シャッターチャンスです！」と声かけるオペレーションを全スタッフに浸透。</p>
+                    </div>
+                    <div class="info-card">
+                        <h3>☕ カフェ（商品設計）</h3>
+                        <p>縦長グラスで提供 → 顔の横に持つと顔が小さく見える → 自然にストーリーズへ収まる縦長構図に。</p>
+                    </div>
+                    <div class="info-card">
+                        <h3>🏕️ ホテル（事前教育）</h3>
+                        <p>ハイライトで「他のお客様の投稿例」を常に掲示 → 自分もこう撮ればいいとわかる。</p>
+                    </div>
+                </div>
+
+                <h3 class="sub-heading">高単価の戦略：口コミに頼らず「信用」を重ねる</h3>
+                <img src="./assets/day02_slide22.png" alt="広告×Instagram×HP 連携" class="slide-img">
+                <div class="flow-horizontal">
+                    <div class="flow-h-item">
+                        <strong>1. 広告 / SEO</strong>
+                        <span>認知を獲得</span>
+                    </div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-h-item">
+                        <strong>2. Instagram</strong>
+                        <span>信用構築・教育（リールやフィードでファンに）</span>
+                    </div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-h-item">
+                        <strong>3. HP・LINE</strong>
+                        <span>比較検討・購入 → CVR向上</span>
+                    </div>
+                </div>
+                <div class="warning-box">
+                    <p><i class="fa-solid fa-triangle-exclamation"></i> 高単価は「SNSだけで完結させようとしない」ことが最大のコツ。</p>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2><span class="sec-num">04</span> 「推し」を発信の軸にする</h2>
+                <img src="./assets/day02_slide23.png" alt="コンセプト言語化 NG/OK" class="slide-img">
+                <h3 class="sub-heading">発信の軸となる「推し（コンセプト）」を言語化する</h3>
+                <div class="before-after-grid">
+                    <div class="ba-card before">
+                        <h4>❌ NG（弱いコンセプト）</h4>
+                        <p>「アットホームで技術力のある美容室です」→ 誰でも言える・誰にも刺さらない</p>
+                    </div>
+                    <div class="ba-card after">
+                        <h4>✅ OK（強い推し）</h4>
+                        <p>「忙しい30代ママの、忙しい隙間時間に行ける時短ヘア特化サロン」→ ターゲットが一発で「自分に関係ある」と感じる</p>
+                    </div>
+                </div>
+                <div class="sub-note">機能やスペックではなく、「どんな課題を解決するのか」という価値提供で定義しましょう。</div>
+
+                <img src="./assets/day02_slide24.png" alt="ペルソナ 氷山モデル" class="slide-img">
+                <h3 class="sub-heading">ターゲット像（ペルソナ）は「感情」まで深く設計する</h3>
+                <div class="iceberg-box">
+                    <div class="iceberg-top">
+                        <h4>水面上（見えやすい属性）</h4>
+                        <p>20代女性、会社員、都内住み、年収…</p>
+                    </div>
+                    <div class="iceberg-bottom">
+                        <h4>水面下の巨大な氷（隠れた深層心理）</h4>
+                        <p><strong>状況：</strong>いつ・どこで・どんな状態でスマホを開くか？<br>
+                        <strong>感情：</strong>その瞬間、どんな言葉に「いいね」や「保存」を押すか？</p>
+                    </div>
+                </div>
+                <div class="sub-note">SNSマーケティングでは、この水面下の解像度を上げます！</div>
+
+                <img src="./assets/day02_slide25.png" alt="ペルソナ 具体例" class="slide-img">
+                <h3 class="sub-heading">【具体例】ペルソナの「状況」と「感情」を書き出す</h3>
+                <div class="persona-example">
+                    <h4>ペルソナ：30代の働くママ</h4>
+                    <p><strong>状況：</strong>子供を寝かしつけた後、22時、暗い部屋で一人ベッドに寝ながらなんとなくスマホをスクロールしている</p>
+                    <p><strong>感情：</strong>じゃないけど自分だけ何かし遅れてる気がする…「明日のお弁当に使える、超時短の神レシピを見つけた時（保存）」</p>
+                </div>
+                <div class="sub-note">ここで解像度を上げると、投稿の「写真のトーン」と「キャプションの言葉選び」が劇的に変わります。</div>
+            </section>
+
+            <section class="section">
+                <h2><span class="sec-num">05</span> アカウントの「玄関」を整える</h2>
+                <img src="./assets/day02_slide26.png" alt="プロフィール・ハイライト・導線" class="slide-img">
+                <h3 class="sub-heading">アカウントの「玄関（プロフィールと導線）」を整える</h3>
+                <div class="step-card">
+                    <span class="step-num">1</span>
+                    <div>
+                        <h4>📝 プロフィール文</h4>
+                        <p>名前/紹介文（誰に・何を・価格目安が一目でわかる）。弱い例：「アットホームなサロン」→ 強い例：「カット＋カラー6000円。忙しいママに時短スタイルを。」</p>
+                    </div>
+                </div>
+                <div class="step-card">
+                    <span class="step-num">2</span>
+                    <div>
+                        <h4>⭐ ハイライト</h4>
+                        <p>「メニュー」「スタッフ」「予約方法」「お客様の声」を必ず設置。公式LINEへのCTAも。</p>
+                    </div>
+                </div>
+                <div class="step-card">
+                    <span class="step-num">3</span>
+                    <div>
+                        <h4>🔗 リンク導線</h4>
+                        <p>公式LINEなど「行動につながる1〜2個」に絞る。HPに飛ばすだけはNG。</p>
+                    </div>
+                </div>
+                <div class="caution-box">
+                    <p>投稿を作り始める前に、まずこの「受け皿」を完璧にセットアップしましょう。</p>
+                </div>
+
+                <img src="./assets/day02_slide27.png" alt="社内SNSルールブック" class="slide-img">
+                <h3 class="sub-heading">「素材集め」の体制を社内（店舗）で作る ─ 担当者1人で背負わない</h3>
+                <div class="step-card">
+                    <span class="step-num">1</span>
+                    <div><h4>📸 撮影ルールの共有</h4><p>施術後や料理提供時に必ず1枚撮る「ルーティン」を組み込む。</p></div>
+                </div>
+                <div class="step-card">
+                    <span class="step-num">2</span>
+                    <div><h4>🎤 声がけスクリプト</h4><p>「お写真撮らせていただいてもいいですか？」という聞き方のトーク台本を全員で共有。</p></div>
+                </div>
+                <div class="step-card">
+                    <span class="step-num">3</span>
+                    <div><h4>📂 共有フォルダの作成</h4><p>取った素材を誰でもアクセスできるGoogleドライブ等の格納場所を作る。</p></div>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2><span class="sec-num">06</span> 実習：自分の「推し」戦略を設計しよう</h2>
+                <img src="./assets/day02_slide28.png" alt="4項目ワークシート" class="slide-img">
+                <p><strong>【実習】自社アカウントの戦略とペルソナを設計しよう</strong></p>
+                <div class="timer-badge"><i class="fa-solid fa-clock"></i> 15:00</div>
+                <div class="worksheet-grid">
+                    <div class="worksheet-card">
+                        <strong>1. 自社商材の戦略</strong>
+                        <span>単価（低・高）はどちら？追うべきKPIは？</span>
+                    </div>
+                    <div class="worksheet-card">
+                        <strong>2. UGCギミック設計</strong>
+                        <span>どんなUX・仕掛けで「撮影したくなる」を生み出せる？</span>
+                    </div>
+                    <div class="worksheet-card">
+                        <strong>3. 推しの言語化</strong>
+                        <span>あなたのアカウントの「最大の価値提供（コンセプト）」は？</span>
+                    </div>
+                    <div class="worksheet-card">
+                        <strong>4. ペルソナの深掘り</strong>
+                        <span>ターゲットがスマホを開く「状況」と「感情」は？</span>
+                    </div>
+                </div>
+                <p style="text-align:center;">隣の人とディスカッションしながら、思いつくままに付箋に書き出してみましょう！</p>
+            </section>
+
             <div class="tab-nav-footer">
                 <button type="button" class="tool-link-btn" onclick="openTab('summary')">今日のまとめへ <i class="fa-solid fa-arrow-right"></i></button>
             </div>
@@ -556,10 +952,30 @@
 
         <!-- 今日のまとめ -->
         <div id="summary" class="tab-content">
-            <div class="placeholder-box">
-                <i class="fa-solid fa-clipboard-list"></i>
-                <p><strong>まとめは後半終了後に更新します。</strong><br>後半の学習が完了したあと、復習ポイントとチェックリストを掲載予定です。</p>
+            <h2>今日の授業のまとめ（Day 02）</h2>
+            <img src="./assets/day02_slide29.png" alt="Day 02 まとめ" class="slide-img">
+
+            <div class="sticky-grid">
+                <div class="sticky-card">
+                    <strong>🎯 目的</strong>
+                    KGIは「指名検索」と「サイト遷移」。フォロワー数は後からついてくる。
+                </div>
+                <div class="sticky-card">
+                    <strong>♟️ 戦略</strong>
+                    低単価はUGC（口コミ）獲得。高単価は信用構築・教育。
+                </div>
+                <div class="sticky-card">
+                    <strong>🪤 仕掛け</strong>
+                    口コミは待つのではなく「UX設計」で意図的に生み出す。
+                </div>
+                <div class="sticky-card">
+                    <strong>👤 ペルソナ</strong>
+                    「推し」を定め、ユーザーの「状況」と「感情」の解像度を上げる。
+                </div>
             </div>
+
+            <p class="closing-message">自信を持って、愛されるアカウント作りを進めていきましょう！</p>
+
             <div class="tab-nav-footer">
                 <a href="#" class="tool-link-btn">▶ Day 03へ</a>
                 <a href="./index.html" class="tool-link-btn secondary"><i class="fa-solid fa-house"></i> ホームへ</a>
@@ -581,4 +997,4 @@
     </script>
 </body>
 </html>
-<!-- cache-bust: 2026-06-03T15:30:00 -->
+<!-- cache-bust: 2026-06-03T20:00:00 -->
