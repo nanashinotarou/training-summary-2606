@@ -77,6 +77,122 @@ Cursorが実装・デプロイした後に呼ばれる。
 - テーマカラーはInstagramグラデーション（`#833ab4 → #c13584 → #f77737`）で統一する
 - 先月（2605・簿記コース）の `vol*.html` 設計パターンは参考にしてよい（参照先: `G:\マイドライブ\研修\【202605】簿記コース\`）
 
+### 実習セクションのカウントダウンタイマー（必須）
+
+**実習・ワーク・グループワーク系のセクションには必ずカウントダウンタイマーを設置すること。**
+
+#### 時間設計の目安（ClaudeCodeが Today_Plan.md に明記する）
+
+| 実習タイプ | 目安時間 |
+|---|---|
+| アイデア出し・思考整理・ペルソナ設計など | 10〜15分 |
+| ツール操作実習（実際に手を動かす作業） | 20〜30分 |
+| 振り返り・記入・フォーム入力など | 5〜10分 |
+
+- 時間は Today_Research.md の動画内容・スライドの指定値を優先する
+- 指定がなければ上記目安から ClaudeCode が判断し、**Today_Plan.md の該当セクションに `タイマー: XX分` と明記**すること
+
+#### CSS テンプレート（`</style>` 直前に含めること）
+
+```css
+.timer-container { text-align: center; margin: 20px 0 28px; }
+.timer-badge {
+    display: inline-flex; align-items: center; justify-content: center; gap: 12px;
+    background: #1e1035; color: #fff;
+    font-family: 'Roboto', sans-serif; font-size: 2.2rem; font-weight: 700;
+    padding: 14px 40px; border-radius: 40px; margin: 8px 0;
+    min-width: 220px; letter-spacing: 3px;
+    transition: background 0.5s ease, box-shadow 0.5s ease;
+}
+.timer-badge i { font-size: 1.6rem; }
+.timer-badge.timer-warning { background: #f59e0b; box-shadow: 0 0 20px rgba(245,158,11,0.4); }
+.timer-badge.timer-danger  { background: #ef4444; animation: pulse-timer 0.8s ease-in-out infinite; }
+.timer-badge.timer-done    { background: #10b981; letter-spacing: 1px; box-shadow: 0 0 20px rgba(16,185,129,0.4); }
+@keyframes pulse-timer {
+    0%, 100% { transform: scale(1);    box-shadow: 0 0 0 0 rgba(239,68,68,0.5); }
+    50%       { transform: scale(1.04); box-shadow: 0 0 0 14px rgba(239,68,68,0); }
+}
+.timer-controls { display: flex; gap: 12px; justify-content: center; margin-top: 12px; }
+.timer-btn {
+    border: none; border-radius: 20px; padding: 10px 28px;
+    font-family: 'Noto Sans JP', sans-serif; font-size: 0.95rem; font-weight: 700;
+    cursor: pointer; transition: 0.2s;
+}
+.timer-start { background: var(--ig-grad); color: #fff; box-shadow: 0 4px 15px rgba(193,53,132,0.3); }
+.timer-start:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(193,53,132,0.4); }
+.timer-reset { background: #f1f5f9; color: var(--text-main); border: 1px solid #e2e8f0; }
+.timer-reset:hover { background: #e2e8f0; }
+```
+
+#### HTML テンプレート（`XX` を分数に置き換える）
+
+```html
+<div class="timer-container">
+    <div class="timer-badge" id="practiceTimer">
+        <i class="fa-solid fa-clock"></i> XX:00
+    </div>
+    <div class="timer-controls">
+        <button class="timer-btn timer-start" id="timerStartBtn" onclick="toggleTimer()">▶ スタート</button>
+        <button class="timer-btn timer-reset" onclick="resetTimer()">↺ リセット</button>
+    </div>
+</div>
+```
+
+#### JS テンプレート（`TIMER_MINUTES` を分数に置き換える）
+
+```javascript
+let _timerInterval = null;
+let _timerSec = TIMER_MINUTES * 60;
+const _timerTotal = TIMER_MINUTES * 60;
+
+function toggleTimer() {
+    const btn = document.getElementById('timerStartBtn');
+    if (_timerInterval) {
+        clearInterval(_timerInterval);
+        _timerInterval = null;
+        btn.textContent = '▶ 再開';
+    } else {
+        if (_timerSec <= 0) return;
+        _timerInterval = setInterval(() => {
+            _timerSec--;
+            _updateTimerDisplay();
+            if (_timerSec <= 0) {
+                clearInterval(_timerInterval);
+                _timerInterval = null;
+                const el = document.getElementById('practiceTimer');
+                el.innerHTML = '<i class="fa-solid fa-bell"></i> 終了！';
+                el.className = 'timer-badge timer-done';
+                btn.textContent = '▶ スタート';
+            }
+        }, 1000);
+        btn.textContent = '⏸ 一時停止';
+    }
+}
+
+function resetTimer() {
+    clearInterval(_timerInterval);
+    _timerInterval = null;
+    _timerSec = _timerTotal;
+    const el = document.getElementById('practiceTimer');
+    el.innerHTML = `<i class="fa-solid fa-clock"></i> ${String(Math.floor(_timerTotal/60)).padStart(2,'0')}:00`;
+    el.className = 'timer-badge';
+    document.getElementById('timerStartBtn').textContent = '▶ スタート';
+}
+
+function _updateTimerDisplay() {
+    const m = Math.floor(_timerSec / 60);
+    const s = _timerSec % 60;
+    const el = document.getElementById('practiceTimer');
+    el.innerHTML = `<i class="fa-solid fa-clock"></i> ${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+    const ratio = _timerSec / _timerTotal;
+    if (ratio <= 1/15)      { el.className = 'timer-badge timer-danger'; }   // 残り1分：赤パルス
+    else if (ratio <= 5/15) { el.className = 'timer-badge timer-warning'; }  // 残り5分：オレンジ
+    else                    { el.className = 'timer-badge'; }
+}
+```
+
+**⚠️ 1ページに実習が複数ある場合** は、タイマーの `id` と関数名にサフィックスをつけて重複を避けること（例: `practiceTimer2`、`toggleTimer2`）。
+
 ### Cursor向け実装禁則（過去の失敗から）
 
 - **タブ名・見出しに英語を混入しない。** Today_Plan.md に「前半」と書いてあれば「前半」のみ。「前半 (First Half)」のような英語サブタイトルを勝手に追加しないこと（Day01で発生した問題）
