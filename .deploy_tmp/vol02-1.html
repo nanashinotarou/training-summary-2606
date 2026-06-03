@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 02 | Canvaでリール動画を作る</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700;900&family=Teko:wght@600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-body: #fdf4ff;
+            --bg-card: rgba(255, 255, 255, 0.92);
+            --bg-card-solid: #ffffff;
+            --text-main: #1e1035;
+            --text-sub: #64748b;
+            --ig-purple: #833ab4;
+            --ig-magenta: #c13584;
+            --ig-orange: #f77737;
+            --ig-grad: linear-gradient(45deg, #833ab4, #c13584, #f77737);
+            --ig-light: #f3e8ff;
+            --canva-purple: #7B2FF7;
+            --canva-cyan: #00C4CC;
+            --shadow-soft: 0 10px 30px rgba(131, 58, 180, 0.08);
+            --shadow-hover: 0 15px 40px rgba(193, 53, 132, 0.18);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.7);
+            --radius-large: 24px;
+            --radius-medium: 16px;
+            --radius-small: 8px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background-color: var(--bg-body);
+            background-image:
+                radial-gradient(at 0% 0%, rgba(255, 255, 255, 0.9) 0, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(243, 232, 255, 0.9) 0, transparent 50%);
+            background-attachment: fixed;
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 40px 20px;
+        }
+
+        .home-btn {
+            position: fixed; bottom: 30px; right: 30px;
+            width: 60px; height: 60px;
+            background: var(--ig-grad); color: #fff;
+            border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            font-size: 1.5rem; text-decoration: none;
+            box-shadow: 0 10px 25px rgba(193, 53, 132, 0.4);
+            transition: all 0.3s; z-index: 1000;
+        }
+        .home-btn:hover { transform: translateY(-5px) scale(1.05); }
+
+        .container {
+            width: 100%; max-width: 900px;
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            border: var(--glass-border);
+            border-radius: var(--radius-large);
+            box-shadow: var(--shadow-soft);
+            overflow: hidden;
+            animation: fadeIn 0.8s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .header { padding: 36px 40px 20px; text-align: center; border-bottom: 2px solid var(--ig-light); }
+        .header-top {
+            display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 14px; flex-wrap: wrap; gap: 10px;
+        }
+        .header-nav { display: flex; gap: 12px; flex-wrap: wrap; }
+        .back-link {
+            display: inline-flex; align-items: center; gap: 6px;
+            color: var(--ig-purple); text-decoration: none;
+            font-weight: 700; font-size: 0.9rem;
+        }
+        .back-link:hover { color: var(--canva-purple); }
+        .progress-pill {
+            font-family: 'Roboto', sans-serif;
+            font-size: 0.85rem; font-weight: 700; color: #fff;
+            background: var(--ig-grad);
+            padding: 6px 14px; border-radius: 20px;
+        }
+        .header-tag {
+            display: inline-block; background: linear-gradient(135deg, var(--canva-purple), var(--canva-cyan));
+            color: #fff; font-weight: 700; padding: 4px 14px; border-radius: 20px;
+            font-family: 'Roboto', sans-serif; font-size: 0.85rem; margin-bottom: 12px;
+        }
+        .header h1 {
+            font-size: 2rem; font-weight: 900;
+            background: var(--ig-grad);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text; margin-bottom: 10px; line-height: 1.35;
+        }
+        .header-sub { margin: 0; color: var(--text-sub); font-size: 0.95rem; }
+
+        .slide-img {
+            width: 100%; height: auto; display: block;
+            border-radius: var(--radius-medium);
+            margin: 24px 0; box-shadow: var(--shadow-soft);
+            border: 1px solid #ede9f5;
+        }
+        .cover-slide { margin: 0; border-radius: 0; border: none; box-shadow: none; }
+
+        .tabs {
+            display: flex; padding: 0 20px;
+            background: rgba(255, 255, 255, 0.5);
+            border-bottom: 1px solid #ede9f5; overflow-x: auto;
+        }
+        .tab-btn {
+            border: none; background: none; padding: 20px 24px;
+            font-size: 0.95rem; font-weight: 700; color: var(--text-sub);
+            cursor: pointer; position: relative; white-space: nowrap;
+        }
+        .tab-btn:hover, .tab-btn.active { color: var(--ig-purple); }
+        .tab-btn.active::after {
+            content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 3px;
+            background: var(--ig-grad); border-radius: 3px 3px 0 0;
+        }
+        .tab-content {
+            display: none; padding: 40px;
+            background: var(--bg-card-solid); min-height: 500px;
+            animation: fadeInTab 0.4s ease-out;
+        }
+        .tab-content.active { display: block; }
+        @keyframes fadeInTab {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            font-size: 1.55rem; color: var(--text-main);
+            border-left: 5px solid var(--canva-purple);
+            padding-left: 15px; margin: 30px 0 20px;
+            display: flex; align-items: center; gap: 10px;
+        }
+        h2:first-child { margin-top: 0; }
+        h2 .sec-num {
+            font-family: 'Teko', sans-serif; font-size: 1.1rem;
+            color: var(--canva-cyan); font-weight: 600;
+        }
+        h3.sub-heading {
+            font-size: 1.1rem; color: var(--canva-purple);
+            margin: 24px 0 12px;
+        }
+        p { line-height: 1.85; margin-bottom: 16px; color: #475569; font-size: 1.02rem; }
+
+        .goal-box {
+            background: linear-gradient(135deg, #f5f0ff, #f0fdff);
+            border: 1px solid #e9d5f5; border-radius: var(--radius-medium);
+            padding: 30px; margin-bottom: 28px; text-align: center;
+        }
+        .goal-box i {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, var(--canva-purple), var(--canva-cyan));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text; margin-bottom: 12px;
+        }
+        .goal-box h3 { font-size: 1.35rem; color: var(--canva-purple); margin-bottom: 12px; }
+        .goal-box p { margin-bottom: 8px; font-size: 1.05rem; color: var(--text-main); }
+        .goal-box p:last-child { margin-bottom: 0; }
+
+        .goal-list {
+            background: #faf8ff; border: 1px solid #ede9f5;
+            border-radius: var(--radius-medium); padding: 22px 26px; margin: 20px 0;
+        }
+        .goal-list h4 { font-size: 1rem; color: var(--ig-purple); margin-bottom: 10px; }
+        .goal-list ul { margin: 0; padding-left: 1.3rem; line-height: 1.85; color: #475569; }
+
+        .section {
+            margin-bottom: 40px; padding-bottom: 40px;
+            border-bottom: 1px dashed #e9d5f5;
+        }
+        .section:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+
+        .card-grid-2 {
+            display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px; margin: 24px 0;
+        }
+        .info-card {
+            background: #fff; border: 1px solid #ede9f5;
+            border-radius: var(--radius-medium); padding: 22px;
+            box-shadow: var(--shadow-soft); transition: 0.25s;
+        }
+        .info-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); }
+        .info-card.canva-accent { border-top: 4px solid var(--canva-purple); }
+        .info-card-icon {
+            width: 44px; height: 44px; border-radius: 14px;
+            display: flex; align-items: center; justify-content: center;
+            background: linear-gradient(135deg, rgba(123,47,247,0.12), rgba(0,196,204,0.12));
+            color: var(--canva-purple); font-size: 1.2rem; margin-bottom: 12px;
+        }
+        .info-card h3 { font-size: 1.05rem; color: var(--canva-purple); margin-bottom: 10px; }
+        .info-card p { font-size: 0.92rem; margin-bottom: 0; line-height: 1.7; }
+
+        .sub-note {
+            font-size: 0.88rem; color: var(--text-sub);
+            background: #faf8ff; border: 1px solid #ede9f5;
+            border-radius: var(--radius-small); padding: 14px 18px;
+            margin-top: 16px; line-height: 1.7;
+        }
+
+        .step-card {
+            display: flex; gap: 16px; align-items: flex-start;
+            background: #fff; border: 1px solid #ede9f5;
+            border-radius: var(--radius-medium); padding: 18px 20px;
+            margin-bottom: 14px; transition: 0.2s;
+        }
+        .step-card:hover { border-color: var(--canva-cyan); box-shadow: var(--shadow-soft); }
+        .step-num {
+            flex-shrink: 0; width: 36px; height: 36px; border-radius: 50%;
+            background: linear-gradient(135deg, var(--canva-purple), var(--canva-cyan));
+            color: #fff; font-family: 'Roboto', sans-serif;
+            font-weight: 900; font-size: 1rem;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .step-card h4 { font-size: 1rem; color: var(--text-main); margin-bottom: 6px; }
+        .step-card p { font-size: 0.92rem; margin-bottom: 0; }
+
+        .warning-box {
+            background: #fff5f5; border: 2px solid #fca5a5;
+            border-radius: var(--radius-medium); padding: 20px 24px; margin: 16px 0;
+        }
+        .warning-box p { margin-bottom: 0; color: #7f1d1d; font-size: 0.96rem; font-weight: 600; }
+
+        .tips-box {
+            background: linear-gradient(135deg, #f5f0ff, #f0fdff);
+            border: 1px solid #d8b4fe; border-left: 5px solid var(--canva-cyan);
+            border-radius: var(--radius-medium); padding: 20px 24px; margin: 20px 0;
+        }
+        .tips-box h4 {
+            color: var(--canva-purple); font-size: 1rem; margin-bottom: 8px;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .tips-box p { margin-bottom: 0; font-size: 0.96rem; }
+
+        .before-after-grid {
+            display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px; margin: 24px 0;
+        }
+        .ba-card {
+            padding: 22px; border-radius: var(--radius-medium);
+            border: 1px solid #ede9f5;
+        }
+        .ba-card.before { background: #fef2f2; border-color: #fecaca; }
+        .ba-card.after { background: #f0fdf4; border-color: #bbf7d0; }
+        .ba-card h4 { font-size: 1rem; margin-bottom: 10px; }
+        .ba-card.before h4 { color: #b91c1c; }
+        .ba-card.after h4 { color: #15803d; }
+        .ba-card p { font-size: 0.92rem; margin-bottom: 0; line-height: 1.7; }
+
+        .practice-steps {
+            counter-reset: practice; list-style: none; padding: 0; margin: 24px 0;
+        }
+        .practice-steps li {
+            counter-increment: practice; position: relative;
+            padding: 20px 20px 20px 70px; margin-bottom: 14px;
+            background: linear-gradient(135deg, #fdf0ff, #fff);
+            border: 1px solid #e9d5f5; border-radius: var(--radius-medium);
+        }
+        .practice-steps li::before {
+            content: 'Step ' counter(practice);
+            position: absolute; left: 16px; top: 50%; transform: translateY(-50%);
+            font-family: 'Roboto', sans-serif; font-size: 0.72rem; font-weight: 700;
+            color: #fff;
+            background: linear-gradient(135deg, var(--canva-purple), var(--canva-cyan));
+            padding: 6px 10px; border-radius: 8px; white-space: nowrap;
+        }
+        .practice-steps li strong {
+            display: block; font-size: 1rem; color: var(--text-main); margin-bottom: 6px;
+        }
+        .practice-steps li span { font-size: 0.92rem; color: #64748b; line-height: 1.7; }
+
+        .next-step-box {
+            background: var(--ig-light); border: 1px solid #e9d5f5;
+            border-radius: var(--radius-medium); padding: 20px 24px;
+            margin-top: 24px; text-align: center;
+        }
+        .next-step-box p { margin-bottom: 0; color: var(--text-main); font-weight: 500; }
+
+        .placeholder-box {
+            text-align: center; padding: 60px 30px;
+            background: #faf8ff; border: 2px dashed #e9d5f5;
+            border-radius: var(--radius-medium); margin: 20px 0;
+        }
+        .placeholder-box i { font-size: 2.5rem; color: #c4b5fd; margin-bottom: 16px; }
+        .placeholder-box p { color: var(--text-sub); margin-bottom: 0; font-size: 1.05rem; }
+
+        .tool-link-btn {
+            display: inline-flex; align-items: center; gap: 10px;
+            background: linear-gradient(135deg, var(--canva-purple), var(--canva-cyan));
+            color: #fff; padding: 14px 32px; border-radius: 30px;
+            text-decoration: none; font-weight: bold; font-size: 1.05rem;
+            border: none; cursor: pointer; transition: 0.3s;
+            box-shadow: 0 8px 20px rgba(123, 47, 247, 0.25);
+        }
+        .tool-link-btn:hover { transform: translateY(-3px); }
+        .tool-link-btn.secondary {
+            background: #fff; color: var(--text-main);
+            border: 2px solid #ede9f5; box-shadow: none;
+        }
+        .tab-nav-footer {
+            text-align: center; margin-top: 36px;
+            display: flex; flex-direction: column; gap: 14px; align-items: center;
+        }
+
+        @media (max-width: 768px) {
+            body { padding: 10px 5px; }
+            .header, .tab-content { padding: 24px 18px; }
+            .header h1 { font-size: 1.5rem; }
+            .card-grid-2, .before-after-grid { grid-template-columns: 1fr; }
+            .practice-steps li { padding-left: 18px; padding-top: 52px; }
+            .practice-steps li::before { top: 14px; left: 16px; transform: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <a href="./index.html" class="home-btn" title="ホームに戻る"><i class="fa-solid fa-house"></i></a>
+
+    <div class="container">
+        <header class="header">
+            <div class="header-top">
+                <div class="header-nav">
+                    <a href="./vol01-1.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> Day 01へ</a>
+                    <a href="./index.html" class="back-link"><i class="fa-solid fa-house"></i> ホームへ</a>
+                </div>
+                <span class="progress-pill">Day 02 / 13</span>
+            </div>
+            <span class="header-tag">DAY 02</span>
+            <h1>Day 02 ─ Canvaでコンテンツを動かす</h1>
+            <p class="header-sub">Jun 2026 — Instagram SNS運用マスターコース</p>
+        </header>
+
+        <img src="./assets/day02_slide1.png" alt="Day 02 表紙" class="slide-img cover-slide">
+
+        <nav class="tabs">
+            <button class="tab-btn active" onclick="openTab('goal')">今日の目標</button>
+            <button class="tab-btn" onclick="openTab('first')">前半</button>
+            <button class="tab-btn" onclick="openTab('second')">後半</button>
+            <button class="tab-btn" onclick="openTab('summary')">今日のまとめ</button>
+        </nav>
+
+        <!-- 今日の目標 -->
+        <div id="goal" class="tab-content active">
+            <div class="goal-box">
+                <i class="fa-solid fa-palette"></i>
+                <h3>今日のゴール</h3>
+                <p>Canvaの基本操作を理解する</p>
+                <p>リール動画（縦型・1080×1920px）を1本Canvaで作れるようになる</p>
+                <p>マジックレイヤーでAI生成画像のテキストや素材を自由に編集できることを知る</p>
+            </div>
+
+            <div class="goal-list">
+                <h4>前半で学ぶこと</h4>
+                <ul>
+                    <li>Canvaによるリール動画編集の基本</li>
+                    <li>マジックレイヤーを使ったAI画像編集</li>
+                </ul>
+            </div>
+            <div class="goal-list">
+                <h4>後半で学ぶこと</h4>
+                <ul>
+                    <li>後半リサーチ完了後に更新予定</li>
+                </ul>
+            </div>
+
+            <div style="text-align:center; margin-top:28px;">
+                <button type="button" class="tool-link-btn" onclick="openTab('first')">前半へ進む <i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+        </div>
+
+        <!-- 前半 -->
+        <div id="first" class="tab-content">
+
+            <section class="section">
+                <h2><span class="sec-num">01</span> 今日の2つの魔法</h2>
+                <p>Canvaで今日マスターするのは2つのスキルだけ。この2つが身につけば、Instagramのコンテンツ制作スピードが劇的に変わります。</p>
+                <img src="./assets/day02_slide2.png" alt="動かす魔法と分解する魔法" class="slide-img">
+                <div class="card-grid-2">
+                    <div class="info-card canva-accent">
+                        <div class="info-card-icon"><i class="fa-solid fa-film"></i></div>
+                        <h3>🎬 動かす魔法</h3>
+                        <p>リール動画編集（カット・エフェクト・アニメーション）</p>
+                    </div>
+                    <div class="info-card canva-accent">
+                        <div class="info-card-icon"><i class="fa-solid fa-scissors"></i></div>
+                        <h3>✂️ 分解する魔法</h3>
+                        <p>AI画像マジックレイヤー編集</p>
+                    </div>
+                </div>
+                <div class="sub-note">Canvaはインストール不要のオンラインデザインツール。190カ国・2億人以上が利用。テンプレート・素材・AI機能がすべて揃っている。</div>
+            </section>
+
+            <section class="section">
+                <h2><span class="sec-num">02</span> リール動画を作る5ステップ</h2>
+                <p>難しそうに見えて、実は5ステップで完成します。</p>
+
+                <div class="step-card">
+                    <span class="step-num">1</span>
+                    <div>
+                        <h4>動画専用の「キャンバス」を開く</h4>
+                        <p>ホーム画面「動画」→「Instagramリール動画（1080×1920px）」を選択。</p>
+                    </div>
+                </div>
+                <img src="./assets/day02_slide3.png" alt="リール用テンプレートの開き方" class="slide-img">
+                <div class="warning-box">
+                    <p><i class="fa-solid fa-triangle-exclamation"></i> 通常のSNSテンプレートでは細かい編集ができない。<strong>必ず動画編集用テンプレートを使うこと。</strong></p>
+                </div>
+
+                <div class="step-card">
+                    <span class="step-num">2</span>
+                    <div>
+                        <h4>タイムラインと「魔法のハサミ（Sキー）」</h4>
+                        <p>動画をアップロードまたは素材から縦型動画を追加。インジケーターを不要な部分に合わせて<strong>Sキー</strong>で分割 → 不要部分をDeleteで削除。</p>
+                    </div>
+                </div>
+                <img src="./assets/day02_slide4.png" alt="Sキーでカット" class="slide-img">
+
+                <div class="step-card">
+                    <span class="step-num">3</span>
+                    <div>
+                        <h4>動画の「テンポ」と「つなぎ目」を操る</h4>
+                        <p>速度調整：0.25倍〜2倍。リールはスピード感が大事なので1.25〜2倍が多い。トランジション：動画のつなぎ目に「切り替えを追加」→「ディゾルブ」か「スライド」が自然で使いやすい。</p>
+                    </div>
+                </div>
+                <img src="./assets/day02_slide5.png" alt="速度・トランジション" class="slide-img">
+
+                <div class="step-card">
+                    <span class="step-num">4</span>
+                    <div>
+                        <h4>埋もれない文字を作る「袋文字エフェクト」</h4>
+                        <p>テキスト追加 → 太めのフォント（コーポレートロゴ・全丸など）を選択。エフェクト →「袋文字（アウトライン）」→ 文字色：任意、袋色：黒や黄で視認性UP。</p>
+                    </div>
+                </div>
+                <img src="./assets/day02_slide6.png" alt="袋文字エフェクト" class="slide-img">
+                <img src="./assets/day02_slide7.png" alt="表示タイミング調整" class="slide-img">
+                <p style="font-size:0.95rem;">テキストや素材の「表示タイミング」は、タイムライン上の紫のバーをドラッグで直感的に調整できます。</p>
+
+                <div class="step-card">
+                    <span class="step-num">5</span>
+                    <div>
+                        <h4>素材を自由自在に動かす「カスタム軌跡アニメーション」</h4>
+                        <p>素材を選択 → アニメーション → カスタム → 動かしたい軌跡をドラッグで描く。スタイル：「スムーズ」が自然でおすすめ。</p>
+                    </div>
+                </div>
+                <img src="./assets/day02_slide8.png" alt="カスタム軌跡アニメーション" class="slide-img">
+                <div class="tips-box">
+                    <h4><i class="fa-solid fa-lightbulb"></i> Tips</h4>
+                    <p>音声は「ナレーション収録」で自分の声を追加、または「AI音声生成（日本語ボイス）」で無料のAI音声も使える。BGMも素材から追加可能。完成後は「共有 → ダウンロード → MP4」でスマホに転送してInstagramへ。</p>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2><span class="sec-num">03</span> AI画像×マジックレイヤー</h2>
+                <p>ChatGPTやGeminiで作ったチラシ、文字だけ変えたいのに変えられなかった経験はありませんか？</p>
+                <img src="./assets/day02_slide9.png" alt="AI画像の問題提起" class="slide-img">
+
+                <div class="before-after-grid">
+                    <div class="ba-card before">
+                        <h4>❌ Before</h4>
+                        <p>AI生成画像は高精度だが、文字や一部の素材を直接編集できない。</p>
+                    </div>
+                    <div class="ba-card after">
+                        <h4>✅ After</h4>
+                        <p>マジックレイヤーが背景・イラスト・文字を自動でレイヤー分解 → 個別に移動・編集・色変更可能。</p>
+                    </div>
+                </div>
+                <img src="./assets/day02_slide10.png" alt="マジックレイヤーの仕組み" class="slide-img">
+
+                <h3 class="sub-heading">3ステップで操作</h3>
+                <div class="step-card">
+                    <span class="step-num">1</span>
+                    <div>
+                        <h4>AI画像をCanvaにアップロード</h4>
+                        <p>または既存デザインに画像を配置する。</p>
+                    </div>
+                </div>
+                <div class="step-card">
+                    <span class="step-num">2</span>
+                    <div>
+                        <h4>マジックレイヤーを起動</h4>
+                        <p>画像を選択 →「画像を編集」→「マジックレイヤー（Magic Grab）」をクリック。</p>
+                    </div>
+                </div>
+                <div class="step-card">
+                    <span class="step-num">3</span>
+                    <div>
+                        <h4>個別に編集</h4>
+                        <p>AIが自動解析（数秒）→ オブジェクト・文字を個別にドラッグ・編集・削除。</p>
+                    </div>
+                </div>
+                <img src="./assets/day02_slide11.png" alt="3ステップ操作手順" class="slide-img">
+                <img src="./assets/day02_slide12.png" alt="日本語版対応・精度UP" class="slide-img">
+                <div class="tips-box">
+                    <h4><i class="fa-solid fa-circle-info"></i> 補足</h4>
+                    <p>2026年5月より日本語版でも利用可能に。日本語テキストの解析精度が大幅向上。Canvaトップ画面の「マジックレイヤー」アイコンからも直接アクセス可能。</p>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2><span class="sec-num">04</span> 実習：Canvaを開いてリールを1本作ろう</h2>
+                <img src="./assets/day02_slide14.png" alt="Let's Create!" class="slide-img">
+                <ol class="practice-steps">
+                    <li>
+                        <strong>Canvaを開く</strong>
+                        <span><a href="https://www.canva.com/" target="_blank" rel="noopener" style="color:var(--canva-purple); font-weight:700;">canva.com</a> を開く（Googleアカウントでログイン可）。</span>
+                    </li>
+                    <li>
+                        <strong>リール用テンプレートを選ぶ</strong>
+                        <span>「動画 → Instagramリール動画」のテンプレートを選ぶ。</span>
+                    </li>
+                    <li>
+                        <strong>素材とテキストを入れる</strong>
+                        <span>Day01で決めた「推し」テーマに合う動画素材またはスマホ動画を入れ、テキストを1つ追加する。</span>
+                    </li>
+                    <li>
+                        <strong>MP4でダウンロードして完成！</strong>
+                        <span>「共有 → ダウンロード → MP4」で書き出す。</span>
+                    </li>
+                </ol>
+                <div class="next-step-box">
+                    <p>Day 03以降では、このリールを使った投稿設計・キャプション作成に進みます。</p>
+                </div>
+                <div style="text-align:center; margin-top:28px;">
+                    <a href="https://www.canva.com/" target="_blank" rel="noopener" class="tool-link-btn">
+                        <i class="fa-solid fa-palette"></i> Canva を開いて実習する
+                    </a>
+                </div>
+            </section>
+
+            <div class="tab-nav-footer">
+                <button type="button" class="tool-link-btn secondary" onclick="openTab('second')">後半へ <i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+        </div>
+
+        <!-- 後半 -->
+        <div id="second" class="tab-content">
+            <div class="placeholder-box">
+                <i class="fa-solid fa-hourglass-half"></i>
+                <p><strong>後半コンテンツは準備中です。</strong><br>リサーチ完了後に追記します。</p>
+            </div>
+            <div class="tab-nav-footer">
+                <button type="button" class="tool-link-btn" onclick="openTab('summary')">今日のまとめへ <i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+        </div>
+
+        <!-- 今日のまとめ -->
+        <div id="summary" class="tab-content">
+            <div class="placeholder-box">
+                <i class="fa-solid fa-clipboard-list"></i>
+                <p><strong>まとめは後半終了後に更新します。</strong><br>後半の学習が完了したあと、復習ポイントとチェックリストを掲載予定です。</p>
+            </div>
+            <div class="tab-nav-footer">
+                <a href="#" class="tool-link-btn">▶ Day 03へ</a>
+                <a href="./index.html" class="tool-link-btn secondary"><i class="fa-solid fa-house"></i> ホームへ</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openTab(tabId) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            const matchingBtn = Array.from(document.querySelectorAll('.tab-btn')).find(
+                b => (b.getAttribute('onclick') || '').includes("'" + tabId + "'")
+            );
+            if (matchingBtn) matchingBtn.classList.add('active');
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            window.scrollTo({ top: document.querySelector('.tabs').offsetTop - 20, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
+<!-- cache-bust: 2026-06-03T15:30:00 -->
