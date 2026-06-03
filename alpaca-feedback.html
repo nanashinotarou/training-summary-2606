@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>アルパカワークス フィードバックレター</title>
+    <meta property="og:title" content="アルパカワークス フィードバックレター">
+    <meta property="og:description" content="純伶さんの作品を見ました。3000字書いたのでページにしました。">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Roboto:wght@700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --purple: #5b21b6;
+            --lavender: #7c3aed;
+            --light: #ede9fe;
+            --gold: #f8d06c;
+            --gold-dark: #92400e;
+            --text: #1e1035;
+            --text-sub: #64748b;
+            --shadow: 0 8px 32px rgba(91,33,182,0.12);
+            --r-lg: 24px;
+            --r-md: 16px;
+            --r-sm: 8px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background: #faf8ff;
+            color: var(--text);
+        }
+
+        /* ── HERO ── */
+        .hero {
+            position: relative;
+            height: 88vh; min-height: 520px; max-height: 720px;
+            overflow: hidden;
+            display: flex; align-items: flex-end;
+        }
+        .hero-bg {
+            position: absolute; inset: 0;
+            width: 100%; height: 100%;
+            object-fit: cover; object-position: center top;
+        }
+        .hero-overlay {
+            position: absolute; inset: 0;
+            background: linear-gradient(to top,
+                rgba(20,8,48,0.90) 20%,
+                rgba(20,8,48,0.35) 60%,
+                transparent 100%);
+        }
+        .hero-content {
+            position: relative; z-index: 2;
+            padding: 0 40px 48px; width: 100%;
+        }
+        .hero-eyebrow {
+            font-size: 0.75rem; font-weight: 700; letter-spacing: 0.25em;
+            color: var(--gold); text-transform: uppercase; margin-bottom: 14px;
+        }
+        .hero-title {
+            font-size: clamp(1.9rem, 5vw, 3.2rem); font-weight: 900;
+            color: #fff; line-height: 1.2; margin-bottom: 18px;
+        }
+        .hero-meta {
+            font-size: 0.88rem; color: rgba(255,255,255,0.65); line-height: 1.8;
+        }
+        .scroll-hint {
+            position: absolute; bottom: 18px; left: 50%; transform: translateX(-50%);
+            z-index: 10; color: rgba(255,255,255,0.5); font-size: 1.2rem;
+            animation: bob 1.8s ease-in-out infinite;
+        }
+        @keyframes bob {
+            0%,100% { transform: translateX(-50%) translateY(0); }
+            50%      { transform: translateX(-50%) translateY(8px); }
+        }
+
+        /* ── LAYOUT ── */
+        .page-body { max-width: 820px; margin: 0 auto; padding: 72px 24px 80px; }
+
+        .section { margin-bottom: 72px; }
+
+        .section-label {
+            display: inline-flex; align-items: center; gap: 10px;
+            font-size: 0.72rem; font-weight: 700; letter-spacing: 0.18em;
+            color: var(--lavender); text-transform: uppercase; margin-bottom: 14px;
+        }
+        .section-label::before {
+            content: ''; width: 28px; height: 2px; background: var(--lavender);
+        }
+
+        .section-heading {
+            font-size: clamp(1.35rem, 3.5vw, 1.9rem); font-weight: 900;
+            line-height: 1.25; margin-bottom: 10px;
+        }
+
+        .stars {
+            color: var(--gold); font-size: 1.25rem; letter-spacing: 3px;
+            margin-bottom: 22px;
+        }
+        .stars .star-note {
+            font-family: 'Noto Sans JP', sans-serif;
+            font-size: 0.78rem; color: var(--text-sub);
+            font-weight: 500; letter-spacing: 0; margin-left: 8px;
+        }
+
+        /* ── IMAGES ── */
+        .slide-full {
+            border-radius: var(--r-md); overflow: hidden;
+            box-shadow: var(--shadow); margin: 24px 0;
+        }
+        .slide-full img { width: 100%; display: block; }
+
+        .slide-pair {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 24px 0;
+        }
+        .slide-pair .slide-full { margin: 0; }
+
+        @media (max-width: 560px) {
+            .slide-pair { grid-template-columns: 1fr; }
+        }
+
+        /* ── TEXT ── */
+        .body-text {
+            font-size: 0.95rem; line-height: 2.0; color: #334155; margin-bottom: 16px;
+        }
+
+        .quote {
+            border-left: 4px solid var(--lavender);
+            background: var(--light);
+            border-radius: 0 var(--r-md) var(--r-md) 0;
+            padding: 20px 26px; margin: 22px 0;
+            font-size: 1.08rem; font-weight: 800; line-height: 1.65;
+            color: var(--purple);
+        }
+
+        /* ── CARDS ── */
+        .card-row {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 24px 0;
+        }
+        @media (max-width: 560px) { .card-row { grid-template-columns: 1fr; } }
+
+        .card {
+            background: #fff; border: 1px solid #ddd6fe;
+            border-radius: var(--r-md); padding: 22px 24px;
+            box-shadow: var(--shadow);
+        }
+        .card-icon {
+            font-size: 1.4rem; margin-bottom: 10px; display: block;
+        }
+        .card-title {
+            font-size: 0.85rem; font-weight: 700; color: var(--lavender);
+            margin-bottom: 8px;
+        }
+        .card-body { font-size: 0.9rem; line-height: 1.85; color: #334155; }
+
+        /* ── GOLD BADGE ── */
+        .badge {
+            display: inline-block;
+            background: var(--gold); color: var(--gold-dark);
+            font-size: 0.78rem; font-weight: 900; padding: 5px 16px;
+            border-radius: 20px; margin-bottom: 14px; letter-spacing: 0.05em;
+        }
+
+        /* ── DIVIDER ── */
+        .divider {
+            border: none; height: 1px;
+            background: linear-gradient(to right, transparent, #c4b5fd, transparent);
+            margin: 56px 0;
+        }
+
+        /* ── FINALE ── */
+        .finale {
+            position: relative; border-radius: var(--r-lg);
+            overflow: hidden; min-height: 320px;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .finale-bg {
+            position: absolute; inset: 0;
+            width: 100%; height: 100%; object-fit: cover;
+        }
+        .finale-overlay {
+            position: absolute; inset: 0;
+            background: rgba(14,6,40,0.72);
+        }
+        .finale-content {
+            position: relative; z-index: 2;
+            text-align: center; padding: 52px 36px; color: #fff;
+        }
+        .finale-title {
+            font-size: clamp(1.15rem, 3vw, 1.6rem); font-weight: 900;
+            line-height: 1.5; margin-bottom: 20px;
+        }
+        .finale-body {
+            font-size: 0.93rem; line-height: 2.0; opacity: 0.88;
+        }
+
+        /* ── FOOTER ── */
+        .footer {
+            text-align: center; padding: 36px 20px;
+            font-size: 0.78rem; color: var(--text-sub); line-height: 1.8;
+        }
+
+        /* ── SCROLL FADE ── */
+        .fade-up {
+            opacity: 0; transform: translateY(28px);
+            transition: opacity 0.65s ease, transform 0.65s ease;
+        }
+        .fade-up.visible { opacity: 1; transform: translateY(0); }
+    </style>
+</head>
+<body>
+
+<!-- ══════════════════════ HERO ══════════════════════ -->
+<div class="hero">
+    <img src="./assets/The_Gentle_Kingdom_of_Tech_-_Slide_1.png" class="hero-bg" alt="アルパカ王子">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+        <div class="hero-eyebrow">Feedback Letter &nbsp;·&nbsp; 2026.06</div>
+        <h1 class="hero-title">アルパカワークス、<br>見ました。</h1>
+        <p class="hero-meta">
+            純伶さんへ&emsp;／&emsp;田口純子さん経由<br>
+            by Hiroya&ensp;@&ensp;ふっくみ
+        </p>
+    </div>
+    <div class="scroll-hint"><i class="fa-solid fa-chevron-down"></i></div>
+</div>
+
+<!-- ══════════════════════ PAGE BODY ══════════════════════ -->
+<div class="page-body">
+
+    <!-- まず一言 -->
+    <div class="section fade-up" style="text-align:center; padding-top: 8px;">
+        <p class="body-text" style="font-size:1.05rem; color:#5b21b6; font-weight:700;">
+            3000字書いたのでWebページにしました。笑<br>
+            <span style="font-size:0.9rem; font-weight:400; color:var(--text-sub);">全部の想いが乗っかっています。ゆっくり読んでもらえたら。</span>
+        </p>
+    </div>
+
+    <hr class="divider">
+
+    <!-- ─── デザイン ─── -->
+    <div class="section fade-up">
+        <div class="section-label">Design Review</div>
+        <h2 class="section-heading">デザイン</h2>
+        <div class="stars">★★★★★<span class="star-note">5&thinsp;/&thinsp;5</span></div>
+
+        <p class="body-text">
+            イケメンアルパカの世界観にぴったりです。色味・トーン・柔和な塗り——全体を通して癒しと包容力マシマシ。フォント・背景も破綻なく統一されていて、詰まりすぎないレイアウトが自然な導線をつくっていました。
+        </p>
+        <p class="body-text">
+            遊び心満点なのに、後述する内容の重さにもちゃんと耐えられるデザイン力。リアル等身・デフォルメ等身・アニマルバージョンと素材も多い中、全部きれいに活かせているの、普通にすごいです。ポスター・SNS素材として大活躍間違いなし。
+        </p>
+    </div>
+
+    <hr class="divider">
+
+    <!-- ─── MISSION ─── -->
+    <div class="section fade-up">
+        <div class="section-label">Mission &amp; Content</div>
+        <h2 class="section-heading">内容</h2>
+        <div class="stars">★★★★★★★★★★<span class="star-note">20&thinsp;/&thinsp;5（振り切れ）</span></div>
+
+        <div class="slide-full">
+            <img src="./assets/The_Gentle_Kingdom_of_Tech_-_Slide_2.png" alt="MISSION">
+        </div>
+
+        <div class="quote">
+            「働けるか」ではなく、<br>「どうすれば、その人らしく働けるか」。
+        </div>
+
+        <p class="body-text">
+            これが全てだと思います。ほんとうに。<br>
+            福祉として補助金を受け取っている以上、福祉の精神は義務。雇った以上、一人一人を育てる責任がある。チャンスはあげてるんだから頑張れないのは自己責任、とは本来ならないんですよ。
+        </p>
+        <p class="body-text">
+            凸凹のある方が「自分の稼ぎで納税者側でいられてる！」という実績を、継続して実感し続けられる環境をつくること。これ以上の社会貢献はないと断言します。MISSIONと社会課題の設定、本当に素晴らしかった。
+        </p>
+    </div>
+
+    <hr class="divider">
+
+    <!-- ─── 事業の柱 ─── -->
+    <div class="section fade-up">
+        <div class="section-label">Two Pillars</div>
+        <h2 class="section-heading">事業の柱</h2>
+
+        <div class="slide-full">
+            <img src="./assets/The_Gentle_Kingdom_of_Tech_-_Slide_5.png" alt="学ぶ・働く">
+        </div>
+
+        <div class="card-row">
+            <div class="card">
+                <span class="card-icon">📚</span>
+                <div class="card-title">① DXリスキリング事業</div>
+                <div class="card-body">
+                    本来のふっくみとplatinumzoneのあるべき姿、これです。AIスキルをやさしく・楽しく・実践的に学べる仕組み。ここがしっかり機能すると次の事業が生きてくる。
+                </div>
+            </div>
+            <div class="card">
+                <span class="card-icon">💻</span>
+                <div class="card-title">② 在宅ワーク実践事業</div>
+                <div class="card-body">
+                    学んだスキルを実際の仕事でチームの一員として活かす場。補助金なしで成立させるとしたらここの利益率が鍵。アルパカ王子の腕のみせどころ。
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- ─── 人材設計 ─── -->
+    <div class="section fade-up">
+        <div class="section-label">People Design</div>
+        <h2 class="section-heading">一人ひとりに合った働き方の設計</h2>
+
+        <div class="slide-pair">
+            <div class="slide-full">
+                <img src="./assets/The_Gentle_Kingdom_of_Tech_-_Slide_7.png" alt="星座アルパカ">
+            </div>
+            <div class="slide-full">
+                <img src="./assets/The_Gentle_Kingdom_of_Tech_-_Slide_3.png" alt="AIを能力の拡張として">
+            </div>
+        </div>
+
+        <p class="body-text">
+            これは綺麗ごとじゃないです。凸凹と凸凹のパズルをしくると、特性のある労働者がメンタルを崩して、そのケアまで発生して、稼ぎ頭の作業もストップする——悪循環が連鎖します。管理者と社長の生き死にを左右する、マジ大事な要素。
+        </p>
+        <p class="body-text">
+            だからこそ、人材把握・発掘の最適化をフルにAI活用でやっていかないと。一人一人の悩みと課題の進捗管理を、ほぼ全自動で評価・記録して次のアクション選定までサポートできるか。ここは死活問題part2。頑張れアルパカ王子。
+        </p>
+    </div>
+
+    <hr class="divider">
+
+    <!-- ─── 成長設計 ─── -->
+    <div class="section fade-up">
+        <div class="section-label">Growth Design</div>
+        <h2 class="section-heading">ステップアップ型の成長設計</h2>
+
+        <div class="slide-full">
+            <img src="./assets/The_Gentle_Kingdom_of_Tech_-_Slide_6.png" alt="ステップアップ型の成長設計">
+        </div>
+
+        <div class="quote">「できたね！！！えらい！！」が積み重なる仕組み</div>
+
+        <p class="body-text">
+            スケールのデカすぎる話をされてもダメです。当人の悩みに寄り添って、小さな一個一個を肯定し続けられる仕組みが大事。それをフルにAI活用でやっていかないと、一人一人の成長を採算ベースでフォローし続けるのはイバラの道。
+        </p>
+    </div>
+
+    <hr class="divider">
+
+    <!-- ─── 在宅の働き方 ─── -->
+    <div class="section fade-up">
+        <div class="section-label">Work Style</div>
+        <h2 class="section-heading">在宅・柔軟・安心の働き方</h2>
+
+        <div class="slide-full">
+            <img src="./assets/The_Gentle_Kingdom_of_Tech_-_Slide_4.png" alt="在宅・柔軟・安心">
+        </div>
+
+        <p class="body-text">
+            体調や生活リズムに合わせて参加OK、無理なく長く続けられる。この部分、一ディレクターとして毎日ふがいなさを噛み締めながら生きているので、刺さります。もっとみんなを輝かせたい。そういう場を、一緒につくっていきたい。
+        </p>
+    </div>
+
+    <hr class="divider">
+
+    <!-- ─── 総評 ─── -->
+    <div class="section fade-up">
+        <div class="section-label">Overall Review</div>
+        <h2 class="section-heading">総評</h2>
+        <div class="stars">★★★★★★★★★★<span class="star-note">10&thinsp;/&thinsp;5（さらに振り切れ）</span></div>
+
+        <div class="slide-full">
+            <img src="./assets/The_Gentle_Kingdom_of_Tech_-_Slide_8.png" alt="提灯シーン・利用者の声">
+        </div>
+
+        <p class="body-text">
+            何かをカタチにする。それを繰り返す。これを続けられる人は伸びます。純伶さんはぐんぐん成長なされているのですね。
+        </p>
+        <p class="body-text">
+            フッターの「理想論ではなく、現場起点の仕組みづくり」という一言に、制作者の想いが宿っていました。私が私が、ではなく、一緒にって感じ。愛しかない。ここに応募したいなあって思いながら読みました。
+        </p>
+        <p class="body-text">
+            基礎力向上の勉強ばかりでいつまでも行動に移さない人は伸びません。純伶さんはカタチにできる人。これからも日々実践あるのみ！ますますのご活躍、応援しています。
+        </p>
+    </div>
+
+</div><!-- /page-body -->
+
+<!-- ══════════════════════ FINALE ══════════════════════ -->
+<div class="finale fade-up" style="border-radius:0; margin: 0;">
+    <img src="./assets/The_Gentle_Kingdom_of_Tech_-_Slide_9.png" class="finale-bg" alt="フィナーレ">
+    <div class="finale-overlay"></div>
+    <div class="finale-content">
+        <div class="badge">頑張れアルパカ王子 🦙</div>
+        <h2 class="finale-title">
+            「働く」を、"耐えるもの"から、<br>
+            "自分らしく生きる手段"へ。
+        </h2>
+        <p class="finale-body">
+            死ぬなよアルパカ王子。味方をつくれ。一人で思い悩むな。どんどん巻き込むんだ。<br>
+            純伶さん、一緒に未来をつくっていこうね。<br>
+            アルパカ王子最高。最＆高。
+        </p>
+    </div>
+</div>
+
+<div class="footer">
+    Feedback by Hiroya &ensp;·&ensp; 2026年6月 &ensp;·&ensp; ふっくみ / Alpaca Works同志より<br>
+    <span style="color:#c4b5fd;">🦙 Let's create our future together.</span>
+</div>
+
+<script>
+const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.08 });
+document.querySelectorAll('.fade-up').forEach(el => io.observe(el));
+</script>
+
+<!-- cache-bust: 2026-06-04T14:00:00 -->
+</body>
+</html>
