@@ -37,38 +37,82 @@
             background-attachment: fixed;
             color: var(--text-main);
             min-height: 100vh;
-            padding: 24px 20px 60px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 40px 20px;
         }
 
-        .top-nav {
+        .home-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: var(--ig-grad);
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            text-decoration: none;
+            box-shadow: 0 10px 25px rgba(193, 53, 132, 0.4);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            z-index: 1000;
+        }
+
+        .home-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 30px rgba(193, 53, 132, 0.5);
+        }
+
+        .container {
+            width: 100%;
             max-width: 900px;
-            margin: 0 auto 16px;
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: var(--glass-border);
+            border-radius: var(--radius-large);
+            box-shadow: var(--shadow-soft);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .header {
+            padding: 36px 40px 20px;
+            text-align: center;
+            border-bottom: 2px solid var(--ig-light);
+        }
+
+        .header-top {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 12px;
+            margin-bottom: 14px;
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
         .back-link {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             color: var(--ig-purple);
             text-decoration: none;
             font-weight: 700;
-            font-size: 0.95rem;
-            padding: 8px 14px;
-            border-radius: 30px;
-            background: #fff;
-            border: 1px solid #ede9f5;
-            transition: 0.2s;
+            font-size: 0.9rem;
         }
 
-        .back-link:hover {
-            border-color: var(--ig-magenta);
-            box-shadow: var(--shadow-soft);
-            transform: translateX(-3px);
-        }
+        .back-link:hover { color: var(--ig-magenta); }
 
         .progress-pill {
             font-family: 'Roboto', sans-serif;
@@ -81,31 +125,6 @@
             letter-spacing: 0.5px;
         }
 
-        .container {
-            width: 100%;
-            max-width: 900px;
-            margin: 0 auto;
-            background: var(--bg-card);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: var(--glass-border);
-            border-radius: var(--radius-large);
-            box-shadow: var(--shadow-soft);
-            overflow: hidden;
-            animation: fadeIn 0.8s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .header {
-            padding: 36px 40px 28px;
-            text-align: center;
-            border-bottom: 2px solid var(--ig-light);
-        }
-
         .header-tag {
             display: inline-block;
             background: var(--ig-grad);
@@ -116,7 +135,7 @@
             font-family: 'Roboto', sans-serif;
             font-size: 0.85rem;
             letter-spacing: 1px;
-            margin-bottom: 14px;
+            margin-bottom: 12px;
         }
 
         .header h1 {
@@ -126,16 +145,14 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            margin-bottom: 16px;
+            margin-bottom: 10px;
             line-height: 1.35;
         }
 
-        .lead {
-            font-size: 1.05rem;
-            line-height: 1.85;
-            color: #475569;
-            max-width: 720px;
-            margin: 0 auto;
+        .header-sub {
+            margin: 0;
+            color: var(--text-sub);
+            font-size: 0.95rem;
         }
 
         .slide-img {
@@ -155,21 +172,55 @@
             box-shadow: none;
         }
 
-        .content {
+        /* タブナビ */
+        .tabs {
+            display: flex;
+            padding: 0 20px;
+            background: rgba(255, 255, 255, 0.5);
+            border-bottom: 1px solid #ede9f5;
+            overflow-x: auto;
+        }
+
+        .tab-btn {
+            border: none;
+            background: none;
+            padding: 20px 24px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text-sub);
+            cursor: pointer;
+            position: relative;
+            transition: color 0.3s;
+            white-space: nowrap;
+        }
+
+        .tab-btn:hover,
+        .tab-btn.active { color: var(--ig-purple); }
+
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--ig-grad);
+            border-radius: 3px 3px 0 0;
+        }
+
+        .tab-content {
+            display: none;
             padding: 40px;
             background: var(--bg-card-solid);
+            min-height: 500px;
+            animation: fadeInTab 0.4s ease-out;
         }
 
-        .section {
-            margin-bottom: 48px;
-            padding-bottom: 48px;
-            border-bottom: 1px dashed #e9d5f5;
-        }
+        .tab-content.active { display: block; }
 
-        .section:last-of-type {
-            margin-bottom: 0;
-            padding-bottom: 0;
-            border-bottom: none;
+        @keyframes fadeInTab {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         h2 {
@@ -177,11 +228,13 @@
             color: var(--text-main);
             border-left: 5px solid var(--ig-magenta);
             padding-left: 15px;
-            margin: 0 0 20px;
+            margin: 30px 0 20px;
             display: flex;
             align-items: center;
             gap: 10px;
         }
+
+        h2:first-child { margin-top: 0; }
 
         h2 .sec-num {
             font-family: 'Teko', sans-serif;
@@ -191,12 +244,47 @@
             letter-spacing: 1px;
         }
 
+        h3.sub-heading {
+            font-size: 1.15rem;
+            color: var(--ig-purple);
+            margin: 28px 0 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
         p {
             line-height: 1.85;
             margin-bottom: 16px;
             color: #475569;
             font-size: 1.02rem;
         }
+
+        .goal-box {
+            background: linear-gradient(135deg, #fdf0ff, #fff8f3);
+            border: 1px solid #e9d5f5;
+            border-radius: var(--radius-medium);
+            padding: 30px;
+            margin-bottom: 28px;
+            text-align: center;
+        }
+
+        .goal-box i {
+            font-size: 2.5rem;
+            background: var(--ig-grad);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 12px;
+        }
+
+        .goal-box h3 {
+            font-size: 1.35rem;
+            color: var(--ig-purple);
+            margin-bottom: 12px;
+        }
+
+        .goal-box p { margin-bottom: 0; font-size: 1.05rem; color: var(--text-main); }
 
         .highlight-box {
             background: linear-gradient(135deg, #fdf0ff, #fff8f3);
@@ -208,6 +296,18 @@
         }
 
         .highlight-box p:last-child { margin-bottom: 0; }
+
+        .section {
+            margin-bottom: 40px;
+            padding-bottom: 40px;
+            border-bottom: 1px dashed #e9d5f5;
+        }
+
+        .section:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
 
         .card-grid-3 {
             display: grid;
@@ -228,7 +328,6 @@
         .info-card:hover {
             transform: translateY(-4px);
             box-shadow: var(--shadow-hover);
-            border-color: #e9d5f5;
         }
 
         .info-card-icon {
@@ -424,11 +523,6 @@
 
         .warning-box li { margin-bottom: 8px; }
 
-        .io-card h3 {
-            font-size: 0.95rem;
-            margin-bottom: 6px;
-        }
-
         .io-card .badge {
             display: inline-block;
             font-size: 0.7rem;
@@ -458,11 +552,6 @@
             transition: 0.2s;
         }
 
-        .practice-steps li:hover {
-            border-color: var(--ig-magenta);
-            box-shadow: var(--shadow-soft);
-        }
-
         .practice-steps li::before {
             content: 'Step ' counter(practice);
             position: absolute;
@@ -477,7 +566,6 @@
             padding: 6px 10px;
             border-radius: 8px;
             white-space: nowrap;
-            letter-spacing: 0.5px;
         }
 
         .practice-steps li strong {
@@ -506,6 +594,183 @@
             margin-bottom: 0;
             color: var(--text-main);
             font-weight: 500;
+        }
+
+        .placeholder-box {
+            text-align: center;
+            padding: 60px 30px;
+            background: #faf8ff;
+            border: 2px dashed #e9d5f5;
+            border-radius: var(--radius-medium);
+            margin: 20px 0;
+        }
+
+        .placeholder-box i {
+            font-size: 2.5rem;
+            color: #c4b5fd;
+            margin-bottom: 16px;
+        }
+
+        .placeholder-box p {
+            color: var(--text-sub);
+            margin-bottom: 0;
+            font-size: 1.05rem;
+        }
+
+        .slide-img-dark {
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        .caution-box {
+            background: #fffbeb;
+            border: 2px solid #f59e0b;
+            border-left: 6px solid #d97706;
+            border-radius: var(--radius-medium);
+            padding: 20px 24px;
+            margin: 20px 0;
+        }
+
+        .caution-box p {
+            margin-bottom: 0;
+            color: #92400e;
+            font-weight: 600;
+            font-size: 0.98rem;
+            line-height: 1.75;
+        }
+
+        .phase-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .phase-card {
+            text-align: center;
+            padding: 18px 12px;
+            background: #1e1035;
+            color: #fff;
+            border-radius: 12px;
+            font-size: 0.88rem;
+            line-height: 1.5;
+        }
+
+        .phase-card strong {
+            display: block;
+            font-size: 1rem;
+            color: var(--ig-orange);
+            margin-bottom: 6px;
+        }
+
+        .setting-checklist {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+        }
+
+        .setting-checklist li {
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+            padding: 16px 18px;
+            margin-bottom: 10px;
+            background: #fff;
+            border: 1px solid #ede9f5;
+            border-radius: var(--radius-small);
+            font-size: 0.96rem;
+            line-height: 1.65;
+            color: #334155;
+        }
+
+        .setting-checklist input[type="checkbox"] {
+            flex-shrink: 0;
+            width: 20px;
+            height: 20px;
+            margin-top: 2px;
+            accent-color: var(--ig-purple);
+            cursor: pointer;
+        }
+
+        .setting-checklist strong {
+            display: block;
+            color: var(--ig-purple);
+            margin-bottom: 4px;
+        }
+
+        .green-checklist {
+            list-style: none;
+            padding: 0;
+            margin: 24px 0;
+        }
+
+        .green-checklist li {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 18px;
+            margin-bottom: 8px;
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: var(--radius-small);
+            font-size: 0.98rem;
+            color: #166534;
+        }
+
+        .green-checklist input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            accent-color: #16a34a;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .summary-block {
+            background: #faf8ff;
+            border: 1px solid #ede9f5;
+            border-radius: var(--radius-medium);
+            padding: 22px 26px;
+            margin-bottom: 24px;
+        }
+
+        .summary-block h3 {
+            font-size: 1.1rem;
+            color: var(--ig-purple);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .summary-block ul {
+            margin: 0;
+            padding-left: 1.3rem;
+            line-height: 1.85;
+            color: #475569;
+            font-size: 0.96rem;
+        }
+
+        .summary-block li { margin-bottom: 6px; }
+
+        .all-green-img {
+            margin: 24px 0;
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        .tomorrow-box {
+            background: linear-gradient(135deg, #fdf0ff, #fff8f3);
+            border: 1px solid #e9d5f5;
+            border-radius: var(--radius-medium);
+            padding: 26px;
+            margin-top: 28px;
+            text-align: center;
+        }
+
+        .tomorrow-box p {
+            margin-bottom: 0;
+            font-size: 1.02rem;
+            color: var(--text-main);
         }
 
         .tool-link-btn {
@@ -537,49 +802,21 @@
             box-shadow: none;
         }
 
-        .tool-link-btn.secondary:hover {
-            border-color: var(--ig-magenta);
-        }
-
-        .footer-nav {
-            padding: 36px 40px 44px;
+        .tab-nav-footer {
             text-align: center;
-            background: #faf8ff;
-            border-top: 1px solid #ede9f5;
+            margin-top: 36px;
             display: flex;
             flex-direction: column;
             gap: 14px;
             align-items: center;
         }
 
-        .home-float {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 56px;
-            height: 56px;
-            background: var(--ig-grad);
-            color: #fff;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 1.3rem;
-            text-decoration: none;
-            box-shadow: 0 10px 25px rgba(193, 53, 132, 0.35);
-            transition: 0.3s;
-            z-index: 1000;
-        }
-
-        .home-float:hover {
-            transform: translateY(-4px) scale(1.05);
-        }
-
         @media (max-width: 768px) {
-            body { padding: 12px 10px 50px; }
-            .header, .content, .footer-nav { padding: 24px 18px; }
+            body { padding: 10px 5px; }
+            .header, .tab-content { padding: 24px 18px; }
             .header h1 { font-size: 1.5rem; }
-            .card-grid-3, .use-grid { grid-template-columns: 1fr; }
+            .tab-btn { padding: 15px 16px; font-size: 0.88rem; }
+            .card-grid-3, .use-grid, .phase-grid { grid-template-columns: 1fr; }
             .practice-steps li { padding-left: 18px; padding-top: 52px; }
             .practice-steps li::before {
                 top: 14px;
@@ -591,23 +828,63 @@
 </head>
 <body>
 
-    <nav class="top-nav">
-        <a href="./index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> ホームへ戻る</a>
-        <span class="progress-pill">Day 01 / 13</span>
-    </nav>
+    <a href="./index.html" class="home-btn" title="ホームに戻る">
+        <i class="fa-solid fa-house"></i>
+    </a>
 
     <div class="container">
         <header class="header">
+            <div class="header-top">
+                <a href="./index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> ホームへ戻る</a>
+                <span class="progress-pill">Day 01 / 13</span>
+            </div>
             <span class="header-tag">DAY 01</span>
             <h1>Day 01 ─ InstagramをAIで制する</h1>
-            <p class="lead">Instagramで成果を出すには、アイデア出し・文章作成・分析、すべてにAIを活用することが近道です。Day 01はその入口として、GoogleのAI"Gemini（ジェミニ）"を使いこなす練習からスタートします。</p>
+            <p class="header-sub">Jun 2026 — Instagram SNS運用マスターコース</p>
         </header>
 
         <img src="./assets/day01_slide1.png" alt="Day 01 表紙スライド" class="slide-img cover-slide">
 
-        <main class="content">
+        <nav class="tabs">
+            <button class="tab-btn active" onclick="openTab('goal')"><i class="fa-solid fa-bullseye"></i> 今日の目標</button>
+            <button class="tab-btn" onclick="openTab('first')"><i class="fa-solid fa-sun"></i> 前半 (First Half)</button>
+            <button class="tab-btn" onclick="openTab('second')"><i class="fa-solid fa-moon"></i> 後半 (Second Half)</button>
+            <button class="tab-btn" onclick="openTab('summary')"><i class="fa-solid fa-list-check"></i> まとめ</button>
+        </nav>
 
-            <!-- セクション1 -->
+        <!-- 今日の目標 -->
+        <div id="goal" class="tab-content active">
+            <div class="goal-box">
+                <i class="fa-brands fa-instagram"></i>
+                <h3>今日のゴール</h3>
+                <p>GoogleのAI「<strong>Gemini（ジェミニ）</strong>」を道具として使いこなし、<br>Instagram運用の土台となる<strong>「推し」テーマ</strong>を1つ決めること。</p>
+            </div>
+
+            <p>Instagramで成果を出すには、アイデア出し・文章作成・分析、すべてにAIを活用することが近道です。Day 01はその入口として、Geminiの基礎知識と基本操作からスタートします。</p>
+
+            <div class="highlight-box">
+                <p><strong>本コースの姿勢：</strong>AIを魔法の自動化ツールではなく「優秀なアシスタント」として使う。Geminiに丸投げせず、<strong>自分の意図を伝え、出てきた案を選び、最終チェックは自分で行う</strong>——その習慣が13日間の土台になります。</p>
+            </div>
+
+            <h2>今日学ぶこと</h2>
+            <ul class="checklist">
+                <li>なぜInstagram運用にAI（Gemini）が必要なのか</li>
+                <li>AI・生成AI・LLMの違いと基礎知識</li>
+                <li>Geminiの基本操作とプロンプトの4つのコツ</li>
+                <li>活用シーンと注意点（ハルシネーション等）</li>
+                <li>Google I/O 2026 最新機能の概要</li>
+                <li>実習：Geminiで「推し」テーマをブレストして決める</li>
+            </ul>
+
+            <div style="text-align:center; margin-top:28px;">
+                <button type="button" class="tool-link-btn" onclick="openTab('first')">
+                    前半へ進む（AI×Gemini入門） <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- 前半 -->
+        <div id="first" class="tab-content">
             <section class="section" id="sec1">
                 <h2><span class="sec-num">01</span> なぜDay1からAI？</h2>
                 <img src="./assets/day01_slide2.png" alt="なぜDay1からAI？" class="slide-img">
@@ -618,7 +895,6 @@
                 <p>Day 02以降でInstagramの具体的な運用（アカウント設計・投稿・分析）に入る前に、まず「AIという相棒」の使い方を身につけましょう。</p>
             </section>
 
-            <!-- セクション2 -->
             <section class="section" id="sec2">
                 <h2><span class="sec-num">02</span> AI・生成AI・LLMの基礎知識</h2>
                 <img src="./assets/day01_slide3.png" alt="AI基礎知識" class="slide-img">
@@ -644,11 +920,10 @@
                 </div>
             </section>
 
-            <!-- セクション3 -->
             <section class="section" id="sec3">
                 <h2><span class="sec-num">03</span> Geminiの基本操作と4つのコツ</h2>
                 <img src="./assets/day01_slide4.png" alt="Gemini基本操作3ポイント" class="slide-img">
-                <h3 style="font-size:1.15rem; color:var(--ig-purple); margin-bottom:14px;"><i class="fa-solid fa-list-ol"></i> 基本操作の3大ポイント</h3>
+                <h3 class="sub-heading"><i class="fa-solid fa-list-ol"></i> 基本操作の3大ポイント</h3>
                 <div class="step-cards">
                     <div class="step-card">
                         <span class="step-num">1</span>
@@ -674,7 +949,7 @@
                 </div>
 
                 <img src="./assets/day01_slide5.png" alt="プロンプト4つのコツ" class="slide-img">
-                <h3 style="font-size:1.15rem; color:var(--ig-purple); margin: 28px 0 14px;"><i class="fa-solid fa-pen-nib"></i> プロンプトを磨く4ステップ</h3>
+                <h3 class="sub-heading"><i class="fa-solid fa-pen-nib"></i> プロンプトを磨く4ステップ</h3>
                 <ol class="checklist">
                     <li>雑なメモ書きでOK、完璧な文章は不要</li>
                     <li>目的（何に使うか）を伝える ─ 例：「Instagramのフィード投稿用」</li>
@@ -683,7 +958,6 @@
                 </ol>
             </section>
 
-            <!-- セクション4 -->
             <section class="section" id="sec4">
                 <h2><span class="sec-num">04</span> Geminiの活用シーンと注意点</h2>
                 <div class="use-grid">
@@ -705,7 +979,6 @@
                 </div>
 
                 <img src="./assets/day01_slide9.png" alt="スマホ活用・音声入力" class="slide-img">
-
                 <img src="./assets/day01_slide11.png" alt="注意点" class="slide-img">
 
                 <div class="warning-box">
@@ -718,7 +991,6 @@
                 </div>
             </section>
 
-            <!-- セクション5 -->
             <section class="section" id="sec5">
                 <h2><span class="sec-num">05</span> Google I/O 2026 最新Gemini機能</h2>
                 <div class="card-grid-3">
@@ -740,7 +1012,6 @@
                 </div>
             </section>
 
-            <!-- セクション6 -->
             <section class="section" id="sec6">
                 <h2><span class="sec-num">06</span> 実習：「推し」を決めよう！</h2>
                 <img src="./assets/day01_slide13.png" alt="実習・今日からのアクション" class="slide-img">
@@ -776,16 +1047,230 @@
                 </div>
             </section>
 
-        </main>
+            <div class="tab-nav-footer">
+                <button type="button" class="tool-link-btn secondary" onclick="openTab('second')">
+                    後半へ進む <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
 
-        <footer class="footer-nav">
-            <a href="#" class="tool-link-btn">Day 02へ <i class="fa-solid fa-arrow-right"></i></a>
-            <a href="./index.html" class="tool-link-btn secondary"><i class="fa-solid fa-house"></i> ホームへ戻る</a>
-        </footer>
+        <!-- 後半 -->
+        <div id="second" class="tab-content">
+            <section class="section" id="sec-b1">
+                <h2><span class="sec-num">B1</span> なぜ初期設定が命取りなのか</h2>
+                <img src="./assets/day01_slide14.png" alt="バズ設定6選" class="slide-img slide-img-dark">
+                <p>どれだけ素晴らしい投稿をしていても、アカウントの初期設定がずれているとインスタのアルゴリズムに無視され、誰にも届かない<strong>"透明人間状態"</strong>になってしまいます。</p>
+                <img src="./assets/day01_slide15.png" alt="透明人間状態" class="slide-img slide-img-dark">
+                <div class="warning-box">
+                    <h3><i class="fa-solid fa-triangle-exclamation"></i> 設定ミスが招く2つのリスク</h3>
+                    <ul>
+                        <li><strong>投稿ジャンルがバラバラ</strong> → アルゴリズムにジャンル認定されない</li>
+                        <li><strong>設定ミス</strong> → おすすめ表示から除外（実質シャドウバン状態）</li>
+                    </ul>
+                </div>
+                <img src="./assets/day01_slide16.png" alt="3フェーズ全体像：土台→露出→最適化" class="slide-img slide-img-dark">
+                <div class="phase-grid">
+                    <div class="phase-card"><strong>Phase 1</strong>土台づくり<br>ジャンル認知・初期設定</div>
+                    <div class="phase-card"><strong>Phase 2</strong>露出<br>おすすめ表示・検索流入</div>
+                    <div class="phase-card"><strong>Phase 3</strong>最適化<br>分析・改善サイクル</div>
+                </div>
+            </section>
+
+            <section class="section" id="sec-b2">
+                <h2><span class="sec-num">B2</span> バズるアカウント設計の3条件</h2>
+                <div class="card-grid-3">
+                    <div class="info-card">
+                        <div class="info-card-icon"><i class="fa-solid fa-bullseye"></i></div>
+                        <h3>🎯 誰の悩みに寄り添うか</h3>
+                        <p>ターゲットは「30代女性」ではなく「状況＋感情」で定義する。最強のターゲット設定 = <strong>過去の自分</strong>。</p>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-card-icon"><i class="fa-solid fa-eye"></i></div>
+                        <h3>👁 一瞬で何の人か伝わるか</h3>
+                        <p>プロフィールを見て3秒で「この人は〇〇の専門家だ」と分からなければ即離脱される。</p>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-card-icon"><i class="fa-solid fa-circle-check"></i></div>
+                        <h3>✅ フォローするメリットが明確か</h3>
+                        <p>「フォローすると〇〇になれる」という未来を提示する。</p>
+                    </div>
+                </div>
+                <img src="./assets/day01_slide17.png" alt="プロフィール設定手順" class="slide-img slide-img-dark">
+            </section>
+
+            <section class="section" id="sec-b3">
+                <h2><span class="sec-num">B3</span> プロフィールを3秒で完成させる</h2>
+                <div class="step-cards">
+                    <div class="step-card">
+                        <span class="step-num">1</span>
+                        <div>
+                            <h4>アイコン</h4>
+                            <p>正面・明るい表情・背景は単色。SNS全て統一する。</p>
+                        </div>
+                    </div>
+                    <div class="step-card">
+                        <span class="step-num">2</span>
+                        <div>
+                            <h4>アカウント名</h4>
+                            <p>「名前 ＋ ジャンルキーワード」でSEO対策。名前変更は14日間に2回まで ⚠️</p>
+                        </div>
+                    </div>
+                    <div class="step-card">
+                        <span class="step-num">3</span>
+                        <div>
+                            <h4>プロフィール本文</h4>
+                            <p>1行目に必ず「フォロー後の未来のベネフィット」。自己紹介は3行目以降。</p>
+                        </div>
+                    </div>
+                    <div class="step-card">
+                        <span class="step-num">4</span>
+                        <div>
+                            <h4>リンク</h4>
+                            <p>公式LINEの1つだけに絞る（複数は離脱率9割）。</p>
+                        </div>
+                    </div>
+                </div>
+                <img src="./assets/day01_slide18.png" alt="プロアカウントOFF/ON比較" class="slide-img slide-img-dark">
+                <div class="caution-box">
+                    <p>⚠️ アカウント名の変更は14日間に2回まで。設定前によく考えてから変更すること！</p>
+                </div>
+            </section>
+
+            <section class="section" id="sec-b4">
+                <h2><span class="sec-num">B4</span> バズ設定6選（今すぐできる）</h2>
+                <ul class="setting-checklist">
+                    <li>
+                        <input type="checkbox" id="set1">
+                        <label for="set1"><strong>アカウントステータス確認</strong>プロフィール→3本線→アカウントステータス。オールグリーンを確認する。</label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="set2">
+                        <label for="set2"><strong>おすすめ表示をオン（ステルスモード解除）</strong>ブラウザ版Instagramのみで設定可能。「プロフィールにおすすめを表示する」にチェック。</label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="set3">
+                        <label for="set3"><strong>検索エンジン掲載を許可</strong>設定→アカウントのプライバシー→検索エンジンの結果に表示をオン。</label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="set4">
+                        <label for="set4"><strong>高画質アップロードをオン・HDRオフ</strong>3本線→メディアの画質。iPhoneはカメラ設定からHDRビデオをオフ。</label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="set5">
+                        <label for="set5"><strong>プロアカウント（クリエイター）に切り替え</strong>プロフィール編集→プロアカウントに切り替え→クリエイターを選択。</label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="set6">
+                        <label for="set6"><strong>フォロワー外からのDM許可</strong>3本線→メッセージとストーリーズへの返信→メッセージリクエスト→許可。</label>
+                    </li>
+                </ul>
+                <img src="./assets/day01_slide19.png" alt="ステルスモード解除" class="slide-img slide-img-dark">
+                <img src="./assets/day01_slide20.png" alt="検索エンジン掲載" class="slide-img slide-img-dark">
+                <img src="./assets/day01_slide21.png" alt="高画質アップロード" class="slide-img slide-img-dark">
+                <img src="./assets/day01_slide22.png" alt="DM許可設定" class="slide-img slide-img-dark">
+            </section>
+
+            <section class="section" id="sec-b5">
+                <h2><span class="sec-num">B5</span> 実習：アカウントを設定しよう</h2>
+                <ol class="practice-steps">
+                    <li>
+                        <strong>Instagramを開いてアカウントを新規作成</strong>
+                        <span>ビジネス専用を既存アカウントと分けて作成する。</span>
+                    </li>
+                    <li>
+                        <strong>プロアカウント（クリエイター）に切り替える</strong>
+                        <span>プロフィール編集→プロアカウントに切り替え→クリエイターを選択。</span>
+                    </li>
+                    <li>
+                        <strong>バズ設定6選を上から順番に設定する</strong>
+                        <span>上のチェックリストを参考に、1つずつ確認しながら進める。</span>
+                    </li>
+                    <li>
+                        <strong>アカウントステータスが全グリーンか確認する</strong>
+                        <span>プロフィール→3本線→アカウントステータスで全項目を確認。</span>
+                    </li>
+                </ol>
+                <div class="next-step-box">
+                    <p>Day 02ではプロフィールの文章を磨き、最初の投稿を作成します。</p>
+                </div>
+            </section>
+
+            <div class="tab-nav-footer">
+                <button type="button" class="tool-link-btn" onclick="openTab('summary')">
+                    まとめタブへ <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- まとめ -->
+        <div id="summary" class="tab-content">
+            <h2>今日のおさらい</h2>
+
+            <div class="summary-block">
+                <h3><i class="fa-solid fa-sun"></i> 前半のポイント</h3>
+                <ul>
+                    <li>AI・生成AI・LLMの違いを理解した</li>
+                    <li>GeminiはGoogleアカウントで今すぐ使える。基本は「入力欄・モード・履歴」の3つ</li>
+                    <li>プロンプトは雑なメモでOK。目的・条件を添えて会話を重ねる</li>
+                    <li>Geminiを使って「推し」テーマを1つ決めた</li>
+                </ul>
+            </div>
+
+            <div class="summary-block">
+                <h3><i class="fa-solid fa-moon"></i> 後半のポイント</h3>
+                <ul>
+                    <li>ジャンル認知がすべての起点。ターゲットは「過去の自分」</li>
+                    <li>プロフィールは3秒で判断される。1行目にベネフィットを置く</li>
+                    <li>バズ設定6選を今日のうちに全て設定した</li>
+                </ul>
+            </div>
+
+            <h2>All Green チェックリスト</h2>
+            <p>今日の達成項目を確認しましょう。</p>
+            <ul class="green-checklist">
+                <li><input type="checkbox" id="ag1"><label for="ag1">推しテーマが1つ決まった</label></li>
+                <li><input type="checkbox" id="ag2"><label for="ag2">Instagramアカウントを新規作成した</label></li>
+                <li><input type="checkbox" id="ag3"><label for="ag3">プロアカウント（クリエイター）に切り替えた</label></li>
+                <li><input type="checkbox" id="ag4"><label for="ag4">アカウントステータスがオールグリーン</label></li>
+                <li><input type="checkbox" id="ag5"><label for="ag5">おすすめ表示・検索エンジン掲載をオン</label></li>
+                <li><input type="checkbox" id="ag6"><label for="ag6">高画質アップロードオン・HDRオフ・DM許可をオン</label></li>
+            </ul>
+            <img src="./assets/day01_slide23.png" alt="All Green Dashboard" class="slide-img all-green-img">
+
+            <h2>明日の予告</h2>
+            <div class="tomorrow-box">
+                <p>Day 02では、今日決めた「推し」テーマをもとに、魅力的なプロフィールの文章を作り、初投稿を作成します。AIで文章案を出して磨く練習をします。</p>
+            </div>
+            <img src="./assets/day01_slide24.png" alt="準備完了メッセージ" class="slide-img slide-img-dark">
+
+            <div class="tab-nav-footer">
+                <a href="#" class="tool-link-btn">▶ Day 02へ</a>
+                <a href="./index.html" class="tool-link-btn secondary"><i class="fa-solid fa-house"></i> 🏠 ホームへ</a>
+            </div>
+        </div>
+
     </div>
 
-    <a href="./index.html" class="home-float" title="ホームに戻る"><i class="fa-solid fa-house"></i></a>
+    <script>
+        function openTab(tabId) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            const matchingBtn = Array.from(document.querySelectorAll('.tab-btn')).find(
+                b => (b.getAttribute('onclick') || '').includes("'" + tabId + "'")
+            );
+            if (matchingBtn) matchingBtn.classList.add('active');
+
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(tabId).classList.add('active');
+
+            window.scrollTo({
+                top: document.querySelector('.tabs').offsetTop - 20,
+                behavior: 'smooth'
+            });
+        }
+    </script>
 
 </body>
 </html>
-<!-- cache-bust: 2026-06-02T10:00:00 -->
+<!-- cache-bust: 2026-06-02T14:00:00 -->
