@@ -293,6 +293,30 @@ function copyAllCards() {
 
 **⚠️ 1ページに複数ワークシートがある場合** は、`id`・関数名にサフィックスをつけること（例: `ws-a-1`、`copyCard2`）。
 
+### info-card のアイコン + 見出しレイアウト（必須）
+
+**新規 volXX-1.html で `info-card` を使う場合、アイコンと見出しは必ず横並びにすること。**
+
+```html
+<div class="info-card">
+    <div class="info-card-header">
+        <div class="info-card-icon"><i class="fa-solid fa-..."></i></div>
+        <h3>見出し</h3>
+    </div>
+    <p>説明テキスト</p>
+</div>
+```
+
+```css
+.info-card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+.info-card-icon { flex-shrink: 0; /* margin-bottom なし */ }
+.info-card h3 { margin-bottom: 0; }
+.info-card p { font-size: 1rem; color: var(--text-main); font-weight: 500; }
+```
+
+- アイコンだけが縦に置かれてその下に見出しというレイアウトは NG（スマホで縦スペースを無駄に使い、見栄えが悪い）
+- vol01・vol02 は CSS Grid で対応済み（`grid-template-columns: 44px 1fr`）
+
 ### Cursor向け実装禁則（過去の失敗から）
 
 - **タブ名・見出しに英語を混入しない。** Today_Plan.md に「前半」と書いてあれば「前半」のみ。「前半 (First Half)」のような英語サブタイトルを勝手に追加しないこと（Day01で発生した問題）
@@ -389,6 +413,7 @@ details.video-item[open] summary { border-radius: var(--radius-small) var(--radi
 - **VIDEO_IDの取得方法:** YouTubeのURLが `https://youtu.be/XXXXX` なら `XXXXX` がID / `watch?v=XXXXX` なら `XXXXX` がID
 - `loading="lazy"` を必ず付けること（パフォーマンス）
 - **Today_Plan.md の [実装メタ情報] に各タブのYouTube URLを必ず記載すること**（ClaudeCodeが明示する）
+- **「前半・後半共通」とラベルされた動画は両タブに埋め込むこと。** Today_Research.md の要点まとめで `（前半・後半動画N）` と記載されているものは前半・後半の両方の video-section に追加する
 
 ## 7. cache-bust フォーマット統一ルール
 
