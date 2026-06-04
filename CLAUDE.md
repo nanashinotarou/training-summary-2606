@@ -439,6 +439,16 @@ git add / commit / push origin master
 npx wrangler pages deploy .deploy_tmp --project-name=training-summary-2606
 ```
 
+### ⚠️ デプロイの担当ルール（重要）
+
+**デプロイは必ず Cursor が行うこと。ClaudeCode はデプロイを試みない。**
+
+理由：Node.js v24 + wrangler の Windows 環境では ClaudeCode の実行ツール経由で wrangler がクラッシュする既知の問題がある。Cursor は独自のターミナル環境を持つため問題が発生しない。
+
+- **ClaudeCode の役割：** ファイル編集・`.deploy_tmp/` へのコピー・`git commit & push` まで
+- **Cursor の役割：** `npx wrangler pages deploy` の実行（デプロイ本体）
+- **緊急時の代替：** Cloudflare Dashboard から `.deploy_tmp` フォルダをドラッグ＆ドロップ
+
 ## 9. Today_Plan.md フォーマット仕様
 
 Today_Plan.md を上書きする際は、**必ず以下の固定ヘッダーブロックを先頭に置くこと**。Cursorはこのブロックを読んで実装を開始する。
