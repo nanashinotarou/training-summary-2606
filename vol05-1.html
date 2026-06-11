@@ -1,0 +1,1439 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 05 | 世界観デザイン × B-Roll素材術</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700;900&family=Teko:wght@600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-body: #fdf4ff;
+            --bg-card: rgba(255, 255, 255, 0.92);
+            --bg-card-solid: #ffffff;
+            --text-main: #1e1035;
+            --text-sub: #64748b;
+            --ig-purple: #833ab4;
+            --ig-magenta: #c13584;
+            --ig-orange: #f77737;
+            --ig-grad: linear-gradient(45deg, #833ab4, #c13584, #f77737);
+            --ig-light: #f3e8ff;
+            --canva-purple: #7B2FF7;
+            --canva-cyan: #00C4CC;
+            --shadow-soft: 0 10px 30px rgba(131, 58, 180, 0.08);
+            --shadow-hover: 0 15px 40px rgba(193, 53, 132, 0.18);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.7);
+            --radius-large: 24px;
+            --radius-medium: 16px;
+            --radius-small: 8px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background-color: var(--bg-body);
+            background-image:
+                radial-gradient(at 0% 0%, rgba(255, 255, 255, 0.9) 0, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(243, 232, 255, 0.9) 0, transparent 50%);
+            background-attachment: fixed;
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 40px 20px;
+        }
+
+        .home-btn {
+            position: fixed; bottom: 30px; right: 30px;
+            width: 60px; height: 60px;
+            background: var(--ig-grad); color: #fff;
+            border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            font-size: 1.5rem; text-decoration: none;
+            box-shadow: 0 10px 25px rgba(193, 53, 132, 0.4);
+            transition: all 0.3s; z-index: 1000;
+        }
+        .home-btn:hover { transform: translateY(-5px) scale(1.05); }
+
+        .container {
+            width: 100%; max-width: 900px;
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            border: var(--glass-border);
+            border-radius: var(--radius-large);
+            box-shadow: var(--shadow-soft);
+            overflow: hidden;
+            animation: fadeIn 0.8s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .header { padding: 36px 40px 20px; text-align: center; border-bottom: 2px solid var(--ig-light); }
+        .header-top {
+            display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 14px; flex-wrap: wrap; gap: 10px;
+        }
+        .header-nav { display: flex; gap: 12px; flex-wrap: wrap; }
+        .back-link {
+            display: inline-flex; align-items: center; gap: 6px;
+            color: var(--ig-purple); text-decoration: none;
+            font-weight: 700; font-size: 0.9rem;
+        }
+        .back-link:hover { color: var(--ig-magenta); }
+        .progress-pill {
+            font-family: 'Roboto', sans-serif;
+            font-size: 0.85rem; font-weight: 700; color: #fff;
+            background: var(--ig-grad);
+            padding: 6px 14px; border-radius: 20px;
+        }
+        .header-tag {
+            display: inline-block; background: var(--ig-grad);
+            color: #fff; font-weight: 700; padding: 4px 14px; border-radius: 20px;
+            font-family: 'Roboto', sans-serif; font-size: 0.85rem; letter-spacing: 1px; margin-bottom: 12px;
+        }
+        .header h1 {
+            font-size: 2rem; font-weight: 900;
+            background: var(--ig-grad);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text; margin-bottom: 10px; line-height: 1.35;
+        }
+        .header-sub { margin: 0; color: var(--text-sub); font-size: 0.95rem; }
+
+        .slide-img {
+            width: 100%; height: auto; display: block;
+            border-radius: var(--radius-medium);
+            margin: 24px 0; box-shadow: var(--shadow-soft);
+            border: 1px solid #ede9f5;
+        }
+        .cover-slide { margin: 0; border-radius: 0; border: none; box-shadow: none; }
+
+        .tabs {
+            display: flex; padding: 0 20px;
+            background: rgba(255, 255, 255, 0.5);
+            border-bottom: 1px solid #ede9f5; overflow-x: auto;
+        }
+        .tab-btn {
+            border: none; background: none; padding: 18px 14px;
+            font-size: 0.88rem; font-weight: 700; color: var(--text-sub);
+            cursor: pointer; position: relative; white-space: nowrap;
+        }
+        .tab-btn:hover, .tab-btn.active { color: var(--ig-purple); }
+        .tab-btn.active::after {
+            content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 3px;
+            background: var(--ig-grad); border-radius: 3px 3px 0 0;
+        }
+        .tab-content {
+            display: none; padding: 40px;
+            background: var(--bg-card-solid); min-height: 500px;
+            animation: fadeInTab 0.4s ease-out;
+        }
+        .tab-content.active { display: block; }
+        @keyframes fadeInTab {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            font-size: 1.55rem; color: var(--text-main);
+            border-left: 5px solid var(--ig-purple);
+            padding-left: 15px; margin: 30px 0 20px;
+            display: flex; align-items: center; gap: 10px;
+        }
+        h2:first-child { margin-top: 0; }
+        h2 .sec-num {
+            font-family: 'Teko', sans-serif; font-size: 1.1rem;
+            color: var(--ig-magenta); font-weight: 600;
+        }
+        h3.sub-heading .sec-num {
+            font-family: 'Teko', sans-serif;
+            color: var(--ig-magenta);
+            margin-right: 6px;
+        }
+        h3.sub-heading {
+            font-size: 1.05rem; font-weight: 700; color: var(--ig-purple);
+            margin: 24px 0 16px;
+            background: linear-gradient(to right, rgba(131,58,180,0.07), transparent);
+            border-left: 4px solid var(--ig-purple);
+            padding: 8px 14px;
+            border-radius: 0 var(--radius-small) var(--radius-small) 0;
+        }
+        /* コンテンツブロック直後のサブ見出しは間を広げる */
+        div + h3.sub-heading,
+        img.slide-img + h3.sub-heading {
+            margin-top: 56px;
+        }
+        p { line-height: 1.72; margin-bottom: 11px; color: #475569; font-size: 1.02rem; }
+
+        .goal-box {
+            background: linear-gradient(135deg, #f5f0ff, #f0fdff);
+            border: 1px solid #e9d5f5; border-radius: var(--radius-medium);
+            padding: 30px; margin-bottom: 28px; text-align: center;
+        }
+        .goal-box i {
+            font-size: 2.5rem;
+            background: var(--ig-grad);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text; margin-bottom: 12px;
+        }
+        .goal-box h3 { font-size: 1.35rem; color: var(--ig-purple); margin-bottom: 12px; }
+        .goal-box p { margin-bottom: 8px; font-size: 1.05rem; color: var(--text-main); }
+        .goal-box p:last-child { margin-bottom: 0; }
+
+        .goal-list {
+            background: #faf8ff; border: 1px solid #ede9f5;
+            border-radius: var(--radius-medium); padding: 22px 26px; margin: 20px 0;
+        }
+        .goal-list h4 { font-size: 1rem; color: var(--ig-purple); margin-bottom: 10px; }
+        .goal-list ul { margin: 0; padding-left: 1.3rem; line-height: 1.72; color: #475569; }
+
+        .section {
+            margin-bottom: 64px; padding-bottom: 64px;
+            border-bottom: 2px dashed #ddd6f5;
+        }
+        .section:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+
+        .card-grid-2 {
+            display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px; margin: 24px 0;
+        }
+        .info-card {
+            background: #fff; border: 1px solid #ede9f5;
+            border-radius: var(--radius-medium); padding: 22px;
+            box-shadow: var(--shadow-soft); transition: 0.25s;
+            position: relative; overflow: hidden;
+        }
+        .info-card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+            background: var(--ig-grad);
+        }
+        .info-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); }
+        .info-card-header {
+            display: flex; align-items: center; gap: 12px; margin-bottom: 14px;
+        }
+        .info-card-icon {
+            flex-shrink: 0;
+            width: 40px; height: 40px; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            background: linear-gradient(135deg, rgba(131,58,180,0.12), rgba(247,119,55,0.10));
+            color: var(--ig-purple); font-size: 1.1rem;
+        }
+        .info-card h3 { font-size: 1.05rem; color: var(--ig-purple); margin-bottom: 0; }
+        .info-card p { font-size: 1rem; margin-bottom: 0; line-height: 1.65; color: var(--text-main); font-weight: 500; }
+
+        .sub-note {
+            font-size: 0.88rem; color: var(--text-sub);
+            background: #faf8ff; border: 1px solid #ede9f5;
+            border-radius: var(--radius-small); padding: 14px 18px;
+            margin-top: 16px; line-height: 1.7;
+        }
+
+        code {
+            font-family: 'Roboto Mono', 'Courier New', monospace;
+            background: #f3f0ff; color: var(--ig-purple);
+            border: 1px solid #e2d8f5; border-radius: 4px;
+            padding: 1px 6px; font-size: 0.83em;
+        }
+
+        .step-card {
+            display: flex; gap: 16px; align-items: flex-start;
+            background: #fff; border: 1px solid #ede9f5;
+            border-radius: var(--radius-medium); padding: 18px 20px;
+            margin-bottom: 14px; transition: 0.2s;
+        }
+        .step-card:hover { border-color: var(--ig-magenta); box-shadow: var(--shadow-soft); }
+        .step-num {
+            flex-shrink: 0; width: 36px; height: 36px; border-radius: 50%;
+            background: var(--ig-grad);
+            color: #fff; font-family: 'Roboto', sans-serif;
+            font-weight: 900; font-size: 1rem;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .step-card h4 { font-size: 1rem; color: var(--text-main); margin-bottom: 6px; }
+        .step-card p { font-size: 0.92rem; margin-bottom: 0; }
+
+        .warning-box {
+            background: #fff5f5; border: 2px solid #fca5a5;
+            border-radius: var(--radius-medium); padding: 20px 24px; margin: 16px 0;
+        }
+        .warning-box p { margin-bottom: 0; color: #7f1d1d; font-size: 0.96rem; font-weight: 600; }
+
+        .tips-box {
+            background: linear-gradient(135deg, #fdf0ff, #fff8f3);
+            border: 1px solid #e9d5f5; border-left: 5px solid var(--ig-magenta);
+            border-radius: var(--radius-medium); padding: 20px 24px; margin: 20px 0;
+        }
+        .tips-box h4 {
+            color: var(--ig-purple); font-size: 1rem; margin-bottom: 8px;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .tips-box p { margin-bottom: 0; font-size: 0.96rem; }
+
+        .info-box {
+            background: #faf8ff; border: 1px solid #e9d5f5; border-left: 5px solid var(--ig-purple);
+            border-radius: var(--radius-medium); padding: 20px 24px; margin: 20px 0;
+        }
+        .info-box p { margin-bottom: 8px; font-size: 0.96rem; color: #475569; line-height: 1.75; }
+        .info-box p:last-child { margin-bottom: 0; }
+        .info-box ul { margin: 8px 0 0; padding-left: 1.3rem; line-height: 1.72; color: #475569; font-size: 0.96rem; }
+
+        .before-after-grid {
+            display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px; margin: 24px 0;
+        }
+        .ba-card {
+            padding: 22px; border-radius: var(--radius-medium);
+            border: 1px solid #ede9f5;
+        }
+        .ba-card.before { background: #fef2f2; border-color: #fecaca; }
+        .ba-card.after { background: #f0fdf4; border-color: #bbf7d0; }
+        .ba-card h4 { font-size: 1rem; margin-bottom: 10px; }
+        .ba-card.before h4 { color: #b91c1c; }
+        .ba-card.after h4 { color: #15803d; }
+        .ba-card p { font-size: 0.92rem; margin-bottom: 0; line-height: 1.7; }
+
+        .practice-steps {
+            counter-reset: practice; list-style: none; padding: 0; margin: 24px 0;
+        }
+        .practice-steps li {
+            counter-increment: practice; position: relative;
+            padding: 20px 20px 20px 70px; margin-bottom: 14px;
+            background: linear-gradient(135deg, #fdf0ff, #fff);
+            border: 1px solid #e9d5f5; border-radius: var(--radius-medium);
+        }
+        .practice-steps li::before {
+            content: 'Step ' counter(practice);
+            position: absolute; left: 16px; top: 50%; transform: translateY(-50%);
+            font-family: 'Roboto', sans-serif; font-size: 0.72rem; font-weight: 700;
+            color: #fff;
+            background: var(--ig-grad);
+            padding: 6px 10px; border-radius: 8px; white-space: nowrap;
+        }
+        .practice-steps li strong {
+            display: block; font-size: 1rem; color: var(--text-main); margin-bottom: 6px;
+        }
+        .practice-steps li span { font-size: 0.92rem; color: #64748b; line-height: 1.7; }
+
+        .next-step-box {
+            background: var(--ig-light); border: 1px solid #e9d5f5;
+            border-radius: var(--radius-medium); padding: 20px 24px;
+            margin-top: 24px; text-align: center;
+        }
+        .next-step-box p { margin-bottom: 0; color: var(--text-main); font-weight: 500; }
+
+        .placeholder-box {
+            text-align: center; padding: 60px 30px;
+            background: #faf8ff; border: 2px dashed #e9d5f5;
+            border-radius: var(--radius-medium); margin: 20px 0;
+        }
+        .placeholder-box i { font-size: 2.5rem; color: #c4b5fd; margin-bottom: 16px; }
+        .placeholder-box p { color: var(--text-sub); margin-bottom: 0; font-size: 1.05rem; }
+
+        .tool-link-btn {
+            display: inline-flex; align-items: center; gap: 10px;
+            background: var(--ig-grad);
+            color: #fff; padding: 14px 32px; border-radius: 30px;
+            text-decoration: none; font-weight: bold; font-size: 1.05rem;
+            border: none; cursor: pointer; transition: 0.3s;
+            box-shadow: 0 8px 20px rgba(193, 53, 132, 0.25);
+        }
+        .tool-link-btn:hover { transform: translateY(-3px); }
+        .tool-link-btn.secondary {
+            background: #fff; color: var(--text-main);
+            border: 2px solid #ede9f5; box-shadow: none;
+        }
+        .tab-nav-footer {
+            text-align: center; margin-top: 36px;
+            display: flex; flex-direction: column; gap: 14px; align-items: center;
+        }
+
+        .card-grid-3 {
+            display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 14px; margin: 24px 0;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #fdf0ff, #fff8f3);
+            border: 1px solid #e9d5f5; border-left: 5px solid var(--ig-magenta);
+            border-radius: var(--radius-medium); padding: 22px 26px; margin: 20px 0;
+        }
+        .highlight-box p { margin-bottom: 0; font-weight: 600; color: var(--text-main); }
+
+        .flow-steps {
+            display: flex; flex-direction: column; gap: 12px; margin: 20px 0;
+        }
+        .flow-step {
+            display: flex; gap: 14px; align-items: flex-start;
+            background: #fff; border: 1px solid #ede9f5;
+            border-radius: var(--radius-medium); padding: 16px 18px;
+        }
+        .flow-step-num {
+            flex-shrink: 0; font-family: 'Roboto', sans-serif;
+            font-size: 0.75rem; font-weight: 700; color: #fff;
+            background: var(--ig-grad); padding: 6px 10px; border-radius: 8px;
+        }
+        .flow-step h4 { font-size: 0.98rem; margin-bottom: 4px; color: var(--ig-purple); }
+        .flow-step p { font-size: 0.9rem; margin-bottom: 0; }
+
+        .flow-horizontal {
+            display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
+            gap: 8px; margin: 24px 0; padding: 20px;
+            background: #faf8ff; border: 1px solid #ede9f5; border-radius: var(--radius-medium);
+        }
+        .flow-h-item {
+            background: #fff; border: 1px solid #ede9f5;
+            border-radius: var(--radius-small); padding: 14px 16px;
+            text-align: center; min-width: 140px; flex: 1;
+        }
+        .flow-h-item strong { display: block; color: var(--ig-purple); margin-bottom: 4px; font-size: 0.95rem; }
+        .flow-h-item span { font-size: 0.82rem; color: #64748b; line-height: 1.5; }
+        .flow-arrow { color: var(--ig-magenta); font-size: 1.2rem; font-weight: 700; }
+
+        .compare-card {
+            background: #fff; border: 1px solid #ede9f5;
+            border-radius: var(--radius-medium); padding: 20px;
+            box-shadow: var(--shadow-soft);
+        }
+        .compare-card.low { border-top: 4px solid var(--ig-purple); }
+        .compare-card.high { border-top: 4px solid var(--ig-magenta); }
+        .compare-card h4 { font-size: 1rem; color: var(--ig-purple); margin-bottom: 10px; }
+        .compare-card ul { margin: 0; padding-left: 1.2rem; font-size: 0.88rem; line-height: 1.7; color: #475569; }
+
+        .iceberg-box {
+            background: linear-gradient(180deg, #e0f2fe 0%, #f0f9ff 35%, #faf8ff 35%);
+            border: 1px solid #bae6fd; border-radius: var(--radius-medium);
+            padding: 24px; margin: 20px 0;
+        }
+        .iceberg-top, .iceberg-bottom { padding: 16px; border-radius: var(--radius-small); }
+        .iceberg-top { background: rgba(255,255,255,0.9); margin-bottom: 12px; }
+        .iceberg-bottom { background: rgba(131,58,180,0.08); border: 1px dashed var(--ig-purple); }
+        .iceberg-top h4, .iceberg-bottom h4 { font-size: 0.95rem; color: var(--ig-purple); margin-bottom: 8px; }
+        .iceberg-top p, .iceberg-bottom p { font-size: 0.9rem; margin-bottom: 0; }
+
+        .persona-example {
+            background: #fffbeb; border: 1px solid #fde68a;
+            border-left: 5px solid #f59e0b; border-radius: var(--radius-medium);
+            padding: 22px; margin: 20px 0;
+        }
+        .persona-example h4 { color: #b45309; margin-bottom: 12px; }
+        .persona-example p { font-size: 0.92rem; margin-bottom: 8px; }
+        .persona-example p:last-child { margin-bottom: 0; }
+
+        .worksheet-grid {
+            display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px; margin: 24px 0;
+        }
+        .worksheet-card {
+            background: #fffef5; border: 2px dashed #fcd34d;
+            border-radius: var(--radius-medium); padding: 16px 16px 12px;
+            min-height: 150px; position: relative;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .worksheet-card:focus-within {
+            border-color: #f59e0b; border-style: solid;
+            box-shadow: 0 0 0 3px rgba(252, 211, 77, 0.3);
+        }
+        .worksheet-card strong {
+            display: block; color: var(--ig-purple); font-size: 0.9rem; margin-bottom: 4px;
+        }
+        .ws-hint {
+            font-size: 0.78rem; color: #9ca3af; margin-bottom: 8px; line-height: 1.4;
+        }
+        .worksheet-card textarea {
+            width: 100%; min-height: 80px;
+            background: transparent; border: none; outline: none;
+            resize: vertical; padding: 2px 0;
+            font-family: 'Noto Sans JP', sans-serif; font-size: 0.92rem;
+            color: var(--text-main); line-height: 1.75;
+        }
+        .worksheet-card textarea::placeholder { color: #d1d5db; font-size: 0.85rem; }
+        .ws-copy-btn {
+            position: absolute; top: 10px; right: 10px;
+            background: none; border: 1px solid #fcd34d; border-radius: 6px;
+            padding: 3px 8px; font-size: 0.72rem; color: #a16207;
+            cursor: pointer; transition: 0.2s; opacity: 0.6;
+            font-family: 'Noto Sans JP', sans-serif;
+        }
+        .ws-copy-btn:hover { background: #fef9c3; opacity: 1; }
+        .ws-copy-btn.ws-copied { background: #d1fae5; border-color: #10b981; color: #065f46; opacity: 1; }
+        .ws-copy-all-btn {
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            width: 100%; margin-top: 12px; padding: 13px;
+            background: #fff; border: 2px solid #fcd34d; border-radius: var(--radius-medium);
+            font-family: 'Noto Sans JP', sans-serif; font-size: 0.95rem; font-weight: 700;
+            color: #a16207; cursor: pointer; transition: 0.2s;
+        }
+        .ws-copy-all-btn:hover { background: #fffbeb; border-color: #f59e0b; }
+        .ws-copy-all-btn.ws-copied { background: #d1fae5; border-color: #10b981; color: #065f46; }
+
+        /* ── カウントダウンタイマー ── */
+        .timer-container { text-align: center; margin: 20px 0 28px; }
+        .timer-badge {
+            display: inline-flex; align-items: center; justify-content: center; gap: 12px;
+            background: #1e1035; color: #fff;
+            font-family: 'Roboto', sans-serif; font-size: 2.2rem; font-weight: 700;
+            padding: 14px 40px; border-radius: 40px; margin: 8px 0;
+            min-width: 220px; letter-spacing: 3px;
+            transition: background 0.5s ease, box-shadow 0.5s ease;
+        }
+        .timer-badge i { font-size: 1.6rem; }
+        .timer-badge.timer-warning {
+            background: #f59e0b;
+            box-shadow: 0 0 20px rgba(245, 158, 11, 0.4);
+        }
+        .timer-badge.timer-danger {
+            background: #ef4444;
+            animation: pulse-timer 0.8s ease-in-out infinite;
+        }
+        .timer-badge.timer-done {
+            background: #10b981; letter-spacing: 1px;
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
+        }
+        @keyframes pulse-timer {
+            0%, 100% { transform: scale(1);    box-shadow: 0 0 0 0 rgba(239,68,68,0.5); }
+            50%       { transform: scale(1.04); box-shadow: 0 0 0 14px rgba(239,68,68,0); }
+        }
+        .timer-controls { display: flex; gap: 12px; justify-content: center; margin-top: 12px; }
+        .timer-btn {
+            border: none; border-radius: 20px; padding: 10px 28px;
+            font-family: 'Noto Sans JP', sans-serif; font-size: 0.95rem; font-weight: 700;
+            cursor: pointer; transition: 0.2s;
+        }
+        .timer-start {
+            background: var(--ig-grad); color: #fff;
+            box-shadow: 0 4px 15px rgba(193,53,132,0.3);
+        }
+        .timer-start:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(193,53,132,0.4); }
+        .timer-reset { background: #f1f5f9; color: var(--text-main); border: 1px solid #e2e8f0; }
+        .timer-reset:hover { background: #e2e8f0; }
+
+        .sticky-grid {
+            display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px; margin: 24px 0;
+        }
+        .sticky-card {
+            padding: 20px; border-radius: 4px;
+            box-shadow: 2px 4px 8px rgba(0,0,0,0.1);
+            font-size: 0.95rem; line-height: 1.65;
+        }
+        .sticky-card:nth-child(1) { background: #fef08a; transform: rotate(-1deg); }
+        .sticky-card:nth-child(2) { background: #bbf7d0; transform: rotate(1deg); }
+        .sticky-card:nth-child(3) { background: #fbcfe8; transform: rotate(-0.5deg); }
+        .sticky-card:nth-child(4) { background: #bfdbfe; transform: rotate(0.5deg); }
+        .sticky-card strong { display: block; margin-bottom: 6px; color: var(--text-main); }
+
+        .closing-message {
+            text-align: center; font-size: 1.2rem; font-weight: 700;
+            color: var(--ig-purple); margin: 28px 0 16px; line-height: 1.6;
+        }
+
+        .caution-box {
+            background: #fffbeb; border: 2px solid #f59e0b;
+            border-left: 6px solid #d97706; border-radius: var(--radius-medium);
+            padding: 20px 24px; margin: 20px 0;
+        }
+        .caution-box p { margin-bottom: 0; color: #92400e; font-weight: 600; font-size: 0.98rem; }
+
+        .layout-split {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            margin: 24px 0;
+            align-items: start;
+        }
+
+        .video-section {
+            background: #faf8ff; border: 1px solid #e9d5f5;
+            border-radius: var(--radius-medium);
+            padding: 18px 22px; margin-bottom: 36px;
+        }
+        .video-section-title {
+            font-size: 0.9rem; font-weight: 700; color: var(--ig-purple);
+            margin-bottom: 12px; display: flex; align-items: center; gap: 8px;
+        }
+        details.video-item { margin-bottom: 8px; }
+        details.video-item summary {
+            cursor: pointer; font-size: 0.88rem; font-weight: 600;
+            color: var(--text-main); padding: 10px 14px;
+            background: #fff; border: 1px solid #ede9f5;
+            border-radius: var(--radius-small);
+            list-style: none; display: flex; align-items: center; gap: 8px; transition: 0.2s;
+        }
+        details.video-item summary::before { content: '▶'; color: var(--ig-magenta); flex-shrink: 0; }
+        details.video-item[open] summary::before { content: '▼'; }
+        details.video-item summary:hover { background: #fdf0ff; border-color: var(--ig-purple); }
+        details.video-item[open] summary {
+            border-radius: var(--radius-small) var(--radius-small) 0 0; border-bottom: none;
+        }
+        .video-embed {
+            position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;
+            border-radius: 0 0 var(--radius-small) var(--radius-small);
+            border: 1px solid #ede9f5; border-top: none;
+        }
+        .video-embed iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+
+        @media (max-width: 768px) {
+            body { padding: 10px 5px; }
+            .header, .tab-content { padding: 24px 18px; }
+            .header h1 { font-size: 1.5rem; }
+            .card-grid-2, .before-after-grid, .card-grid-3, .worksheet-grid, .sticky-grid { grid-template-columns: 1fr; }
+            .flow-horizontal { flex-direction: column; }
+            .flow-arrow { transform: rotate(90deg); }
+            .practice-steps li { padding-left: 18px; padding-top: 52px; }
+            .practice-steps li::before { top: 14px; left: 16px; transform: none; }
+        }
+
+        @media (min-width: 769px) {
+            .container { max-width: 1050px; }
+        }
+
+        @media (min-width: 1200px) {
+            .container { max-width: 1240px; }
+            .tab-content { padding: 50px 70px; }
+            .header { padding: 40px 70px 24px; }
+            .tab-btn { font-size: 0.92rem; padding: 20px 18px; }
+            .card-grid-2, .before-after-grid, .worksheet-grid { gap: 24px; }
+            .card-grid-3 { gap: 20px; }
+        }
+
+        /* ── Lightbox ──────────────────────────────── */
+        .lb-overlay {
+            display: none; position: fixed; inset: 0; z-index: 2000;
+            background: rgba(10, 4, 22, 0.9); cursor: zoom-out;
+            justify-content: center; align-items: center; padding: 20px;
+        }
+        .lb-overlay.open { display: flex; animation: lbFadeIn 0.2s ease; }
+        @keyframes lbFadeIn { from { opacity: 0 } to { opacity: 1 } }
+        .lb-img {
+            max-width: 92vw; max-height: 90vh; width: auto; height: auto;
+            border-radius: var(--radius-medium);
+            box-shadow: 0 24px 80px rgba(0, 0, 0, 0.7);
+            cursor: default;
+            animation: lbImgIn 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        @keyframes lbImgIn {
+            from { transform: scale(0.88); opacity: 0; }
+            to   { transform: scale(1);    opacity: 1; }
+        }
+        .lb-close {
+            position: absolute; top: 18px; right: 24px;
+            color: #fff; font-size: 2.2rem; line-height: 1;
+            cursor: pointer; opacity: 0.75; transition: opacity 0.15s;
+            background: none; border: none; padding: 4px 8px;
+        }
+        .lb-close:hover { opacity: 1; }
+        .slide-img:not(.cover-slide) { cursor: zoom-in; }
+
+    
+        .quote-box {
+            background: linear-gradient(135deg, #f3e8ff, #fff7ed);
+            border: 2px solid #d8b4fe; border-left: 6px solid var(--ig-purple);
+            border-radius: var(--radius-medium); padding: 22px 26px; margin: 24px 0;
+        }
+        .quote-box p { margin-bottom: 8px; font-size: 0.96rem; color: #475569; line-height: 1.75; }
+        .quote-box p:last-child { margin-bottom: 0; }
+</style>
+</head>
+
+<body>
+
+    <a href="./index.html" class="home-btn" title="ホームに戻る"><i class="fa-solid fa-house"></i></a>
+
+    <div class="container">
+        <header class="header">
+            <div class="header-top">
+                <div class="header-nav">
+                    <a href="./vol04-1.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> Day 04へ</a>
+                    <a href="./index.html" class="back-link"><i class="fa-solid fa-house"></i> ホームへ</a>
+                </div>
+                <span class="progress-pill">Day 05 / 13</span>
+            </div>
+            <span class="header-tag">DAY 05</span>
+            <h1>Day 05 ─ 世界観デザイン × B-Roll素材術</h1>
+            <p class="header-sub">「大人かわいい」Canvaデザイン5ルール + 必須B-Roll20選 — Jun 2026</p>
+        </header>
+
+        <nav class="tabs">
+            <button class="tab-btn active" onclick="openTab('goal')">今日の目標</button>
+            <button class="tab-btn" onclick="openTab('first')">前半</button>
+            <button class="tab-btn" onclick="openTab('second')">後半</button>
+            <button class="tab-btn" onclick="openTab('summary')">今日のまとめ</button>
+        </nav>
+
+        <!-- 今日の目標 -->
+        <div id="goal" class="tab-content active">
+            <div style="text-align:center; margin: 0 0 28px;">
+                <p style="font-size:1.15rem; font-weight:700; color:var(--text-main); margin-bottom:6px;">Day 05「世界観デザイン × B-Roll素材術」</p>
+                <p style="font-size:1rem; color:var(--text-sub); margin:0;">「大人かわいい」Canvaデザインで世界観を固め、B-Rollでコンテンツ制作を圧倒的に効率化する</p>
+            </div>
+            <h2 style="margin-top:0;">本日のゴール</h2>
+            <div class="card-grid-3">
+                <div class="info-card">
+                    <div class="info-card-header">
+                        <div class="info-card-icon"><i class="fa-solid fa-palette"></i></div>
+                        <h3>ゴール 1</h3>
+                    </div>
+                    <p>Canvaの「大人かわいい」5ルールを理解し、自分のブランドカラーと世界観の方向性を決められる</p>
+                </div>
+                <div class="info-card">
+                    <div class="info-card-header">
+                        <div class="info-card-icon"><i class="fa-solid fa-video"></i></div>
+                        <h3>ゴール 2</h3>
+                    </div>
+                    <p>B-Roll3カテゴリーを理解し、今週から使える「コンテンツスタッキング」習慣を1つ始める</p>
+                </div>
+                <div class="info-card">
+                    <div class="info-card-header">
+                        <div class="info-card-icon"><i class="fa-solid fa-images"></i></div>
+                        <h3>ゴール 3</h3>
+                    </div>
+                    <p>自分のインスタアカウントを「3秒チェック」し、世界観の改善点を1つ特定できる</p>
+                </div>
+            </div>
+            <div style="text-align:center; margin-top:32px;">
+                <button type="button" class="tool-link-btn" onclick="openTab('first')">前半へ進む <i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+        </div>
+
+        <!-- 前半 -->
+        <div id="first" class="tab-content">
+
+            <section class="section">
+                <h2><span class="sec-num">SECTION A</span> 大人かわいいCanvaデザイン術</h2>
+                <div class="video-section">
+                    <div class="video-section-title">📺 授業の元動画（前半）</div>
+                    <details class="video-item">
+                        <summary>① 大人かわいいInstagram投稿デザイン術（27:55）</summary>
+                        <div class="video-embed">
+                            <iframe src="https://www.youtube.com/embed/ST0kfBZ23Sg" allowfullscreen loading="lazy" title="大人かわいいInstagram投稿デザイン術"></iframe>
+                        </div>
+                    </details>
+                    <details class="video-item">
+                        <summary>② B-Roll 101（11:00）</summary>
+                        <div class="video-embed">
+                            <iframe src="https://www.youtube.com/embed/j4mjkb3nDec" allowfullscreen loading="lazy" title="B-Roll 101"></iframe>
+                        </div>
+                    </details>
+                </div>
+
+                <img src="./assets/day05_slide1.png" alt="大人かわいいデザインの3ステップ" class="slide-img" style="margin-top:0;">
+                <h3 class="sub-heading">大人かわいいデザインの3ステップ</h3>
+                <div class="highlight-box">
+                    <p>大人かわいいデザインを作る3ステップ：①基本ルールを守る → ②Canvaの便利機能を使う → ③世界観を統一する。この3つを意識するだけで、テンプレを使っているのに自分らしさが出せるようになります。</p>
+                </div>
+
+                <h3 class="sub-heading"><span class="sec-num">1</span> 基本ルール① くすみカラーを1〜2色に絞る</h3>
+                <div class="layout-split">
+                    <div>
+                        <p>メインカラーはサービスのイメージ・ターゲットの好み・自分の世界観に合う<strong>くすみ系を1〜2色</strong>で固定します。</p>
+                        <p>ピンクやブルーも「くすんだ色」を選ぶだけで甘すぎず上品な印象に変わります。</p>
+                        <p>フォロワーが1000人増えた受講生も、明るいピンク→くすみピンクに変えただけでプロフィールクリック率が2倍になりました。</p>
+                    </div>
+                    <img src="./assets/day05_slide2.png" alt="基本ルール① くすみカラー" class="slide-img">
+                </div>
+
+                <h3 class="sub-heading"><span class="sec-num">2</span> 基本ルール② ベースカラーはニュートラルに</h3>
+                <div class="layout-split">
+                    <div>
+                        <p>投稿面積の大部分を占めるベースには<strong>白・ベージュ・ライトグレー</strong>のどれかを選びます。</p>
+                        <p>真っ白や真っ黒は色がはっきりしすぎて「野暮ったく」なるので、少しグレー寄り・ネイビー寄りにするだけで抜け感が出ます。</p>
+                    </div>
+                    <img src="./assets/day05_slide3.png" alt="基本ルール② ベースカラー" class="slide-img">
+                </div>
+
+                <h3 class="sub-heading"><span class="sec-num">3</span> 基本ルール③ メタリックアクセントで特別感をプラス</h3>
+                <div class="layout-split">
+                    <div>
+                        <p>コーデにネックレスを1つ足すイメージで、<strong>ゴールド・シルバー・ピンクゴールド</strong>を全体の数%だけ加えます。</p>
+                        <p>文字の一部・アイコン・ラインなどに少量使います。使いすぎると派手になるので注意しましょう。</p>
+                    </div>
+                    <img src="./assets/day05_slide4.png" alt="基本ルール③ メタリックアクセント" class="slide-img">
+                </div>
+
+                <h3 class="sub-heading"><span class="sec-num">4</span> 基本ルール④ 余白は30%以上が鉄則</h3>
+                <div class="layout-split">
+                    <div>
+                        <p>写真や文字を詰め込むほど「窮屈で読みにくい」印象になります。</p>
+                        <p>画面の<strong>30%以上</strong>を意図的に空けることで、洗練された抜け感が生まれます。</p>
+                        <p>高級ホテルのロビー・おしゃれなカフェのメニューのイメージで「削ることで伝わる」を意識しましょう。</p>
+                    </div>
+                    <img src="./assets/day05_slide5.png" alt="基本ルール④ 余白30%" class="slide-img">
+                </div>
+
+                <h3 class="sub-heading"><span class="sec-num">5</span> 基本ルール⑤ 明朝体＋ゴシック体の役割分担</h3>
+                <div class="layout-split">
+                    <div>
+                        <p><strong>見出し・タイトル</strong>：明朝体（線に強弱があり上品・女性らしい）</p>
+                        <p><strong>本文・説明文</strong>：ゴシック体（太さ均一で読みやすい）</p>
+                        <p>フォントは2種類以内に絞り、行間は1.3〜1.5で調整します。3〜4種類混ぜるとチラシのような雑な印象になります。</p>
+                    </div>
+                    <img src="./assets/day05_slide6.png" alt="基本ルール⑤ フォント役割分担" class="slide-img">
+                </div>
+
+                <h3 class="sub-heading"><span class="sec-num">6</span> ブランドキットで作業時間を1/3に短縮</h3>
+                <div class="layout-split">
+                    <div>
+                        <p><strong>Canva有料版</strong>：ブランドキットにロゴ・カラー・フォントを登録 → 作業時間が1/3に。</p>
+                        <p><strong>無料版</strong>：白いデザインを1枚用意してそこにブランドカラー・素材をまとめてコピペ用ボードとして使います。</p>
+                    </div>
+                    <img src="./assets/day05_slide7.png" alt="ブランドキット" class="slide-img">
+                </div>
+
+                <h3 class="sub-heading"><span class="sec-num">7</span> 英語キーワードで素材の質を3倍上げる</h3>
+                <div class="layout-split">
+                    <div>
+                        <p><strong>テンプレート検索</strong>：<code>feminine</code> / <code>watercolor</code> / <code>botanical</code> / <code>hand drawn</code></p>
+                        <p><strong>素材検索</strong>：<code>flower</code> / <code>vintage</code> / <code>chic</code> / <code>elegant</code> / <code>wedding</code></p>
+                        <p>「大人かわいい」で検索しても子供向けのポップな結果しか出ないので必ず英語で。組み合わせ（<code>flower elegant</code> 等）でさらに絞れます。</p>
+                    </div>
+                    <img src="./assets/day05_slide8.png" alt="英語キーワード検索" class="slide-img">
+                </div>
+
+                <h3 class="sub-heading"><span class="sec-num">8</span> 素材の透明度調整でふわっとした世界観を作る</h3>
+                <div class="layout-split">
+                    <div>
+                        <p>イラスト素材はそのまま使わず、<strong>透明度を下げて背景に馴染ませる</strong>だけでふわっとした大人かわいい雰囲気に変わります。</p>
+                        <p>「編集」で色味の微調整も可能です。</p>
+                    </div>
+                    <img src="./assets/day05_slide9.png" alt="透明度調整" class="slide-img">
+                </div>
+
+                <h3 class="sub-heading"><span class="sec-num">9</span> グリッドで余白と文字配置を揃える</h3>
+                <div class="layout-split">
+                    <div>
+                        <p>上規（メモリ）からクリックしながら引くとグリッド線が出ます。「ファイル→設定→上規とガイドを表示」で表示できます。</p>
+                        <p>テキスト位置の整列・余白の確保に使います。動いて邪魔なときは「ガイドをロック」しましょう。</p>
+                    </div>
+                    <img src="./assets/day05_slide10.png" alt="グリッド活用" class="slide-img">
+                </div>
+
+                <h3 class="sub-heading"><span class="sec-num">10</span> コラージュで理想のブランドイメージを固める</h3>
+                <div class="layout-split">
+                    <div>
+                        <p>Pinterestなどで理想画像を50枚スクショ → 20枚 → 9枚と厳選してCanvaに並べます。</p>
+                        <p>検索キーワード：<code>feminine</code> / <code>minimal</code> / <code>luxury</code> / <code>beige</code> / <code>lavender</code>。デザイナーがプロ現場で使う手法です。</p>
+                    </div>
+                    <img src="./assets/day05_slide11.png" alt="コラージュ" class="slide-img">
+                </div>
+
+                <h3 class="sub-heading"><span class="sec-num">11</span> アイコンとフィードの色を統一する</h3>
+                <div class="layout-split">
+                    <div>
+                        <p>フィードで最も多い色を確認 → アイコンの背景をその色の同系色に差し替えるか縁取りを追加します。</p>
+                        <p>世界観の小道具があればそれも活用しましょう。</p>
+                    </div>
+                    <img src="./assets/day05_slide12.png" alt="アイコンとフィード統一" class="slide-img">
+                </div>
+
+                <h3 class="sub-heading"><span class="sec-num">12</span> 投稿後の「3秒チェック」を習慣化する</h3>
+                <div class="layout-split">
+                    <div>
+                        <p>投稿を完成させたらプロフィール全体の俯瞰でチェックする4項目：</p>
+                        <ol style="padding-left:1.3rem; line-height:1.72; color:#475569;">
+                            <li>3秒でメッセージが読めるか</li>
+                            <li>コントラストが十分か（青系は特に注意）</li>
+                            <li>スマホ小画面で文字が潰れていないか</li>
+                            <li>同じ色を使いすぎていないか</li>
+                        </ol>
+                    </div>
+                    <img src="./assets/day05_slide13.png" alt="3秒チェック" class="slide-img">
+                </div>
+
+                <img src="./assets/day05_slide14.png" alt="20%アップデートルール" class="slide-img">
+                <div class="highlight-box">
+                    <p><strong>20%アップデートルール：</strong> 80%（基本レイアウト・フォント）は固定したまま、残り20%（カラー・モチーフ）だけ季節・トレンドに合わせて変えます。例：春はラベンダー、秋はモーブを差し色に。作業効率化と視聴者への新鮮な印象を両立します。</p>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2><span class="sec-num">SECTION B</span> B-Roll必須ショット20選</h2>
+                <p>B-Rollはストーリーズ・リール・縦型動画すべてに使い回せる「ストックコンテンツライブラリ」になります。一度撮ってしまえば何度でも使えるため、コンテンツ制作スピードが圧倒的に上がります。3つのカテゴリーを理解して、今週から始めましょう。</p>
+                <div class="card-grid-3">
+                    <div class="info-card">
+                        <div class="info-card-header">
+                            <div class="info-card-icon"><i class="fa-solid fa-layer-group"></i></div>
+                            <h3>コンテンツスタッキング</h3>
+                        </div>
+                        <p><strong>日常活動に録画を上乗せ</strong>。入室・タイピング・朝の抹茶/コーヒー・散歩（0.5倍超広角）・身支度・ジャーナリング・バッグ準備など。すでにやっていることを撮るだけ。<strong>毎週1〜2回が理想</strong>。</p>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-card-header">
+                            <div class="info-card-icon"><i class="fa-solid fa-camera-retro"></i></div>
+                            <h3>コンテンツシュート</h3>
+                        </div>
+                        <p><strong>計画的なブランド撮影</strong>。商品ディテール・実使用シーン・アイテムへの手の伸ばし・画面の出入り。スマホを置く。バッチ撮影でトップス/アクセサリー/髪型を変えるだけで大量のバリエーションを作れます（お色直し撮影）。</p>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-card-header">
+                            <div class="info-card-icon"><i class="fa-solid fa-person-running"></i></div>
+                            <h3>人間三脚</h3>
+                        </div>
+                        <p><strong>他者にカメラを持ってもらうダイナミック撮影</strong>。パン・追跡・ズームイン/アウト・オーバーヘッド・並走ショット。<strong>「Less is more」— カメラも被写体もゆっくり動く</strong>のが大原則。速く動くと画面酔いします。</p>
+                    </div>
+                </div>
+                <div class="quote-box">
+                    <p><strong>撮影の大原則：引き・寄り・真上の3アングルで撮る</strong></p>
+                    <p>同じ場所・同じ小道具でも、アングルを変えるだけで多様なバリエーションが生まれます。</p>
+                    <p>三脚が手間なら「0.5倍超広角の手持ち」だけでも十分です。</p>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2><span class="sec-num">WORK</span> 前半ワークシート</h2>
+                <p><strong>【実習】</strong> 以下4項目をメモしましょう。</p>
+                <div class="timer-container">
+                    <div class="timer-badge" id="practiceTimerA">
+                        <i class="fa-solid fa-clock"></i> 10:00
+                    </div>
+                    <div class="timer-controls">
+                        <button class="timer-btn timer-start" id="timerStartBtnA" onclick="toggleTimerA()">▶ スタート</button>
+                        <button class="timer-btn timer-reset" onclick="resetTimerA()">↺ リセット</button>
+                    </div>
+                </div>
+                <div class="worksheet-grid">
+                    <div class="worksheet-card" id="ws-a-1">
+                        <button class="ws-copy-btn" onclick="copyCardA('ws-a-1', this)">📋 コピー</button>
+                        <strong>1. 自分のブランドカラーを決める</strong>
+                        <div class="ws-hint">メインカラー（くすみ系1〜2色）・ベースカラー・アクセントカラー・選んだ理由</div>
+                        <textarea placeholder="メインカラー（くすみ系1〜2色）：&#10;ベースカラー（白・ベージュ等）：&#10;アクセントカラー（メタリック）：&#10;選んだ理由："></textarea>
+                    </div>
+                    <div class="worksheet-card" id="ws-a-2">
+                        <button class="ws-copy-btn" onclick="copyCardA('ws-a-2', this)">📋 コピー</button>
+                        <strong>2. Canva英語検索ワードを選ぶ</strong>
+                        <div class="ws-hint">テンプレート検索ワード2つ以上・素材検索ワード2つ以上</div>
+                        <textarea placeholder="テンプレート検索ワード（2つ以上）：&#10;素材検索ワード（2つ以上）：&#10;実際に検索して良かったもの："></textarea>
+                    </div>
+                    <div class="worksheet-card" id="ws-a-3">
+                        <button class="ws-copy-btn" onclick="copyCardA('ws-a-3', this)">📋 コピー</button>
+                        <strong>3. 今週のコンテンツスタッキング計画</strong>
+                        <div class="ws-hint">撮れそうな日常シーン3つ以上・アングルバリエーション</div>
+                        <textarea placeholder="撮れそうな日常シーン（3つ以上）：&#10;アングルバリエーション（引き/寄り/真上）：&#10;まず今週やること1つ："></textarea>
+                    </div>
+                    <div class="worksheet-card" id="ws-a-4">
+                        <button class="ws-copy-btn" onclick="copyCardA('ws-a-4', this)">📋 コピー</button>
+                        <strong>4. 自分のアカウント3秒チェック</strong>
+                        <div class="ws-hint">□ 3秒でメッセージが読める　□ コントラストが十分　□ スマホで文字が潰れていない　□ 同じ色を使いすぎていない</div>
+                        <textarea placeholder="改善したい点："></textarea>
+                    </div>
+                </div>
+                <button class="ws-copy-all-btn" id="wsCopyAllBtnA" onclick="copyAllCardsA()">
+                    📋 4項目をまとめてコピー
+                </button>
+            </section>
+
+            <div class="tab-nav-footer">
+                <button type="button" class="tool-link-btn secondary" onclick="openTab('second')">後半へ <i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+        </div>
+
+        <div id="second" class="tab-content">
+
+            <img src="./assets/day05_slide15.png" alt="創って、守るデザイン術" class="slide-img cover-slide" style="margin-top:0;">
+
+            <img src="./assets/day05_slide16.png" alt="今日の授業のロードマップ" class="slide-img">
+            <h3 class="sub-heading">今日の授業のロードマップ</h3>
+            <p>「創って、素早く出し、正しく守る」3ステップで、Instagramを資産に変える。</p>
+            <div class="flow-horizontal">
+                <div class="flow-h-item">
+                    <strong>Step 1</strong>
+                    <span>ブランドキットで世界観を資産化（Create Assets）</span>
+                </div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-h-item">
+                    <strong>Step 2</strong>
+                    <span>テンプレートでリールを爆速作成（Execute Quickly）</span>
+                </div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-h-item">
+                    <strong>Step 3</strong>
+                    <span>著作権を理解してアカウントを守る（Protect Your Work）</span>
+                </div>
+            </div>
+
+            <section class="section">
+                <h2><span class="sec-num">SECTION C</span> 集客を資産化するブランドキット</h2>
+                <div class="video-section">
+                    <div class="video-section-title">📺 授業の元動画（SECTION C）</div>
+                    <details class="video-item">
+                        <summary>① Canvaで集客を仕組化するならブランドキット（13:53）</summary>
+                        <div class="video-embed">
+                            <iframe src="https://www.youtube.com/embed/g9gxtr0wn4s" allowfullscreen loading="lazy" title="Canvaで集客を仕組化するならブランドキット"></iframe>
+                        </div>
+                    </details>
+                </div>
+
+                <h3 class="sub-heading"><span class="sec-num">1</span> Canvaの本当の価値は「デザイン作成」ではない</h3>
+                <div class="layout-split">
+                    <div>
+                        <p>Canvaは毎回ゼロから悩む場所ではなく、成功した集客の型（配色・フォント・世界観）を<strong>保存して再現</strong>するツールです。</p>
+                        <p>選択肢が多すぎると脳が疲弊し、最も重要な「言葉（コピー）」を考えるエネルギーが奪われてしまいます。</p>
+                        <p>有料版はブランドキットに登録して一発呼び出し。無料版はコピペ用のA4ボードを1枚作って代用できます。</p>
+                    </div>
+                    <img src="./assets/day05_slide17.png" alt="Canvaの本当の価値" class="slide-img">
+                </div>
+
+                <img src="./assets/day05_slide18.png" alt="大人かわいい4法則・総復習" class="slide-img">
+                <h3 class="sub-heading"><span class="sec-num">2</span> 大人かわいいデザイン4法則（総復習）</h3>
+                <p>前半で学んだ4つの柱をブランドキットに登録して「選ばない仕組み」を作りましょう：</p>
+                <ol style="padding-left:1.3rem; line-height:1.72; color:#475569;">
+                    <li><strong>くすみカラー</strong>（メインを1〜2色に固定）</li>
+                    <li><strong>余白30%以上</strong>（抜け感＝高級感）</li>
+                    <li><strong>明朝体＋ゴシック体</strong>（役割分担でフォントは2種以内）</li>
+                    <li><strong>メタリックアクセント</strong>（全体の数%だけ）</li>
+                </ol>
+
+                <h3 class="sub-heading"><span class="sec-num">3</span> 素材検索＆レイアウト術</h3>
+                <div class="layout-split">
+                    <div>
+                        <p>Canvaを「上手く使うプロ」と「迷い続ける人」の差は検索ワードとグリッド活用にあります。</p>
+                        <p><strong>テンプレート検索</strong>：<code>feminine</code> / <code>watercolor</code> / <code>botanical</code></p>
+                        <p><strong>素材検索</strong>：<code>flower elegant</code> / <code>vintage chic</code></p>
+                        <p>グリッドガイドを表示して余白と文字位置を揃えると、どんな素材を使っても「整って見える」ベースが作れます。</p>
+                    </div>
+                    <img src="./assets/day05_slide19.png" alt="素材検索とレイアウト術" class="slide-img">
+                </div>
+
+                <h3 class="sub-heading"><span class="sec-num">4</span> プロモーション4ステップで仕組み化</h3>
+                <div class="layout-split">
+                    <div>
+                        <p>偶然のヒットに頼らず、4段階の文章パターンを構造化してCanvaに保存します：</p>
+                        <div class="step-card">
+                            <span class="step-num">1</span>
+                            <div><h4>事前告知（Teaser）</h4><p>「もうすぐ何か始まる」という期待感を先に作る。日程・定員・概要をほんの少しだけ見せて興味を引く。</p></div>
+                        </div>
+                        <div class="step-card">
+                            <span class="step-num">2</span>
+                            <div><h4>申し込み開始（Launch）</h4><p>「今すぐ動ける人」に向けて特典・価格・締切を明示。緊急性ボタンをブランドキットから呼び出して即配置できる。</p></div>
+                        </div>
+                        <div class="step-card">
+                            <span class="step-num">3</span>
+                            <div><h4>申し込み状況（Status）</h4><p>「残り〇席」「すでに〇名が参加」など申し込みの勢いを見せる。権威性と社会的証明で迷っている人の背中を押す。</p></div>
+                        </div>
+                        <div class="step-card">
+                            <span class="step-num">4</span>
+                            <div><h4>満席告知（Sold Out）</h4><p>「今回は終了」を伝えながら「次回の優先案内を受け取れる人はこちら」で次のリストを作る。実績証明にもなる。</p></div>
+                        </div>
+                        <p style="margin-top:4px;">LINEリッチメッセージの緊急性バナー・権威性テキスト・特典ボタンも部品としてブランドキットに保存しておくと横展開が爆速になります。</p>
+                    </div>
+                    <img src="./assets/day05_slide20.png" alt="プロモーション4ステップ" class="slide-img">
+                </div>
+            </section>
+
+            <section class="section">
+                <h2><span class="sec-num">SECTION D</span> リール爆速作成術</h2>
+                <div class="video-section">
+                    <div class="video-section-title">📺 授業の元動画（SECTION D）</div>
+                    <details class="video-item">
+                        <summary>② Instagram公式テンプレート機能（11:14）</summary>
+                        <div class="video-embed">
+                            <iframe src="https://www.youtube.com/embed/oOud1ko5BqM" allowfullscreen loading="lazy" title="Instagram公式テンプレート機能"></iframe>
+                        </div>
+                    </details>
+                </div>
+
+                <img src="./assets/day05_slide21.png" alt="B-Rollはコンテンツの在庫" class="slide-img">
+                <h3 class="sub-heading"><span class="sec-num">1</span> B-Rollは「コンテンツの在庫」（前半の橋渡し）</h3>
+                <p>前半で学んだ3カテゴリー（コンテンツスタッキング・コンテンツシュート・人間三脚）でストックしたB-Rollが、ここで活きます。テンプレートに放り込む「在庫」が豊富なほど、リール作成が爆速になります。まず今週、日常の1シーンを撮ることから始めましょう。</p>
+
+                <h3 class="sub-heading"><span class="sec-num">2</span> 写真を選ぶだけ！公式テンプレートの威力</h3>
+                <div class="layout-split">
+                    <div>
+                        <p>Instagramアプリ内の公式テンプレート機能（Auto-Syncing）は、BGMのテンポを自動解析して<strong>写真が音に合わせてポンポン切り替わる</strong>仕組みです。</p>
+                        <p>編集スキルゼロでもプロ品質のリールが完成します。旅まとめ・商品紹介・日常B-Rollと相性抜群。外部アプリ不要でアプリ内完結です。</p>
+                    </div>
+                    <img src="./assets/day05_slide22.png" alt="公式テンプレートの威力" class="slide-img">
+                </div>
+
+                <img src="./assets/day05_slide23.png" alt="テンプレート作成4ステップ" class="slide-img">
+                <h3 class="sub-heading"><span class="sec-num">3</span> テンプレート作成4ステップ</h3>
+                <ol style="padding-left:1.3rem; line-height:1.72; color:#475569;">
+                    <li>「＋」→「リール」→「テンプレート」でお気に入りの曲・切り替わりを選ぶ（気に入ったら保存マーク）</li>
+                    <li>縦長写真を順番にタップして枠に入れる（枠の数より少なくてもアプリが補完）</li>
+                    <li>アプリが音とタイミングを自動で合わせてプレビュー生成</li>
+                    <li>テキスト・カバーを設定して「シェア」→投稿完了</li>
+                </ol>
+                <div class="warning-box">
+                    <p>⚠️ テンプレートの音楽はInstagram内のみ使用可。書き出して他SNSに転用すると著作権リスクがあります。</p>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2><span class="sec-num">SECTION E</span> 「守りの知識」 著作権・肖像権</h2>
+                <div class="video-section">
+                    <div class="video-section-title">📺 授業の元動画（SECTION E）</div>
+                    <details class="video-item">
+                        <summary>③ インスタ著作権完全版（22:53）</summary>
+                        <div class="video-embed">
+                            <iframe src="https://www.youtube.com/embed/UqP-CZuh5Mg" allowfullscreen loading="lazy" title="インスタ著作権完全版"></iframe>
+                        </div>
+                    </details>
+                </div>
+
+                <h3 class="sub-heading"><span class="sec-num">1</span> 攻めと守りを両立して長く続けるために</h3>
+                <div class="layout-split">
+                    <div>
+                        <p>どれだけ良い投稿でも、著作権侵害が発覚した瞬間にアカウントが突然削除されます。誤ログインと違い、<strong>著作権侵害でのBAN復活は99%不可能</strong>です。</p>
+                        <p>訴訟・損害賠償・警察沙汰になるケースも実際に存在します。「守りの知識」はアカウントを資産として守る保険です。</p>
+                    </div>
+                    <img src="./assets/day05_slide24.png" alt="攻めと守りを両立" class="slide-img">
+                </div>
+
+                <img src="./assets/day05_slide25.png" alt="早見表：音楽・画像・動画ルール" class="slide-img">
+                <h3 class="sub-heading"><span class="sec-num">2</span> 【早見表】音楽・画像・動画のルール</h3>
+                <div style="overflow-x:auto; margin:16px 0;">
+                    <table style="width:100%; border-collapse:collapse; font-size:0.92rem;">
+                        <thead>
+                            <tr style="background:var(--ig-light);">
+                                <th style="padding:12px; border:1px solid #e9d5f5; text-align:left;">ジャンル</th>
+                                <th style="padding:12px; border:1px solid #e9d5f5; text-align:left;">セーフ ✅</th>
+                                <th style="padding:12px; border:1px solid #e9d5f5; text-align:left;">アウト ❌</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="padding:12px; border:1px solid #e9d5f5; font-weight:600;">音楽</td>
+                                <td style="padding:12px; border:1px solid #e9d5f5; color:#475569;">インスタのミュージックライブラリ・Editsから追加</td>
+                                <td style="padding:12px; border:1px solid #e9d5f5; color:#475569;">編集アプリで他人の楽曲を重ねる・カフェBGMをそのまま録音</td>
+                            </tr>
+                            <tr>
+                                <td style="padding:12px; border:1px solid #e9d5f5; font-weight:600;">画像・動画</td>
+                                <td style="padding:12px; border:1px solid #e9d5f5; color:#475569;">自分で撮影・権利クリアのフリー素材（商用利用OK確認済み）</td>
+                                <td style="padding:12px; border:1px solid #e9d5f5; color:#475569;">他人の投稿・Google/PinterestからDL・他人のリールの切り抜き</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <img src="./assets/day05_slide26.png" alt="早見表：文章・AI生成ルール" class="slide-img">
+                <h3 class="sub-heading"><span class="sec-num">3</span> 【早見表】文章・AI生成のルール</h3>
+                <div style="overflow-x:auto; margin:16px 0;">
+                    <table style="width:100%; border-collapse:collapse; font-size:0.92rem;">
+                        <thead>
+                            <tr style="background:var(--ig-light);">
+                                <th style="padding:12px; border:1px solid #e9d5f5; text-align:left;">ジャンル</th>
+                                <th style="padding:12px; border:1px solid #e9d5f5; text-align:left;">セーフ ✅</th>
+                                <th style="padding:12px; border:1px solid #e9d5f5; text-align:left;">アウト ❌</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="padding:12px; border:1px solid #e9d5f5; font-weight:600;">文章引用</td>
+                                <td style="padding:12px; border:1px solid #e9d5f5; color:#475569;">自分の意見がメイン・必要最小限・出所明記</td>
+                                <td style="padding:12px; border:1px solid #e9d5f5; color:#475569;">他人のブログ・投稿を丸ごとコピペ（出所を書いてもNG）</td>
+                            </tr>
+                            <tr>
+                                <td style="padding:12px; border:1px solid #e9d5f5; font-weight:600;">AI生成</td>
+                                <td style="padding:12px; border:1px solid #e9d5f5; color:#475569;">自分で生成した画像・文章（ツールの商用利用規約OK確認済み）</td>
+                                <td style="padding:12px; border:1px solid #e9d5f5; color:#475569;">有名キャラクター（ジブリ・ディズニー等）そっくりのAI生成イラスト</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="warning-box">
+                    <p>AIで作った文章はそのまま使うと平凡になり独自性もなくなります。自分の体験談・エピソードを加えることでオリジナリティと安全性を両立できます。</p>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2><span class="sec-num">WORK</span> 後半ワークシート</h2>
+                <p><strong>【実習】</strong> 以下2つの実習を順番に試しましょう。</p>
+                <div class="timer-container">
+                    <div class="timer-badge" id="practiceTimerB">
+                        <i class="fa-solid fa-clock"></i> 15:00
+                    </div>
+                    <div class="timer-controls">
+                        <button class="timer-btn timer-start" id="timerStartBtnB" onclick="toggleTimerB()">▶ スタート</button>
+                        <button class="timer-btn timer-reset" onclick="resetTimerB()">↺ リセット</button>
+                    </div>
+                </div>
+
+                <div class="worksheet-grid">
+                    <div class="worksheet-card" id="ws-b-1" style="grid-column: 1 / -1;">
+                        <button class="ws-copy-btn" onclick="copyCardB('ws-b-1', this)">📋 コピー</button>
+                        <strong>実習① Canvaのテンプレートでリール動画を作ろう</strong>
+                        <div class="ws-hint">参考動画: https://www.youtube.com/watch?v=ST0kfBZ23Sg</div>
+                        <textarea placeholder="1. Canvaホーム → 検索バーに「Instagram リール」と入力&#10;2. テンプレートから好きな雰囲気を選ぶ（英語KW: feminine / watercolor / botanical / elegant）&#10;3. 「アップロード」→ 用意した動画をアップ → テンプレートの動画に重ねてドラッグで差し替え&#10;4. 変えたい文字をダブルクリックして自分の言葉に書き換える&#10;5. 「素材」→「オーディオ」から無料BGMを選んで追加（👑マークは有料なので注意）&#10;6. 「共有」→「ダウンロード」→「MP4形式の動画」で書き出し&#10;&#10;メモ・気づき："></textarea>
+                    </div>
+
+                    <div class="worksheet-card" id="ws-b-2" style="grid-column: 1 / -1;">
+                        <button class="ws-copy-btn" onclick="copyCardB('ws-b-2', this)">📋 コピー</button>
+                        <strong>実習② Instagram公式テンプレートでリールを作ろう</strong>
+                        <div class="ws-hint">参考動画: https://www.youtube.com/watch?v=oOud1ko5BqM</div>
+                        <textarea placeholder="1. スマホのInstagramアプリを最新版にアップデート&#10;2. 「＋」→「リール」→「テンプレート」を選択&#10;3. 気に入ったテンプレートをタップ（曲・切り替わり方で選ぶ。気に入ったら保存マーク）&#10;4. スマホの写真から使いたいものを順番にタップ → 枠に自動で入る（縦長写真が映える）&#10;5. テキストアイコンで言葉を追加・位置を指でドラッグして調整&#10;6. 「次へ」→ カバーを選ぶ → キャプションを入力 → 「シェア」で投稿&#10;&#10;⚠️ テンプレートの音楽はInstagram内のみ使用可。書き出して他SNSで使うと著作権リスクあり。&#10;&#10;メモ・気づき："></textarea>
+                    </div>
+                </div>
+
+                <button class="ws-copy-all-btn" id="wsCopyAllBtnB" onclick="copyAllCardsB()" style="margin-top:16px;">
+                    📋 2項目をまとめてコピー
+                </button>
+            </section>
+
+            <div class="tab-nav-footer">
+                <button type="button" class="tool-link-btn" onclick="openTab('summary')">今日のまとめへ <i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+        </div>
+
+        <div id="summary" class="tab-content">
+            <img src="./assets/day05_slide27.png" alt="本日のまとめとネクストアクション" class="slide-img" style="margin-top:0;">
+            <h3 class="sub-heading">本日のまとめとネクストアクション</h3>
+            <p>「創って、素早く出し、正しく守る」― この3つを今日から実践しよう。</p>
+
+            <div class="card-grid-3">
+                <div class="info-card">
+                    <div class="info-card-header">
+                        <div class="info-card-icon"><i class="fa-solid fa-layer-group"></i></div>
+                        <h3>Canvaで「ブランドキット」を構築する</h3>
+                    </div>
+                    <p>毎回ゼロから選ばないために、くすみカラー・明朝体×ゴシック体・フォント・心理トリガーの型を保存する。資産化された世界観は横展開できる最強の武器になります。</p>
+                </div>
+                <div class="info-card">
+                    <div class="info-card-header">
+                        <div class="info-card-icon"><i class="fa-solid fa-film"></i></div>
+                        <h3>公式テンプレートでリール動画を一本出す</h3>
+                    </div>
+                    <p>B-Rollでストックした大量の写真・短い動画を、Instagram公式テンプレートに放り込む。音楽のテンポに合わせた仕上がりが爆速で完成します。</p>
+                </div>
+                <div class="info-card">
+                    <div class="info-card-header">
+                        <div class="info-card-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                        <h3>投稿前に「守りのルール」をチェックする</h3>
+                    </div>
+                    <p>音楽はライブラリ経由？フリー素材の商用利用は確認済？AI文章に体験談を加えた？安全な運用習慣を今日から始めましょう。</p>
+                </div>
+            </div>
+
+            <div class="quote-box">
+                <p>Instagramを長く続ける人は、攻め（デザイン・投稿）と守り（著作権・設定）を両立しています。</p>
+                <p>今日学んだ「型」と「ルール」を武器に、明日の1本を作ってみましょう。</p>
+            </div>
+
+            <h3 class="sub-heading">次回 Day 06 ─ Canvaによる画像・動画作成</h3>
+            <p>Day 05 で世界観とB-Rollの基礎が整いました。Day 06 ではCanvaを使って実際に投稿用の画像とリール動画を1本ずつ仕上げます。</p>
+
+            <div class="tab-nav-footer">
+                <a href="./vol06-1.html" class="tool-link-btn">▶ Day 06へ</a>
+                <a href="./index.html" class="tool-link-btn secondary"><i class="fa-solid fa-house"></i> コース一覧に戻る</a>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function copyCardA(cardId, btn) {
+            const card = document.getElementById(cardId);
+            const title = card.querySelector('strong').textContent;
+            const text  = card.querySelector('textarea').value.trim() || '（未入力）';
+            navigator.clipboard.writeText(`【${title}】\n${text}`).then(() => {
+                btn.textContent = '✓ コピー済';
+                btn.classList.add('ws-copied');
+                setTimeout(() => {
+                    btn.textContent = '📋 コピー';
+                    btn.classList.remove('ws-copied');
+                }, 2000);
+            });
+        }
+
+        function copyAllCardsA() {
+            const cards = ['ws-a-1','ws-a-2','ws-a-3','ws-a-4'];
+            const lines = cards.map(id => {
+                const card  = document.getElementById(id);
+                const title = card.querySelector('strong').textContent;
+                const text  = card.querySelector('textarea').value.trim() || '（未入力）';
+                return `【${title}】\n${text}`;
+            });
+            navigator.clipboard.writeText(lines.join('\n\n')).then(() => {
+                const btn = document.getElementById('wsCopyAllBtnA');
+                btn.textContent = '✓ コピーしました！';
+                btn.classList.add('ws-copied');
+                setTimeout(() => {
+                    btn.textContent = '📋 4項目をまとめてコピー';
+                    btn.classList.remove('ws-copied');
+                }, 2500);
+            });
+        }
+
+        let _timerIntervalA = null;
+        let _timerSecA = 10 * 60;
+        const _timerTotalA = 10 * 60;
+
+        function toggleTimerA() {
+            const btn = document.getElementById('timerStartBtnA');
+            if (_timerIntervalA) {
+                clearInterval(_timerIntervalA);
+                _timerIntervalA = null;
+                btn.textContent = '▶ 再開';
+            } else {
+                if (_timerSecA <= 0) return;
+                _timerIntervalA = setInterval(() => {
+                    _timerSecA--;
+                    _updateTimerDisplayA();
+                    if (_timerSecA <= 0) {
+                        clearInterval(_timerIntervalA);
+                        _timerIntervalA = null;
+                        const el = document.getElementById('practiceTimerA');
+                        el.innerHTML = '<i class="fa-solid fa-bell"></i> 終了！';
+                        el.className = 'timer-badge timer-done';
+                        btn.textContent = '▶ スタート';
+                    }
+                }, 1000);
+                btn.textContent = '⏸ 一時停止';
+            }
+        }
+
+        function resetTimerA() {
+            clearInterval(_timerIntervalA);
+            _timerIntervalA = null;
+            _timerSecA = _timerTotalA;
+            const el = document.getElementById('practiceTimerA');
+            el.innerHTML = '<i class="fa-solid fa-clock"></i> 10:00';
+            el.className = 'timer-badge';
+            document.getElementById('timerStartBtnA').textContent = '▶ スタート';
+        }
+
+        function _updateTimerDisplayA() {
+            const m = Math.floor(_timerSecA / 60);
+            const s = _timerSecA % 60;
+            const el = document.getElementById('practiceTimerA');
+            el.innerHTML = `<i class="fa-solid fa-clock"></i> ${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+            const ratio = _timerSecA / _timerTotalA;
+            if (ratio <= 1 / 10) {
+                el.className = 'timer-badge timer-danger';
+            } else if (ratio <= 3 / 10) {
+                el.className = 'timer-badge timer-warning';
+            } else {
+                el.className = 'timer-badge';
+            }
+        }
+
+        function copyCardB(cardId, btn) {
+            const card = document.getElementById(cardId);
+            const title = card.querySelector('strong').textContent;
+            const text  = card.querySelector('textarea').value.trim() || '（未入力）';
+            navigator.clipboard.writeText(`【${title}】\n${text}`).then(() => {
+                btn.textContent = '✓ コピー済';
+                btn.classList.add('ws-copied');
+                setTimeout(() => {
+                    btn.textContent = '📋 コピー';
+                    btn.classList.remove('ws-copied');
+                }, 2000);
+            });
+        }
+
+        function copyAllCardsB() {
+            const cards = ['ws-b-1','ws-b-2'];
+            const lines = cards.map(id => {
+                const card  = document.getElementById(id);
+                const title = card.querySelector('strong').textContent;
+                const text  = card.querySelector('textarea').value.trim() || '（未入力）';
+                return `【${title}】\n${text}`;
+            });
+            navigator.clipboard.writeText(lines.join('\n\n')).then(() => {
+                const btn = document.getElementById('wsCopyAllBtnB');
+                btn.textContent = '✓ コピーしました！';
+                btn.classList.add('ws-copied');
+                setTimeout(() => {
+                    btn.textContent = '📋 2項目をまとめてコピー';
+                    btn.classList.remove('ws-copied');
+                }, 2500);
+            });
+        }
+
+        let _timerIntervalB = null;
+        let _timerSecB = 15 * 60;
+        const _timerTotalB = 15 * 60;
+
+        function toggleTimerB() {
+            const btn = document.getElementById('timerStartBtnB');
+            if (_timerIntervalB) {
+                clearInterval(_timerIntervalB);
+                _timerIntervalB = null;
+                btn.textContent = '▶ 再開';
+            } else {
+                if (_timerSecB <= 0) return;
+                _timerIntervalB = setInterval(() => {
+                    _timerSecB--;
+                    _updateTimerDisplayB();
+                    if (_timerSecB <= 0) {
+                        clearInterval(_timerIntervalB);
+                        _timerIntervalB = null;
+                        const el = document.getElementById('practiceTimerB');
+                        el.innerHTML = '<i class="fa-solid fa-bell"></i> 終了！';
+                        el.className = 'timer-badge timer-done';
+                        btn.textContent = '▶ スタート';
+                    }
+                }, 1000);
+                btn.textContent = '⏸ 一時停止';
+            }
+        }
+
+        function resetTimerB() {
+            clearInterval(_timerIntervalB);
+            _timerIntervalB = null;
+            _timerSecB = _timerTotalB;
+            const el = document.getElementById('practiceTimerB');
+            el.innerHTML = '<i class="fa-solid fa-clock"></i> 15:00';
+            el.className = 'timer-badge';
+            document.getElementById('timerStartBtnB').textContent = '▶ スタート';
+        }
+
+        function _updateTimerDisplayB() {
+            const m = Math.floor(_timerSecB / 60);
+            const s = _timerSecB % 60;
+            const el = document.getElementById('practiceTimerB');
+            el.innerHTML = `<i class="fa-solid fa-clock"></i> ${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+            const ratio = _timerSecB / _timerTotalB;
+            if (ratio <= 1 / 15) {
+                el.className = 'timer-badge timer-danger';
+            } else if (ratio <= 5 / 15) {
+                el.className = 'timer-badge timer-warning';
+            } else {
+                el.className = 'timer-badge';
+            }
+        }
+
+        function openTab(tabId) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            const matchingBtn = Array.from(document.querySelectorAll('.tab-btn')).find(
+                b => (b.getAttribute('onclick') || '').includes("'" + tabId + "'")
+            );
+            if (matchingBtn) matchingBtn.classList.add('active');
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            window.scrollTo({ top: document.querySelector('.tabs').offsetTop - 20, behavior: 'smooth' });
+        }
+
+        // ── Lightbox ────────────────────────────────────────────────
+        (function () {
+            const overlay = document.createElement('div');
+            overlay.className = 'lb-overlay';
+            overlay.innerHTML = '<button class="lb-close" aria-label="閉じる">&times;</button><img class="lb-img" alt="">';
+            document.body.appendChild(overlay);
+
+            const lbImg   = overlay.querySelector('.lb-img');
+            const lbClose = overlay.querySelector('.lb-close');
+
+            function openLb(src, alt) {
+                lbImg.src = src; lbImg.alt = alt || '';
+                overlay.classList.add('open');
+                document.body.style.overflow = 'hidden';
+            }
+            function closeLb() {
+                overlay.classList.remove('open');
+                document.body.style.overflow = '';
+            }
+
+            document.querySelectorAll('.slide-img:not(.cover-slide)').forEach(img => {
+                img.addEventListener('click', () => openLb(img.src, img.alt));
+            });
+            lbClose.addEventListener('click', closeLb);
+            overlay.addEventListener('click', e => { if (e.target === overlay) closeLb(); });
+            document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLb(); });
+        })();
+
+    </script>
+</body>
+</html>
+<!-- cache-bust: 2026-06-11T21:00:00 -->

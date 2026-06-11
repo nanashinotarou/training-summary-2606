@@ -2,6 +2,20 @@
 
 Antigravity は本ファイルを必ず読み込むこと。
 
+## -1. AI横断：Obsidian Hub（Cursor / Codex / ClaudeCode / Antigravity 共通）
+
+**セッション開始時（必ず Read）**
+- `C:\Users\Hi\OneDrive\ドキュメント\Obsidian Vault\ClaudeCode\INDEX.md`
+- 本プロジェクト作業時: 同 Vault の `Instagramコース 2606.md`
+
+**作業完了時（必ず更新）**
+- 上記プロジェクトファイル（実装済み・次タスク・既知課題）
+- INDEX.md の「最近の重要変更」に1行追記
+
+**詳細ルール**: `C:\Users\Hi\OneDrive\ドキュメント\Obsidian Vault\ClaudeCode\SHARED_RULES.md`
+
+---
+
 ## 0. 必読：プロジェクト背景コンテキスト
 
 **`CONTEXT.md`** を必ず読むこと。研修事業の背景・目的・ユーザー（Hiroya）のポジション・教材の設計思想・全体運用フローが記載されている。

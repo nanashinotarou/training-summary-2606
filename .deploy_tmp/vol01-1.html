@@ -836,6 +836,64 @@
                 transform: none;
             }
         }
+
+        .video-section {
+            background: #faf8ff; border: 1px solid #e9d5f5;
+            border-radius: var(--radius-medium);
+            padding: 18px 22px; margin-bottom: 36px;
+        }
+        .video-section-title {
+            font-size: 0.9rem; font-weight: 700; color: var(--ig-purple);
+            margin-bottom: 12px; display: flex; align-items: center; gap: 8px;
+        }
+        details.video-item { margin-bottom: 8px; }
+        details.video-item summary {
+            cursor: pointer; font-size: 0.88rem; font-weight: 600;
+            color: var(--text-main); padding: 10px 14px;
+            background: #fff; border: 1px solid #ede9f5;
+            border-radius: var(--radius-small);
+            list-style: none; display: flex; align-items: center; gap: 8px; transition: 0.2s;
+        }
+        details.video-item summary::before { content: '▶'; color: var(--ig-magenta); flex-shrink: 0; }
+        details.video-item[open] summary::before { content: '▼'; }
+        details.video-item summary:hover { background: #fdf0ff; border-color: var(--ig-purple); }
+        details.video-item[open] summary {
+            border-radius: var(--radius-small) var(--radius-small) 0 0; border-bottom: none;
+        }
+        .video-embed {
+            position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;
+            border-radius: 0 0 var(--radius-small) var(--radius-small);
+            border: 1px solid #ede9f5; border-top: none;
+        }
+        .video-embed iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+
+        /* ── Lightbox ──────────────────────────────── */
+        .lb-overlay {
+            display: none; position: fixed; inset: 0; z-index: 2000;
+            background: rgba(10, 4, 22, 0.9); cursor: zoom-out;
+            justify-content: center; align-items: center; padding: 20px;
+        }
+        .lb-overlay.open { display: flex; animation: lbFadeIn 0.2s ease; }
+        @keyframes lbFadeIn { from { opacity: 0 } to { opacity: 1 } }
+        .lb-img {
+            max-width: 92vw; max-height: 90vh; width: auto; height: auto;
+            border-radius: var(--radius-medium);
+            box-shadow: 0 24px 80px rgba(0, 0, 0, 0.7);
+            cursor: default;
+            animation: lbImgIn 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        @keyframes lbImgIn {
+            from { transform: scale(0.88); opacity: 0; }
+            to   { transform: scale(1);    opacity: 1; }
+        }
+        .lb-close {
+            position: absolute; top: 18px; right: 24px;
+            color: #fff; font-size: 2.2rem; line-height: 1;
+            cursor: pointer; opacity: 0.75; transition: opacity 0.15s;
+            background: none; border: none; padding: 4px 8px;
+        }
+        .lb-close:hover { opacity: 1; }
+        .slide-img:not(.cover-slide) { cursor: zoom-in; }
     </style>
 </head>
 <body>
@@ -858,10 +916,10 @@
         <img src="./assets/day01_slide1.png" alt="Day 01 表紙スライド" class="slide-img cover-slide">
 
         <nav class="tabs">
-            <button class="tab-btn active" onclick="openTab('goal')"><i class="fa-solid fa-bullseye"></i> 今日の目標</button>
-            <button class="tab-btn" onclick="openTab('first')"><i class="fa-solid fa-sun"></i> 前半</button>
-            <button class="tab-btn" onclick="openTab('second')"><i class="fa-solid fa-moon"></i> 後半</button>
-            <button class="tab-btn" onclick="openTab('summary')"><i class="fa-solid fa-list-check"></i> 今日のまとめ</button>
+            <button class="tab-btn active" onclick="openTab('goal')">今日の目標</button>
+            <button class="tab-btn" onclick="openTab('first')">前半</button>
+            <button class="tab-btn" onclick="openTab('second')">後半</button>
+            <button class="tab-btn" onclick="openTab('summary')">今日のまとめ</button>
         </nav>
 
         <!-- 今日の目標 -->
@@ -897,6 +955,39 @@
 
         <!-- 前半 -->
         <div id="first" class="tab-content">
+            <div class="video-section">
+                <div class="video-section-title">📺 授業の元動画（前半）</div>
+                <details class="video-item">
+                    <summary>① 【AI学習Vol.1】AI・人工知能とは？定義・歴史・種類・仕組みから事例まで徹底解説</summary>
+                    <div class="video-embed">
+                        <iframe src="https://www.youtube.com/embed/WJ1R3D0ntf8" allowfullscreen loading="lazy" title="【AI学習Vol.1】AI・人工知能とは？定義・歴史・種類・仕組みから事例まで徹底解説"></iframe>
+                    </div>
+                </details>
+                <details class="video-item">
+                    <summary>② 【AI学習Vol.2】生成AI（ジェネレーティブAI）とは？使い方・種類・仕組み・活用事例を解説</summary>
+                    <div class="video-embed">
+                        <iframe src="https://www.youtube.com/embed/KUNBWh9rprI" allowfullscreen loading="lazy" title="【AI学習Vol.2】生成AI（ジェネレーティブAI）とは？使い方・種類・仕組み・活用事例を解説"></iframe>
+                    </div>
+                </details>
+                <details class="video-item">
+                    <summary>③ 【AI学習Vol.5】大規模言語モデル（LLM）とは？仕組み・種類・活用サービス・課題をわかりやすく解説</summary>
+                    <div class="video-embed">
+                        <iframe src="https://www.youtube.com/embed/YYx0zrIYS2o" allowfullscreen loading="lazy" title="【AI学習Vol.5】大規模言語モデル（LLM）とは？仕組み・種類・活用サービス・課題をわかりやすく解説"></iframe>
+                    </div>
+                </details>
+                <details class="video-item">
+                    <summary>④ 【まずはこれ】Geminiの使い方 完全ガイド｜登録から質問・画像生成・仕事活用までこれ1本でわかる</summary>
+                    <div class="video-embed">
+                        <iframe src="https://www.youtube.com/embed/ckE0WoKYBmc" allowfullscreen loading="lazy" title="【まずはこれ】Geminiの使い方 完全ガイド｜登録から質問・画像生成・仕事活用までこれ1本でわかる"></iframe>
+                    </div>
+                </details>
+                <details class="video-item">
+                    <summary>⑤ 【覚醒!!】Googleの最強AI Gemini新機能３選！Google I/O 2026で発表されたアプデを初心者向けに解説！</summary>
+                    <div class="video-embed">
+                        <iframe src="https://www.youtube.com/embed/bpPNiRsEPOk" allowfullscreen loading="lazy" title="【覚醒!!】Googleの最強AI Gemini新機能３選！Google I/O 2026で発表されたアプデを初心者向けに解説！"></iframe>
+                    </div>
+                </details>
+            </div>
             <section class="section" id="sec1">
                 <h2><span class="sec-num">01</span> なぜDay1からAI？</h2>
                 <img src="./assets/day01_slide2.png" alt="なぜDay1からAI？" class="slide-img">
@@ -1068,6 +1159,27 @@
 
         <!-- 後半 -->
         <div id="second" class="tab-content">
+            <div class="video-section">
+                <div class="video-section-title">📺 授業の元動画（後半）</div>
+                <details class="video-item">
+                    <summary>① 【2026年最新版】インスタ初心者でも月200万稼げる収益化方法！バズりやすいアカウントを作る爆伸び初期設計を紹介します!</summary>
+                    <div class="video-embed">
+                        <iframe src="https://www.youtube.com/embed/wwNKLnRtLbY" allowfullscreen loading="lazy" title="【2026年最新版】インスタ初心者でも月200万稼げる収益化方法！バズりやすいアカウントを作る爆伸び初期設計を紹介します!"></iframe>
+                    </div>
+                </details>
+                <details class="video-item">
+                    <summary>② 【2026年5月最新】初心者でもできるインスタグラムの始め方『ゼロから完全解説』投稿方法から収益化方法までこの1本でOK!</summary>
+                    <div class="video-embed">
+                        <iframe src="https://www.youtube.com/embed/FbzlNYtUWao" allowfullscreen loading="lazy" title="【2026年5月最新】初心者でもできるインスタグラムの始め方『ゼロから完全解説』投稿方法から収益化方法までこの1本でOK!"></iframe>
+                    </div>
+                </details>
+                <details class="video-item">
+                    <summary>③ 【やらないと損】2026年、インスタがバズる設定6選を紹介します!</summary>
+                    <div class="video-embed">
+                        <iframe src="https://www.youtube.com/embed/cmNKrTBfU0I" allowfullscreen loading="lazy" title="【やらないと損】2026年、インスタがバズる設定6選を紹介します!"></iframe>
+                    </div>
+                </details>
+            </div>
             <section class="section" id="sec-b1">
                 <h2><span class="sec-num">B1</span> なぜ初期設定が命取りなのか</h2>
                 <img src="./assets/day01_slide14.png" alt="バズ設定6選" class="slide-img slide-img-dark">
@@ -1256,7 +1368,7 @@
             <img src="./assets/day01_slide24.png" alt="準備完了メッセージ" class="slide-img slide-img-dark">
 
             <div class="tab-nav-footer">
-                <a href="#" class="tool-link-btn">▶ Day 02へ</a>
+                <a href="./vol02-1.html" class="tool-link-btn">▶ Day 02へ</a>
                 <a href="./index.html" class="tool-link-btn secondary"><i class="fa-solid fa-house"></i> 🏠 ホームへ</a>
             </div>
         </div>
@@ -1281,8 +1393,36 @@
                 behavior: 'smooth'
             });
         }
+
+        // ── Lightbox ────────────────────────────────────────────────
+        (function () {
+            const overlay = document.createElement('div');
+            overlay.className = 'lb-overlay';
+            overlay.innerHTML = '<button class="lb-close" aria-label="閉じる">&times;</button><img class="lb-img" alt="">';
+            document.body.appendChild(overlay);
+
+            const lbImg   = overlay.querySelector('.lb-img');
+            const lbClose = overlay.querySelector('.lb-close');
+
+            function openLb(src, alt) {
+                lbImg.src = src; lbImg.alt = alt || '';
+                overlay.classList.add('open');
+                document.body.style.overflow = 'hidden';
+            }
+            function closeLb() {
+                overlay.classList.remove('open');
+                document.body.style.overflow = '';
+            }
+
+            document.querySelectorAll('.slide-img:not(.cover-slide)').forEach(img => {
+                img.addEventListener('click', () => openLb(img.src, img.alt));
+            });
+            lbClose.addEventListener('click', closeLb);
+            overlay.addEventListener('click', e => { if (e.target === overlay) closeLb(); });
+            document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLb(); });
+        })();
     </script>
 
 </body>
 </html>
-<!-- cache-bust: 2026-06-03T15:00:00 -->
+<!-- cache-bust: 2026-06-11T21:00:00 -->

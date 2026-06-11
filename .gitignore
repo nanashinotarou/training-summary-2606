@@ -1,0 +1,5 @@
+# マシン固有のローカル設定（共有不要）
+.claude/settings.local.json
+
+# wranglerローカルキャッシュ（アカウント情報を含むためコミット禁止）
+.wrangler/

@@ -1,0 +1,19 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "dev-server",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["serve", ".", "--no-clipboard"],
+      "port": 3333,
+      "autoPort": true
+    },
+    {
+      "name": "cloudflare-pages-dev",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["wrangler", "pages", "dev", ".deploy_tmp"],
+      "port": 8788,
+      "autoPort": true
+    }
+  ]
+}

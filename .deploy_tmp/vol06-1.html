@@ -1,0 +1,1199 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 06 | Canvaによる画像・動画作成</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700;900&family=Teko:wght@600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-body: #fdf4ff;
+            --bg-card: rgba(255, 255, 255, 0.92);
+            --bg-card-solid: #ffffff;
+            --text-main: #1e1035;
+            --text-sub: #64748b;
+            --ig-purple: #833ab4;
+            --ig-magenta: #c13584;
+            --ig-orange: #f77737;
+            --ig-grad: linear-gradient(45deg, #833ab4, #c13584, #f77737);
+            --ig-light: #f3e8ff;
+            --canva-purple: #7B2FF7;
+            --canva-cyan: #00C4CC;
+            --shadow-soft: 0 10px 30px rgba(131, 58, 180, 0.08);
+            --shadow-hover: 0 15px 40px rgba(193, 53, 132, 0.18);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.7);
+            --radius-large: 24px;
+            --radius-medium: 16px;
+            --radius-small: 8px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background-color: var(--bg-body);
+            background-image:
+                radial-gradient(at 0% 0%, rgba(255, 255, 255, 0.9) 0, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(243, 232, 255, 0.9) 0, transparent 50%);
+            background-attachment: fixed;
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 40px 20px;
+        }
+
+        .home-btn {
+            position: fixed; bottom: 30px; right: 30px;
+            width: 60px; height: 60px;
+            background: var(--ig-grad); color: #fff;
+            border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            font-size: 1.5rem; text-decoration: none;
+            box-shadow: 0 10px 25px rgba(193, 53, 132, 0.4);
+            transition: all 0.3s; z-index: 1000;
+        }
+        .home-btn:hover { transform: translateY(-5px) scale(1.05); }
+
+        .container {
+            width: 100%; max-width: 900px;
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            border: var(--glass-border);
+            border-radius: var(--radius-large);
+            box-shadow: var(--shadow-soft);
+            overflow: hidden;
+            animation: fadeIn 0.8s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .header { padding: 36px 40px 20px; text-align: center; border-bottom: 2px solid var(--ig-light); }
+        .header-top {
+            display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 14px; flex-wrap: wrap; gap: 10px;
+        }
+        .header-nav { display: flex; gap: 12px; flex-wrap: wrap; }
+        .back-link {
+            display: inline-flex; align-items: center; gap: 6px;
+            color: var(--ig-purple); text-decoration: none;
+            font-weight: 700; font-size: 0.9rem;
+        }
+        .back-link:hover { color: var(--ig-magenta); }
+        .progress-pill {
+            font-family: 'Roboto', sans-serif;
+            font-size: 0.85rem; font-weight: 700; color: #fff;
+            background: var(--ig-grad);
+            padding: 6px 14px; border-radius: 20px;
+        }
+        .header-tag {
+            display: inline-block; background: var(--ig-grad);
+            color: #fff; font-weight: 700; padding: 4px 14px; border-radius: 20px;
+            font-family: 'Roboto', sans-serif; font-size: 0.85rem; letter-spacing: 1px; margin-bottom: 12px;
+        }
+        .header h1 {
+            font-size: 2rem; font-weight: 900;
+            background: var(--ig-grad);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text; margin-bottom: 10px; line-height: 1.35;
+        }
+        .header-sub { margin: 0; color: var(--text-sub); font-size: 0.95rem; }
+
+        .slide-img {
+            width: 100%; height: auto; display: block;
+            border-radius: var(--radius-medium);
+            margin: 24px 0; box-shadow: var(--shadow-soft);
+            border: 1px solid #ede9f5;
+        }
+        .cover-slide { margin: 0; border-radius: 0; border: none; box-shadow: none; }
+
+        .tabs {
+            display: flex; padding: 0 20px;
+            background: rgba(255, 255, 255, 0.5);
+            border-bottom: 1px solid #ede9f5; overflow-x: auto;
+        }
+        .tab-btn {
+            border: none; background: none; padding: 18px 14px;
+            font-size: 0.88rem; font-weight: 700; color: var(--text-sub);
+            cursor: pointer; position: relative; white-space: nowrap;
+        }
+        .tab-btn:hover, .tab-btn.active { color: var(--ig-purple); }
+        .tab-btn.active::after {
+            content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 3px;
+            background: var(--ig-grad); border-radius: 3px 3px 0 0;
+        }
+        .tab-content {
+            display: none; padding: 40px;
+            background: var(--bg-card-solid); min-height: 500px;
+            animation: fadeInTab 0.4s ease-out;
+        }
+        .tab-content.active { display: block; }
+        @keyframes fadeInTab {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            font-size: 1.55rem; color: var(--text-main);
+            border-left: 5px solid var(--ig-purple);
+            padding-left: 15px; margin: 30px 0 20px;
+            display: flex; align-items: center; gap: 10px;
+        }
+        h2:first-child { margin-top: 0; }
+        h2 .sec-num {
+            font-family: 'Teko', sans-serif; font-size: 1.1rem;
+            color: var(--ig-magenta); font-weight: 600;
+        }
+        h3.sub-heading .sec-num {
+            font-family: 'Teko', sans-serif;
+            color: var(--ig-magenta);
+            margin-right: 6px;
+        }
+        h3.sub-heading {
+            font-size: 1.05rem; font-weight: 700; color: var(--ig-purple);
+            margin: 24px 0 16px;
+            background: linear-gradient(to right, rgba(131,58,180,0.07), transparent);
+            border-left: 4px solid var(--ig-purple);
+            padding: 8px 14px;
+            border-radius: 0 var(--radius-small) var(--radius-small) 0;
+        }
+        /* コンテンツブロック直後のサブ見出しは間を広げる */
+        div + h3.sub-heading,
+        img.slide-img + h3.sub-heading {
+            margin-top: 56px;
+        }
+        p { line-height: 1.72; margin-bottom: 11px; color: #475569; font-size: 1.02rem; }
+
+        .goal-box {
+            background: linear-gradient(135deg, #f5f0ff, #f0fdff);
+            border: 1px solid #e9d5f5; border-radius: var(--radius-medium);
+            padding: 30px; margin-bottom: 28px; text-align: center;
+        }
+        .goal-box i {
+            font-size: 2.5rem;
+            background: var(--ig-grad);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text; margin-bottom: 12px;
+        }
+        .goal-box h3 { font-size: 1.35rem; color: var(--ig-purple); margin-bottom: 12px; }
+        .goal-box p { margin-bottom: 8px; font-size: 1.05rem; color: var(--text-main); }
+        .goal-box p:last-child { margin-bottom: 0; }
+
+        .goal-list {
+            background: #faf8ff; border: 1px solid #ede9f5;
+            border-radius: var(--radius-medium); padding: 22px 26px; margin: 20px 0;
+        }
+        .goal-list h4 { font-size: 1rem; color: var(--ig-purple); margin-bottom: 10px; }
+        .goal-list ul { margin: 0; padding-left: 1.3rem; line-height: 1.72; color: #475569; }
+
+        .section {
+            margin-bottom: 64px; padding-bottom: 64px;
+            border-bottom: 2px dashed #ddd6f5;
+        }
+        .section:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+
+        .card-grid-2 {
+            display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px; margin: 24px 0;
+        }
+        .info-card {
+            background: #fff; border: 1px solid #ede9f5;
+            border-radius: var(--radius-medium); padding: 22px;
+            box-shadow: var(--shadow-soft); transition: 0.25s;
+            position: relative; overflow: hidden;
+        }
+        .info-card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+            background: var(--ig-grad);
+        }
+        .info-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); }
+        .info-card-header {
+            display: flex; align-items: center; gap: 12px; margin-bottom: 14px;
+        }
+        .info-card-icon {
+            flex-shrink: 0;
+            width: 40px; height: 40px; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            background: linear-gradient(135deg, rgba(131,58,180,0.12), rgba(247,119,55,0.10));
+            color: var(--ig-purple); font-size: 1.1rem;
+        }
+        .info-card h3 { font-size: 1.05rem; color: var(--ig-purple); margin-bottom: 0; }
+        .info-card p { font-size: 1rem; margin-bottom: 0; line-height: 1.65; color: var(--text-main); font-weight: 500; }
+
+        .sub-note {
+            font-size: 0.88rem; color: var(--text-sub);
+            background: #faf8ff; border: 1px solid #ede9f5;
+            border-radius: var(--radius-small); padding: 14px 18px;
+            margin-top: 16px; line-height: 1.7;
+        }
+
+        code {
+            font-family: 'Roboto Mono', 'Courier New', monospace;
+            background: #f3f0ff; color: var(--ig-purple);
+            border: 1px solid #e2d8f5; border-radius: 4px;
+            padding: 1px 6px; font-size: 0.83em;
+        }
+
+        .step-card {
+            display: flex; gap: 16px; align-items: flex-start;
+            background: #fff; border: 1px solid #ede9f5;
+            border-radius: var(--radius-medium); padding: 18px 20px;
+            margin-bottom: 14px; transition: 0.2s;
+        }
+        .step-card:hover { border-color: var(--ig-magenta); box-shadow: var(--shadow-soft); }
+        .step-num {
+            flex-shrink: 0; width: 36px; height: 36px; border-radius: 50%;
+            background: var(--ig-grad);
+            color: #fff; font-family: 'Roboto', sans-serif;
+            font-weight: 900; font-size: 1rem;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .step-card h4 { font-size: 1rem; color: var(--text-main); margin-bottom: 6px; }
+        .step-card p { font-size: 0.92rem; margin-bottom: 0; }
+
+        .warning-box {
+            background: #fff5f5; border: 2px solid #fca5a5;
+            border-radius: var(--radius-medium); padding: 20px 24px; margin: 16px 0;
+        }
+        .warning-box p { margin-bottom: 0; color: #7f1d1d; font-size: 0.96rem; font-weight: 600; }
+
+        .tips-box {
+            background: linear-gradient(135deg, #fdf0ff, #fff8f3);
+            border: 1px solid #e9d5f5; border-left: 5px solid var(--ig-magenta);
+            border-radius: var(--radius-medium); padding: 20px 24px; margin: 20px 0;
+        }
+        .tips-box h4 {
+            color: var(--ig-purple); font-size: 1rem; margin-bottom: 8px;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .tips-box p { margin-bottom: 0; font-size: 0.96rem; }
+
+        .info-box {
+            background: #faf8ff; border: 1px solid #e9d5f5; border-left: 5px solid var(--ig-purple);
+            border-radius: var(--radius-medium); padding: 20px 24px; margin: 20px 0;
+        }
+        .info-box p { margin-bottom: 8px; font-size: 0.96rem; color: #475569; line-height: 1.75; }
+        .info-box p:last-child { margin-bottom: 0; }
+        .info-box ul { margin: 8px 0 0; padding-left: 1.3rem; line-height: 1.72; color: #475569; font-size: 0.96rem; }
+
+        .before-after-grid {
+            display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px; margin: 24px 0;
+        }
+        .ba-card {
+            padding: 22px; border-radius: var(--radius-medium);
+            border: 1px solid #ede9f5;
+        }
+        .ba-card.before { background: #fef2f2; border-color: #fecaca; }
+        .ba-card.after { background: #f0fdf4; border-color: #bbf7d0; }
+        .ba-card h4 { font-size: 1rem; margin-bottom: 10px; }
+        .ba-card.before h4 { color: #b91c1c; }
+        .ba-card.after h4 { color: #15803d; }
+        .ba-card p { font-size: 0.92rem; margin-bottom: 0; line-height: 1.7; }
+
+        .practice-steps {
+            counter-reset: practice; list-style: none; padding: 0; margin: 24px 0;
+        }
+        .practice-steps li {
+            counter-increment: practice; position: relative;
+            padding: 20px 20px 20px 70px; margin-bottom: 14px;
+            background: linear-gradient(135deg, #fdf0ff, #fff);
+            border: 1px solid #e9d5f5; border-radius: var(--radius-medium);
+        }
+        .practice-steps li::before {
+            content: 'Step ' counter(practice);
+            position: absolute; left: 16px; top: 50%; transform: translateY(-50%);
+            font-family: 'Roboto', sans-serif; font-size: 0.72rem; font-weight: 700;
+            color: #fff;
+            background: var(--ig-grad);
+            padding: 6px 10px; border-radius: 8px; white-space: nowrap;
+        }
+        .practice-steps li strong {
+            display: block; font-size: 1rem; color: var(--text-main); margin-bottom: 6px;
+        }
+        .practice-steps li span { font-size: 0.92rem; color: #64748b; line-height: 1.7; }
+
+        .next-step-box {
+            background: var(--ig-light); border: 1px solid #e9d5f5;
+            border-radius: var(--radius-medium); padding: 20px 24px;
+            margin-top: 24px; text-align: center;
+        }
+        .next-step-box p { margin-bottom: 0; color: var(--text-main); font-weight: 500; }
+
+        .placeholder-box {
+            text-align: center; padding: 60px 30px;
+            background: #faf8ff; border: 2px dashed #e9d5f5;
+            border-radius: var(--radius-medium); margin: 20px 0;
+        }
+        .placeholder-box i { font-size: 2.5rem; color: #c4b5fd; margin-bottom: 16px; }
+        .placeholder-box p { color: var(--text-sub); margin-bottom: 0; font-size: 1.05rem; }
+
+        .tool-link-btn {
+            display: inline-flex; align-items: center; gap: 10px;
+            background: var(--ig-grad);
+            color: #fff; padding: 14px 32px; border-radius: 30px;
+            text-decoration: none; font-weight: bold; font-size: 1.05rem;
+            border: none; cursor: pointer; transition: 0.3s;
+            box-shadow: 0 8px 20px rgba(193, 53, 132, 0.25);
+        }
+        .tool-link-btn:hover { transform: translateY(-3px); }
+        .tool-link-btn.secondary {
+            background: #fff; color: var(--text-main);
+            border: 2px solid #ede9f5; box-shadow: none;
+        }
+        .tab-nav-footer {
+            text-align: center; margin-top: 36px;
+            display: flex; flex-direction: column; gap: 14px; align-items: center;
+        }
+
+        .card-grid-3 {
+            display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 14px; margin: 24px 0;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #fdf0ff, #fff8f3);
+            border: 1px solid #e9d5f5; border-left: 5px solid var(--ig-magenta);
+            border-radius: var(--radius-medium); padding: 22px 26px; margin: 20px 0;
+        }
+        .highlight-box p { margin-bottom: 0; font-weight: 600; color: var(--text-main); }
+
+        .flow-steps {
+            display: flex; flex-direction: column; gap: 12px; margin: 20px 0;
+        }
+        .flow-step {
+            display: flex; gap: 14px; align-items: flex-start;
+            background: #fff; border: 1px solid #ede9f5;
+            border-radius: var(--radius-medium); padding: 16px 18px;
+        }
+        .flow-step-num {
+            flex-shrink: 0; font-family: 'Roboto', sans-serif;
+            font-size: 0.75rem; font-weight: 700; color: #fff;
+            background: var(--ig-grad); padding: 6px 10px; border-radius: 8px;
+        }
+        .flow-step h4 { font-size: 0.98rem; margin-bottom: 4px; color: var(--ig-purple); }
+        .flow-step p { font-size: 0.9rem; margin-bottom: 0; }
+
+        .flow-horizontal {
+            display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
+            gap: 8px; margin: 24px 0; padding: 20px;
+            background: #faf8ff; border: 1px solid #ede9f5; border-radius: var(--radius-medium);
+        }
+        .flow-h-item {
+            background: #fff; border: 1px solid #ede9f5;
+            border-radius: var(--radius-small); padding: 14px 16px;
+            text-align: center; min-width: 140px; flex: 1;
+        }
+        .flow-h-item strong { display: block; color: var(--ig-purple); margin-bottom: 4px; font-size: 0.95rem; }
+        .flow-h-item span { font-size: 0.82rem; color: #64748b; line-height: 1.5; }
+        .flow-arrow { color: var(--ig-magenta); font-size: 1.2rem; font-weight: 700; }
+
+        .compare-card {
+            background: #fff; border: 1px solid #ede9f5;
+            border-radius: var(--radius-medium); padding: 20px;
+            box-shadow: var(--shadow-soft);
+        }
+        .compare-card.low { border-top: 4px solid var(--ig-purple); }
+        .compare-card.high { border-top: 4px solid var(--ig-magenta); }
+        .compare-card h4 { font-size: 1rem; color: var(--ig-purple); margin-bottom: 10px; }
+        .compare-card ul { margin: 0; padding-left: 1.2rem; font-size: 0.88rem; line-height: 1.7; color: #475569; }
+
+        .iceberg-box {
+            background: linear-gradient(180deg, #e0f2fe 0%, #f0f9ff 35%, #faf8ff 35%);
+            border: 1px solid #bae6fd; border-radius: var(--radius-medium);
+            padding: 24px; margin: 20px 0;
+        }
+        .iceberg-top, .iceberg-bottom { padding: 16px; border-radius: var(--radius-small); }
+        .iceberg-top { background: rgba(255,255,255,0.9); margin-bottom: 12px; }
+        .iceberg-bottom { background: rgba(131,58,180,0.08); border: 1px dashed var(--ig-purple); }
+        .iceberg-top h4, .iceberg-bottom h4 { font-size: 0.95rem; color: var(--ig-purple); margin-bottom: 8px; }
+        .iceberg-top p, .iceberg-bottom p { font-size: 0.9rem; margin-bottom: 0; }
+
+        .persona-example {
+            background: #fffbeb; border: 1px solid #fde68a;
+            border-left: 5px solid #f59e0b; border-radius: var(--radius-medium);
+            padding: 22px; margin: 20px 0;
+        }
+        .persona-example h4 { color: #b45309; margin-bottom: 12px; }
+        .persona-example p { font-size: 0.92rem; margin-bottom: 8px; }
+        .persona-example p:last-child { margin-bottom: 0; }
+
+        .worksheet-grid {
+            display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px; margin: 24px 0;
+        }
+        .worksheet-card {
+            background: #fffef5; border: 2px dashed #fcd34d;
+            border-radius: var(--radius-medium); padding: 16px 16px 12px;
+            min-height: 150px; position: relative;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .worksheet-card:focus-within {
+            border-color: #f59e0b; border-style: solid;
+            box-shadow: 0 0 0 3px rgba(252, 211, 77, 0.3);
+        }
+        .worksheet-card strong {
+            display: block; color: var(--ig-purple); font-size: 0.9rem; margin-bottom: 4px;
+        }
+        .ws-hint {
+            font-size: 0.78rem; color: #9ca3af; margin-bottom: 8px; line-height: 1.4;
+        }
+        .worksheet-card textarea {
+            width: 100%; min-height: 80px;
+            background: transparent; border: none; outline: none;
+            resize: vertical; padding: 2px 0;
+            font-family: 'Noto Sans JP', sans-serif; font-size: 0.92rem;
+            color: var(--text-main); line-height: 1.75;
+        }
+        .worksheet-card textarea::placeholder { color: #d1d5db; font-size: 0.85rem; }
+        .ws-copy-btn {
+            position: absolute; top: 10px; right: 10px;
+            background: none; border: 1px solid #fcd34d; border-radius: 6px;
+            padding: 3px 8px; font-size: 0.72rem; color: #a16207;
+            cursor: pointer; transition: 0.2s; opacity: 0.6;
+            font-family: 'Noto Sans JP', sans-serif;
+        }
+        .ws-copy-btn:hover { background: #fef9c3; opacity: 1; }
+        .ws-copy-btn.ws-copied { background: #d1fae5; border-color: #10b981; color: #065f46; opacity: 1; }
+        .ws-copy-all-btn {
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            width: 100%; margin-top: 12px; padding: 13px;
+            background: #fff; border: 2px solid #fcd34d; border-radius: var(--radius-medium);
+            font-family: 'Noto Sans JP', sans-serif; font-size: 0.95rem; font-weight: 700;
+            color: #a16207; cursor: pointer; transition: 0.2s;
+        }
+        .ws-copy-all-btn:hover { background: #fffbeb; border-color: #f59e0b; }
+        .ws-copy-all-btn.ws-copied { background: #d1fae5; border-color: #10b981; color: #065f46; }
+
+        /* ── カウントダウンタイマー ── */
+        .timer-container { text-align: center; margin: 20px 0 28px; }
+        .timer-badge {
+            display: inline-flex; align-items: center; justify-content: center; gap: 12px;
+            background: #1e1035; color: #fff;
+            font-family: 'Roboto', sans-serif; font-size: 2.2rem; font-weight: 700;
+            padding: 14px 40px; border-radius: 40px; margin: 8px 0;
+            min-width: 220px; letter-spacing: 3px;
+            transition: background 0.5s ease, box-shadow 0.5s ease;
+        }
+        .timer-badge i { font-size: 1.6rem; }
+        .timer-badge.timer-warning {
+            background: #f59e0b;
+            box-shadow: 0 0 20px rgba(245, 158, 11, 0.4);
+        }
+        .timer-badge.timer-danger {
+            background: #ef4444;
+            animation: pulse-timer 0.8s ease-in-out infinite;
+        }
+        .timer-badge.timer-done {
+            background: #10b981; letter-spacing: 1px;
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
+        }
+        @keyframes pulse-timer {
+            0%, 100% { transform: scale(1);    box-shadow: 0 0 0 0 rgba(239,68,68,0.5); }
+            50%       { transform: scale(1.04); box-shadow: 0 0 0 14px rgba(239,68,68,0); }
+        }
+        .timer-controls { display: flex; gap: 12px; justify-content: center; margin-top: 12px; }
+        .timer-btn {
+            border: none; border-radius: 20px; padding: 10px 28px;
+            font-family: 'Noto Sans JP', sans-serif; font-size: 0.95rem; font-weight: 700;
+            cursor: pointer; transition: 0.2s;
+        }
+        .timer-start {
+            background: var(--ig-grad); color: #fff;
+            box-shadow: 0 4px 15px rgba(193,53,132,0.3);
+        }
+        .timer-start:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(193,53,132,0.4); }
+        .timer-reset { background: #f1f5f9; color: var(--text-main); border: 1px solid #e2e8f0; }
+        .timer-reset:hover { background: #e2e8f0; }
+
+        .sticky-grid {
+            display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px; margin: 24px 0;
+        }
+        .sticky-card {
+            padding: 20px; border-radius: 4px;
+            box-shadow: 2px 4px 8px rgba(0,0,0,0.1);
+            font-size: 0.95rem; line-height: 1.65;
+        }
+        .sticky-card:nth-child(1) { background: #fef08a; transform: rotate(-1deg); }
+        .sticky-card:nth-child(2) { background: #bbf7d0; transform: rotate(1deg); }
+        .sticky-card:nth-child(3) { background: #fbcfe8; transform: rotate(-0.5deg); }
+        .sticky-card:nth-child(4) { background: #bfdbfe; transform: rotate(0.5deg); }
+        .sticky-card strong { display: block; margin-bottom: 6px; color: var(--text-main); }
+
+        .closing-message {
+            text-align: center; font-size: 1.2rem; font-weight: 700;
+            color: var(--ig-purple); margin: 28px 0 16px; line-height: 1.6;
+        }
+
+        .caution-box {
+            background: #fffbeb; border: 2px solid #f59e0b;
+            border-left: 6px solid #d97706; border-radius: var(--radius-medium);
+            padding: 20px 24px; margin: 20px 0;
+        }
+        .caution-box p { margin-bottom: 0; color: #92400e; font-weight: 600; font-size: 0.98rem; }
+
+        .layout-split {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            margin: 24px 0;
+            align-items: start;
+        }
+
+        .video-section {
+            background: #faf8ff; border: 1px solid #e9d5f5;
+            border-radius: var(--radius-medium);
+            padding: 18px 22px; margin-bottom: 36px;
+        }
+        .video-section-title {
+            font-size: 0.9rem; font-weight: 700; color: var(--ig-purple);
+            margin-bottom: 12px; display: flex; align-items: center; gap: 8px;
+        }
+        details.video-item { margin-bottom: 8px; }
+        details.video-item summary {
+            cursor: pointer; font-size: 0.88rem; font-weight: 600;
+            color: var(--text-main); padding: 10px 14px;
+            background: #fff; border: 1px solid #ede9f5;
+            border-radius: var(--radius-small);
+            list-style: none; display: flex; align-items: center; gap: 8px; transition: 0.2s;
+        }
+        details.video-item summary::before { content: '▶'; color: var(--ig-magenta); flex-shrink: 0; }
+        details.video-item[open] summary::before { content: '▼'; }
+        details.video-item summary:hover { background: #fdf0ff; border-color: var(--ig-purple); }
+        details.video-item[open] summary {
+            border-radius: var(--radius-small) var(--radius-small) 0 0; border-bottom: none;
+        }
+        .video-embed {
+            position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;
+            border-radius: 0 0 var(--radius-small) var(--radius-small);
+            border: 1px solid #ede9f5; border-top: none;
+        }
+        .video-embed iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+
+        @media (max-width: 768px) {
+            body { padding: 10px 5px; }
+            .header, .tab-content { padding: 24px 18px; }
+            .header h1 { font-size: 1.5rem; }
+            .card-grid-2, .before-after-grid, .card-grid-3, .worksheet-grid, .sticky-grid { grid-template-columns: 1fr; }
+            .flow-horizontal { flex-direction: column; }
+            .flow-arrow { transform: rotate(90deg); }
+            .practice-steps li { padding-left: 18px; padding-top: 52px; }
+            .practice-steps li::before { top: 14px; left: 16px; transform: none; }
+        }
+
+        @media (min-width: 769px) {
+            .container { max-width: 1050px; }
+        }
+
+        @media (min-width: 1200px) {
+            .container { max-width: 1240px; }
+            .tab-content { padding: 50px 70px; }
+            .header { padding: 40px 70px 24px; }
+            .tab-btn { font-size: 0.92rem; padding: 20px 18px; }
+            .card-grid-2, .before-after-grid, .worksheet-grid { gap: 24px; }
+            .card-grid-3 { gap: 20px; }
+        }
+
+        /* ── Lightbox ──────────────────────────────── */
+        .lb-overlay {
+            display: none; position: fixed; inset: 0; z-index: 2000;
+            background: rgba(10, 4, 22, 0.9); cursor: zoom-out;
+            justify-content: center; align-items: center; padding: 20px;
+        }
+        .lb-overlay.open { display: flex; animation: lbFadeIn 0.2s ease; }
+        @keyframes lbFadeIn { from { opacity: 0 } to { opacity: 1 } }
+        .lb-img {
+            max-width: 92vw; max-height: 90vh; width: auto; height: auto;
+            border-radius: var(--radius-medium);
+            box-shadow: 0 24px 80px rgba(0, 0, 0, 0.7);
+            cursor: default;
+            animation: lbImgIn 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        @keyframes lbImgIn {
+            from { transform: scale(0.88); opacity: 0; }
+            to   { transform: scale(1);    opacity: 1; }
+        }
+        .lb-close {
+            position: absolute; top: 18px; right: 24px;
+            color: #fff; font-size: 2.2rem; line-height: 1;
+            cursor: pointer; opacity: 0.75; transition: opacity 0.15s;
+            background: none; border: none; padding: 4px 8px;
+        }
+        .lb-close:hover { opacity: 1; }
+        .slide-img:not(.cover-slide) { cursor: zoom-in; }
+
+    
+        .quote-box {
+            background: linear-gradient(135deg, #f3e8ff, #fff7ed);
+            border: 2px solid #d8b4fe; border-left: 6px solid var(--ig-purple);
+            border-radius: var(--radius-medium); padding: 22px 26px; margin: 24px 0;
+        }
+        .quote-box p { margin-bottom: 8px; font-size: 0.96rem; color: #475569; line-height: 1.75; }
+        .quote-box p:last-child { margin-bottom: 0; }
+</style>
+</head>
+<body>
+
+    <a href="./index.html" class="home-btn" title="ホームに戻る"><i class="fa-solid fa-house"></i></a>
+
+    <div class="container">
+        <header class="header">
+            <div class="header-top">
+                <div class="header-nav">
+                    <a href="./vol05-1.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> Day 05へ</a>
+                    <a href="./index.html" class="back-link"><i class="fa-solid fa-house"></i> ホームへ</a>
+                </div>
+                <span class="progress-pill">Day 06 / 13</span>
+            </div>
+            <span class="header-tag">DAY 06</span>
+            <h1>Day 06 ─ Canvaによる画像・動画作成</h1>
+            <p class="header-sub">Canvaでプロ級の投稿・リール・プロフィールを作ろう — Jun 2026</p>
+        </header>
+
+        <nav class="tabs">
+            <button class="tab-btn active" onclick="openTab('goal')">今日の目標</button>
+            <button class="tab-btn" onclick="openTab('first')">前半</button>
+            <button class="tab-btn" onclick="openTab('second')">後半</button>
+            <button class="tab-btn" onclick="openTab('summary')">今日のまとめ</button>
+        </nav>
+
+        <!-- 本日の目標 -->
+        <div id="goal" class="tab-content active">
+            <div class="highlight-box" style="text-align:center; margin-bottom:28px;">
+                <p>Canvaを使いこなして、プロ顔負けの投稿・動画・プロフィールを作れるようになろう！</p>
+            </div>
+            <div class="card-grid-2">
+                <div class="info-card">
+                    <div class="info-card-header">
+                        <div class="info-card-icon"><i class="fa-solid fa-image"></i></div>
+                        <h3>前半の目標</h3>
+                    </div>
+                    <p>Canvaの最新AI機能（高画質化・マジックレイヤー・背景除去）を理解し、4ステップで「フォローされる」Instagram投稿1枚を完成させる</p>
+                </div>
+                <div class="info-card">
+                    <div class="info-card-header">
+                        <div class="info-card-icon"><i class="fa-solid fa-film"></i></div>
+                        <h3>後半の目標</h3>
+                    </div>
+                    <p>Canvaのリール編集5テクニック（カット・トランジション・袋文字・タイミング・AI音声）をマスターし、プロフィール設計の3つの「裏技」（リール表紙・フィードシミュレーター・3枚連結バナー）を習得する</p>
+                </div>
+            </div>
+            <div class="info-box">
+                <p>Canvaが2026年に大幅アップデート。単なるデザインツールを超えて、<strong>AIによる画像高画質化</strong>・<strong>マジックレイヤー（レイヤー自動分解）</strong>・<strong>AI音声生成</strong>など、プロ級の編集が無料でできるようになった。今日は「静止画」と「動画」両方の制作フローを体験する。</p>
+            </div>
+            <div style="text-align:center; margin-top:32px;">
+                <button type="button" class="tool-link-btn" onclick="openTab('first')">前半へ進む <i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+        </div>
+
+        <!-- 前半 -->
+        <div id="first" class="tab-content">
+
+            <section class="section">
+                <img src="./assets/day06_slide1.png" alt="Day06前半カバー" class="slide-img cover-slide" style="margin-top:0;">
+
+                <h2><span class="sec-num">SECTION A</span> Canvaの最新AI機能を知る</h2>
+
+                <div class="layout-split">
+                    <div>
+                        <p>今日の前半は「4ステップ」で1枚の投稿を完成させる実践的な授業。Step 1でGeminiにキャッチコピーを作ってもらい、Step 2〜4でCanvaで仕上げていく流れを体で覚えよう。</p>
+                    </div>
+                    <img src="./assets/day06_slide2.png" alt="今日のミッション：4ステップで「フォローされる」投稿を作る" class="slide-img">
+                </div>
+                <div class="layout-split">
+                    <div>
+                        <p>デザインの前にまず「言葉」を用意する。InstagramはビジュアルSNSだが、最初にスクロールを止めるのはキャッチコピーの力。GeminiやChatGPTに<code>今更聞けない〇〇</code>・<code>知らないと損な〇〇</code>などのバズワードを出してもらい、画像に乗せる言葉を先に決める。</p>
+                        <div class="info-card" style="margin-top:16px;">
+                            <div class="info-card-header">
+                                <div class="info-card-icon"><i class="fa-solid fa-lightbulb"></i></div>
+                                <h3>キーワード補足</h3>
+                            </div>
+                            <p><code>今更聞けない〜</code> / <code>知らないと損な〜</code> / <code>〜始め方</code> などのバズワード定型句が、スクロールを止める最強ワード</p>
+                            <p style="margin-top:10px;">Geminiへのプロンプト例：「Apple Watchを知らない人に紹介するInstagram投稿を1枚作ります。キャッチコピーと画像に入れる短い説明文を提案してください」</p>
+                        </div>
+                    </div>
+                    <img src="./assets/day06_slide3.png" alt="Step1: Geminiで「引きの強い言葉」を生成する" class="slide-img">
+                </div>
+                <div class="layout-split">
+                    <div>
+                        <p>荒い写真や解像度が低い画像も、CanvaのAIが自動で高画質化してくれる。画像を選択 →「編集」→「高画質化」を押すだけ。ぼんやりした文字や古い写真が、くっきり蘇る。</p>
+                    </div>
+                    <img src="./assets/day06_slide4.png" alt="高画質化（AI超解像）でくっきり補正" class="slide-img">
+                </div>
+                <div class="layout-split">
+                    <div>
+                        <p>Canva 2026の目玉機能。1枚の画像を「背景」「被写体」「テキスト」などのレイヤーに自動分解し、それぞれを個別に動かしたり置き換えたりできる。AI（Gemini・ChatGPT）で生成した画像を微調整したいときにも大活躍。</p>
+                <div class="step-card">
+                    <span class="step-num">1</span>
+                    <div><h4>画像を選択</h4><p>「編集」→「マジックレイヤー」をクリック</p></div>
+                </div>
+                <div class="step-card">
+                    <span class="step-num">2</span>
+                    <div><h4>AIが自動分解</h4><p>数秒でレイヤー分解が完了</p></div>
+                </div>
+                <div class="step-card">
+                    <span class="step-num">3</span>
+                    <div><h4>各レイヤーを編集</h4><p>個別に選択して編集・移動・差し替え</p></div>
+                </div>
+                    </div>
+                    <img src="./assets/day06_slide5.png" alt="マジックレイヤー：1枚の画像をAIでレイヤー分解" class="slide-img">
+                </div>
+                <div class="layout-split">
+                    <div>
+                        <p>商品・人物・食べ物の写真から背景をワンタップで除去。「素材」でApple Watchの写真を配置し、「編集」→「背景除去」を選ぶだけ。切り抜いた被写体を好きな背景の上に乗せて世界観を作る。</p>
+                    </div>
+                    <img src="./assets/day06_slide6.png" alt="Step2: 背景除去で被写体を綺麗に切り抜く" class="slide-img">
+                </div>
+                <div class="layout-split">
+                    <div>
+                        <p>背景除去した被写体をそのまま乗せると「切り抜き感」が出て不自然に見える。「エフェクト」→「ドロップシャドウ」を適用すると、被写体の下に影が生まれ、背景に溶け込んだ自然な仕上がりになる。ぼかし・距離・不透明度を微調整してリアルな立体感を出そう。</p>
+                    </div>
+                    <img src="./assets/day06_slide7.png" alt="ドロップシャドウで自然に馴染ませる" class="slide-img">
+                </div>
+                <div class="layout-split">
+                    <div>
+                        <p>「素材」→「フレーム」から丸形・四角形のフレームを配置して、写真をはめ込むと整った印象になる。「グリッド」を使えば複数の写真を均等に並べることができ、整然とした情報量の多い投稿が作れる。</p>
+                        <div class="card-grid-2" style="margin-top:16px;">
+                            <div class="info-card">
+                                <div class="info-card-header">
+                                    <div class="info-card-icon"><i class="fa-solid fa-circle"></i></div>
+                                    <h3>フレーム</h3>
+                                </div>
+                                <p>1枚の写真をデザインのアクセントとして見せたいとき</p>
+                            </div>
+                            <div class="info-card">
+                                <div class="info-card-header">
+                                    <div class="info-card-icon"><i class="fa-solid fa-table-cells"></i></div>
+                                    <h3>グリッド</h3>
+                                </div>
+                                <p>複数枚の写真をまとめて見せたいとき（商品比較・ビフォーアフターなど）</p>
+                            </div>
+                        </div>
+                    </div>
+                    <img src="./assets/day06_slide8.png" alt="フレーム・グリッドで複数写真を整頓する" class="slide-img">
+                </div>
+                <div class="layout-split">
+                    <div>
+                        <p>フォントは「感情を伝える」デザインの要素。3種類の特性を覚えておこう：</p>
+                <div class="step-card">
+                    <span class="step-num">1</span>
+                    <div><h4>明朝体（元明朝 等）</h4><p>上品・高級感・落ち着き。高単価商品・ビューティー系に合う</p></div>
+                </div>
+                <div class="step-card">
+                    <span class="step-num">2</span>
+                    <div><h4>ゴシック体（Noto Sans 等）</h4><p>読みやすい・誠実・情報量に強い。テキスト主体の投稿に最適</p></div>
+                </div>
+                <div class="step-card">
+                    <span class="step-num">3</span>
+                    <div><h4>手書き風</h4><p>親近感・温かみ・個人らしさ。ライフスタイル系・DIY系に効果的</p></div>
+                </div>
+                        <p style="margin-top:8px;">「見出しには明朝体、本文にはゴシック体」の組み合わせが一番読みやすく、統一感が出る</p>
+                    </div>
+                    <img src="./assets/day06_slide9.png" alt="Step3: フォントの心理的効果（明朝体・ゴシック体・手書き風）" class="slide-img">
+                </div>
+                <div class="layout-split">
+                    <div>
+                        <p>投稿の最後にサンクスページを1枚入れると、フォロー率が大幅に上がる。「ここまで読んでくれてありがとう！フォローすると毎週〇〇をお届けします」という一言を添えるだけ。Canvaのテンプレートで<code>thanks</code>・<code>サンクス</code>と検索すると既製のデザインがすぐ使える。</p>
+                    </div>
+                    <img src="./assets/day06_slide10.png" alt="Step4: サンクスページで読者をフォロワーに変える" class="slide-img">
+                </div>
+                <div class="layout-split">
+                    <div>
+                        <p>サンクスページには「保存ボタン」と「フォローボタン」の両方を促す文言を入れる。保存されるとInstagramのアルゴリズムが「価値あるコンテンツ」と判断してリーチが拡大する。フォローを促すと同時に「保存して後で見返してね」の一言を必ず入れよう。</p>
+                    </div>
+                    <img src="./assets/day06_slide11.png" alt="「保存」と「フォロー」を促す鉄則レイアウト" class="slide-img">
+                </div>
+                <img src="./assets/day06_slide12.png" alt="実習：あなたの投稿を作ってみましょう！" class="slide-img" style="max-width:640px; margin:24px auto; display:block;">
+                <div class="highlight-box" style="max-width:640px; margin:0 auto 24px;">
+                    <p>今日学んだ4つのステップを使って、実際にCanvaで投稿を1枚作ってみよう。</p>
+                </div>
+
+                <div class="video-section">
+                    <h3 class="video-section-title">📺 前半の参考動画</h3>
+                    <details class="video-item">
+                        <summary>① 【資料付き】Canva大型アプデ！「Canva Create 2026」で発表された激アツ新機能を分かりやすく徹底解説（21:12）</summary>
+                        <div class="video-embed">
+                            <iframe src="https://www.youtube.com/embed/uumr0BVAJE4" allowfullscreen loading="lazy" title="Canva Create 2026新機能解説"></iframe>
+                        </div>
+                    </details>
+                    <details class="video-item">
+                        <summary>② 【2026年最新】Canvaを使ったInstagram投稿デザインを作る方法・完全解説（25:03）</summary>
+                        <div class="video-embed">
+                            <iframe src="https://www.youtube.com/embed/icCvGRU7Pjw" allowfullscreen loading="lazy" title="Instagram投稿デザイン完全解説"></iframe>
+                        </div>
+                    </details>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2><span class="sec-num">WORK</span> 実習：Canvaで投稿用画像をつくる</h2>
+                <div class="worksheet-grid" id="ws-a-1">
+                <div class="step-card">
+                    <span class="step-num">1</span>
+                    <div><h4>Gemini / ChatGPT で投稿内容を作成する</h4><p>「[Apple Watch] を [知らない人] に紹介するInstagram投稿を1枚作ります。キャッチコピーと画像に入れる短い説明文を提案してください」— ［推し］と［届けたい人］は自分の内容に変えてOK<br>🎥 参考動画箇所: <a href="https://youtu.be/icCvGRU7Pjw?si=0JF5ed_fcrnKZuHC&amp;t=74" target="_blank" rel="noopener">youtu.be/icCvGRU7Pjw</a></p></div>
+                </div>
+                <div class="step-card">
+                    <span class="step-num">2</span>
+                    <div><h4>Canvaで新規デザインファイルを作成する</h4><p>Canvaトップページ→「SNS」→「Instagram投稿（4:5）」を選択。ファイル名をつけて自分のフォルダに移動する（例：山田太郎6月11日投稿デザイン）</p></div>
+                </div>
+                <div class="step-card">
+                    <span class="step-num">3</span>
+                    <div><h4>写真素材を配置して背景除去する</h4><p>「素材」から写真を配置 →「編集」→「背景除去」で被写体だけを切り抜く。好きな背景画像を最背面に配置する</p></div>
+                </div>
+                <div class="step-card">
+                    <span class="step-num">4</span>
+                    <div><h4>エフェクト（シャドウ）で立体感を出す</h4><p>切り抜いた素材を選択 →「エフェクト」→「ドロップシャドウ」を適用。ぼかし・距離・不透明度を微調整して背景に馴染ませる</p></div>
+                </div>
+                <div class="step-card">
+                    <span class="step-num">5</span>
+                    <div><h4>テキスト（キャッチコピー）を挿入してフォントを変える</h4><p>Geminiが提案したキャッチコピーを入力。見出しは明朝体・本文はゴシック体に変更して世界観を統一する</p></div>
+                </div>
+                <div class="step-card">
+                    <span class="step-num">6</span>
+                    <div><h4>フレームまたはグリッドに写真を挿入する</h4><p>「素材」からフレームまたはグリッドを配置し、商品写真をドラッグして挿入する</p></div>
+                </div>
+                <div class="step-card">
+                    <span class="step-num">7</span>
+                    <div><h4>「ページを追加」してサンクスページを作る</h4><p>新規ページを追加し、「テンプレート」から「サンクス」「thanks」を検索して配置。「フォローしてね」の一言を添える</p></div>
+                </div>
+                <div class="step-card">
+                    <span class="step-num">8</span>
+                    <div><h4>アニメーション（任意）</h4><p>サンクスページにアニメーション「パン」を適用すると動きのある投稿になる（動画ページは<code>MP4</code>でダウンロード）</p></div>
+                </div>
+                <div class="step-card">
+                    <span class="step-num">9</span>
+                    <div><h4>PNG形式でダウンロードする</h4><p>「共有」→「ダウンロード」→「<code>PNG</code>」を選択。PCで編集してスマホのCanvaアプリから開いてダウンロードすると、そのままInstagramに投稿できて便利</p></div>
+                </div>
+                </div>
+            </section>
+
+            <div class="tab-nav-footer">
+                <button type="button" class="tool-link-btn secondary" onclick="openTab('second')">後半へ <i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+        </div>
+
+        <!-- 後半 -->
+        <div id="second" class="tab-content">
+
+            <section class="section">
+                <img src="./assets/day06_slide13.png" alt="Day06後半カバー" class="slide-img cover-slide" style="margin-top:0;">
+
+                <div class="layout-split">
+                    <div>
+                        <p>後半は2部構成。第1部では「リール動画を5つのテクニックで仕上げる」実践スキルを身につける。第2部では「プロフィール画面を整えるための3つの裏技」を習得し、Canvaでインスタを完全攻略する。</p>
+                    </div>
+                    <img src="./assets/day06_slide14.png" alt="今日のミッション：リール動画編集 ＆ フィード＆表紙設計" class="slide-img">
+                </div>
+
+                <h2><span class="sec-num">SECTION C</span> リール動画編集 5テクニック</h2>
+                <div class="layout-split">
+                    <div>
+                        <p>まずは動画の不要部分をカットして、テンポよく仕上げる。Canvaの動画編集では<code>S</code>キー（または右クリック→「分割」）で好きな場所を切断できる。速度設定から最大2倍速にすることで、見ていて飽きないスピード感を演出しよう。</p>
+                <div class="step-card">
+                    <span class="step-num">1</span>
+                    <div><h4>カット</h4><p>動画クリップを選択 → カーソルを切断したい位置に合わせて「<code>S</code>」キー → 不要部分を選択して Delete</p></div>
+                </div>
+                <div class="step-card">
+                    <span class="step-num">2</span>
+                    <div><h4>スピード調整</h4><p>動画クリップを選択 → 「速度」→ 倍速（最大<code>2.0x</code>）を設定</p></div>
+                </div>
+                    </div>
+                    <img src="./assets/day06_slide15.png" alt="1. 動画の「カット」と「スピード調整」" class="slide-img">
+                </div>
+                <div class="layout-split">
+                    <div>
+                        <p>動画と動画の「つなぎ目」にトランジションを入れると、プロの編集感が一気に出る。おすすめは「<code>ディゾルブ</code>」（自然にフェードする）または「スライド」（スムーズに流れる）の2種類。迷ったら<code>ディゾルブ</code>を選んでおけば間違いなし。</p>
+                        <p>クリップとクリップの間の「+」アイコン（「切り替えを追加」）をクリック → <code>ディゾルブ</code>またはスライドを選択</p>
+                    </div>
+                    <img src="./assets/day06_slide16.png" alt="2. トランジションで「プロっぽく」繋ぐ" class="slide-img">
+                </div>
+                <div class="layout-split">
+                    <div>
+                        <p>リール動画の上にそのままテキストを乗せると、背景と同化して読めなくなることがある。解決策が「袋文字エフェクト」。文字の周囲に太い縁取りをつけることで、どんな背景の上でも文字がくっきり視認できるようになる。スマホの小さい画面でも確実に読んでもらえる必須テクニック。</p>
+                <div class="step-card">
+                    <span class="step-num">1</span>
+                    <div><h4>太字フォントを設定</h4><p>テキストを追加 → フォントを「太字」に設定（スマホ視聴では太字が基本）</p></div>
+                </div>
+                <div class="step-card">
+                    <span class="step-num">2</span>
+                    <div><h4>袋文字エフェクト</h4><p>テキストを選択 →「エフェクト」→「袋文字」→ 縁取りの色（黒など）と太さを設定</p></div>
+                </div>
+                    </div>
+                    <img src="./assets/day06_slide17.png" alt="3. 背景に負けない「袋文字」エフェクト" class="slide-img">
+                </div>
+                <div class="layout-split">
+                    <div>
+                        <p>タイムライン（紫のバー）でテキストや素材の表示タイミングをドラッグ調整できる。「映像が映ってから0.5秒後にタイトルが出る」「サビに合わせてロゴが登場する」といった演出で、視聴者を最後まで引き込もう。</p>
+                        <p>テキスト or 素材を右クリック →「タイミングを表示」→ 紫のバーをドラッグして開始・終了タイミングを調整</p>
+                    </div>
+                    <img src="./assets/day06_slide18.png" alt="4. 文字と素材の「出るタイミング」を操る" class="slide-img">
+                </div>
+                <div class="layout-split">
+                    <div>
+                        <p>音声をつけると、動画の完成度が格段に上がる。自分で収録するか、AIに任せるかの2択。AI音声は無料で使えて、テキストを貼るだけで自然な日本語ナレーションを生成してくれる。</p>
+                        <div class="card-grid-2" style="margin-top:16px;">
+                            <div class="info-card">
+                                <div class="info-card-header">
+                                    <div class="info-card-icon"><i class="fa-solid fa-microphone"></i></div>
+                                    <h3>Option A: ナレーションを収録</h3>
+                                </div>
+                                <p>「音源」→「ナレーションを収録」→ マイクで自分の声を録音。気軽に一発録り！</p>
+                            </div>
+                            <div class="info-card">
+                                <div class="info-card-header">
+                                    <div class="info-card-icon"><i class="fa-solid fa-robot"></i></div>
+                                    <h3>Option B: AI音声を生成（無料）</h3>
+                                </div>
+                                <p>「音源」→「AI音声を生成」→ テキストを貼り付けて声質（アイリ・ハルキ等）を選択 → 自然なナレーションを自動生成</p>
+                            </div>
+                        </div>
+                    </div>
+                    <img src="./assets/day06_slide19.png" alt="5. 自分の声も「AI音声」も自由自在" class="slide-img">
+                </div>
+
+                <h2><span class="sec-num">SECTION D</span> プロフィール設計の「裏技」3選</h2>
+                <div class="layout-split">
+                    <div>
+                        <p>プロフィール画面はあなたの「お店の看板」。ここを整えることで、リールから飛んできた人が「フォローしたい」と思うかどうかが決まる。Canvaで作れる3つの裏技を使って、フィードを一瞬でプロ仕様に見せよう。</p>
+                    </div>
+                    <img src="./assets/day06_slide20.png" alt="第2部：「プロフィール画面」を整えよう" class="slide-img">
+                </div>
+                <div class="layout-split">
+                    <div>
+                        <p>リール動画の表紙を設定したとき、プロフィール画面に並ぶと文字が切れてズレて見えた経験はないだろうか。原因はサイズの問題。プロフィール上では<code>1080×1920</code>のリール画像が「<code>1012×1350</code>」の縦長範囲に切り取られて表示される。この安全領域の中に文字や重要要素を収めることでズレを防げる。</p>
+                <div class="step-card">
+                    <span class="step-num">1</span>
+                    <div><h4>新規ファイル作成</h4><p>Canvaで<code>1080×1920</code>の新規ファイルを作成</p></div>
+                </div>
+                <div class="step-card">
+                    <span class="step-num">2</span>
+                    <div><h4>ガイドで安全領域を表示</h4><p>「ガイド追加」→ カスタム設定 → 列ギャップ: 1012、行ギャップ: 1350 → 紫色の枠（安全領域）が表示される</p></div>
+                </div>
+                <div class="step-card">
+                    <span class="step-num">3</span>
+                    <div><h4>重要要素を枠内に配置</h4><p>タイトル・文字など重要要素はすべてこの枠内に収める</p></div>
+                </div>
+                    </div>
+                    <img src="./assets/day06_slide21.png" alt="「リール表紙」がズレる問題を解決！" class="slide-img">
+                </div>
+                <div class="layout-split">
+                    <div>
+                        <p>投稿する前にプロフィールの見た目を確認できる便利な方法。自分のInstagramのプロフィール画面をスクリーンショットしてCanvaに貼り、その上から「投稿グリッド（3×2）」フレームを重ねる。作成した表紙やサムネイルをそのグリッドに入れてみることで、並んだときの色使いや世界観のバランスを投稿前に確認（シミュレーション）できる。</p>
+                    </div>
+                    <img src="./assets/day06_slide22.png" alt="投稿前に確認！「フィードシミュレーター」" class="slide-img">
+                </div>
+                <div class="layout-split">
+                    <div>
+                        <p>プロフィール画面の上部3枚を1つの横長バナーとして見せる「3枚固定連結バナー」。自己紹介や看板メニューを大きく見せられる最強の第一印象づくりのテクニック。仕組みは「巨大な1枚絵を3等分して、3枚の投稿として順番に投稿」するだけ。</p>
+                    </div>
+                    <img src="./assets/day06_slide23.png" alt="プロフィールの主役！「3枚固定連結バナー」" class="slide-img">
+                </div>
+                <div class="layout-split">
+                    <div>
+                        <p>Canvaでカスタムサイズ「<code>幅3036</code> × 高さ<code>1350</code>」の新規ファイルを作成する。これは投稿サイズ（<code>1012×1350</code>）の横3枚分にあたる。まず横長の一枚絵としてデザインを自由に完成させ、その後3枚に切り分ける。</p>
+                    </div>
+                    <img src="./assets/day06_slide24.png" alt="ステップ①：3枚分の「巨大キャンバス」を作る（幅3036 × 高さ1350）" class="slide-img">
+                </div>
+                <div class="layout-split">
+                    <div>
+                        <p>完成した横長バナーを切り分ける手順：投稿サイズ（<code>1080×1350</code>）の新規ファイルを開き、横長バナー画像をそこに配置する。同じ操作を3ページ分繰り返し、1ページ目は「左側」・2ページ目は「真ん中」・3ページ目は「右側」が表示されるようにずらして配置し、それぞれ別々の<code>PNG</code>画像としてダウンロードする。</p>
+                    </div>
+                    <img src="./assets/day06_slide25.png" alt="ステップ②：デザインを「3つに切り抜く」" class="slide-img">
+                </div>
+                <div class="layout-split">
+                    <div>
+                        <p><strong>右の画像から順番に投稿する</strong> — これが絶対に守るべきルール。Instagramは新しい投稿を左へ押し出す仕組みになっているため、「右端 → 真ん中 → 左端」の順番で投稿することで、プロフィールに並んだときに正しく左から右へ1枚の絵として見えるようになる。逆の順番で投稿すると左右が反転してしまう。</p>
+                <div class="step-card">
+                    <span class="step-num">1</span>
+                    <div><h4>右端の画像を投稿</h4><p>まず「右端の画像」を投稿してピン留め</p></div>
+                </div>
+                <div class="step-card">
+                    <span class="step-num">2</span>
+                    <div><h4>真ん中の画像を投稿</h4><p>次に「真ん中の画像」を投稿してピン留め</p></div>
+                </div>
+                <div class="step-card">
+                    <span class="step-num">3</span>
+                    <div><h4>左端の画像を投稿</h4><p>最後に「左端の画像」を投稿してピン留め</p></div>
+                </div>
+                    </div>
+                    <img src="./assets/day06_slide26.png" alt="ステップ③【超重要】投稿する順番の絶対ルール" class="slide-img">
+                </div>
+                <div class="layout-split">
+                    <div>
+                        <p>今日学んだCanvaの3本柱（リール編集・ガイド設定・連結バナー）は、すべてCanvaの無料機能だけで実現できる。これを使いこなすだけで、インスタのプロフィールが一気にプロ仕様に変わる。</p>
+                    </div>
+                    <img src="./assets/day06_slide27.png" alt="まとめ：Canvaでインスタを完全攻略！" class="slide-img">
+                </div>
+
+                <div class="video-section">
+                    <h3 class="video-section-title">📺 後半の参考動画</h3>
+                    <details class="video-item">
+                        <summary>③ 【2026年最新】リール動画をCanvaで作る方法・完全解説（22:46）</summary>
+                        <div class="video-embed">
+                            <iframe src="https://www.youtube.com/embed/fn9BRQpxr8c" allowfullscreen loading="lazy" title="リール動画をCanvaで作る方法"></iframe>
+                        </div>
+                    </details>
+                    <details class="video-item">
+                        <summary>④ 新インスタ画面対応！Canvaでインスタの固定投稿バナー作り方（8:46）</summary>
+                        <div class="video-embed">
+                            <iframe src="https://www.youtube.com/embed/tRD3GX0B3bY" allowfullscreen loading="lazy" title="固定投稿バナー作り方"></iframe>
+                        </div>
+                    </details>
+                    <details class="video-item">
+                        <summary>⑤ Canvaで"ずれない"リール表紙を作る方法（4:16）</summary>
+                        <div class="video-embed">
+                            <iframe src="https://www.youtube.com/embed/1p6KcXXOFEs" allowfullscreen loading="lazy" title="ずれないリール表紙"></iframe>
+                        </div>
+                    </details>
+                    <details class="video-item">
+                        <summary>⑥ インスタのフィードイメージをCanvaで作ろう（10:19）</summary>
+                        <div class="video-embed">
+                            <iframe src="https://www.youtube.com/embed/vSQ5qgXbHEU" allowfullscreen loading="lazy" title="フィードイメージをCanvaで作る"></iframe>
+                        </div>
+                    </details>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2><span class="sec-num">WORK</span> 実習：Canvaで１リールつくる</h2>
+                <p>🎥 参考動画: <a href="https://youtu.be/fn9BRQpxr8c?t=56" target="_blank" rel="noopener">youtu.be/fn9BRQpxr8c</a></p>
+                <div class="worksheet-grid" id="ws-b-1">
+                <div class="step-card">
+                    <span class="step-num">1</span>
+                    <div><h4>Canvaで動画テンプレートを開く</h4><p>Canvaトップページ→「動画」→「Instagramリール動画」を選択して新規ファイル作成。ファイル名をつけて自分のフォルダに移動する（例：山田太郎6月11日リール動画）</p></div>
+                </div>
+                <div class="step-card">
+                    <span class="step-num">2</span>
+                    <div><h4>動画素材を配置してカットする</h4><p>「素材」から「カフェ」などのキーワードで動画素材を検索して配置する。カーソルを切断したい位置に合わせて「<code>S</code>」キーを押し（または右クリック→「分割」）、不要な部分を削除する</p></div>
+                </div>
+                <div class="step-card">
+                    <span class="step-num">3</span>
+                    <div><h4>再生速度を2倍速にする</h4><p>動画クリップを選択→「速度」→「<code>2.0x</code>」に設定。テンポの良いリールに仕上げよう</p></div>
+                </div>
+                <div class="step-card">
+                    <span class="step-num">4</span>
+                    <div><h4>トランジション（ディゾルブ）を追加する</h4><p>クリップとクリップの繋ぎ目にある「+」（切り替えを追加）をクリック→「<code>ディゾルブ</code>」を選択</p></div>
+                </div>
+                <div class="step-card">
+                    <span class="step-num">5</span>
+                    <div><h4>テキストを入れて袋文字エフェクトをかける</h4><p>テキストを追加→フォントを太字に設定→「エフェクト」→「袋文字」で縁取りをつける。端に寄せすぎるとInstagramのUIで切れるので十分な余白を確保すること</p></div>
+                </div>
+                <div class="step-card">
+                    <span class="step-num">6</span>
+                    <div><h4>テキストの表示タイミングを調整する</h4><p>テキストを右クリック→「タイミングを表示」→ 紫のバーをドラッグして、映像の流れに合ったタイミングに設定する</p></div>
+                </div>
+                <div class="step-card">
+                    <span class="step-num">7</span>
+                    <div><h4>素材を挿入してアニメーションをつける（任意）</h4><p>「素材」からアイコン等を追加し、右クリック→「アニメーション」→「カスタムアニメーション」でドラッグした軌跡に沿って動かせる</p></div>
+                </div>
+                <div class="step-card">
+                    <span class="step-num">8</span>
+                    <div><h4>音声を追加してMP4でダウンロードする</h4><p>「音源」→「ナレーションを収録」（自分の声）または「AI音声を生成」（テキストを入力して声質を選択）で音声を追加する。完成したら「共有」→「ダウンロード」→「<code>MP4</code>形式」でダウンロード</p></div>
+                </div>
+                </div>
+            </section>
+
+            <div class="tab-nav-footer">
+                <button type="button" class="tool-link-btn" onclick="openTab('summary')">今日のまとめへ <i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+        </div>
+
+        <!-- まとめ -->
+        <div id="summary" class="tab-content">
+            <h2>Canvaでインスタを完全攻略！</h2>
+
+            <h3 class="sub-heading">前半の学び</h3>
+            <div class="sticky-grid" style="grid-template-columns: repeat(3, minmax(0, 1fr));">
+                <div class="sticky-card">
+                    <strong>🖼️ Canva最新AI機能</strong>
+                    高画質化・マジックレイヤー・背景除去の3つがInstagram投稿の質を大幅に底上げする
+                </div>
+                <div class="sticky-card">
+                    <strong>🎨 4ステップ制作フロー</strong>
+                    Geminiで言葉を先に作り → 素材を切り抜き → フォントで世界観を統一 → サンクスページでフォロワーに変える
+                </div>
+                <div class="sticky-card">
+                    <strong>💾 PC編集×スマホ投稿</strong>
+                    PCで広い画面を使って作り、スマホのCanvaアプリ経由でダウンロードすると投稿がスムーズ
+                </div>
+            </div>
+
+            <h3 class="sub-heading">後半の学び</h3>
+            <div class="sticky-grid" style="grid-template-columns: repeat(3, minmax(0, 1fr));">
+                <div class="sticky-card">
+                    <strong>✂️ リール編集5テクニック</strong>
+                    カット・スピード・トランジション・袋文字・タイミング調整でプロ並みの動画を作れる
+                </div>
+                <div class="sticky-card">
+                    <strong>🎤 AI音声で完成度UP</strong>
+                    テキストを貼るだけで無料のナレーションが追加でき、動画の引き込み力が大幅に上がる
+                </div>
+                <div class="sticky-card">
+                    <strong>📐 プロフィール設計の3裏技</strong>
+                    ガイド設定でリール表紙のズレを防ぎ、フィードシミュレーターで事前確認し、3枚連結バナーでプロのプロフィールに変える
+                </div>
+            </div>
+
+            <div class="next-step-box" style="text-align:left;">
+                <p><strong>Day 07 予告：フィード投稿</strong></p>
+                <p style="margin-top:12px;">Canvaで作った投稿をInstagramに実際にアップして、フィード投稿の一連の流れを体験します。</p>
+            </div>
+
+            <div class="tab-nav-footer">
+                <a href="./index.html" class="tool-link-btn secondary"><i class="fa-solid fa-house"></i> コース一覧に戻る</a>
+            </div>
+        </div>
+
+    </div>
+
+
+    <script>
+        function openTab(tabId) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            const matchingBtn = Array.from(document.querySelectorAll('.tab-btn')).find(
+                b => (b.getAttribute('onclick') || '').includes("'" + tabId + "'")
+            );
+            if (matchingBtn) matchingBtn.classList.add('active');
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            window.scrollTo({ top: document.querySelector('.tabs').offsetTop - 20, behavior: 'smooth' });
+        }
+
+        // ── Lightbox ────────────────────────────────────────────────
+        (function () {
+            const overlay = document.createElement('div');
+            overlay.className = 'lb-overlay';
+            overlay.innerHTML = '<button class="lb-close" aria-label="閉じる">&times;</button><img class="lb-img" alt="">';
+            document.body.appendChild(overlay);
+
+            const lbImg   = overlay.querySelector('.lb-img');
+            const lbClose = overlay.querySelector('.lb-close');
+
+            function openLb(src, alt) {
+                lbImg.src = src; lbImg.alt = alt || '';
+                overlay.classList.add('open');
+                document.body.style.overflow = 'hidden';
+            }
+            function closeLb() {
+                overlay.classList.remove('open');
+                document.body.style.overflow = '';
+            }
+
+            document.querySelectorAll('.slide-img:not(.cover-slide)').forEach(img => {
+                img.addEventListener('click', () => openLb(img.src, img.alt));
+            });
+            lbClose.addEventListener('click', closeLb);
+            overlay.addEventListener('click', e => { if (e.target === overlay) closeLb(); });
+            document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLb(); });
+        })();
+
+    </script>
+
+</body>
+</html>
+<!-- cache-bust: 2026-06-11T21:00:00 -->
