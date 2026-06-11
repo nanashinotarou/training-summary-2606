@@ -64,3 +64,16 @@
 - 後半：https://youtu.be/UqP-CZuh5Mg
 **備考:** 実習1: Canvaのテンプレートでリール動画を作ろう / 実習2: Instagram公式テンプレートでリールを作ろう
 
+
+## Day 06 — 2026/06/11 (木)
+**テーマ:** Canvaによる画像・動画作成
+**YouTube:** 
+- 前半：https://youtu.be/uumr0BVAJE4
+- 前半：https://youtu.be/icCvGRU7Pjw
+- 後半：https://youtu.be/fn9BRQpxr8c
+- 後半：https://youtu.be/tRD3GX0B3bY
+- 後半：https://youtu.be/1p6KcXXOFEs
+- 後半：https://youtu.be/vSQ5qgXbHEU
+**備考:** 実習1: Canvaで投稿用画像をつくる / 実習2: Canvaで1リールつくる
+
+
