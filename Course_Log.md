@@ -62,5 +62,5 @@
 - 後半：https://youtu.be/g9gxtr0wn4s
 - 後半：https://youtu.be/oOud1ko5BqM
 - 後半：https://youtu.be/UqP-CZuh5Mg
-**備考:** 実習: Canvaのテンプレートでリール動画を作ろう（動画・文字の差し替え、音楽の追加、書き出し）[実習内容のみ後日追記予定]
+**備考:** 実習1: Canvaのテンプレートでリール動画を作ろう / 実習2: Instagram公式テンプレートでリールを作ろう
 
