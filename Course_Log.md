@@ -77,3 +77,16 @@
 **備考:** 実習1: Canvaで投稿用画像をつくる / 実習2: Canvaで1リールつくる
 
 
+## Day 07 — 2026/06/16 (火)
+**テーマ:** フィード投稿
+**YouTube:** 
+- 前半：https://youtu.be/Xb6aoVkk7FI
+- 前半：https://youtu.be/ASmTlnr786E
+- 前半：https://youtu.be/u8HOpFtym5I
+- 後半：https://youtu.be/K1oBUoBxO9s
+- 後半：https://youtu.be/i-9emBO-jwA
+- 後半：https://youtu.be/MmD7mwnd5aE
+**備考:** 実習: フィード投稿の基本操作を覚えよう（画像準備、AI投稿文作成、Instagramでのシェア・AIラベル適用など）
+
+
+
