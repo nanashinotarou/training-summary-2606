@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 07 フィード投稿 | Instagram運用コース</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700;900&family=Teko:wght@600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-body: #fdf4ff;
+            --bg-card: rgba(255, 255, 255, 0.92);
+            --bg-card-solid: #ffffff;
+            --text-main: #1e1035;
+            --text-sub: #64748b;
+            --ig-purple: #833ab4;
+            --ig-magenta: #c13584;
+            --ig-orange: #f77737;
+            --ig-grad: linear-gradient(45deg, #833ab4, #c13584, #f77737);
+            --ig-light: #f3e8ff;
+            --canva-purple: #7B2FF7;
+            --canva-cyan: #00C4CC;
+            --shadow-soft: 0 10px 30px rgba(131, 58, 180, 0.08);
+            --shadow-hover: 0 15px 40px rgba(193, 53, 132, 0.18);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.7);
+            --radius-large: 24px;
+            --radius-medium: 16px;
+            --radius-small: 8px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background-color: var(--bg-body);
+            background-image:
+                radial-gradient(at 0% 0%, rgba(255, 255, 255, 0.9) 0, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(243, 232, 255, 0.9) 0, transparent 50%);
+            background-attachment: fixed;
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 40px 20px;
+        }
+
+        .home-btn {
+            position: fixed; bottom: 30px; right: 30px;
+            width: 60px; height: 60px;
+            background: var(--ig-grad); color: #fff;
+            border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            font-size: 1.5rem; text-decoration: none;
+            box-shadow: 0 10px 25px rgba(193, 53, 132, 0.4);
+            transition: all 0.3s; z-index: 1000;
+        }
+        .home-btn:hover { transform: translateY(-5px) scale(1.05); }
+
+        .container {
+            width: 100%; max-width: 900px;
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            border: var(--glass-border);
+            border-radius: var(--radius-large);
+            box-shadow: var(--shadow-soft);
+            overflow: hidden;
+            animation: fadeIn 0.8s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .header { padding: 36px 40px 20px; text-align: center; border-bottom: 2px solid var(--ig-light); }
+        .header-top {
+            display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 14px; flex-wrap: wrap; gap: 10px;
+        }
+        .header-nav { display: flex; gap: 12px; flex-wrap: wrap; }
+        .back-link {
+            display: inline-flex; align-items: center; gap: 6px;
+            color: var(--ig-purple); text-decoration: none;
+            font-weight: 700; font-size: 0.9rem;
+        }
+        .back-link:hover { color: var(--ig-magenta); }
+        .progress-pill {
+            font-family: 'Roboto', sans-serif;
+            font-size: 0.85rem; font-weight: 700; color: #fff;
+            background: var(--ig-grad);
+            padding: 6px 14px; border-radius: 20px;
+        }
+        .header-tag {
+            display: inline-block; background: var(--ig-grad);
+            color: #fff; font-weight: 700; padding: 4px 14px; border-radius: 20px;
+            font-family: 'Roboto', sans-serif; font-size: 0.85rem; letter-spacing: 1px; margin-bottom: 12px;
+        }
+        .header h1 {
+            font-size: 2rem; font-weight: 900;
+            background: var(--ig-grad);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text; margin-bottom: 10px; line-height: 1.35;
+        }
+        .header-sub { margin: 0; color: var(--text-sub); font-size: 0.95rem; }
+
+        .slide-img {
+            width: 100%; height: auto; display: block;
+            border-radius: var(--radius-medium);
+            margin: 24px 0; box-shadow: var(--shadow-soft);
+            border: 1px solid #ede9f5;
+        }
+        .cover-slide { margin: 0; border-radius: 0; border: none; box-shadow: none; }
+
+        .tabs {
+            display: flex; padding: 0 20px;
+            background: rgba(255, 255, 255, 0.5);
+            border-bottom: 1px solid #ede9f5; overflow-x: auto;
+        }
+        .tab-btn {
+            border: none; background: none; padding: 18px 14px;
+            font-size: 0.88rem; font-weight: 700; color: var(--text-sub);
+            cursor: pointer; position: relative; white-space: nowrap;
+        }
+        .tab-btn:hover, .tab-btn.active { color: var(--ig-purple); }
+        .tab-btn.active::after {
+            content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 3px;
+            background: var(--ig-grad); border-radius: 3px 3px 0 0;
+        }
+        .tab-content {
+            display: none; padding: 40px;
+            background: var(--bg-card-solid); min-height: 500px;
+            animation: fadeInTab 0.4s ease-out;
+        }
+        .tab-content.active { display: block; }
+        @keyframes fadeInTab {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            font-size: 1.55rem; color: var(--text-main);
+            border-left: 5px solid var(--ig-purple);
+            padding-left: 15px; margin: 30px 0 20px;
+            display: flex; align-items: center; gap: 10px;
+        }
+        h2:first-child { margin-top: 0; }
+        h2 .sec-num {
+            font-family: 'Teko', sans-serif; font-size: 1.1rem;
+            color: var(--ig-magenta); font-weight: 600;
+        }
+        h3.sub-heading .sec-num {
+            font-family: 'Teko', sans-serif;
+            color: var(--ig-magenta);
+            margin-right: 6px;
+        }
+        h3.sub-heading {
+            font-size: 1.05rem; font-weight: 700; color: var(--ig-purple);
+            margin: 24px 0 16px;
+            background: linear-gradient(to right, rgba(131,58,180,0.07), transparent);
+            border-left: 4px solid var(--ig-purple);
+            padding: 8px 14px;
+            border-radius: 0 var(--radius-small) var(--radius-small) 0;
+        }
+        /* コンテンツブロック直後のサブ見出しは間を広げる */
+        div + h3.sub-heading,
+        img.slide-img + h3.sub-heading {
+            margin-top: 56px;
+        }
+        p { line-height: 1.72; margin-bottom: 11px; color: #475569; font-size: 1.02rem; }
+
+        .goal-box {
+            background: linear-gradient(135deg, #f5f0ff, #f0fdff);
+            border: 1px solid #e9d5f5; border-radius: var(--radius-medium);
+            padding: 30px; margin-bottom: 28px; text-align: center;
+        }
+        .goal-box i {
+            font-size: 2.5rem;
+            background: var(--ig-grad);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text; margin-bottom: 12px;
+        }
+        .goal-box h3 { font-size: 1.35rem; color: var(--ig-purple); margin-bottom: 12px; }
+        .goal-box p { margin-bottom: 8px; font-size: 1.05rem; color: var(--text-main); }
+        .goal-box p:last-child { margin-bottom: 0; }
+
+        .goal-list {
+            background: #faf8ff; border: 1px solid #ede9f5;
+            border-radius: var(--radius-medium); padding: 22px 26px; margin: 20px 0;
+        }
+        .goal-list h4 { font-size: 1rem; color: var(--ig-purple); margin-bottom: 10px; }
+        .goal-list ul { margin: 0; padding-left: 1.3rem; line-height: 1.72; color: #475569; }
+
+        .section {
+            margin-bottom: 64px; padding-bottom: 64px;
+            border-bottom: 2px dashed #ddd6f5;
+        }
+        .section:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+
+        .card-grid-2 {
+            display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px; margin: 24px 0;
+        }
+        .info-card {
+            background: #fff; border: 1px solid #ede9f5;
+            border-radius: var(--radius-medium); padding: 22px;
+            box-shadow: var(--shadow-soft); transition: 0.25s;
+            position: relative; overflow: hidden;
+        }
+        .info-card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+            background: var(--ig-grad);
+        }
+        .info-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); }
+        .info-card-header {
+            display: flex; align-items: center; gap: 12px; margin-bottom: 14px;
+        }
+        .info-card-icon {
+            flex-shrink: 0;
+            width: 40px; height: 40px; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            background: linear-gradient(135deg, rgba(131,58,180,0.12), rgba(247,119,55,0.10));
+            color: var(--ig-purple); font-size: 1.1rem;
+        }
+        .info-card h3 { font-size: 1.05rem; color: var(--ig-purple); margin-bottom: 0; }
+        .info-card p { font-size: 1rem; margin-bottom: 0; line-height: 1.65; color: var(--text-main); font-weight: 500; }
+
+        .sub-note {
+            font-size: 0.88rem; color: var(--text-sub);
+            background: #faf8ff; border: 1px solid #ede9f5;
+            border-radius: var(--radius-small); padding: 14px 18px;
+            margin-top: 16px; line-height: 1.7;
+        }
+
+        code {
+            font-family: 'Roboto Mono', 'Courier New', monospace;
+            background: #f3f0ff; color: var(--ig-purple);
+            border: 1px solid #e2d8f5; border-radius: 4px;
+            padding: 1px 6px; font-size: 0.83em;
+        }
+
+        .step-card {
+            display: flex; gap: 16px; align-items: flex-start;
+            background: #fff; border: 1px solid #ede9f5;
+            border-radius: var(--radius-medium); padding: 18px 20px;
+            margin-bottom: 14px; transition: 0.2s;
+        }
+        .step-card:hover { border-color: var(--ig-magenta); box-shadow: var(--shadow-soft); }
+        .step-num {
+            flex-shrink: 0; width: 36px; height: 36px; border-radius: 50%;
+            background: var(--ig-grad);
+            color: #fff; font-family: 'Roboto', sans-serif;
+            font-weight: 900; font-size: 1rem;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .step-card h4 { font-size: 1rem; color: var(--text-main); margin-bottom: 6px; }
+        .step-card p { font-size: 0.92rem; margin-bottom: 0; }
+
+        .warning-box {
+            background: #fff5f5; border: 2px solid #fca5a5;
+            border-radius: var(--radius-medium); padding: 20px 24px; margin: 16px 0;
+        }
+        .warning-box p { margin-bottom: 0; color: #7f1d1d; font-size: 0.96rem; font-weight: 600; }
+
+        .tips-box {
+            background: linear-gradient(135deg, #fdf0ff, #fff8f3);
+            border: 1px solid #e9d5f5; border-left: 5px solid var(--ig-magenta);
+            border-radius: var(--radius-medium); padding: 20px 24px; margin: 20px 0;
+        }
+        .tips-box h4 {
+            color: var(--ig-purple); font-size: 1rem; margin-bottom: 8px;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .tips-box p { margin-bottom: 0; font-size: 0.96rem; }
+
+        .info-box {
+            background: #faf8ff; border: 1px solid #e9d5f5; border-left: 5px solid var(--ig-purple);
+            border-radius: var(--radius-medium); padding: 20px 24px; margin: 20px 0;
+        }
+        .info-box p { margin-bottom: 8px; font-size: 0.96rem; color: #475569; line-height: 1.75; }
+        .info-box p:last-child { margin-bottom: 0; }
+        .info-box ul { margin: 8px 0 0; padding-left: 1.3rem; line-height: 1.72; color: #475569; font-size: 0.96rem; }
+
+        .before-after-grid {
+            display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px; margin: 24px 0;
+        }
+        .ba-card {
+            padding: 22px; border-radius: var(--radius-medium);
+            border: 1px solid #ede9f5;
+        }
+        .ba-card.before { background: #fef2f2; border-color: #fecaca; }
+        .ba-card.after { background: #f0fdf4; border-color: #bbf7d0; }
+        .ba-card h4 { font-size: 1rem; margin-bottom: 10px; }
+        .ba-card.before h4 { color: #b91c1c; }
+        .ba-card.after h4 { color: #15803d; }
+        .ba-card p { font-size: 0.92rem; margin-bottom: 0; line-height: 1.7; }
+
+        .practice-steps {
+            counter-reset: practice; list-style: none; padding: 0; margin: 24px 0;
+        }
+        .practice-steps li {
+            counter-increment: practice; position: relative;
+            padding: 20px 20px 20px 70px; margin-bottom: 14px;
+            background: linear-gradient(135deg, #fdf0ff, #fff);
+            border: 1px solid #e9d5f5; border-radius: var(--radius-medium);
+        }
+        .practice-steps li::before {
+            content: 'Step ' counter(practice);
+            position: absolute; left: 16px; top: 50%; transform: translateY(-50%);
+            font-family: 'Roboto', sans-serif; font-size: 0.72rem; font-weight: 700;
+            color: #fff;
+            background: var(--ig-grad);
+            padding: 6px 10px; border-radius: 8px; white-space: nowrap;
+        }
+        .practice-steps li strong {
+            display: block; font-size: 1rem; color: var(--text-main); margin-bottom: 6px;
+        }
+        .practice-steps li span { font-size: 0.92rem; color: #64748b; line-height: 1.7; }
+
+        .next-step-box {
+            background: var(--ig-light); border: 1px solid #e9d5f5;
+            border-radius: var(--radius-medium); padding: 20px 24px;
+            margin-top: 24px; text-align: center;
+        }
+        .next-step-box p { margin-bottom: 0; color: var(--text-main); font-weight: 500; }
+
+        .placeholder-box {
+            text-align: center; padding: 60px 30px;
+            background: #faf8ff; border: 2px dashed #e9d5f5;
+            border-radius: var(--radius-medium); margin: 20px 0;
+        }
+        .placeholder-box i { font-size: 2.5rem; color: #c4b5fd; margin-bottom: 16px; }
+        .placeholder-box p { color: var(--text-sub); margin-bottom: 0; font-size: 1.05rem; }
+
+        .tool-link-btn {
+            display: inline-flex; align-items: center; gap: 10px;
+            background: var(--ig-grad);
+            color: #fff; padding: 14px 32px; border-radius: 30px;
+            text-decoration: none; font-weight: bold; font-size: 1.05rem;
+            border: none; cursor: pointer; transition: 0.3s;
+            box-shadow: 0 8px 20px rgba(193, 53, 132, 0.25);
+        }
+        .tool-link-btn:hover { transform: translateY(-3px); }
+        .tool-link-btn.secondary {
+            background: #fff; color: var(--text-main);
+            border: 2px solid #ede9f5; box-shadow: none;
+        }
+        .tab-nav-footer {
+            text-align: center; margin-top: 36px;
+            display: flex; flex-direction: column; gap: 14px; align-items: center;
+        }
+
+        .card-grid-3 {
+            display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 14px; margin: 24px 0;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #fdf0ff, #fff8f3);
+            border: 1px solid #e9d5f5; border-left: 5px solid var(--ig-magenta);
+            border-radius: var(--radius-medium); padding: 22px 26px; margin: 20px 0;
+        }
+        .highlight-box p { margin-bottom: 0; font-weight: 600; color: var(--text-main); }
+
+        .flow-steps {
+            display: flex; flex-direction: column; gap: 12px; margin: 20px 0;
+        }
+        .flow-step {
+            display: flex; gap: 14px; align-items: flex-start;
+            background: #fff; border: 1px solid #ede9f5;
+            border-radius: var(--radius-medium); padding: 16px 18px;
+        }
+        .flow-step-num {
+            flex-shrink: 0; font-family: 'Roboto', sans-serif;
+            font-size: 0.75rem; font-weight: 700; color: #fff;
+            background: var(--ig-grad); padding: 6px 10px; border-radius: 8px;
+        }
+        .flow-step h4 { font-size: 0.98rem; margin-bottom: 4px; color: var(--ig-purple); }
+        .flow-step p { font-size: 0.9rem; margin-bottom: 0; }
+
+        .flow-horizontal {
+            display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
+            gap: 8px; margin: 24px 0; padding: 20px;
+            background: #faf8ff; border: 1px solid #ede9f5; border-radius: var(--radius-medium);
+        }
+        .flow-h-item {
+            background: #fff; border: 1px solid #ede9f5;
+            border-radius: var(--radius-small); padding: 14px 16px;
+            text-align: center; min-width: 140px; flex: 1;
+        }
+        .flow-h-item strong { display: block; color: var(--ig-purple); margin-bottom: 4px; font-size: 0.95rem; }
+        .flow-h-item span { font-size: 0.82rem; color: #64748b; line-height: 1.5; }
+        .flow-arrow { color: var(--ig-magenta); font-size: 1.2rem; font-weight: 700; }
+
+        .compare-card {
+            background: #fff; border: 1px solid #ede9f5;
+            border-radius: var(--radius-medium); padding: 20px;
+            box-shadow: var(--shadow-soft);
+        }
+        .compare-card.low { border-top: 4px solid var(--ig-purple); }
+        .compare-card.high { border-top: 4px solid var(--ig-magenta); }
+        .compare-card h4 { font-size: 1rem; color: var(--ig-purple); margin-bottom: 10px; }
+        .compare-card ul { margin: 0; padding-left: 1.2rem; font-size: 0.88rem; line-height: 1.7; color: #475569; }
+
+        .iceberg-box {
+            background: linear-gradient(180deg, #e0f2fe 0%, #f0f9ff 35%, #faf8ff 35%);
+            border: 1px solid #bae6fd; border-radius: var(--radius-medium);
+            padding: 24px; margin: 20px 0;
+        }
+        .iceberg-top, .iceberg-bottom { padding: 16px; border-radius: var(--radius-small); }
+        .iceberg-top { background: rgba(255,255,255,0.9); margin-bottom: 12px; }
+        .iceberg-bottom { background: rgba(131,58,180,0.08); border: 1px dashed var(--ig-purple); }
+        .iceberg-top h4, .iceberg-bottom h4 { font-size: 0.95rem; color: var(--ig-purple); margin-bottom: 8px; }
+        .iceberg-top p, .iceberg-bottom p { font-size: 0.9rem; margin-bottom: 0; }
+
+        .persona-example {
+            background: #fffbeb; border: 1px solid #fde68a;
+            border-left: 5px solid #f59e0b; border-radius: var(--radius-medium);
+            padding: 22px; margin: 20px 0;
+        }
+        .persona-example h4 { color: #b45309; margin-bottom: 12px; }
+        .persona-example p { font-size: 0.92rem; margin-bottom: 8px; }
+        .persona-example p:last-child { margin-bottom: 0; }
+
+        .worksheet-grid {
+            display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px; margin: 24px 0;
+        }
+        .worksheet-card {
+            background: #fffef5; border: 2px dashed #fcd34d;
+            border-radius: var(--radius-medium); padding: 16px 16px 12px;
+            min-height: 150px; position: relative;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .worksheet-card:focus-within {
+            border-color: #f59e0b; border-style: solid;
+            box-shadow: 0 0 0 3px rgba(252, 211, 77, 0.3);
+        }
+        .worksheet-card strong {
+            display: block; color: var(--ig-purple); font-size: 0.9rem; margin-bottom: 4px;
+        }
+        .ws-hint {
+            font-size: 0.78rem; color: #9ca3af; margin-bottom: 8px; line-height: 1.4;
+        }
+        .worksheet-card textarea {
+            width: 100%; min-height: 80px;
+            background: transparent; border: none; outline: none;
+            resize: vertical; padding: 2px 0;
+            font-family: 'Noto Sans JP', sans-serif; font-size: 0.92rem;
+            color: var(--text-main); line-height: 1.75;
+        }
+        .worksheet-card textarea::placeholder { color: #d1d5db; font-size: 0.85rem; }
+        .ws-copy-btn {
+            position: absolute; top: 10px; right: 10px;
+            background: none; border: 1px solid #fcd34d; border-radius: 6px;
+            padding: 3px 8px; font-size: 0.72rem; color: #a16207;
+            cursor: pointer; transition: 0.2s; opacity: 0.6;
+            font-family: 'Noto Sans JP', sans-serif;
+        }
+        .ws-copy-btn:hover { background: #fef9c3; opacity: 1; }
+        .ws-copy-btn.ws-copied { background: #d1fae5; border-color: #10b981; color: #065f46; opacity: 1; }
+        .ws-copy-all-btn {
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            width: 100%; margin-top: 12px; padding: 13px;
+            background: #fff; border: 2px solid #fcd34d; border-radius: var(--radius-medium);
+            font-family: 'Noto Sans JP', sans-serif; font-size: 0.95rem; font-weight: 700;
+            color: #a16207; cursor: pointer; transition: 0.2s;
+        }
+        .ws-copy-all-btn:hover { background: #fffbeb; border-color: #f59e0b; }
+        .ws-copy-all-btn.ws-copied { background: #d1fae5; border-color: #10b981; color: #065f46; }
+
+        /* ── カウントダウンタイマー ── */
+        .timer-container { text-align: center; margin: 20px 0 28px; }
+        .timer-badge {
+            display: inline-flex; align-items: center; justify-content: center; gap: 12px;
+            background: #1e1035; color: #fff;
+            font-family: 'Roboto', sans-serif; font-size: 2.2rem; font-weight: 700;
+            padding: 14px 40px; border-radius: 40px; margin: 8px 0;
+            min-width: 220px; letter-spacing: 3px;
+            transition: background 0.5s ease, box-shadow 0.5s ease;
+        }
+        .timer-badge i { font-size: 1.6rem; }
+        .timer-badge.timer-warning {
+            background: #f59e0b;
+            box-shadow: 0 0 20px rgba(245, 158, 11, 0.4);
+        }
+        .timer-badge.timer-danger {
+            background: #ef4444;
+            animation: pulse-timer 0.8s ease-in-out infinite;
+        }
+        .timer-badge.timer-done {
+            background: #10b981; letter-spacing: 1px;
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
+        }
+        @keyframes pulse-timer {
+            0%, 100% { transform: scale(1);    box-shadow: 0 0 0 0 rgba(239,68,68,0.5); }
+            50%       { transform: scale(1.04); box-shadow: 0 0 0 14px rgba(239,68,68,0); }
+        }
+        .timer-controls { display: flex; gap: 12px; justify-content: center; margin-top: 12px; }
+        .timer-btn {
+            border: none; border-radius: 20px; padding: 10px 28px;
+            font-family: 'Noto Sans JP', sans-serif; font-size: 0.95rem; font-weight: 700;
+            cursor: pointer; transition: 0.2s;
+        }
+        .timer-start {
+            background: var(--ig-grad); color: #fff;
+            box-shadow: 0 4px 15px rgba(193,53,132,0.3);
+        }
+        .timer-start:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(193,53,132,0.4); }
+        .timer-reset { background: #f1f5f9; color: var(--text-main); border: 1px solid #e2e8f0; }
+        .timer-reset:hover { background: #e2e8f0; }
+
+        .sticky-grid {
+            display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px; margin: 24px 0;
+        }
+        .sticky-card {
+            padding: 20px; border-radius: 4px;
+            box-shadow: 2px 4px 8px rgba(0,0,0,0.1);
+            font-size: 0.95rem; line-height: 1.65;
+        }
+        .sticky-card:nth-child(1) { background: #fef08a; transform: rotate(-1deg); }
+        .sticky-card:nth-child(2) { background: #bbf7d0; transform: rotate(1deg); }
+        .sticky-card:nth-child(3) { background: #fbcfe8; transform: rotate(-0.5deg); }
+        .sticky-card:nth-child(4) { background: #bfdbfe; transform: rotate(0.5deg); }
+        .sticky-card strong { display: block; margin-bottom: 6px; color: var(--text-main); }
+
+        .closing-message {
+            text-align: center; font-size: 1.2rem; font-weight: 700;
+            color: var(--ig-purple); margin: 28px 0 16px; line-height: 1.6;
+        }
+
+        .caution-box {
+            background: #fffbeb; border: 2px solid #f59e0b;
+            border-left: 6px solid #d97706; border-radius: var(--radius-medium);
+            padding: 20px 24px; margin: 20px 0;
+        }
+        .caution-box p { margin-bottom: 0; color: #92400e; font-weight: 600; font-size: 0.98rem; }
+
+        .layout-split {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            margin: 24px 0;
+            align-items: start;
+        }
+
+        .video-section {
+            background: #faf8ff; border: 1px solid #e9d5f5;
+            border-radius: var(--radius-medium);
+            padding: 18px 22px; margin-bottom: 36px;
+        }
+        .video-section-title {
+            font-size: 0.9rem; font-weight: 700; color: var(--ig-purple);
+            margin-bottom: 12px; display: flex; align-items: center; gap: 8px;
+        }
+        details.video-item { margin-bottom: 8px; }
+        details.video-item summary {
+            cursor: pointer; font-size: 0.88rem; font-weight: 600;
+            color: var(--text-main); padding: 10px 14px;
+            background: #fff; border: 1px solid #ede9f5;
+            border-radius: var(--radius-small);
+            list-style: none; display: flex; align-items: center; gap: 8px; transition: 0.2s;
+        }
+        details.video-item summary::before { content: '▶'; color: var(--ig-magenta); flex-shrink: 0; }
+        details.video-item[open] summary::before { content: '▼'; }
+        details.video-item summary:hover { background: #fdf0ff; border-color: var(--ig-purple); }
+        details.video-item[open] summary {
+            border-radius: var(--radius-small) var(--radius-small) 0 0; border-bottom: none;
+        }
+        .video-embed {
+            position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;
+            border-radius: 0 0 var(--radius-small) var(--radius-small);
+            border: 1px solid #ede9f5; border-top: none;
+        }
+        .video-embed iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+
+        @media (max-width: 768px) {
+            body { padding: 10px 5px; }
+            .header, .tab-content { padding: 24px 18px; }
+            .header h1 { font-size: 1.5rem; }
+            .card-grid-2, .before-after-grid, .card-grid-3, .worksheet-grid, .sticky-grid { grid-template-columns: 1fr; }
+            .flow-horizontal { flex-direction: column; }
+            .flow-arrow { transform: rotate(90deg); }
+            .practice-steps li { padding-left: 18px; padding-top: 52px; }
+            .practice-steps li::before { top: 14px; left: 16px; transform: none; }
+        }
+
+        @media (min-width: 769px) {
+            .container { max-width: 1050px; }
+        }
+
+        @media (min-width: 1200px) {
+            .container { max-width: 1240px; }
+            .tab-content { padding: 50px 70px; }
+            .header { padding: 40px 70px 24px; }
+            .tab-btn { font-size: 0.92rem; padding: 20px 18px; }
+            .card-grid-2, .before-after-grid, .worksheet-grid { gap: 24px; }
+            .card-grid-3 { gap: 20px; }
+        }
+
+        /* ── Lightbox ──────────────────────────────── */
+        .lb-overlay {
+            display: none; position: fixed; inset: 0; z-index: 2000;
+            background: rgba(10, 4, 22, 0.9); cursor: zoom-out;
+            justify-content: center; align-items: center; padding: 20px;
+        }
+        .lb-overlay.open { display: flex; animation: lbFadeIn 0.2s ease; }
+        @keyframes lbFadeIn { from { opacity: 0 } to { opacity: 1 } }
+        .lb-img {
+            max-width: 92vw; max-height: 90vh; width: auto; height: auto;
+            border-radius: var(--radius-medium);
+            box-shadow: 0 24px 80px rgba(0, 0, 0, 0.7);
+            cursor: default;
+            animation: lbImgIn 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        @keyframes lbImgIn {
+            from { transform: scale(0.88); opacity: 0; }
+            to   { transform: scale(1);    opacity: 1; }
+        }
+        .lb-close {
+            position: absolute; top: 18px; right: 24px;
+            color: #fff; font-size: 2.2rem; line-height: 1;
+            cursor: pointer; opacity: 0.75; transition: opacity 0.15s;
+            background: none; border: none; padding: 4px 8px;
+        }
+        .lb-close:hover { opacity: 1; }
+        .slide-img:not(.cover-slide) { cursor: zoom-in; }
+
+    
+        .quote-box {
+            background: linear-gradient(135deg, #f3e8ff, #fff7ed);
+            border: 2px solid #d8b4fe; border-left: 6px solid var(--ig-purple);
+            border-radius: var(--radius-medium); padding: 22px 26px; margin: 24px 0;
+        }
+        .quote-box p { margin-bottom: 8px; font-size: 0.96rem; color: #475569; line-height: 1.75; }
+        .quote-box p:last-child { margin-bottom: 0; }
+
+        .day-title { margin-bottom: 4px; }
+        .day-subtitle {
+            font-size: 1.05rem; font-weight: 700; color: var(--text-sub);
+            margin: 0 0 10px;
+        }
+</style>
+</head>
+
+<body>
+
+    <a href="./index.html" class="home-btn" title="ホームに戻る"><i class="fa-solid fa-house"></i></a>
+
+    <div class="container">
+        <header class="header">
+            <div class="header-top">
+                <div class="header-nav">
+                    <a href="./vol06-1.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> Day 06へ</a>
+                    <a href="./index.html" class="back-link"><i class="fa-solid fa-house"></i> ホームへ</a>
+                </div>
+                <span class="progress-pill">Day 07 / 13</span>
+            </div>
+            <span class="header-tag">DAY 07</span>
+            <h1 class="day-title">Day 07</h1>
+            <p class="day-subtitle">フィード投稿マスター</p>
+            <p class="header-sub">保存率と滞在時間を高めるフィード・カルーセル設計 — Jun 2026</p>
+        </header>
+
+        <nav class="tabs">
+            <button class="tab-btn active" onclick="openTab('goal')">今日の目標</button>
+            <button class="tab-btn" onclick="openTab('first')">前半</button>
+            <button class="tab-btn" onclick="openTab('second')">後半</button>
+            <button class="tab-btn" onclick="openTab('summary')">今日のまとめ</button>
+        </nav>
+
+        <div id="goal" class="tab-content active">
+            <img src="./assets/day07_slide1.png" alt="Day07 カバー" class="slide-img cover-slide" style="margin-top:0;">
+            <h2 style="margin-top:24px;">今日のゴール</h2>
+            <p>フィード投稿の基本操作・カルーセル設計・プロデザイナーの添削視点を習得し、保存率と滞在時間を高める投稿が作れるようになる。</p>
+            <div class="card-grid-3">
+                <div class="info-card">
+                    <div class="info-card-header">
+                        <div class="info-card-icon"><i class="fa-solid fa-images"></i></div>
+                        <h3>ポイント 1</h3>
+                    </div>
+                    <p>フィード投稿の仕様（サイズ・複数選択・加工・設定）とカルーセル投稿の基本操作を身につける</p>
+                </div>
+                <div class="info-card">
+                    <div class="info-card-header">
+                        <div class="info-card-icon"><i class="fa-solid fa-palette"></i></div>
+                        <h3>ポイント 2</h3>
+                    </div>
+                    <p>Canvaで「繋がる横長カルーセル」をデザインし、分割ツールで5枚に切り出して投稿できるようにする</p>
+                </div>
+                <div class="info-card">
+                    <div class="info-card-header">
+                        <div class="info-card-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                        <h3>ポイント 3</h3>
+                    </div>
+                    <p>色数の引き算・情報のメリハリ・統一感の原則をデザイン添削事例から学ぶ</p>
+                </div>
+            </div>
+            <div class="tab-nav-footer">
+                <button type="button" class="tool-link-btn" onclick="openTab('first')">前半へ進む <i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+        </div>
+
+        <div id="first" class="tab-content">
+            <h2 style="margin-top:0;">前半 ／ フィード投稿の基本とカルーセル設計</h2>
+
+            <section class="section">
+                <h2><span class="sec-num">SECTION A</span> フィード投稿の基本操作と仕様</h2>
+                <div class="layout-split">
+                    <div>
+                        <ul style="padding-left:1.3rem; line-height:1.72; color:#475569;">
+                            <li>フィード投稿とは：プロフィール画面に残るメインの投稿。画像・動画を1枚から最大<strong>20枚</strong>まで投稿可能</li>
+                            <li>複数枚の画像投稿を<strong>カルーセル投稿</strong>と呼ぶ。動画は1本最大60分までサポート</li>
+                            <li>投稿サイズは3種類：縦長<code>4:5</code>（現在の主流・1080×1350px）／正方形／横長<code>16:9</code></li>
+                        </ul>
+                    </div>
+                    <img src="./assets/day07_slide2.png" alt="フィード投稿の基本" class="slide-img">
+                </div>
+
+                <h3 class="sub-heading"><span class="sec-num">2</span> 投稿手順と複数枚選択</h3>
+                <div class="layout-split">
+                    <div><p>投稿手順：右上 <code>+</code> → 投稿 → 画像選択 → 加工 → キャプション入力 → シェア</p><p>複数枚選択は「重なった四角ボタン」をタップしてから選択。長押しドラッグで並び替え</p><p><strong>お気に入り絞り込み</strong>：写真アプリでハートをつけておくとInstagramの投稿画面から「お気に入り」フォルダで素早く絞り込める</p></div>
+                    <img src="./assets/day07_slide3.png" alt="投稿手順と複数枚選択" class="slide-img">
+                </div>
+
+                <h3 class="sub-heading"><span class="sec-num">3</span> 個別加工とAIラベル</h3>
+                <div class="layout-split">
+                    <div><p>個別加工：フィルター・明るさ調整・BGM追加（公式音源）が各枚ごとに設定可能</p><p><strong>AIラベル</strong>：AI生成画像を使った投稿は「AIラベル」の設定が義務</p></div>
+                    <img src="./assets/day07_slide4.png" alt="個別加工とAIラベル" class="slide-img">
+                </div>
+
+                <h3 class="sub-heading"><span class="sec-num">4</span> 予約・下書き・アーカイブ・ピン止め</h3>
+                <div class="layout-split">
+                    <div><p>予約投稿・下書き保存・アーカイブ（非表示化）・ピン止め（プロフィール上部3枚固定）も活用できる</p></div>
+                    <img src="./assets/day07_slide5.png" alt="予約・下書き・アーカイブ・ピン止め" class="slide-img">
+                </div>
+
+                <div class="layout-split">
+                    <div>
+                        <p>予約投稿で最適な時間帯に自動公開、下書きで途中保存、アーカイブで非表示化、ピン止めでプロフィール上部3枚を固定表示——これらを組み合わせると運用が格段にラクになります。</p>
+                    </div>
+                    <img src="./assets/day07_slide6.png" alt="フィード投稿の活用機能" class="slide-img">
+                </div>
+                <div class="layout-split">
+                    <div>
+                        <p>フィード投稿の仕様を押さえたうえで、次のセクションでは「なぜ今フィードなのか」とCanvaでのカルーセル設計に進みます。</p>
+                    </div>
+                    <img src="./assets/day07_slide7.png" alt="フィード投稿の仕様まとめ" class="slide-img">
+                </div>
+            </section>
+
+            <section class="section">
+                <h2><span class="sec-num">SECTION B</span> フィード投稿のアルゴリズムと最新トレンド</h2>
+
+                <h3 class="sub-heading"><span class="sec-num">1</span> ブルーオーシャンと滞在時間</h3>
+                <div class="layout-split">
+                    <div><p>リールが激戦区（レッドオーシャン）化した今、競合が少ないフィード投稿はブルーオーシャン</p><p>アルゴリズムが最も重視するのは「1人あたりの<strong>滞在時間</strong>」と「<strong>保存率</strong>」</p></div>
+                    <img src="./assets/day07_slide8.png" alt="ブルーオーシャンと滞在時間" class="slide-img">
+                </div>
+
+                <h3 class="sub-heading"><span class="sec-num">2</span> フィード向けジャンル</h3>
+                <div class="layout-split">
+                    <div><p>フィード向けジャンル：ノウハウ・チェックリスト・比較・ルーティンなど「後から見返したい」コンテンツ</p><p>動きで見せるものはリール、止まって論理的に理解させるものはフィード</p></div>
+                    <img src="./assets/day07_slide9.png" alt="フィード向けジャンル" class="slide-img">
+                </div>
+
+                <h3 class="sub-heading"><span class="sec-num">3</span> トレンド音源チート</h3>
+                <div class="layout-split">
+                    <div><p><strong>トレンド音源チート</strong>：投稿に「上昇マーク付きのトレンド音源」を追加すると、リールタブにもフィード投稿が表示され新規リーチが倍増する</p></div>
+                    <img src="./assets/day07_slide10.png" alt="トレンド音源チート" class="slide-img">
+                </div>
+
+                <div class="layout-split">
+                    <div>
+                        <p>滞在時間・保存率・トレンド音源の3つを意識するだけで、フィード投稿のリーチは大きく変わります。</p>
+                    </div>
+                    <img src="./assets/day07_slide11.png" alt="フィード投稿トレンド" class="slide-img">
+                </div>
+            </section>
+
+            <section class="section">
+                <h2><span class="sec-num">SECTION C</span> Canvaで「繋がるカルーセル」を作る</h2>
+
+                <h3 class="sub-heading"><span class="sec-num">1</span> 横長キャンバスの設計</h3>
+                <div class="layout-split">
+                    <div><p>スワイプ時に画像が繋がって見えるカルーセルは、Canvaで<strong>横長1枚のキャンバス</strong>として作成する</p><p>カスタムサイズ：幅<code>5400px</code> × 高さ<code>1350px</code>（5等分すると1枚あたり<code>1080×1350px</code>の4:5サイズ）</p></div>
+                    <img src="./assets/day07_slide12.png" alt="横長キャンバスの設計" class="slide-img">
+                </div>
+
+                <h3 class="sub-heading"><span class="sec-num">2</span> ガイドと切れ目の仕掛け</h3>
+                <div class="layout-split">
+                    <div><p><strong>ガイド設定</strong>：ファイル → 設定 → ガイドを追加 → カスタム（列数：<code>5</code>、隙間：<code>0</code>）</p><p><strong>切れ目の仕掛け</strong>：ページの境界線をまたぐように丸・矢印・写真を半分ずつ配置 → 「次がある」と思わせる視覚的誘導</p></div>
+                    <img src="./assets/day07_slide13.png" alt="ガイドと切れ目の仕掛け" class="slide-img">
+                </div>
+
+                <div class="layout-split">
+                    <div>
+                        <p>完成した横長画像を<strong>ミニウェブツール</strong>などの無料分割ツールにアップ → 水平5分割・垂直1で一瞬で5枚に分割</p>
+                        <div class="warning-box">
+                            <p><strong>注意</strong>：分割後の画像をInstagramにアップする際はタップ順（1→2→3...）に細心の注意を払う</p>
+                        </div>
+                    </div>
+                    <img src="./assets/day07_slide14.png" alt="カルーセル分割と投稿" class="slide-img">
+                </div>
+            </section>
+
+            <div class="video-section">
+                <div class="video-section-title">📺 授業の元動画（前半）</div>
+                <details class="video-item">
+                    <summary>① 【iPad】今更聞けない！Instagramのフィード投稿の方法と写真サイズがバラバラな時の解決法（15:42）</summary>
+                    <div class="video-embed">
+                        <iframe src="https://www.youtube.com/embed/Xb6aoVkk7FI" allowfullscreen loading="lazy" title="フィード投稿の方法と写真サイズ解決法"></iframe>
+                    </div>
+                </details>
+                <details class="video-item">
+                    <summary>② 【2026年最新】リールはもう伸びない？滞在時間を伸ばして保存率を爆上げするフィード投稿攻略法（15:30）</summary>
+                    <div class="video-embed">
+                        <iframe src="https://www.youtube.com/embed/ASmTlnr786E" allowfullscreen loading="lazy" title="滞在時間と保存率を高めるフィード投稿攻略法"></iframe>
+                    </div>
+                </details>
+                <details class="video-item">
+                    <summary>③ 【Canva】初心者でも簡単！スワイプで繋がるカルーセル投稿の作り方（15:16）</summary>
+                    <div class="video-embed">
+                        <iframe src="https://www.youtube.com/embed/u8HOpFtym5I" allowfullscreen loading="lazy" title="Canvaで作るカルーセル投稿"></iframe>
+                    </div>
+                </details>
+            </div>
+
+            <section class="section">
+                <h2><span class="sec-num">WORK</span> フィード投稿の基本操作を覚えよう</h2>
+                <p><strong>目的：</strong> Instagramのフィード投稿の基本操作を体験する</p>
+                <div class="step-card">
+                    <span class="step-num">1</span>
+                    <div>
+                        <h4>実習ページで基本操作を体験しよう</h4>
+                        <p>下のボタンから実習ページを開き、フィード投稿の一連の操作を試してみましょう。</p>
+                        <p style="margin-top:12px;">
+                            <a href="http://platinumzone.co.jp/dx-biome/2606/616instagram_feed_post_practice.html" target="_blank" rel="noopener" class="tool-link-btn">実習ページを開く <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <div class="tab-nav-footer">
+                <button type="button" class="tool-link-btn secondary" onclick="openTab('second')">後半へ <i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+        </div>
+
+        <div id="second" class="tab-content">
+            <h2 style="margin-top:0;">後半 ／ カルーセルデザインの添削と品質原則</h2>
+
+            <section class="section">
+                <h2><span class="sec-num">SECTION D</span> デザインの統一感と色の引き算</h2>
+
+                <h3 class="sub-heading"><span class="sec-num">1</span> デザインの統一感</h3>
+                <div class="layout-split">
+                    <div><p><strong>デザインの統一感</strong>：カルーセル全体を通して同じテイストのイラスト・素材を使用する。別テイストが混ざるとクオリティが低く見える</p></div>
+                    <img src="./assets/day07_slide15.png" alt="デザインの統一感" class="slide-img">
+                </div>
+
+                <h3 class="sub-heading"><span class="sec-num">2</span> 色の引き算</h3>
+                <div class="layout-split">
+                    <div><p><strong>色の引き算</strong>：メインカラーにプラスしてあれこれ色（青・緑・オレンジ等）を混ぜない</p><p>同一色相（例：濃い青と薄い青）でまとめるか、アクセントカラーを<strong>1色</strong>に絞る</p><p>ビジネス向けは「知的でまとまりのある印象」が最優先</p></div>
+                    <img src="./assets/day07_slide16.png" alt="色の引き算" class="slide-img">
+                </div>
+
+                <h3 class="sub-heading"><span class="sec-num">3</span> 配色の手順</h3>
+                <div class="layout-split">
+                    <div><p><strong>配色の手順</strong>：まずモノクロで明度差（コントラスト）をつけて読みやすくレイアウトし、その後に背景色や文字色を乗せていく</p></div>
+                    <img src="./assets/day07_slide17.png" alt="配色の手順" class="slide-img">
+                </div>
+
+                <div class="layout-split">
+                    <div>
+                        <p>添削事例では、素材のテイストがバラバラだったカルーセルが、統一感のある配色とフォントに整えるだけで印象が劇的に改善されました。</p>
+                    </div>
+                    <img src="./assets/day07_slide18.png" alt="デザイン添削例" class="slide-img">
+                </div>
+                <div class="layout-split">
+                    <div>
+                        <p>色を3色以上混ぜていたデザインを、メイン1色＋アクセント1色に絞ると「知的でまとまりのある」ビジネス向けの印象になります。</p>
+                    </div>
+                    <img src="./assets/day07_slide19.png" alt="色の統一感" class="slide-img">
+                </div>
+                <div class="layout-split">
+                    <div>
+                        <p>モノクロでレイアウトを固めてから色を乗せる手順を踏むと、読みやすさと世界観の両立がしやすくなります。</p>
+                    </div>
+                    <img src="./assets/day07_slide20.png" alt="配色の改善" class="slide-img">
+                </div>
+            </section>
+
+            <section class="section">
+                <h2><span class="sec-num">SECTION E</span> 情報のメリハリとデザインテクニック</h2>
+
+                <h3 class="sub-heading"><span class="sec-num">1</span> 情報の優先度とメリハリ</h3>
+                <div class="layout-split">
+                    <div><p><strong>情報の優先度とメリハリ</strong>：タイトル・見出し・本文の文字サイズに大きな差をつけ視線を誘導する（すべて同じサイズだと「どこから読めばいい?」となる）</p></div>
+                    <img src="./assets/day07_slide21.png" alt="情報の優先度とメリハリ" class="slide-img">
+                </div>
+
+                <h3 class="sub-heading"><span class="sec-num">2</span> 装飾ルールの統一</h3>
+                <div class="layout-split">
+                    <div><p><strong>装飾ルールの統一</strong>：枠線の太さ・角丸の大きさ・矢印（三角）などはカルーセル内で必ず揃える</p></div>
+                    <img src="./assets/day07_slide22.png" alt="装飾ルールの統一" class="slide-img">
+                </div>
+
+                <h3 class="sub-heading"><span class="sec-num">3</span> テキストボックスの罠</h3>
+                <div class="layout-split">
+                    <div><p><strong>テキストボックスの罠</strong>：短い文字をドラッグして入力するとバウンディングボックスが生まれ、文字サイズを大きくした時に文字が切れたり消えたりする → 短い単語は<strong>クリックして打ち始める</strong></p></div>
+                    <img src="./assets/day07_slide23.png" alt="テキストボックスの罠" class="slide-img">
+                </div>
+
+                <h3 class="sub-heading"><span class="sec-num">4</span> 孤立点の削除</h3>
+                <div class="layout-split">
+                    <div><p><strong>孤立点の削除</strong>：不要なゴミデータはオブジェクトメニューから一括消去する</p></div>
+                    <img src="./assets/day07_slide24.png" alt="孤立点の削除" class="slide-img">
+                </div>
+
+                <div class="layout-split">
+                    <div>
+                        <p>文字サイズのメリハリと装飾ルールの統一を徹底すると、カルーセル全体の「読みやすさ」がプロ級に近づきます。</p>
+                    </div>
+                    <img src="./assets/day07_slide25.png" alt="デザインテクニック" class="slide-img">
+                </div>
+                <div class="layout-split">
+                    <div>
+                        <p>今日学んだ原則を次のCanva制作に活かし、保存率の高いフィード投稿を量産していきましょう。</p>
+                    </div>
+                    <img src="./assets/day07_slide26.png" alt="添削まとめ" class="slide-img">
+                </div>
+            </section>
+
+            <div class="video-section">
+                <div class="video-section-title">📺 授業の元動画（後半）</div>
+                <details class="video-item">
+                    <summary>④ カルーセル画像のデザイン公開添削！男性向けビジネスノウハウ（前編）（12:03）</summary>
+                    <div class="video-embed">
+                        <iframe src="https://www.youtube.com/embed/K1oBUoBxO9s" allowfullscreen loading="lazy" title="カルーセルデザイン添削 前編"></iframe>
+                    </div>
+                </details>
+                <details class="video-item">
+                    <summary>⑤ カルーセル画像のデザイン公開添削！男性向けビジネスノウハウ（中編）（14:47）</summary>
+                    <div class="video-embed">
+                        <iframe src="https://www.youtube.com/embed/i-9emBO-jwA" allowfullscreen loading="lazy" title="カルーセルデザイン添削 中編"></iframe>
+                    </div>
+                </details>
+                <details class="video-item">
+                    <summary>⑥ カルーセル画像のデザイン公開添削！男性向けビジネスノウハウ（後編）（10:12）</summary>
+                    <div class="video-embed">
+                        <iframe src="https://www.youtube.com/embed/MmD7mwnd5aE" allowfullscreen loading="lazy" title="カルーセルデザイン添削 後編"></iframe>
+                    </div>
+                </details>
+            </div>
+
+            <section class="section">
+                <h2><span class="sec-num">WORK</span> フィード投稿の基本操作を覚えよう</h2>
+                <p><strong>目的：</strong> Instagramのフィード投稿の基本操作を体験する（前半の実習を継続）</p>
+                <div class="step-card">
+                    <span class="step-num">1</span>
+                    <div>
+                        <h4>実習ページで基本操作を体験しよう</h4>
+                        <p>前半と同じ実習ページで、フィード投稿の操作を復習・定着させましょう。</p>
+                        <p style="margin-top:12px;">
+                            <a href="http://platinumzone.co.jp/dx-biome/2606/616instagram_feed_post_practice.html" target="_blank" rel="noopener" class="tool-link-btn">実習ページを開く <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <div class="tab-nav-footer">
+                <button type="button" class="tool-link-btn" onclick="openTab('summary')">今日のまとめへ <i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+        </div>
+
+        <div id="summary" class="tab-content">
+            <h2 style="margin-top:0;">今日学んだこと</h2>
+            <div class="sticky-grid">
+                <div class="sticky-card">
+                    <strong>1. フィード投稿の基本操作</strong>
+                    サイズ選択（4:5が主流）・複数選択・加工・キャプション・AIラベルまで一連の操作をマスターした
+                </div>
+                <div class="sticky-card">
+                    <strong>2. アルゴリズムとトレンド</strong>
+                    リールより競合が少ないフィード投稿が今ホット。滞在時間と保存率を高め、トレンド音源でリールタブにも表示させる
+                </div>
+                <div class="sticky-card">
+                    <strong>3. 繋がるカルーセル</strong>
+                    Canvaで幅5400×高さ1350pxの横長キャンバスを作り、ガイドと切れ目の仕掛けで「繋がるカルーセル」を設計・分割できるようになった
+                </div>
+                <div class="sticky-card">
+                    <strong>4. プロのデザイン原則</strong>
+                    色の引き算・モノクロ優先の配色手順・文字サイズのメリハリ・装飾ルールの統一がプロのデザイン原則
+                </div>
+            </div>
+            <div class="tab-nav-footer">
+                <a href="#" class="tool-link-btn">▶ Day 08へ</a>
+                <a href="./index.html" class="tool-link-btn secondary"><i class="fa-solid fa-house"></i> コース一覧に戻る</a>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function openTab(tabId) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            const matchingBtn = Array.from(document.querySelectorAll('.tab-btn')).find(
+                b => (b.getAttribute('onclick') || '').includes("'" + tabId + "'")
+            );
+            if (matchingBtn) matchingBtn.classList.add('active');
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            window.scrollTo({ top: document.querySelector('.tabs').offsetTop - 20, behavior: 'smooth' });
+        }
+
+        (function () {
+            const overlay = document.createElement('div');
+            overlay.className = 'lb-overlay';
+            overlay.innerHTML = '<button class="lb-close" aria-label="閉じる">&times;</button><img class="lb-img" alt="">';
+            document.body.appendChild(overlay);
+            const lbImg = overlay.querySelector('.lb-img');
+            const lbClose = overlay.querySelector('.lb-close');
+            function openLb(src, alt) {
+                lbImg.src = src; lbImg.alt = alt || '';
+                overlay.classList.add('open');
+                document.body.style.overflow = 'hidden';
+            }
+            function closeLb() {
+                overlay.classList.remove('open');
+                document.body.style.overflow = '';
+            }
+            document.querySelectorAll('.slide-img:not(.cover-slide)').forEach(img => {
+                img.addEventListener('click', () => openLb(img.src, img.alt));
+            });
+            lbClose.addEventListener('click', closeLb);
+            overlay.addEventListener('click', e => { if (e.target === overlay) closeLb(); });
+            document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLb(); });
+        })();
+    </script>
+</body>
+</html>
+<!-- cache-bust: 2026-06-16T12:00:00 -->
