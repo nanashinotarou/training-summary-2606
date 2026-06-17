@@ -36,9 +36,9 @@
     + '.jc-seven{gap:min(.7vw,1.2vh)}'
     + '.jc-seven .jc-dg{width:min(13vw,23vh);height:auto}'
     + '.jc-seven .jc-cl{width:min(3.7vw,6.5vh);height:auto}'
-    + '.jc-overlay.jc-dark .jc-seven .jc-on{fill:#f7a81b;filter:drop-shadow(0 0 7px rgba(247,168,27,.5))}'
-    + '.jc-overlay.jc-dark .jc-seven .jc-off{fill:#171717}'
-    + '.jc-overlay.jc-dark .jc-seven .jc-cl circle{fill:#f7a81b;filter:drop-shadow(0 0 7px rgba(247,168,27,.5))}'
+    + '.jc-overlay.jc-dark .jc-seven .jc-on{fill:#f9ad22;filter:drop-shadow(0 0 4px rgba(249,173,34,.75)) drop-shadow(0 0 13px rgba(249,173,34,.4))}'
+    + '.jc-overlay.jc-dark .jc-seven .jc-off{fill:#141414}'
+    + '.jc-overlay.jc-dark .jc-seven .jc-cl circle{fill:#f9ad22;filter:drop-shadow(0 0 4px rgba(249,173,34,.75)) drop-shadow(0 0 13px rgba(249,173,34,.4))}'
     + '.jc-overlay.jc-light .jc-seven .jc-on{fill:#171327}'
     + '.jc-overlay.jc-light .jc-seven .jc-off{fill:#e7e4da}'
     + '.jc-overlay.jc-light .jc-seven .jc-cl circle{fill:#171327}'
@@ -75,11 +75,11 @@
 
   /* ---- 7セグ図形ビルダー ---- */
   var SEG = { '0': 'abcdef', '1': 'bc', '2': 'abdeg', '3': 'abcdg', '4': 'bcfg', '5': 'acdfg', '6': 'acdefg', '7': 'abc', '8': 'abcdefg', '9': 'abcdfg' };
-  function hseg(xL, xR, yc) { return xL + ',' + yc + ' ' + (xL + 8) + ',' + (yc - 8) + ' ' + (xR - 8) + ',' + (yc - 8) + ' ' + xR + ',' + yc + ' ' + (xR - 8) + ',' + (yc + 8) + ' ' + (xL + 8) + ',' + (yc + 8); }
-  function vseg(xc, yT, yB) { return xc + ',' + yT + ' ' + (xc + 8) + ',' + (yT + 8) + ' ' + (xc + 8) + ',' + (yB - 8) + ' ' + xc + ',' + yB + ' ' + (xc - 8) + ',' + (yB - 8) + ' ' + (xc - 8) + ',' + (yT + 8); }
+  function hseg(xL, xR, yc) { return xL + ',' + yc + ' ' + (xL + 7) + ',' + (yc - 7) + ' ' + (xR - 7) + ',' + (yc - 7) + ' ' + xR + ',' + yc + ' ' + (xR - 7) + ',' + (yc + 7) + ' ' + (xL + 7) + ',' + (yc + 7); }
+  function vseg(xc, yT, yB) { return xc + ',' + yT + ' ' + (xc + 7) + ',' + (yT + 7) + ' ' + (xc + 7) + ',' + (yB - 7) + ' ' + xc + ',' + yB + ' ' + (xc - 7) + ',' + (yB - 7) + ' ' + (xc - 7) + ',' + (yT + 7); }
   function pg(p, s) { return '<polygon data-seg="' + s + '" points="' + p + '"/>'; }
   function digit() { return '<svg class="jc-dg" viewBox="0 0 84 148">' + pg(hseg(16, 68, 12), 'a') + pg(vseg(12, 16, 70), 'f') + pg(vseg(72, 16, 70), 'b') + pg(hseg(16, 68, 74), 'g') + pg(vseg(12, 78, 132), 'e') + pg(vseg(72, 78, 132), 'c') + pg(hseg(16, 68, 136), 'd') + '</svg>'; }
-  var colon = '<svg class="jc-cl" viewBox="0 0 24 148"><circle cx="12" cy="52" r="8"/><circle cx="12" cy="96" r="8"/></svg>';
+  var colon = '<svg class="jc-cl" viewBox="0 0 24 148"><circle cx="12" cy="52" r="7"/><circle cx="12" cy="96" r="7"/></svg>';
 
   var sevenHTML = digit() + digit() + colon + digit() + digit() + colon + digit() + digit();
   var flipHTML = '';
