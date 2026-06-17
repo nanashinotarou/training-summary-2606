@@ -22,8 +22,8 @@
     + '.jc-overlay.jc-dark{background:#000}'
     + '.jc-overlay.jc-light{background:#f4f4ef}'
     + '.jc-panel{display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:default;width:100%}'
-    + ".jc-label{font-family:'Noto Sans JP',sans-serif;letter-spacing:.42em;font-size:clamp(13px,2vw,40px);margin-bottom:clamp(20px,4vh,60px)}"
-    + ".jc-date{font-family:'Noto Sans JP',sans-serif;letter-spacing:.2em;font-size:clamp(16px,2.4vw,46px);margin-top:clamp(24px,4vh,62px)}"
+    + ".jc-label{font-family:'Noto Sans JP',sans-serif;letter-spacing:.42em;font-size:clamp(13px,2vw,40px);margin-bottom:clamp(34px,7vh,104px)}"
+    + ".jc-date{font-family:'Noto Sans JP',sans-serif;letter-spacing:.2em;font-size:clamp(16px,2.4vw,46px);margin-top:clamp(36px,7vh,106px)}"
     + '.jc-overlay.jc-dark .jc-label,.jc-overlay.jc-dark .jc-date{color:#e8e8e8}'
     + '.jc-overlay.jc-light .jc-label,.jc-overlay.jc-light .jc-date{color:#4a4458}'
     + '.jc-blocky,.jc-seven,.jc-flip{display:none;align-items:center;justify-content:center;width:100%}'
@@ -33,9 +33,9 @@
     + ".jc-blocky{font-family:'Roboto Mono',ui-monospace,monospace;font-weight:700;font-size:min(15vw,27vh);letter-spacing:.14em;line-height:1}"
     + '.jc-overlay.jc-dark .jc-blocky{color:#f7a81b}'
     + '.jc-overlay.jc-light .jc-blocky{color:#1e1035}'
-    + '.jc-seven{gap:min(1.7vw,2.9vh)}'
-    + '.jc-seven .jc-dg{width:min(10.5vw,19vh);height:auto}'
-    + '.jc-seven .jc-cl{width:min(3vw,5.4vh);height:auto;margin:0 min(.9vw,1.5vh)}'
+    + '.jc-seven{gap:min(2.6vw,4.4vh)}'
+    + '.jc-seven .jc-dg{width:min(10vw,18vh);height:auto}'
+    + '.jc-seven .jc-cl{width:min(3vw,5.4vh);height:auto;margin:0 min(1.5vw,2.6vh)}'
     + '.jc-overlay.jc-dark .jc-seven .jc-on{fill:#f7a81b}'
     + '.jc-overlay.jc-dark .jc-seven .jc-off{fill:#141414}'
     + '.jc-overlay.jc-dark .jc-seven .jc-cl circle{fill:#f7a81b}'
@@ -75,11 +75,11 @@
 
   /* ---- 7セグ図形ビルダー ---- */
   var SEG = { '0': 'abcdef', '1': 'bc', '2': 'abdeg', '3': 'abcdg', '4': 'bcfg', '5': 'acdfg', '6': 'acdefg', '7': 'abc', '8': 'abcdefg', '9': 'abcdfg' };
-  function hseg(xL, xR, yc) { return xL + ',' + yc + ' ' + (xL + 7) + ',' + (yc - 7) + ' ' + (xR - 7) + ',' + (yc - 7) + ' ' + xR + ',' + yc + ' ' + (xR - 7) + ',' + (yc + 7) + ' ' + (xL + 7) + ',' + (yc + 7); }
-  function vseg(xc, yT, yB) { return xc + ',' + yT + ' ' + (xc + 7) + ',' + (yT + 7) + ' ' + (xc + 7) + ',' + (yB - 7) + ' ' + xc + ',' + yB + ' ' + (xc - 7) + ',' + (yB - 7) + ' ' + (xc - 7) + ',' + (yT + 7); }
+  function hseg(xL, xR, yc) { return xL + ',' + yc + ' ' + (xL + 8.5) + ',' + (yc - 8.5) + ' ' + (xR - 8.5) + ',' + (yc - 8.5) + ' ' + xR + ',' + yc + ' ' + (xR - 8.5) + ',' + (yc + 8.5) + ' ' + (xL + 8.5) + ',' + (yc + 8.5); }
+  function vseg(xc, yT, yB) { return xc + ',' + yT + ' ' + (xc + 8.5) + ',' + (yT + 8.5) + ' ' + (xc + 8.5) + ',' + (yB - 8.5) + ' ' + xc + ',' + yB + ' ' + (xc - 8.5) + ',' + (yB - 8.5) + ' ' + (xc - 8.5) + ',' + (yT + 8.5); }
   function pg(p, s) { return '<polygon data-seg="' + s + '" points="' + p + '"/>'; }
   function digit() { return '<svg class="jc-dg" viewBox="0 0 84 148">' + pg(hseg(16, 68, 12), 'a') + pg(vseg(12, 16, 70), 'f') + pg(vseg(72, 16, 70), 'b') + pg(hseg(16, 68, 74), 'g') + pg(vseg(12, 78, 132), 'e') + pg(vseg(72, 78, 132), 'c') + pg(hseg(16, 68, 136), 'd') + '</svg>'; }
-  var colon = '<svg class="jc-cl" viewBox="0 0 24 148"><circle cx="12" cy="52" r="7"/><circle cx="12" cy="96" r="7"/></svg>';
+  var colon = '<svg class="jc-cl" viewBox="0 0 24 148"><circle cx="12" cy="52" r="8.5"/><circle cx="12" cy="96" r="8.5"/></svg>';
 
   var sevenHTML = digit() + digit() + colon + digit() + digit() + colon + digit() + digit();
   var flipHTML = '';
