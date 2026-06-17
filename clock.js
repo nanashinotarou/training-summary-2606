@@ -33,9 +33,9 @@
     + ".jc-blocky{font-family:'Roboto Mono',ui-monospace,monospace;font-weight:700;font-size:min(15vw,27vh);letter-spacing:.14em;line-height:1}"
     + '.jc-overlay.jc-dark .jc-blocky{color:#f7a81b}'
     + '.jc-overlay.jc-light .jc-blocky{color:#1e1035}'
-    + '.jc-seven{gap:min(2vw,3.4vh)}'
+    + '.jc-seven{gap:min(2.8vw,4.8vh)}'
     + '.jc-seven .jc-dg{width:min(10vw,18vh);height:auto}'
-    + '.jc-seven .jc-cl{width:min(2.8vw,5vh);height:auto;margin:0 min(.4vw,.7vh)}'
+    + '.jc-seven .jc-cl{width:min(2.8vw,5vh);height:auto;margin:0 min(.7vw,1.2vh)}'
     + '.jc-overlay.jc-dark .jc-seven .jc-on{fill:#f7a81b}'
     + '.jc-overlay.jc-dark .jc-seven .jc-off{fill:#141414}'
     + '.jc-overlay.jc-dark .jc-seven .jc-cl rect{fill:#f7a81b}'
@@ -75,8 +75,8 @@
 
   /* ---- 7セグ図形ビルダー（本家NICT風：45°ミターの正統派LCD） ---- */
   var SEG = { '0': 'abcdef', '1': 'bc', '2': 'abdeg', '3': 'abcdg', '4': 'bcfg', '5': 'acdfg', '6': 'acdefg', '7': 'abc', '8': 'abcdefg', '9': 'abcdfg' };
-  var H = 7;   // セグメント半太さ
-  var G = 2.5; // セグメント間ノッチ
+  var H = 9;   // セグメント半太さ
+  var G = 3.5; // セグメント間ノッチ
   // 水平セグメント：左右端を45°にカットした横長六角形
   function hseg(xL, xR, yc) {
     var a = xL + G, b = xR - G;
@@ -100,7 +100,7 @@
       + '</svg>';
   }
   // コロン：四角ドット（本家準拠）
-  var colon = '<svg class="jc-cl" viewBox="0 0 28 176"><rect x="7" y="48" width="14" height="14" rx="1.5"/><rect x="7" y="114" width="14" height="14" rx="1.5"/></svg>';
+  var colon = '<svg class="jc-cl" viewBox="0 0 28 176"><rect x="6" y="47" width="16" height="16" rx="1.5"/><rect x="6" y="113" width="16" height="16" rx="1.5"/></svg>';
 
   var sevenHTML = digit() + digit() + colon + digit() + digit() + colon + digit() + digit();
   var flipHTML = '';
@@ -196,9 +196,9 @@
       }
     }
     function tick() {
-      // offsetはHTTP Dateヘッダ基準だが、ヘッダは秒未満を切り捨てるため平均0.5秒遅れる。
-      // その切り捨て分のみを+500msで補正（過剰補正だった+4000は撤去）。
-      var d = new Date(Date.now() + offset + 500);
+      // offsetはHTTP Dateヘッダ基準だが、ヘッダは秒未満を切り捨てるため遅れが出る。
+      // +500では本家比0.3秒早かったため+200msに微調整。
+      var d = new Date(Date.now() + offset + 200);
       var hh = two(d.getHours()), mm = two(d.getMinutes()), ss = two(d.getSeconds());
       c1.textContent = hh + ':' + mm + ':' + ss;
       var a = (hh + mm + ss).split('');
