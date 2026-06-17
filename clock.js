@@ -33,15 +33,15 @@
     + ".jc-blocky{font-family:'Roboto Mono',ui-monospace,monospace;font-weight:700;font-size:min(15vw,27vh);letter-spacing:.14em;line-height:1}"
     + '.jc-overlay.jc-dark .jc-blocky{color:#f7a81b}'
     + '.jc-overlay.jc-light .jc-blocky{color:#1e1035}'
-    + '.jc-seven{gap:min(2.6vw,4.4vh)}'
+    + '.jc-seven{gap:min(2vw,3.4vh)}'
     + '.jc-seven .jc-dg{width:min(10vw,18vh);height:auto}'
-    + '.jc-seven .jc-cl{width:min(3vw,5.4vh);height:auto;margin:0 min(1.5vw,2.6vh)}'
+    + '.jc-seven .jc-cl{width:min(2.8vw,5vh);height:auto;margin:0 min(.4vw,.7vh)}'
     + '.jc-overlay.jc-dark .jc-seven .jc-on{fill:#f7a81b}'
     + '.jc-overlay.jc-dark .jc-seven .jc-off{fill:#141414}'
-    + '.jc-overlay.jc-dark .jc-seven .jc-cl circle{fill:#f7a81b}'
+    + '.jc-overlay.jc-dark .jc-seven .jc-cl rect{fill:#f7a81b}'
     + '.jc-overlay.jc-light .jc-seven .jc-on{fill:#171327}'
     + '.jc-overlay.jc-light .jc-seven .jc-off{fill:#e7e4da}'
-    + '.jc-overlay.jc-light .jc-seven .jc-cl circle{fill:#171327}'
+    + '.jc-overlay.jc-light .jc-seven .jc-cl rect{fill:#171327}'
     + '.jc-flip{gap:min(1.6vw,2.6vh)}'
     + '.jc-flip .jc-fcard{width:min(12vw,21vh);height:min(18vw,31vh);border-radius:min(1.4vh,12px);display:flex;align-items:center;justify-content:center;position:relative;perspective:600px}'
     + ".jc-flip .jc-fv{font-family:'Roboto',ui-monospace,monospace;font-weight:700;font-size:min(8.5vw,15vh);display:block}"
@@ -73,14 +73,34 @@
   style.textContent = css;
   document.head.appendChild(style);
 
-  /* ---- 7セグ図形ビルダー ---- */
+  /* ---- 7セグ図形ビルダー（本家NICT風：45°ミターの正統派LCD） ---- */
   var SEG = { '0': 'abcdef', '1': 'bc', '2': 'abdeg', '3': 'abcdg', '4': 'bcfg', '5': 'acdfg', '6': 'acdefg', '7': 'abc', '8': 'abcdefg', '9': 'abcdfg' };
-  var ST = 11, SB = 3;
-  function hseg(xL, xR, yc) { return xL + ',' + yc + ' ' + (xL + SB) + ',' + (yc - ST) + ' ' + (xR - SB) + ',' + (yc - ST) + ' ' + xR + ',' + yc + ' ' + (xR - SB) + ',' + (yc + ST) + ' ' + (xL + SB) + ',' + (yc + ST); }
-  function vseg(xc, yT, yB) { return xc + ',' + yT + ' ' + (xc + ST) + ',' + (yT + SB) + ' ' + (xc + ST) + ',' + (yB - SB) + ' ' + xc + ',' + yB + ' ' + (xc - ST) + ',' + (yB - SB) + ' ' + (xc - ST) + ',' + (yT + SB); }
+  var H = 7;   // セグメント半太さ
+  var G = 2.5; // セグメント間ノッチ
+  // 水平セグメント：左右端を45°にカットした横長六角形
+  function hseg(xL, xR, yc) {
+    var a = xL + G, b = xR - G;
+    return a + ',' + yc + ' ' + (a + H) + ',' + (yc - H) + ' ' + (b - H) + ',' + (yc - H) + ' ' + b + ',' + yc + ' ' + (b - H) + ',' + (yc + H) + ' ' + (a + H) + ',' + (yc + H);
+  }
+  // 垂直セグメント：上下端を45°にカットした縦長六角形
+  function vseg(xc, yT, yB) {
+    var a = yT + G, b = yB - G;
+    return xc + ',' + a + ' ' + (xc + H) + ',' + (a + H) + ' ' + (xc + H) + ',' + (b - H) + ' ' + xc + ',' + b + ' ' + (xc - H) + ',' + (b - H) + ' ' + (xc - H) + ',' + (a + H);
+  }
   function pg(p, s) { return '<polygon data-seg="' + s + '" points="' + p + '"/>'; }
-  function digit() { return '<svg class="jc-dg" viewBox="0 0 84 148">' + pg(hseg(16, 68, 12), 'a') + pg(vseg(12, 16, 70), 'f') + pg(vseg(72, 16, 70), 'b') + pg(hseg(16, 68, 74), 'g') + pg(vseg(12, 78, 132), 'e') + pg(vseg(72, 78, 132), 'c') + pg(hseg(16, 68, 136), 'd') + '</svg>'; }
-  var colon = '<svg class="jc-cl" viewBox="0 0 24 148"><circle cx="12" cy="52" r="11"/><circle cx="12" cy="96" r="11"/></svg>';
+  function digit() {
+    return '<svg class="jc-dg" viewBox="0 0 100 176">'
+      + pg(hseg(12, 88, 12), 'a')
+      + pg(vseg(12, 12, 88), 'f')
+      + pg(vseg(88, 12, 88), 'b')
+      + pg(hseg(12, 88, 88), 'g')
+      + pg(vseg(12, 88, 164), 'e')
+      + pg(vseg(88, 88, 164), 'c')
+      + pg(hseg(12, 88, 164), 'd')
+      + '</svg>';
+  }
+  // コロン：四角ドット（本家準拠）
+  var colon = '<svg class="jc-cl" viewBox="0 0 28 176"><rect x="7" y="48" width="14" height="14" rx="1.5"/><rect x="7" y="114" width="14" height="14" rx="1.5"/></svg>';
 
   var sevenHTML = digit() + digit() + colon + digit() + digit() + colon + digit() + digit();
   var flipHTML = '';
@@ -176,7 +196,9 @@
       }
     }
     function tick() {
-      var d = new Date(Date.now() + offset + 4000);
+      // offsetはHTTP Dateヘッダ基準だが、ヘッダは秒未満を切り捨てるため平均0.5秒遅れる。
+      // その切り捨て分のみを+500msで補正（過剰補正だった+4000は撤去）。
+      var d = new Date(Date.now() + offset + 500);
       var hh = two(d.getHours()), mm = two(d.getMinutes()), ss = two(d.getSeconds());
       c1.textContent = hh + ':' + mm + ':' + ss;
       var a = (hh + mm + ss).split('');
