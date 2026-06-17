@@ -90,11 +90,14 @@
 
 
 ## Day 08 — 2026/06/17 (水)
-**テーマ:** リール投稿（前半）
+**テーマ:** リール投稿
 **YouTube:** 
 - 前半：https://youtu.be/ywFaIPMChQw
 - 前半：https://youtu.be/fV7jjdlihu0
-**備考:** 実習: リールを3本企画し、制作しよう（AIによる3つの異なる役割のリール企画、CanvaやEditsを用いた動画制作）
+- 後半：https://youtu.be/QxPnUD799N0
+- 後半：https://youtu.be/ZO8BixwqVPY
+**備考:** 実習: リールを3本企画し、制作しよう（AIによる3つの異なる役割のリール企画、CanvaやEditsを用いた動画制作、Canvaテンプレートを活用した時短編集）
+
 
 
 
