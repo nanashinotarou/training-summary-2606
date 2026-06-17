@@ -36,9 +36,12 @@
     + '.jc-seven{gap:min(2.8vw,4.8vh)}'
     + '.jc-seven .jc-dg{width:min(10vw,18vh);height:auto}'
     + '.jc-seven .jc-cl{width:min(2.8vw,5vh);height:auto;margin:0 min(1.3vw,2.2vh)}'
-    + '.jc-overlay.jc-dark .jc-seven .jc-on{fill:#f4ad3c}'
+    /* ダーク：中央が明るく端が深い琥珀のグラデで丸みのある立体感（横=縦方向/縦=横方向） */
+    + '.jc-seven .jc-on[data-seg="a"],.jc-seven .jc-on[data-seg="g"],.jc-seven .jc-on[data-seg="d"]{fill:url(#jcGH)}'
+    + '.jc-seven .jc-on[data-seg="b"],.jc-seven .jc-on[data-seg="c"],.jc-seven .jc-on[data-seg="e"],.jc-seven .jc-on[data-seg="f"]{fill:url(#jcGV)}'
+    + '.jc-seven .jc-cl rect{fill:url(#jcGR)}'
     + '.jc-overlay.jc-dark .jc-seven .jc-off{fill:#141414}'
-    + '.jc-overlay.jc-dark .jc-seven .jc-cl rect{fill:#f4ad3c}'
+    /* ライト：従来どおりフラット紺（高specificityでグラデを上書き） */
     + '.jc-overlay.jc-light .jc-seven .jc-on{fill:#171327}'
     + '.jc-overlay.jc-light .jc-seven .jc-off{fill:#e7e4da}'
     + '.jc-overlay.jc-light .jc-seven .jc-cl rect{fill:#171327}'
@@ -102,6 +105,13 @@
   }
   // コロン：四角ドット（本家準拠）
   var colon = '<svg class="jc-cl" viewBox="0 0 28 176"><rect x="6" y="47" width="16" height="16" rx="1.5"/><rect x="6" y="113" width="16" height="16" rx="1.5"/></svg>';
+  // セグメントの立体感用グラデーション定義（中央=明るい琥珀／端=深い琥珀）。objectBoundingBoxで各セグに追従。
+  var defsHTML = '<svg class="jc-defs" width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute;width:0;height:0">'
+    + '<defs>'
+    + '<linearGradient id="jcGH" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#cf8410"/><stop offset=".5" stop-color="#ffc861"/><stop offset="1" stop-color="#cf8410"/></linearGradient>'
+    + '<linearGradient id="jcGV" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#cf8410"/><stop offset=".5" stop-color="#ffc861"/><stop offset="1" stop-color="#cf8410"/></linearGradient>'
+    + '<radialGradient id="jcGR" cx=".5" cy=".42" r=".72"><stop offset="0" stop-color="#ffc861"/><stop offset="1" stop-color="#d2870f"/></radialGradient>'
+    + '</defs></svg>';
 
   var sevenHTML = digit() + digit() + colon + digit() + digit() + colon + digit() + digit();
   var flipHTML = '';
@@ -124,6 +134,7 @@
   overlay.setAttribute('aria-modal', 'true');
   overlay.setAttribute('aria-label', '日本標準時');
   overlay.innerHTML = ''
+    + defsHTML
     + '<span class="jc-hint">Esc／画面クリックで閉じる</span>'
     + '<button class="jc-close" type="button" aria-label="閉じる">&times;</button>'
     + '<div class="jc-panel">'
@@ -198,8 +209,8 @@
     }
     function tick() {
       // offsetはHTTP Dateヘッダ基準だが、ヘッダは秒未満を切り捨てるため遅れが出る。
-      // +500では本家比0.3秒早かったため+200msに微調整。
-      var d = new Date(Date.now() + offset + 200);
+      // 本家比で+200だと約0.05秒遅れだったため+250msに微調整。
+      var d = new Date(Date.now() + offset + 250);
       var hh = two(d.getHours()), mm = two(d.getMinutes()), ss = two(d.getSeconds());
       c1.textContent = hh + ':' + mm + ':' + ss;
       var a = (hh + mm + ss).split('');
