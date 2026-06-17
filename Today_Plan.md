@@ -1,50 +1,65 @@
-# Today_Plan.md — Day 07「フィード投稿」実装計画
+# Today_Plan.md — Day 08「リール投稿」実装計画
 
-**作成日時**: 2026-06-16
-**対象ファイル**: `vol07-1.html`（新規作成）
-**テンプレート元**: `vol06-1.html`（コピーして全内容を差し替える）
-**追加作業**: `vol06-1.html` のまとめタブに「▶ Day 07へ」リンクを追加
+**作成日時**: 2026-06-17
+**対象ファイル**: `vol08-1.html`（新規作成）
+**テンプレート元**: `vol07-1.html`（コピーして全内容を差し替える）
+**実装担当**: Antigravity（Proモデル）
+**追加作業**: `vol07-1.html` のまとめタブに「▶ Day 08へ」リンクを追加
 
 ---
 
 ## スライド構成
 
-| セット | ファイル名 | 枚数 |
-|---|---|---|
-| 前半 | `assets/day07_slide1.png` ～ `assets/day07_slide14.png` | 14枚 |
-| 後半 | `assets/day07_slide15.png` ～ `assets/day07_slide26.png` | 12枚 |
-| **合計** | | **26枚** |
+| セット | ファイル名 | 枚数 | 備考 |
+|---|---|---|---|
+| 前半 | `assets/day08_slide1.png` ～ `assets/day08_slide14.png` | 14枚 | リネーム済み |
+| 後半 | 後日追加予定 | — | 後半リサーチ待ち |
 
 ---
 
-## ① vol06-1.html の修正（Cursor が必ず最初に行うこと）
+## 【重要】実装上の注意点
 
-vol06-1.html のまとめタブ（`id="summary"`）末尾の `tab-nav-footer` を以下に差し替える：
+- テンプレート（vol07-1.html）の **CSS・ライトボックス・タブJS** をそのまま引き継ぐ
+- `layout-split` の `grid-template-columns` は **`1fr` のみ**（2カラム化禁止）
+- `@media (min-width: 1200px)` に `.layout-split` の2カラム指定を追加しないこと
+- スライド画像と説明文は**縦1列**で配置（テキスト→画像の順）
+- 動画は `<details class="video-item">` アコーディオン形式（`loading="lazy"` + `title` 属性必須）
+
+---
+
+## ① vol07-1.html の修正（最初に行うこと）
+
+vol07-1.html のまとめタブ（`id="summary"`）末尾の `tab-nav-footer` を以下に差し替える：
 
 ```html
 <div class="tab-nav-footer">
-    <a href="./vol07-1.html" class="tool-link-btn">▶ Day 07へ</a>
+    <a href="./vol08-1.html" class="tool-link-btn">▶ Day 08へ</a>
     <a href="./index.html" class="tool-link-btn secondary"><i class="fa-solid fa-house"></i> コース一覧に戻る</a>
 </div>
 ```
 
-現在の該当箇所（vol06-1.html 約1148行目）：
+現在の該当箇所（vol07-1.html 約997行目）：
 ```html
 <div class="tab-nav-footer">
-    <a href="./index.html" class="tool-link-btn secondary"><i class="fa-solid fa-house"></i> コース一覧に戻る</a>
+    <a href="#" class="tool-link-btn">▶ Day 08へ</a>
+    <a href="./index.html" class="tool-link-btn secondary">...
 </div>
 ```
+→ `href="#"` を `href="./vol08-1.html"` に変更するだけ。
 
 ---
 
-## ② vol07-1.html の新規作成
+## ② vol08-1.html の新規作成
 
 ### 基本設定
 
-- `<title>`: `Day 07 フィード投稿 | Instagram運用コース`
-- `<h1>` クラス `.day-title`: `Day 07`
-- `.day-subtitle`: `フィード投稿マスター`
-- cache-bust: `<!-- cache-bust: 2026-06-16T12:00:00 -->`
+- `<title>`: `Day 08 リール投稿 | Instagram運用コース`
+- `<h1>` クラス `.day-title`: `Day 08`
+- `.day-subtitle`: `リール投稿マスター`
+- `header-sub` サブテキスト: `バズるリールの構成とアルゴリズム攻略 — Jun 2026`
+- `progress-pill`: `Day 08 / 13`
+- `back-link`: `./vol07-1.html`（Day 07へ）
+- cache-bust: `<!-- cache-bust: 2026-06-17T12:00:00 -->`
 - タブラベル：「今日の目標」「前半」「後半」「今日のまとめ」
 
 ---
@@ -53,17 +68,17 @@ vol06-1.html のまとめタブ（`id="summary"`）末尾の `tab-nav-footer` �
 
 **カバースライド**:
 ```html
-<img src="assets/day07_slide1.png" alt="Day07 カバー" class="slide-img cover-slide">
+<img src="assets/day08_slide1.png" alt="Day08 カバー" class="slide-img cover-slide">
 ```
 （`.cover-slide` クラス付き → ライトボックス対象外、border-radiusなし）
 
 **今日のゴールテキスト**:
-> フィード投稿の基本操作・カルーセル設計・プロデザイナーの添削視点を習得し、保存率と滞在時間を高める投稿が作れるようになる。
+> バズるリール動画の構成法・アルゴリズムの評価指標・制作の勝ちパターンを習得し、1本目から伸びるリールを企画・制作できるようになる。
 
 **ポイントカード（3枚）**:
-1. フィード投稿の仕様（サイズ・複数選択・加工・設定）とカルーセル投稿の基本操作を身につける
-2. Canvaで「繋がる横長カルーセル」をデザインし、分割ツールで5枚に切り出して投稿できるようにする
-3. 色数の引き算・情報のメリハリ・統一感の原則をデザイン添削事例から学ぶ
+1. ストーリー型（共感型）リールの仕組みを理解し、視聴維持率を高める動画構成が組み立てられるようになる
+2. アルゴリズムが評価する4指標（視聴維持率・インタラクション・保存率・DMシェア）を把握する
+3. 冒頭2秒・セーフゾーン・ジャンル別構成などリール制作の勝ちパターンを身につける
 
 **タブフッター**:
 ```html
@@ -76,51 +91,71 @@ vol06-1.html のまとめタブ（`id="summary"`）末尾の `tab-nav-footer` �
 
 ### タブ2: 前半（`id="first"`）
 
-**タブ見出し**: `前半 ／ フィード投稿の基本とカルーセル設計`
+**タブ見出し**: `前半 ／ バズるリールの構成とアルゴリズム攻略`
 
 ---
 
-#### SECTION A: フィード投稿の基本操作と仕様
+#### SECTION A: ストーリー型リールとは何か
 
-**スライド**: `day07_slide2.png` ～ `day07_slide7.png`（内容に合わせて調整可）
-
-**説明テキスト**（箇条書き `<ul>`）:
-- フィード投稿とは：プロフィール画面に残るメインの投稿。画像・動画を1枚から最大**20枚**まで投稿可能
-- 複数枚の画像投稿を**カルーセル投稿**と呼ぶ。動画は1本最大60分までサポート
-- 投稿サイズは3種類：縦長<code>4:5</code>（現在の主流・1080×1350px）／正方形／横長<code>16:9</code>
-- 投稿手順：右上 `+` → 投稿 → 画像選択 → 加工 → キャプション入力 → シェア
-- 複数枚選択は「重なった四角ボタン」をタップしてから選択。長押しドラッグで並び替え
-- **お気に入り絞り込み**：写真アプリでハートをつけておくとInstagramの投稿画面から「お気に入り」フォルダで素早く絞り込める
-- 個別加工：フィルター・明るさ調整・BGM追加（公式音源）が各枚ごとに設定可能
-- **AIラベル**：AI生成画像を使った投稿は「AIラベル」の設定が義務
-- 予約投稿・下書き保存・アーカイブ（非表示化）・ピン止め（プロフィール上部3枚固定）も活用できる
-
----
-
-#### SECTION B: フィード投稿のアルゴリズムと最新トレンド
-
-**スライド**: `day07_slide8.png` ～ `day07_slide11.png`（内容に合わせて調整可）
+**スライド**: `day08_slide2.png` ～ `day08_slide5.png`（内容に合わせて調整可）
 
 **説明テキスト**:
-- リールが激戦区（レッドオーシャン）化した今、競合が少ないフィード投稿はブルーオーシャン
-- アルゴリズムが最も重視するのは「1人あたりの**滞在時間**」と「**保存率**」
-- フィード向けジャンル：ノウハウ・チェックリスト・比較・ルーティンなど「後から見返したい」コンテンツ
-  - 動きで見せるものはリール、止まって論理的に理解させるものはフィード
-- **トレンド音源チート**：投稿に「上昇マーク付きのトレンド音源」を追加すると、リールタブにもフィード投稿が表示され新規リーチが倍増する
+- **ストーリー型（共感型）リール**：単なるノウハウやテンプレート動画ではなく、視聴者が「これは自分のことだ」と共感する物語調の動画
+- 最強である理由：**視聴維持率**（平均視聴時間）が飛躍的に高くなり、アルゴリズムに最優先で評価されてフォロワー外への拡散（バズ）が爆発的に伸びる
+- 感情が動くため**ファン化**や購入（アフィリエイト等）にも直結しやすい
 
 ---
 
-#### SECTION C: Canvaで「繋がるカルーセル」を作る
+#### SECTION B: リール構成の3要素
 
-**スライド**: `day07_slide12.png` ～ `day07_slide14.png`（内容に合わせて調整可）
+**スライド**: `day08_slide6.png` ～ `day08_slide9.png`（内容に合わせて調整可）
 
 **説明テキスト**:
-- スワイプ時に画像が繋がって見えるカルーセルは、Canvaで**横長1枚のキャンバス**として作成する
-- カスタムサイズ：幅<code>5400px</code> × 高さ<code>1350px</code>（5等分すると1枚あたり<code>1080×1350px</code>の4:5サイズ）
-- **ガイド設定**：ファイル → 設定 → ガイドを追加 → カスタム（列数：<code>5</code>、隙間：<code>0</code>）
-- **切れ目の仕掛け**：ページの境界線をまたぐように丸・矢印・写真を半分ずつ配置 → 「次がある」と思わせる視覚的誘導
-- 完成した横長画像を**ミニウェブツール**などの無料分割ツールにアップ → 水平5分割・垂直1で一瞬で5枚に分割
-- **注意**：分割後の画像をInstagramにアップする際はタップ順（1→2→3...）に細心の注意を払う
+
+**① 冒頭のフック（最初の3秒）**
+- 視聴者の抱える「悩み」や「理想」を言語化してスクロールを止める
+- 「これは自分向けの動画だ」と思わせることが最優先
+
+**② ストーリー設計（本編）**
+- 「課題・挫折」→「転機・出会い」→「行動・解決策」→「現在の結果」のテンポある展開
+- **視聴維持率50%超え**を目標に、最後まで飽きさせない構成を意識する
+
+**③ CTA（ラストのアクション誘導）**
+- 動画の最後で「続きはプロフィールへ」「忘れないように保存してね」など、次の行動を明確に指示する
+
+---
+
+#### SECTION C: アルゴリズムが評価する4指標
+
+**スライド**: `day08_slide10.png` ～ `day08_slide12.png`（内容に合わせて調整可）
+
+**説明テキスト**:
+- フォロワー数ゼロでも「コンテンツの質」が高ければ新規ユーザーへ広範囲に拡散されるのがリールの特性
+
+アルゴリズム評価の4指標（重要度順）：
+
+1. **視聴維持率**（最重要）：最後まで見られること。何度も繰り返す「ループ再生」も高評価
+2. **過去のインタラクション履歴**：ユーザーが過去に同ジャンルのリールを閲覧・反応したか
+3. **エンゲージメント**（いいね・コメント・保存）：特に保存率<code>2%</code>以上が目標KPI
+4. **シェア数（DMシェア）**：現在のアルゴリズムで最も重視される指標。DMシェア率<code>0.5%</code>以上が推奨
+
+---
+
+#### SECTION D: リール制作の勝ちパターン
+
+**スライド**: `day08_slide13.png` ～ `day08_slide14.png`（内容に合わせて調整可）
+
+**説明テキスト**:
+- **冒頭2カット（2秒）の勝負**：リール成否の7割は最初の2秒で決まる。ターゲットを明確にし、興味のない人を弾きつつ見たい人を引き込む
+- **セーフゾーンの確保**：画面の上下左右端にテキストを寄せすぎると、InstagramのUI（アカウント名・いいねアイコン等）と重なって文字が切れるため、必ず余白（セーフゾーン）を確保する
+- **ジャンル別の構成戦略**：
+  - ブランド・プロダクト → 視覚的な美しさ・世界観の演出を最優先
+  - メディア（情報発信） → ノウハウ・チェックリスト・比較情報の網羅性と読みやすさ
+  - インフルエンサー（顔出し） → キャラクター・体験談・ライフスタイルへの共感をフックに
+
+**注意事項ボックス**（`warning-box` または `caution-box`）:
+- **エンゲージメント・ベイト回避**：「コメントに〇〇と書いて」などの強要行為はアルゴリズムにおすすめ表示を抑制される
+- **他アプリの透かし回避**：TikTokロゴ入り動画はInstagramのアルゴリズムで評価を下げられる
 
 ---
 
@@ -128,17 +163,18 @@ vol06-1.html のまとめタブ（`id="summary"`）末尾の `tab-nav-footer` �
 
 ```html
 <div class="video-section">
+  <div class="video-section-title">📺 授業の元動画（前半）</div>
   <details class="video-item">
-    <summary>① 【iPad】今更聞けない！Instagramのフィード投稿の方法と写真サイズがバラバラな時の解決法（15:42）</summary>
-    <iframe src="https://www.youtube.com/embed/Xb6aoVkk7FI" ... loading="lazy" title="フィード投稿の方法と写真サイズ解決法"></iframe>
+    <summary>① 【2026年最新】１投稿目から100万再生出すリールのつくり方【インスタ】（22:00）</summary>
+    <div class="video-embed">
+      <iframe src="https://www.youtube.com/embed/ywFaIPMChQw" allowfullscreen loading="lazy" title="100万再生リールのつくり方 2026年最新版"></iframe>
+    </div>
   </details>
   <details class="video-item">
-    <summary>② 【2026年最新】リールはもう伸びない？滞在時間を伸ばして保存率を爆上げするフィード投稿攻略法（15:30）</summary>
-    <iframe src="https://www.youtube.com/embed/ASmTlnr786E" ... loading="lazy" title="滞在時間と保存率を高めるフィード投稿攻略法"></iframe>
-  </details>
-  <details class="video-item">
-    <summary>③ 【Canva】初心者でも簡単！スワイプで繋がるカルーセル投稿の作り方（15:16）</summary>
-    <iframe src="https://www.youtube.com/embed/u8HOpFtym5I" ... loading="lazy" title="Canvaで作るカルーセル投稿"></iframe>
+    <summary>② 【Instagram Reels】インスタ リール徹底攻略。企業やブランドの担当者必見!!（10:00）</summary>
+    <div class="video-embed">
+      <iframe src="https://www.youtube.com/embed/fV7jjdlihu0" allowfullscreen loading="lazy" title="インスタリール徹底攻略 企業向け"></iframe>
+    </div>
   </details>
 </div>
 ```
@@ -147,11 +183,34 @@ vol06-1.html のまとめタブ（`id="summary"`）末尾の `tab-nav-footer` �
 
 #### ワークシートA（実習）
 
-タイトル：フィード投稿の基本操作を覚えよう
-目的：Instagramのフィード投稿の基本操作を体験する
-実習ページURL：`http://platinumzone.co.jp/dx-biome/2606/616instagram_feed_post_practice.html`
+タイトル：リールを3本企画し、制作しよう
+目的：AIでリールの企画を練り、リール動画を制作する
+URL：`https://platinumzone.co.jp/dx-biome/2606/dx_workflow_oshi.html#phase5`
 
-step-card × 1 で外部リンクを提示（`<a href="..." target="_blank" class="tool-link-btn">実習ページを開く</a>`）
+step-card × 2 で実習手順を表示：
+
+```
+Step 1 ／ Geminiで3本のリールを企画する
+役割の違う3本を企画し、CanvaやEditsでリール動画を制作する
+
+▼ プロンプト例（コピーして使おう）
+[推し]を発信するInstagramリールを3本企画してください。
+1本目：まず知ってもらう（最初の3秒で目を引く）
+2本目：もっと好きになってもらう（魅力を深く伝える）
+3本目：行動してもらう（保存・フォローを促す）
+各リールに以下を含めてください。
+・タイトル ・最初の3秒で見せるもの ・場面の流れ
+・画面に出す文字の案 ・音楽の雰囲気 ・長さ（秒数）
+
+Step 2 ／ Geminiに企画を工夫してもらう
+▼ プロンプト例
+この動画を参考に、内容を工夫してください。
+https://youtu.be/ywFaIPMChQw
+```
+
+`<a href="https://platinumzone.co.jp/dx-biome/2606/dx_workflow_oshi.html#phase5" target="_blank" rel="noopener" class="tool-link-btn">実習ページを開く</a>` ボタンも配置。
+
+プロンプト例は `<pre style="...">` または `<div class="quote-box">` にコピペしやすい形で記載。
 
 **タブフッター**:
 ```html
@@ -164,61 +223,20 @@ step-card × 1 で外部リンクを提示（`<a href="..." target="_blank" clas
 
 ### タブ3: 後半（`id="second"`）
 
-**タブ見出し**: `後半 ／ カルーセルデザインの添削と品質原則`
-
----
-
-#### SECTION D: デザインの統一感と色の引き算
-
-**スライド**: `day07_slide15.png` ～ `day07_slide20.png`（内容に合わせて調整可）
-
-**説明テキスト**:
-- **デザインの統一感**：カルーセル全体を通して同じテイストのイラスト・素材を使用する。別テイストが混ざるとクオリティが低く見える
-- **色の引き算**：メインカラーにプラスしてあれこれ色（青・緑・オレンジ等）を混ぜない
-  - 同一色相（例：濃い青と薄い青）でまとめるか、アクセントカラーを**1色**に絞る
-  - ビジネス向けは「知的でまとまりのある印象」が最優先
-- **配色の手順**：まずモノクロで明度差（コントラスト）をつけて読みやすくレイアウトし、その後に背景色や文字色を乗せていく
-
----
-
-#### SECTION E: 情報のメリハリとデザインテクニック
-
-**スライド**: `day07_slide21.png` ～ `day07_slide26.png`（内容に合わせて調整可）
-
-**説明テキスト**:
-- **情報の優先度とメリハリ**：タイトル・見出し・本文の文字サイズに大きな差をつけ視線を誘導する（すべて同じサイズだと「どこから読めばいい?」となる）
-- **装飾ルールの統一**：枠線の太さ・角丸の大きさ・矢印（三角）などはカルーセル内で必ず揃える
-- **テキストボックスの罠**：短い文字をドラッグして入力するとバウンディングボックスが生まれ、文字サイズを大きくした時に文字が切れたり消えたりする → 短い単語は**クリックして打ち始める**
-- **孤立点の削除**：不要なゴミデータはオブジェクトメニューから一括消去する
-
----
-
-#### 動画セクション（後半）
+**後半リサーチ未完了のため、プレースホルダーを表示する**
 
 ```html
-<div class="video-section">
-  <details class="video-item">
-    <summary>④ カルーセル画像のデザイン公開添削！男性向けビジネスノウハウ（前編）（12:03）</summary>
-    <iframe src="https://www.youtube.com/embed/K1oBUoBxO9s" ... loading="lazy" title="カルーセルデザイン添削 前編"></iframe>
-  </details>
-  <details class="video-item">
-    <summary>⑤ カルーセル画像のデザイン公開添削！男性向けビジネスノウハウ（中編）（14:47）</summary>
-    <iframe src="https://www.youtube.com/embed/i-9emBO-jwA" ... loading="lazy" title="カルーセルデザイン添削 中編"></iframe>
-  </details>
-  <details class="video-item">
-    <summary>⑥ カルーセル画像のデザイン公開添削！男性向けビジネスノウハウ（後編）（10:12）</summary>
-    <iframe src="https://www.youtube.com/embed/MmD7mwnd5aE" ... loading="lazy" title="カルーセルデザイン添削 後編"></iframe>
-  </details>
+<h2 style="margin-top:0;">後半 ／ リール制作の実践テクニック</h2>
+
+<div class="placeholder-box">
+    <i class="fa-solid fa-film"></i>
+    <p>後半コンテンツは近日公開予定です</p>
 </div>
 ```
 
----
-
-#### ワークシートB（実習）
-
-タイトル：フィード投稿の基本操作を覚えよう（前半と同じ実習ページを継続利用）
-目的：Instagramのフィード投稿の基本操作を体験する
-実習ページURL：`http://platinumzone.co.jp/dx-biome/2606/616instagram_feed_post_practice.html`
+後半動画URL（参照用のみ。本番実装時に使用）:
+- `https://www.youtube.com/embed/QxPnUD799N0`
+- `https://www.youtube.com/embed/ZO8BixwqVPY`
 
 **タブフッター**:
 ```html
@@ -232,56 +250,54 @@ step-card × 1 で外部リンクを提示（`<a href="..." target="_blank" clas
 ### タブ4: 今日のまとめ（`id="summary"`）
 
 **今日学んだこと（4点）**:
-1. フィード投稿はサイズ選択（4:5が主流）・複数選択・加工・キャプション・AIラベルまで一連の操作をマスターした
-2. リールより競合が少ないフィード投稿が今ホット。滞在時間と保存率を高め、トレンド音源でリールタブにも表示させる
-3. Canvaで幅5400×高さ1350pxの横長キャンバスを作り、ガイドと切れ目の仕掛けで「繋がるカルーセル」を設計・分割できるようになった
-4. 色の引き算・モノクロ優先の配色手順・文字サイズのメリハリ・装飾ルールの統一がプロのデザイン原則
+1. ストーリー型（共感型）リールが最強な理由：視聴者が「自分事」と感じる物語調で視聴維持率が飛躍的に向上する
+2. リール構成の3要素：冒頭3秒のフック→課題→転機→結果のストーリー→CTAで最後まで飽きさせない
+3. アルゴリズムの評価4指標：視聴維持率（最重要）・インタラクション・保存率2%以上・DMシェア率0.5%以上
+4. 勝ちパターン：冒頭2カット2秒の勝負、セーフゾーン確保、ジャンル別構成戦略、NG行為（エンゲージメント・ベイト・他アプリ透かし）の回避
 
 **タブフッター**:
 ```html
 <div class="tab-nav-footer">
-    <a href="#" class="tool-link-btn">▶ Day 08へ</a>
+    <a href="#" class="tool-link-btn">▶ Day 09へ</a>
     <a href="./index.html" class="tool-link-btn secondary"><i class="fa-solid fa-house"></i> コース一覧に戻る</a>
 </div>
 ```
-（Day 08が完成したら `href="#"` を `./vol08-1.html` に差し替える）
+（Day 09が完成したら `href="#"` を `./vol09-1.html` に差し替える）
 
 ---
 
-## ③ Cursor向け実装チェックリスト
+## ③ Antigravity向け実装チェックリスト
 
-- [ ] `vol06-1.html` のまとめタブ `tab-nav-footer` に `▶ Day 07へ`（`./vol07-1.html`）リンクを追加
-- [ ] `vol06-1.html` を `vol07-1.html` にコピーして内容を差し替え
-- [ ] スライド画像は `assets/day07_slideN.png`（N=1〜26）を使用
-- [ ] `day07_slide1.png` のみ `.cover-slide` クラス付き（ライトボックス対象外）
-- [ ] 前半3本・後半3本の動画は `<details class="video-item">` アコーディオン形式（`loading="lazy"` + `title` 属性必須）
-- [ ] `<code>` タグを使うキーワード：`4:5`、`16:9`、`5400px`、`1350px`、`1080×1350px`、列数`5`、隙間`0`
-- [ ] cache-bust: `<!-- cache-bust: 2026-06-16T12:00:00 -->`（ファイル末尾）
-- [ ] タブラベル：「今日の目標」「前半」「後半」「今日のまとめ」（統一済み）
-- [ ] まとめタブの「▶ Day 08へ」は `href="#"` のまま（Day08未作成）
-- [ ] `.deploy_tmp/vol06-1.html` と `.deploy_tmp/vol07-1.html` も同内容に更新（デプロイ用）
+- [ ] `vol07-1.html` のまとめタブ `tab-nav-footer` の `▶ Day 08へ` リンクを `href="#"` → `href="./vol08-1.html"` に変更
+- [ ] `vol07-1.html` を `vol08-1.html` にコピーして内容を差し替え
+- [ ] スライド画像は `assets/day08_slideN.png`（N=1〜14）を使用
+- [ ] `day08_slide1.png` のみ `.cover-slide` クラス付き（ライトボックス対象外）
+- [ ] 前半動画2本は `<details class="video-item">` アコーディオン形式（`loading="lazy"` + `title` 属性必須）
+- [ ] `<code>` タグを使うキーワード：`2%`（保存率目標）、`0.5%`（DMシェア率目標）、`50%`（視聴維持率目標）
+- [ ] 後半タブは `placeholder-box` でプレースホルダー表示
+- [ ] cache-bust: `<!-- cache-bust: 2026-06-17T12:00:00 -->`（ファイル末尾）
+- [ ] タブラベル：「今日の目標」「前半」「後半」「今日のまとめ」
+- [ ] まとめタブの「▶ Day 09へ」は `href="#"` のまま
+- [ ] `.deploy_tmp/vol07-1.html` と `.deploy_tmp/vol08-1.html` も同内容に更新
 
 ---
 
 ## ④ デプロイ手順（ClaudeCode担当）
 
-Cursor実装完了後、ClaudeCodeが以下の手順でデプロイする（CLAUDE.mdの手順通り）：
+Antigravity実装完了後、ClaudeCodeが以下の手順でデプロイする：
 
 ```powershell
-# Step 1: .deploy_tmp を同期
 Set-Location "G:\マイドライブ\研修\【202606】Instagramコース"
-Copy-Item vol06-1.html .deploy_tmp\ -Force
 Copy-Item vol07-1.html .deploy_tmp\ -Force
+Copy-Item vol08-1.html .deploy_tmp\ -Force
 
-# Step 2: 一時フォルダへ中身だけコピー
 $dest = "C:\Users\Hi\AppData\Local\Temp\deploy-instagram-2606"
 if (Test-Path $dest) { Remove-Item $dest -Recurse -Force }
 New-Item -ItemType Directory -Path $dest | Out-Null
 Copy-Item ".deploy_tmp\*" $dest -Recurse -Force
 
-# Step 3: デプロイ
 Set-Location $dest
 npx wrangler pages deploy . --project-name=training-summary-2606 --commit-dirty=true
 ```
 
-本番確認URL：`https://training-summary-2606.pages.dev/vol07-1.html`
+本番確認URL：`https://training-summary-2606.pages.dev/vol08-1.html`
