@@ -3,6 +3,7 @@
  * 右下のFABを押すとスクリーンセーバー風に時計が浮く。
  * デザイン3種（ブロック体／7セグLCD／フリップ）× ライト/ダーク を選択でき、localStorageに記憶。
  * 時刻はサーバー時刻（HTTP Dateヘッダ）にアンカーして±1秒精度。失敗時は端末時計にフォールバック。
+ * サイズはウィンドウの幅・高さに追従して可能な限り大きく表示（全画面・大型モニタ向け）。
  */
 (function () {
   'use strict';
@@ -20,32 +21,32 @@
     + '@keyframes jcfade{from{opacity:0}to{opacity:1}}'
     + '.jc-overlay.jc-dark{background:#0a0a0a}'
     + '.jc-overlay.jc-light{background:#f4f4ef}'
-    + '.jc-panel{display:flex;flex-direction:column;align-items:center;cursor:default}'
-    + ".jc-label{font-family:'Noto Sans JP',sans-serif;letter-spacing:.28em;font-size:clamp(13px,2vw,20px);margin-bottom:18px}"
-    + ".jc-date{font-family:'Noto Sans JP',sans-serif;letter-spacing:.12em;font-size:clamp(16px,2.4vw,26px);margin-top:22px}"
+    + '.jc-panel{display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:default;width:100%}'
+    + ".jc-label{font-family:'Noto Sans JP',sans-serif;letter-spacing:.28em;font-size:clamp(13px,2.1vw,42px);margin-bottom:clamp(10px,1.6vh,28px)}"
+    + ".jc-date{font-family:'Noto Sans JP',sans-serif;letter-spacing:.12em;font-size:clamp(16px,2.6vw,50px);margin-top:clamp(14px,2vh,34px)}"
     + '.jc-overlay.jc-dark .jc-label,.jc-overlay.jc-dark .jc-date{color:#e8e8e8}'
     + '.jc-overlay.jc-light .jc-label,.jc-overlay.jc-light .jc-date{color:#4a4458}'
-    + '.jc-blocky,.jc-seven,.jc-flip{display:none;align-items:center;justify-content:center}'
+    + '.jc-blocky,.jc-seven,.jc-flip{display:none;align-items:center;justify-content:center;width:100%}'
     + '.jc-overlay.jc-d1 .jc-blocky{display:flex}'
     + '.jc-overlay.jc-d2 .jc-seven{display:flex}'
     + '.jc-overlay.jc-d3 .jc-flip{display:flex}'
-    + ".jc-blocky{font-family:'Roboto Mono',ui-monospace,monospace;font-weight:700;font-size:clamp(64px,15vw,150px);letter-spacing:.06em;line-height:1}"
+    + ".jc-blocky{font-family:'Roboto Mono',ui-monospace,monospace;font-weight:700;font-size:min(17vw,30vh);letter-spacing:.06em;line-height:1}"
     + '.jc-overlay.jc-dark .jc-blocky{color:#f5b301}'
     + '.jc-overlay.jc-light .jc-blocky{color:#1e1035}'
-    + '.jc-seven{gap:clamp(3px,.6vw,7px)}'
-    + '.jc-seven .jc-dg{width:clamp(46px,9vw,118px);height:auto}'
-    + '.jc-seven .jc-cl{width:clamp(13px,2.4vw,32px);height:auto}'
+    + '.jc-seven{gap:min(.7vw,1.2vh)}'
+    + '.jc-seven .jc-dg{width:min(13vw,23vh);height:auto}'
+    + '.jc-seven .jc-cl{width:min(3.7vw,6.5vh);height:auto}'
     + '.jc-overlay.jc-dark .jc-seven .jc-on{fill:#f5b301}'
     + '.jc-overlay.jc-dark .jc-seven .jc-off{fill:#2c2c2c}'
     + '.jc-overlay.jc-dark .jc-seven .jc-cl circle{fill:#f5b301}'
-    + '.jc-overlay.jc-light .jc-seven .jc-on{fill:#26233a}'
-    + '.jc-overlay.jc-light .jc-seven .jc-off{fill:#d7d4ca}'
-    + '.jc-overlay.jc-light .jc-seven .jc-cl circle{fill:#26233a}'
-    + '.jc-flip{gap:clamp(5px,1vw,10px)}'
-    + '.jc-flip .jc-fcard{width:clamp(48px,9vw,110px);height:clamp(72px,13.5vw,165px);border-radius:10px;display:flex;align-items:center;justify-content:center;position:relative;perspective:300px}'
-    + ".jc-flip .jc-fv{font-family:'Roboto',ui-monospace,monospace;font-weight:700;font-size:clamp(40px,8vw,96px);display:block}"
+    + '.jc-overlay.jc-light .jc-seven .jc-on{fill:#171327}'
+    + '.jc-overlay.jc-light .jc-seven .jc-off{fill:#e7e4da}'
+    + '.jc-overlay.jc-light .jc-seven .jc-cl circle{fill:#171327}'
+    + '.jc-flip{gap:min(1vw,1.8vh)}'
+    + '.jc-flip .jc-fcard{width:min(12vw,21vh);height:min(18vw,31vh);border-radius:min(1.4vh,12px);display:flex;align-items:center;justify-content:center;position:relative;perspective:600px}'
+    + ".jc-flip .jc-fv{font-family:'Roboto',ui-monospace,monospace;font-weight:700;font-size:min(8.5vw,15vh);display:block}"
     + ".jc-flip .jc-fcard::after{content:'';position:absolute;left:6px;right:6px;top:50%;height:1px}"
-    + '.jc-flip .jc-fsep{font-weight:700;font-size:clamp(34px,6vw,72px);display:flex;align-items:center;padding:0 4px}'
+    + '.jc-flip .jc-fsep{font-weight:700;font-size:min(6vw,11vh);display:flex;align-items:center;padding:0 min(.5vw,8px)}'
     + '.jc-overlay.jc-dark .jc-flip .jc-fcard{background:#1d1d22}'
     + '.jc-overlay.jc-dark .jc-flip .jc-fv{color:#f3f3f3}'
     + '.jc-overlay.jc-dark .jc-flip .jc-fcard::after{background:rgba(0,0,0,.6)}'
