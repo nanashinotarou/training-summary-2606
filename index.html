@@ -432,11 +432,19 @@
         function joinZoom() {
             const toast = document.getElementById('zoomToast');
             toast.classList.add('show');
-            // デスクトップアプリを直接起動（プレビューOFF＋「常に許可」で会議まで一直線）
             var confno = '82845492188';
             var pwd = 'IRChncraSaPkbOG6QwJEKhPMPPvQaZ.1#success';
+            var httpsUrl = 'https://us02web.zoom.us/j/' + confno + '?pwd=IRChncraSaPkbOG6QwJEKhPMPPvQaZ.1#success';
+            // アプリに切り替わった(=ページが隠れる/フォーカスが外れる)ら成功とみなす
+            var launched = false;
+            function markLaunched() { launched = true; }
+            document.addEventListener('visibilitychange', function () { if (document.hidden) markLaunched(); });
+            window.addEventListener('blur', markLaunched);
+            // デスクトップアプリを直接起動（プレビューOFF＋「常に許可」で会議まで一直線）
             window.location.href = 'zoommtg://zoom.us/join?action=join&confno=' + confno + '&pwd=' + encodeURIComponent(pwd);
-            setTimeout(() => toast.classList.remove('show'), 6000);
+            // 2.5秒たってもアプリに切り替わらなければ(未インストール等)ブラウザ参加へ自動フォールバック
+            setTimeout(function () { if (!launched) window.open(httpsUrl, '_blank'); }, 2500);
+            setTimeout(function () { toast.classList.remove('show'); }, 6000);
         }
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -462,4 +470,4 @@
     <script src="./clock.js?v=20260617l" defer></script>
 </body>
 </html>
-<!-- cache-bust: 2026-06-18T05:30:00 -->
+<!-- cache-bust: 2026-06-18T06:30:00 -->
