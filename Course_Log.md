@@ -102,3 +102,15 @@
 
 
 
+
+
+## Day 09 — 2026/06/18 (木)
+**テーマ:** ストーリーズ・ハイライト
+**YouTube:** 
+- 前半：https://youtu.be/SD4UJJ4dYL8
+- 前半：https://youtu.be/XSc_Z-_KgM8
+- 前半：https://youtu.be/W8ixFxr_aQU
+- 後半：https://youtu.be/DvgNxjIwaSQ
+- 後半：https://youtu.be/Qgfj-zUuDgU
+- 後半：https://youtu.be/NN19KnXUFAY
+**備考:** 実習1：Instagramストーリーズで10秒動画を投稿しよう（ストーリーズの基本操作、ハイライトの追加、アクション機能の追加など） / 実習2：目標達成に向けて、課題を作成しよう（「推し」を発信するワークフロー）
