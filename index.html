@@ -188,6 +188,7 @@
         .zt-icon { font-size: 1.7rem; line-height: 1; margin-top: 1px; }
         .zt-title { font-weight: 700; font-size: 0.95rem; line-height: 1.3; }
         .zt-sub { font-size: 0.78rem; opacity: 0.75; margin-top: 4px; line-height: 1.4; }
+        .zt-sub a { color: #9ec5ff; font-weight: 700; text-decoration: underline; }
         @media (max-width: 900px) {
             body { height: auto; padding: 20px; overflow: auto; display: block; }
             .modal-container { width: 100%; height: auto; display: flex; flex-direction: column; }
@@ -422,8 +423,8 @@
     <div class="zoom-toast" id="zoomToast">
         <span class="zt-icon">🎥</span>
         <div>
-            <div class="zt-title">Zoomを起動しています...</div>
-            <div class="zt-sub">ブラウザの「Zoomを開く」を<br>クリックすると参加できます</div>
+            <div class="zt-title">Zoomアプリを起動しています…</div>
+            <div class="zt-sub">初回は「常に許可」を選んでください。<br>開かない場合は <a href="https://us02web.zoom.us/j/82845492188?pwd=IRChncraSaPkbOG6QwJEKhPMPPvQaZ.1#success" target="_blank" rel="noopener">ブラウザで参加</a></div>
         </div>
     </div>
 
@@ -431,10 +432,11 @@
         function joinZoom() {
             const toast = document.getElementById('zoomToast');
             toast.classList.add('show');
-            setTimeout(() => {
-                window.open('https://us02web.zoom.us/j/82845492188?pwd=IRChncraSaPkbOG6QwJEKhPMPPvQaZ.1#success', '_blank');
-            }, 300);
-            setTimeout(() => toast.classList.remove('show'), 5000);
+            // デスクトップアプリを直接起動（プレビューOFF＋「常に許可」で会議まで一直線）
+            var confno = '82845492188';
+            var pwd = 'IRChncraSaPkbOG6QwJEKhPMPPvQaZ.1#success';
+            window.location.href = 'zoommtg://zoom.us/join?action=join&confno=' + confno + '&pwd=' + encodeURIComponent(pwd);
+            setTimeout(() => toast.classList.remove('show'), 6000);
         }
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -460,4 +462,4 @@
     <script src="./clock.js?v=20260617l" defer></script>
 </body>
 </html>
-<!-- cache-bust: 2026-06-18T04:30:00 -->
+<!-- cache-bust: 2026-06-18T05:30:00 -->
