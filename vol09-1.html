@@ -1,0 +1,1349 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 09 ストーリーズ・ハイライト | Instagram運用コース</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700;900&family=Teko:wght@600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-body: #fdf4ff;
+            --bg-card: rgba(255, 255, 255, 0.92);
+            --bg-card-solid: #ffffff;
+            --text-main: #1e1035;
+            --text-sub: #64748b;
+            --ig-purple: #833ab4;
+            --ig-magenta: #c13584;
+            --ig-orange: #f77737;
+            --ig-grad: linear-gradient(45deg, #833ab4, #c13584, #f77737);
+            --ig-light: #f3e8ff;
+            --canva-purple: #7B2FF7;
+            --canva-cyan: #00C4CC;
+            --shadow-soft: 0 10px 30px rgba(131, 58, 180, 0.08);
+            --shadow-hover: 0 15px 40px rgba(193, 53, 132, 0.18);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.7);
+            --radius-large: 24px;
+            --radius-medium: 16px;
+            --radius-small: 8px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background-color: var(--bg-body);
+            background-image:
+                radial-gradient(at 0% 0%, rgba(255, 255, 255, 0.9) 0, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(243, 232, 255, 0.9) 0, transparent 50%);
+            background-attachment: fixed;
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 40px 20px;
+        }
+
+        .home-btn {
+            position: fixed; bottom: 30px; right: 30px;
+            width: 60px; height: 60px;
+            background: var(--ig-grad); color: #fff;
+            border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            font-size: 1.5rem; text-decoration: none;
+            box-shadow: 0 10px 25px rgba(193, 53, 132, 0.4);
+            transition: all 0.3s; z-index: 1000;
+        }
+        .home-btn:hover { transform: translateY(-5px) scale(1.05); }
+
+        .container {
+            width: 100%; max-width: 900px;
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            border: var(--glass-border);
+            border-radius: var(--radius-large);
+            box-shadow: var(--shadow-soft);
+            overflow: hidden;
+            animation: fadeIn 0.8s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .header { padding: 36px 40px 20px; text-align: center; border-bottom: 2px solid var(--ig-light); }
+        .header-top {
+            display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 14px; flex-wrap: wrap; gap: 10px;
+        }
+        .header-nav { display: flex; gap: 12px; flex-wrap: wrap; }
+        .back-link {
+            display: inline-flex; align-items: center; gap: 6px;
+            color: var(--ig-purple); text-decoration: none;
+            font-weight: 700; font-size: 0.9rem;
+        }
+        .back-link:hover { color: var(--ig-magenta); }
+        .progress-pill {
+            font-family: 'Roboto', sans-serif;
+            font-size: 0.85rem; font-weight: 700; color: #fff;
+            background: var(--ig-grad);
+            padding: 6px 14px; border-radius: 20px;
+        }
+        .header-tag {
+            display: inline-block; background: var(--ig-grad);
+            color: #fff; font-weight: 700; padding: 4px 14px; border-radius: 20px;
+            font-family: 'Roboto', sans-serif; font-size: 0.85rem; letter-spacing: 1px; margin-bottom: 12px;
+        }
+        .header h1 {
+            font-size: 2rem; font-weight: 900;
+            background: var(--ig-grad);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text; margin-bottom: 10px; line-height: 1.35;
+        }
+        .header-sub { margin: 0; color: var(--text-sub); font-size: 0.95rem; }
+
+        .slide-img {
+            width: 100%; height: auto; display: block;
+            border-radius: var(--radius-medium);
+            margin: 24px 0; box-shadow: var(--shadow-soft);
+            border: 1px solid #ede9f5;
+        }
+        .cover-slide { margin: 0; border-radius: 0; border: none; box-shadow: none; }
+
+        .tabs {
+            display: flex; padding: 0 20px;
+            background: rgba(255, 255, 255, 0.5);
+            border-bottom: 1px solid #ede9f5; overflow-x: auto;
+        }
+        .tab-btn {
+            border: none; background: none; padding: 18px 14px;
+            font-size: 0.88rem; font-weight: 700; color: var(--text-sub);
+            cursor: pointer; position: relative; white-space: nowrap;
+        }
+        .tab-btn:hover, .tab-btn.active { color: var(--ig-purple); }
+        .tab-btn.active::after {
+            content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 3px;
+            background: var(--ig-grad); border-radius: 3px 3px 0 0;
+        }
+        .tab-content {
+            display: none; padding: 40px;
+            background: var(--bg-card-solid); min-height: 500px;
+            animation: fadeInTab 0.4s ease-out;
+        }
+        .tab-content.active { display: block; }
+        @keyframes fadeInTab {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            font-size: 1.55rem; color: var(--text-main);
+            border-left: 5px solid var(--ig-purple);
+            padding-left: 15px; margin: 30px 0 20px;
+            display: flex; align-items: center; gap: 10px;
+        }
+        h2:first-child { margin-top: 0; }
+        h2 .sec-num {
+            font-family: 'Teko', sans-serif; font-size: 1.1rem;
+            color: var(--ig-magenta); font-weight: 600;
+        }
+        h3.sub-heading .sec-num {
+            font-family: 'Teko', sans-serif;
+            color: var(--ig-magenta);
+            margin-right: 6px;
+        }
+        h3.sub-heading {
+            font-size: 1.05rem; font-weight: 700; color: var(--ig-purple);
+            margin: 24px 0 16px;
+            background: linear-gradient(to right, rgba(131,58,180,0.07), transparent);
+            border-left: 4px solid var(--ig-purple);
+            padding: 8px 14px;
+            border-radius: 0 var(--radius-small) var(--radius-small) 0;
+        }
+        div + h3.sub-heading,
+        img.slide-img + h3.sub-heading {
+            margin-top: 56px;
+        }
+        p { line-height: 1.72; margin-bottom: 11px; color: #475569; font-size: 1.02rem; }
+
+        .goal-box {
+            background: linear-gradient(135deg, #f5f0ff, #f0fdff);
+            border: 1px solid #e9d5f5; border-radius: var(--radius-medium);
+            padding: 30px; margin-bottom: 28px; text-align: center;
+        }
+        .goal-box i {
+            font-size: 2.5rem;
+            background: var(--ig-grad);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text; margin-bottom: 12px;
+        }
+        .goal-box h3 { font-size: 1.35rem; color: var(--ig-purple); margin-bottom: 12px; }
+        .goal-box p { margin-bottom: 8px; font-size: 1.05rem; color: var(--text-main); }
+        .goal-box p:last-child { margin-bottom: 0; }
+
+        .goal-list {
+            background: #faf8ff; border: 1px solid #ede9f5;
+            border-radius: var(--radius-medium); padding: 22px 26px; margin: 20px 0;
+        }
+        .goal-list h4 { font-size: 1rem; color: var(--ig-purple); margin-bottom: 10px; }
+        .goal-list ul { margin: 0; padding-left: 1.3rem; line-height: 1.72; color: #475569; }
+
+        .section {
+            margin-bottom: 64px; padding-bottom: 64px;
+            border-bottom: 2px dashed #ddd6f5;
+        }
+        .section:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+
+        .card-grid-2 {
+            display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px; margin: 24px 0;
+        }
+        .info-card {
+            background: #fff; border: 1px solid #ede9f5;
+            border-radius: var(--radius-medium); padding: 22px;
+            box-shadow: var(--shadow-soft); transition: 0.25s;
+            position: relative; overflow: hidden;
+        }
+        .info-card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+            background: var(--ig-grad);
+        }
+        .info-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); }
+        .info-card-header {
+            display: flex; align-items: center; gap: 12px; margin-bottom: 14px;
+        }
+        .info-card-icon {
+            flex-shrink: 0;
+            width: 40px; height: 40px; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            background: linear-gradient(135deg, rgba(131,58,180,0.12), rgba(247,119,55,0.10));
+            color: var(--ig-purple); font-size: 1.1rem;
+        }
+        .info-card h3 { font-size: 1.05rem; color: var(--ig-purple); margin-bottom: 0; }
+        .info-card p { font-size: 1rem; margin-bottom: 0; line-height: 1.65; color: var(--text-main); font-weight: 500; }
+
+        .sub-note {
+            font-size: 0.88rem; color: var(--text-sub);
+            background: #faf8ff; border: 1px solid #ede9f5;
+            border-radius: var(--radius-small); padding: 14px 18px;
+            margin-top: 16px; line-height: 1.7;
+        }
+
+        code {
+            font-family: 'Roboto Mono', 'Courier New', monospace;
+            background: #f3f0ff; color: var(--ig-purple);
+            border: 1px solid #e2d8f5; border-radius: 4px;
+            padding: 1px 6px; font-size: 0.83em;
+        }
+
+        .step-card {
+            display: flex; gap: 16px; align-items: flex-start;
+            background: #fff; border: 1px solid #ede9f5;
+            border-radius: var(--radius-medium); padding: 18px 20px;
+            margin-bottom: 14px; transition: 0.2s;
+        }
+        .step-card:hover { border-color: var(--ig-magenta); box-shadow: var(--shadow-soft); }
+        .step-num {
+            flex-shrink: 0; width: 36px; height: 36px; border-radius: 50%;
+            background: var(--ig-grad);
+            color: #fff; font-family: 'Roboto', sans-serif;
+            font-weight: 900; font-size: 1rem;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .step-card h4 { font-size: 1rem; color: var(--text-main); margin-bottom: 6px; }
+        .step-card p { font-size: 0.92rem; margin-bottom: 0; }
+
+        .warning-box {
+            background: #fff5f5; border: 2px solid #fca5a5;
+            border-radius: var(--radius-medium); padding: 20px 24px; margin: 16px 0;
+        }
+        .warning-box p { margin-bottom: 0; color: #7f1d1d; font-size: 0.96rem; font-weight: 600; }
+
+        .tips-box {
+            background: linear-gradient(135deg, #fdf0ff, #fff8f3);
+            border: 1px solid #e9d5f5; border-left: 5px solid var(--ig-magenta);
+            border-radius: var(--radius-medium); padding: 20px 24px; margin: 20px 0;
+        }
+        .tips-box h4 {
+            color: var(--ig-purple); font-size: 1rem; margin-bottom: 8px;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .tips-box p { margin-bottom: 0; font-size: 0.96rem; }
+
+        .info-box {
+            background: #faf8ff; border: 1px solid #e9d5f5; border-left: 5px solid var(--ig-purple);
+            border-radius: var(--radius-medium); padding: 20px 24px; margin: 20px 0;
+        }
+        .info-box p { margin-bottom: 8px; font-size: 0.96rem; color: #475569; line-height: 1.75; }
+        .info-box p:last-child { margin-bottom: 0; }
+        .info-box ul { margin: 8px 0 0; padding-left: 1.3rem; line-height: 1.72; color: #475569; font-size: 0.96rem; }
+
+        .before-after-grid {
+            display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px; margin: 24px 0;
+        }
+        .ba-card {
+            padding: 22px; border-radius: var(--radius-medium);
+            border: 1px solid #ede9f5;
+        }
+        .ba-card.before { background: #fef2f2; border-color: #fecaca; }
+        .ba-card.after { background: #f0fdf4; border-color: #bbf7d0; }
+        .ba-card h4 { font-size: 1rem; margin-bottom: 10px; }
+        .ba-card.before h4 { color: #b91c1c; }
+        .ba-card.after h4 { color: #15803d; }
+        .ba-card p { font-size: 0.92rem; margin-bottom: 0; line-height: 1.7; }
+
+        .practice-steps {
+            counter-reset: practice; list-style: none; padding: 0; margin: 24px 0;
+        }
+        .practice-steps li {
+            counter-increment: practice; position: relative;
+            padding: 20px 20px 20px 70px; margin-bottom: 14px;
+            background: linear-gradient(135deg, #fdf0ff, #fff);
+            border: 1px solid #e9d5f5; border-radius: var(--radius-medium);
+        }
+        .practice-steps li::before {
+            content: 'Step ' counter(practice);
+            position: absolute; left: 16px; top: 50%; transform: translateY(-50%);
+            font-family: 'Roboto', sans-serif; font-size: 0.72rem; font-weight: 700;
+            color: #fff;
+            background: var(--ig-grad);
+            padding: 6px 10px; border-radius: 8px; white-space: nowrap;
+        }
+        .practice-steps li strong {
+            display: block; font-size: 1rem; color: var(--text-main); margin-bottom: 6px;
+        }
+        .practice-steps li span { font-size: 0.92rem; color: #64748b; line-height: 1.7; }
+
+        .next-step-box {
+            background: var(--ig-light); border: 1px solid #e9d5f5;
+            border-radius: var(--radius-medium); padding: 20px 24px;
+            margin-top: 24px; text-align: center;
+        }
+        .next-step-box p { margin-bottom: 0; color: var(--text-main); font-weight: 500; }
+
+        .placeholder-box {
+            text-align: center; padding: 60px 30px;
+            background: #faf8ff; border: 2px dashed #e9d5f5;
+            border-radius: var(--radius-medium); margin: 20px 0;
+        }
+        .placeholder-box i { font-size: 2.5rem; color: #c4b5fd; margin-bottom: 16px; }
+        .placeholder-box p { color: var(--text-sub); margin-bottom: 0; font-size: 1.05rem; }
+
+        .tool-link-btn {
+            display: inline-flex; align-items: center; gap: 10px;
+            background: var(--ig-grad);
+            color: #fff; padding: 14px 32px; border-radius: 30px;
+            text-decoration: none; font-weight: bold; font-size: 1.05rem;
+            border: none; cursor: pointer; transition: 0.3s;
+            box-shadow: 0 8px 20px rgba(193, 53, 132, 0.25);
+        }
+        .tool-link-btn:hover { transform: translateY(-3px); }
+        .tool-link-btn.secondary {
+            background: #fff; color: var(--text-main);
+            border: 2px solid #ede9f5; box-shadow: none;
+        }
+        .tab-nav-footer {
+            text-align: center; margin-top: 36px;
+            display: flex; flex-direction: column; gap: 14px; align-items: center;
+        }
+
+        .card-grid-3 {
+            display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 14px; margin: 24px 0;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #fdf0ff, #fff8f3);
+            border: 1px solid #e9d5f5; border-left: 5px solid var(--ig-magenta);
+            border-radius: var(--radius-medium); padding: 22px 26px; margin: 20px 0;
+        }
+        .highlight-box p { margin-bottom: 0; font-weight: 600; color: var(--text-main); }
+
+        .flow-steps {
+            display: flex; flex-direction: column; gap: 12px; margin: 20px 0;
+        }
+        .flow-step {
+            display: flex; gap: 14px; align-items: flex-start;
+            background: #fff; border: 1px solid #ede9f5;
+            border-radius: var(--radius-medium); padding: 16px 18px;
+        }
+        .flow-step-num {
+            flex-shrink: 0; font-family: 'Roboto', sans-serif;
+            font-size: 0.75rem; font-weight: 700; color: #fff;
+            background: var(--ig-grad); padding: 6px 10px; border-radius: 8px;
+        }
+        .flow-step h4 { font-size: 0.98rem; margin-bottom: 4px; color: var(--ig-purple); }
+        .flow-step p { font-size: 0.9rem; margin-bottom: 0; }
+
+        .flow-horizontal {
+            display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
+            gap: 8px; margin: 24px 0; padding: 20px;
+            background: #faf8ff; border: 1px solid #ede9f5; border-radius: var(--radius-medium);
+        }
+        .flow-h-item {
+            background: #fff; border: 1px solid #ede9f5;
+            border-radius: var(--radius-small); padding: 14px 16px;
+            text-align: center; min-width: 140px; flex: 1;
+        }
+        .flow-h-item strong { display: block; color: var(--ig-purple); margin-bottom: 4px; font-size: 0.95rem; }
+        .flow-h-item span { font-size: 0.82rem; color: #64748b; line-height: 1.5; }
+        .flow-arrow { color: var(--ig-magenta); font-size: 1.2rem; font-weight: 700; }
+
+        .compare-card {
+            background: #fff; border: 1px solid #ede9f5;
+            border-radius: var(--radius-medium); padding: 20px;
+            box-shadow: var(--shadow-soft);
+        }
+        .compare-card.low { border-top: 4px solid var(--ig-purple); }
+        .compare-card.high { border-top: 4px solid var(--ig-magenta); }
+        .compare-card h4 { font-size: 1rem; color: var(--ig-purple); margin-bottom: 10px; }
+        .compare-card ul { margin: 0; padding-left: 1.2rem; font-size: 0.88rem; line-height: 1.7; color: #475569; }
+
+        .iceberg-box {
+            background: linear-gradient(180deg, #e0f2fe 0%, #f0f9ff 35%, #faf8ff 35%);
+            border: 1px solid #bae6fd; border-radius: var(--radius-medium);
+            padding: 24px; margin: 20px 0;
+        }
+        .iceberg-top, .iceberg-bottom { padding: 16px; border-radius: var(--radius-small); }
+        .iceberg-top { background: rgba(255,255,255,0.9); margin-bottom: 12px; }
+        .iceberg-bottom { background: rgba(131,58,180,0.08); border: 1px dashed var(--ig-purple); }
+        .iceberg-top h4, .iceberg-bottom h4 { font-size: 0.95rem; color: var(--ig-purple); margin-bottom: 8px; }
+        .iceberg-top p, .iceberg-bottom p { font-size: 0.9rem; margin-bottom: 0; }
+
+        .persona-example {
+            background: #fffbeb; border: 1px solid #fde68a;
+            border-left: 5px solid #f59e0b; border-radius: var(--radius-medium);
+            padding: 22px; margin: 20px 0;
+        }
+        .persona-example h4 { color: #b45309; margin-bottom: 12px; }
+        .persona-example p { font-size: 0.92rem; margin-bottom: 8px; }
+        .persona-example p:last-child { margin-bottom: 0; }
+
+        .worksheet-grid {
+            display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px; margin: 24px 0;
+        }
+        .worksheet-card {
+            background: #fffef5; border: 2px dashed #fcd34d;
+            border-radius: var(--radius-medium); padding: 16px 16px 12px;
+            min-height: 150px; position: relative;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .worksheet-card:focus-within {
+            border-color: #f59e0b; border-style: solid;
+            box-shadow: 0 0 0 3px rgba(252, 211, 77, 0.3);
+        }
+        .worksheet-card strong {
+            display: block; color: var(--ig-purple); font-size: 0.9rem; margin-bottom: 4px;
+        }
+        .ws-hint {
+            font-size: 0.78rem; color: #9ca3af; margin-bottom: 8px; line-height: 1.4;
+        }
+        .worksheet-card textarea {
+            width: 100%; min-height: 80px;
+            background: transparent; border: none; outline: none;
+            resize: vertical; padding: 2px 0;
+            font-family: 'Noto Sans JP', sans-serif; font-size: 0.92rem;
+            color: var(--text-main); line-height: 1.75;
+        }
+        .worksheet-card textarea::placeholder { color: #d1d5db; font-size: 0.85rem; }
+        .ws-copy-btn {
+            position: absolute; top: 10px; right: 10px;
+            background: none; border: 1px solid #fcd34d; border-radius: 6px;
+            padding: 3px 8px; font-size: 0.72rem; color: #a16207;
+            cursor: pointer; transition: 0.2s; opacity: 0.6;
+            font-family: 'Noto Sans JP', sans-serif;
+        }
+        .ws-copy-btn:hover { background: #fef9c3; opacity: 1; }
+        .ws-copy-btn.ws-copied { background: #d1fae5; border-color: #10b981; color: #065f46; opacity: 1; }
+        .ws-copy-all-btn {
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            width: 100%; margin-top: 12px; padding: 13px;
+            background: #fff; border: 2px solid #fcd34d; border-radius: var(--radius-medium);
+            font-family: 'Noto Sans JP', sans-serif; font-size: 0.95rem; font-weight: 700;
+            color: #a16207; cursor: pointer; transition: 0.2s;
+        }
+        .ws-copy-all-btn:hover { background: #fffbeb; border-color: #f59e0b; }
+        .ws-copy-all-btn.ws-copied { background: #d1fae5; border-color: #10b981; color: #065f46; }
+
+        /* ── カウントダウンタイマー ── */
+        .timer-container { text-align: center; margin: 20px 0 28px; }
+        .timer-badge {
+            display: inline-flex; align-items: center; justify-content: center; gap: 12px;
+            background: #1e1035; color: #fff;
+            font-family: 'Roboto', sans-serif; font-size: 2.2rem; font-weight: 700;
+            padding: 14px 40px; border-radius: 40px; margin: 8px 0;
+            min-width: 220px; letter-spacing: 3px;
+            transition: background 0.5s ease, box-shadow 0.5s ease;
+        }
+        .timer-badge i { font-size: 1.6rem; }
+        .timer-badge.timer-warning {
+            background: #f59e0b;
+            box-shadow: 0 0 20px rgba(245, 158, 11, 0.4);
+        }
+        .timer-badge.timer-danger {
+            background: #ef4444;
+            animation: pulse-timer 0.8s ease-in-out infinite;
+        }
+        .timer-badge.timer-done {
+            background: #10b981; letter-spacing: 1px;
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
+        }
+        @keyframes pulse-timer {
+            0%, 100% { transform: scale(1);    box-shadow: 0 0 0 0 rgba(239,68,68,0.5); }
+            50%       { transform: scale(1.04); box-shadow: 0 0 0 14px rgba(239,68,68,0); }
+        }
+        .timer-controls { display: flex; gap: 12px; justify-content: center; margin-top: 12px; }
+        .timer-btn {
+            border: none; border-radius: 20px; padding: 10px 28px;
+            font-family: 'Noto Sans JP', sans-serif; font-size: 0.95rem; font-weight: 700;
+            cursor: pointer; transition: 0.2s;
+        }
+        .timer-start {
+            background: var(--ig-grad); color: #fff;
+            box-shadow: 0 4px 15px rgba(193,53,132,0.3);
+        }
+        .timer-start:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(193,53,132,0.4); }
+        .timer-reset { background: #f1f5f9; color: var(--text-main); border: 1px solid #e2e8f0; }
+        .timer-reset:hover { background: #e2e8f0; }
+
+        .sticky-grid {
+            display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px; margin: 24px 0;
+        }
+        .sticky-card {
+            padding: 20px; border-radius: 4px;
+            box-shadow: 2px 4px 8px rgba(0,0,0,0.1);
+            font-size: 0.95rem; line-height: 1.65;
+        }
+        .sticky-card:nth-child(1) { background: #fef08a; transform: rotate(-1deg); }
+        .sticky-card:nth-child(2) { background: #bbf7d0; transform: rotate(1deg); }
+        .sticky-card:nth-child(3) { background: #fbcfe8; transform: rotate(-0.5deg); }
+        .sticky-card:nth-child(4) { background: #bfdbfe; transform: rotate(0.5deg); }
+        .sticky-card strong { display: block; margin-bottom: 6px; color: var(--text-main); }
+
+        .closing-message {
+            text-align: center; font-size: 1.2rem; font-weight: 700;
+            color: var(--ig-purple); margin: 28px 0 16px; line-height: 1.6;
+        }
+
+        .caution-box {
+            background: #fffbeb; border: 2px solid #f59e0b;
+            border-left: 6px solid #d97706; border-radius: var(--radius-medium);
+            padding: 20px 24px; margin: 20px 0;
+        }
+        .caution-box p { margin-bottom: 0; color: #92400e; font-weight: 600; font-size: 0.98rem; }
+
+        .layout-split {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            margin: 24px 0;
+            align-items: start;
+        }
+
+        .video-section {
+            background: #faf8ff; border: 1px solid #e9d5f5;
+            border-radius: var(--radius-medium);
+            padding: 18px 22px; margin-bottom: 36px;
+        }
+        .video-section-title {
+            font-size: 0.9rem; font-weight: 700; color: var(--ig-purple);
+            margin-bottom: 12px; display: flex; align-items: center; gap: 8px;
+        }
+        details.video-item { margin-bottom: 8px; }
+        details.video-item summary {
+            cursor: pointer; font-size: 0.88rem; font-weight: 600;
+            color: var(--text-main); padding: 10px 14px;
+            background: #fff; border: 1px solid #ede9f5;
+            border-radius: var(--radius-small);
+            list-style: none; display: flex; align-items: center; gap: 8px; transition: 0.2s;
+        }
+        details.video-item summary::before { content: '▶'; color: var(--ig-magenta); flex-shrink: 0; }
+        details.video-item[open] summary::before { content: '▼'; }
+        details.video-item summary:hover { background: #fdf0ff; border-color: var(--ig-purple); }
+        details.video-item[open] summary {
+            border-radius: var(--radius-small) var(--radius-small) 0 0; border-bottom: none;
+        }
+        .video-embed {
+            position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;
+            border-radius: 0 0 var(--radius-small) var(--radius-small);
+            border: 1px solid #ede9f5; border-top: none;
+        }
+        .video-embed iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+
+        @media (max-width: 768px) {
+            body { padding: 10px 5px; }
+            .header, .tab-content { padding: 24px 18px; }
+            .header h1 { font-size: 1.5rem; }
+            .card-grid-2, .before-after-grid, .card-grid-3, .worksheet-grid, .sticky-grid { grid-template-columns: 1fr; }
+            .flow-horizontal { flex-direction: column; }
+            .flow-arrow { transform: rotate(90deg); }
+            .practice-steps li { padding-left: 18px; padding-top: 52px; }
+            .practice-steps li::before { top: 14px; left: 16px; transform: none; }
+        }
+
+        @media (min-width: 769px) {
+            .container { max-width: 1050px; }
+        }
+
+        @media (min-width: 1200px) {
+            .container { max-width: 1240px; }
+            .tab-content { padding: 50px 70px; }
+            .header { padding: 40px 70px 24px; }
+            .tab-btn { font-size: 0.92rem; padding: 20px 18px; }
+            .card-grid-2, .before-after-grid, .worksheet-grid { gap: 24px; }
+            .card-grid-3 { gap: 20px; }
+        }
+
+        /* ── Lightbox ──────────────────────────────── */
+        .lb-overlay {
+            display: none; position: fixed; inset: 0; z-index: 2000;
+            background: rgba(10, 4, 22, 0.9); cursor: zoom-out;
+            justify-content: center; align-items: center; padding: 20px;
+        }
+        .lb-overlay.open { display: flex; animation: lbFadeIn 0.2s ease; }
+        @keyframes lbFadeIn { from { opacity: 0 } to { opacity: 1 } }
+        .lb-img {
+            max-width: 92vw; max-height: 90vh; width: auto; height: auto;
+            border-radius: var(--radius-medium);
+            box-shadow: 0 24px 80px rgba(0, 0, 0, 0.7);
+            cursor: default;
+            animation: lbImgIn 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        @keyframes lbImgIn {
+            from { transform: scale(0.88); opacity: 0; }
+            to   { transform: scale(1);    opacity: 1; }
+        }
+        .lb-close {
+            position: absolute; top: 18px; right: 24px;
+            color: #fff; font-size: 2.2rem; line-height: 1;
+            cursor: pointer; opacity: 0.75; transition: opacity 0.15s;
+            background: none; border: none; padding: 4px 8px;
+        }
+        .lb-close:hover { opacity: 1; }
+        .slide-img:not(.cover-slide) { cursor: zoom-in; }
+
+        .quote-box {
+            background: linear-gradient(135deg, #f3e8ff, #fff7ed);
+            border: 2px solid #d8b4fe; border-left: 6px solid var(--ig-purple);
+            border-radius: var(--radius-medium); padding: 22px 26px; margin: 24px 0;
+        }
+        .quote-box p { margin-bottom: 8px; font-size: 0.96rem; color: #475569; line-height: 1.75; }
+        .quote-box p:last-child { margin-bottom: 0; }
+
+        .day-title { margin-bottom: 4px; }
+        .day-subtitle {
+            font-size: 1.05rem; font-weight: 700; color: var(--text-sub);
+            margin: 0 0 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <a href="./index.html" class="home-btn" title="ホームに戻る"><i class="fa-solid fa-house"></i></a>
+
+    <div class="container">
+        <header class="header">
+            <div class="header-top">
+                <div class="header-nav">
+                    <a href="./vol08-1.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> Day 08へ</a>
+                    <a href="./index.html" class="back-link"><i class="fa-solid fa-house"></i> ホームへ</a>
+                </div>
+                <span class="progress-pill">Day 09 / 13</span>
+            </div>
+            <span class="header-tag">DAY 09</span>
+            <h1 class="day-title">Day 09</h1>
+            <p class="day-subtitle">ストーリーズ・ハイライト</p>
+            <p class="header-sub">親密度を上げる運用と"心を動かす"導線設計 — Jun 2026</p>
+        </header>
+
+        <nav class="tabs">
+            <button class="tab-btn active" onclick="openTab('goal')">今日の目標</button>
+            <button class="tab-btn" onclick="openTab('first')">前半</button>
+            <button class="tab-btn" onclick="openTab('second')">後半</button>
+            <button class="tab-btn" onclick="openTab('summary')">今日のまとめ</button>
+        </nav>
+
+        <div id="goal" class="tab-content active">
+            <img src="assets/day09_slide1.png" alt="Day09 カバー" class="slide-img cover-slide" style="margin-top:0;">
+            <h2 style="margin-top:24px;">今日のゴール</h2>
+            <p>ストーリーズの基本操作とハイライト・アクション機能を習得し、フォロワーとの「親密度」を高める仕掛けと、見た人の"心と行動（DM）"を動かす問いかけを、自分の発信に1つ落とし込めるようになる。</p>
+            <div class="card-grid-3">
+                <div class="info-card">
+                    <div class="info-card-header">
+                        <div class="info-card-icon"><i class="fa-solid fa-heart"></i></div>
+                        <h3>ポイント 1</h3>
+                    </div>
+                    <p>アルゴリズムが評価する「親密度」の仕組み（DM返信が最重要）を理解し、双方向スタンプで反応を取れるようになる</p>
+                </div>
+                <div class="info-card">
+                    <div class="info-card-header">
+                        <div class="info-card-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                        <h3>ポイント 2</h3>
+                    </div>
+                    <p>暗めフィルター・右下スタンプ配置・Canvaマジック拡張など、伝わるストーリーズの作り方を身につける</p>
+                </div>
+                <div class="info-card">
+                    <div class="info-card-header">
+                        <div class="info-card-icon"><i class="fa-solid fa-route"></i></div>
+                        <h3>ポイント 3</h3>
+                    </div>
+                    <p>外部リンク直貼りを避けてプロフィール導線に誘導し、「問いかけ（フック）」でDM数を伸ばす運用法を知る</p>
+                </div>
+            </div>
+            <div class="tab-nav-footer">
+                <button type="button" class="tool-link-btn" onclick="openTab('first')">前半へ進む <i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+        </div>
+
+        <div id="first" class="tab-content">
+            <h2 style="margin-top:0;">前半 ／ フォロワーとの「親密度」を爆上げする基本とハック</h2>
+
+            <section class="section">
+                <h2><span class="sec-num">SECTION A</span> ストーリーズのアルゴリズムと親密度</h2>
+                <div class="layout-split">
+                    <div>
+                        <p>ストーリーズのアルゴリズム評価を攻略する鍵は、フォロワーとの<strong>「親密度（シグナル）」</strong>です。親密度が上がると、フォロワーのホーム画面上部であなたのアイコンが左端（最優先）に表示されるようになります。</p>
+                    </div>
+                    <img src="./assets/day09_slide2.png" alt="親密度の重要性" class="slide-img">
+                </div>
+
+                <div class="card-grid-2">
+                    <div class="info-card compare-card high">
+                        <h4>🟢 高評価（親密度を上げる行動）</h4>
+                        <ul>
+                            <li><strong>DM（ダイレクトメッセージ）返信【最重要】</strong>：ストーリーから直接メッセージを送ってもらう</li>
+                            <li><strong>プロフィールへのアクセス</strong>：ストーリーからプロフィールを見に来てくれる</li>
+                            <li><strong>スタンプへのリアクション</strong>：アンケートなどのタップ反応</li>
+                            <li><strong>長押しによる滞在時間の延長</strong>：画面を指で止めて読んでくれる</li>
+                            <li><strong>戻る・見直し</strong>：前のストーリーズに戻ってくれる</li>
+                            <li><strong>リンクタップ</strong>：設置したスタンプをクリックする</li>
+                        </ul>
+                    </div>
+                    <div class="info-card compare-card low">
+                        <h4>🔴 マイナス評価（離脱を招く行動）</h4>
+                        <ul>
+                            <li><strong>スワイプ離脱</strong>：次の人のストーリーズへ右フリックされる</li>
+                            <li><strong>即時離脱</strong>：開いてすぐ閉じる</li>
+                            <li><strong>早送り</strong>：タップでパパッと飛ばされる</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="layout-split">
+                    <div>
+                        <p>アルゴリズムで最も強力に評価されるのが<strong>「DM（ダイレクトメッセージ）のやり取り」</strong>です。ストーリー上の仕掛けを通じて、フォロワーからの返信をいかに引き出すかが運用の最重要ポイントになります。</p>
+                    </div>
+                    <img src="./assets/day09_slide3.png" alt="DMのアルゴリズム評価" class="slide-img">
+                </div>
+
+                <div class="layout-split">
+                    <div>
+                        <p>フォロワーとの距離を縮めるために、ストーリーズ特有の「双方向コミュニケーションスタンプ」を積極的に導入しましょう。</p>
+                        <p><strong>親密度を高める5つの双方向スタンプ：</strong></p>
+                        <ul style="padding-left:1.3rem; line-height:1.72; color:#475569; margin-top:8px;">
+                            <li><code>アンケート</code>：2択で手軽に答えてもらえる</li>
+                            <li><code>質問（質問箱）</code>：自由記述で意見や相談を募集する</li>
+                            <li><code>クイズ</code>：クイズ形式で楽しく参加させる</li>
+                            <li><code>絵文字スライダー</code>：スライドして感情の度合いを示してもらう</li>
+                            <li><code>お題</code>：同じテーマの写真などを一緒に投稿させる</li>
+                        </ul>
+                    </div>
+                    <img src="./assets/day09_slide4.png" alt="双方向スタンプの活用" class="slide-img">
+                </div>
+
+                <div class="layout-split">
+                    <div>
+                        <p><strong>親密度を育てる上でのNG行動：</strong></p>
+                        <ul style="padding-left:1.3rem; line-height:1.72; color:#475569;">
+                            <li>文字が小さすぎて読みにくい（読む気力を奪う）</li>
+                            <li>毎回のように外部リンクばかり貼る（コンテンツの価値が薄まる）</li>
+                            <li>更新が不規則（忘れられてしまう）</li>
+                        </ul>
+                        <p style="margin-top:12px;">常にプロフィール枠（アイコンの周り枠）をアクティブに保ち、表示優先度を下げないために、最低でも<strong>「1日1回以上」</strong>の毎日投稿を心がけてフォロワーに存在をアピールしましょう。</p>
+                    </div>
+                    <img src="./assets/day09_slide5.png" alt="投稿頻度とNG行動" class="slide-img">
+                </div>
+            </section>
+
+            <section class="section">
+                <h2><span class="sec-num">SECTION B</span> 作成の基本と便利機能</h2>
+                <div class="layout-split">
+                    <div>
+                        <p>ストーリーズの作成は、スマホのInstagramアプリ内で直接行うのが基本です。ただ画像を載せるだけでなく、ユーザーの操作心理に基づいた見栄えと配置の基本テクニックを身につけましょう。</p>
+                    </div>
+                    <img src="./assets/day09_slide6.png" alt="ストーリーズ作成の基本" class="slide-img">
+                </div>
+
+                <div class="flow-steps">
+                    <div class="flow-step">
+                        <span class="flow-step-num">1</span>
+                        <div>
+                            <h4>カメラで撮影、または写真・動画の選定</h4>
+                            <p>カメラでその場で撮影（長押しで動画）するか、端末のアルバムから画像・動画を選択します。</p>
+                        </div>
+                    </div>
+                    <div class="flow-step">
+                        <span class="flow-step-num">2</span>
+                        <div>
+                            <h4>暗めフィルターの適用（重要）</h4>
+                            <p>フィルターから暗めのエフェクト（おすすめ：<code>Now2.0</code>）を使用します。画面全体が程よく暗くなり、その上に載せる文字情報がくっきりと際立ち、格段に読みやすくなります。</p>
+                        </div>
+                    </div>
+                    <div class="flow-step">
+                        <span class="flow-step-num">3</span>
+                        <div>
+                            <h4>テキストのフォント選定</h4>
+                            <p>テキストを入力する際、上品さや落ち着きを演出したい場合は「明朝体」、カジュアルさやインパクトを重視する場合は「ゴシック体」を選択して世界観を合わせます。</p>
+                        </div>
+                    </div>
+                    <div class="flow-step">
+                        <span class="flow-step-num">4</span>
+                        <div>
+                            <h4>スタンプの「右下配置」ルール</h4>
+                            <p>アンケートなどのスタンプは<strong>「画面の右下」</strong>に配置します。スマホを持つ多くのユーザーが親指で画面の右下をタップして次へ進む操作を行うため、右下に置くことで無意識のタップ（リアクション率）を劇的に増やすことができます。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layout-split">
+                    <div>
+                        <p>文字情報やスタンプの配置位置ひとつで、フォロワーのリアクション率は大きく変化します。ユーザーが操作しやすい「右下タップエリア」を意識して配置を工夫しましょう。</p>
+                    </div>
+                    <img src="./assets/day09_slide7.png" alt="右下配置の解説" class="slide-img">
+                </div>
+
+                <div class="layout-split">
+                    <div>
+                        <p>ストーリーズを盛り上げるために、多様な便利機能を活用しましょう。</p>
+                        <ul style="padding-left:1.3rem; line-height:1.72; color:#475569;">
+                            <li><strong>BGM of the day の追加</strong>：楽曲の歌詞やジャケット写真を表示させつつ、最大15秒間の切り取り箇所の設定が可能です。</li>
+                            <li><strong>ハッシュタグ・位置情報・メンション</strong>：他のアカウントや店舗をメンションして関係性を作ります。</li>
+                            <li><strong>ストーリーコメント欄（2024年9月新機能）</strong>：24時間で消える限定コメント欄。DMとは違い全員が見られるため、通常の投稿コメントよりもフォロワーが気軽に書き込みやすいという特徴があります。</li>
+                            <li><strong>リポスト（メンションの共有）</strong>：自分宛てのメンションDMから追加。元ストーリーをタップして全画面（拡大）表示にしてから再共有すると綺麗に見せられます。</li>
+                        </ul>
+                    </div>
+                    <img src="./assets/day09_slide8.png" alt="BGMとコメント機能" class="slide-img">
+                </div>
+
+                <div class="layout-split">
+                    <div>
+                        <p>特に「ストーリーコメント欄」や「メンションのリポスト」は、フォロワーとの双方向の絡みを生み出しやすく、親密度の向上に貢献します。</p>
+                    </div>
+                    <img src="./assets/day09_slide9.png" alt="コメント機能とリポスト" class="slide-img">
+                </div>
+            </section>
+
+            <section class="section">
+                <h2><span class="sec-num">SECTION C</span> CanvaのAIと黄金レイアウト</h2>
+                <div class="layout-split">
+                    <div>
+                        <p>ストーリーズの背景に写真を使いたい時、「サイズが合わない」「文字を載せる余白がない」という没写真に困ることがあります。CanvaのAI機能を使えば、これを一瞬で解決できます。</p>
+                    </div>
+                    <img src="./assets/day09_slide10.png" alt="CanvaのAI活用" class="slide-img">
+                </div>
+
+                <div class="info-box">
+                    <p><strong>Canva「マジック拡張（Magic Expand）」機能：</strong></p>
+                    <p>横長の写真や見切れてしまった写真を取り込み、AIによって写真の外側の背景を自動補完・生成して、ストーリーズに最適な縦横比 <code>9:16</code> に背景を広げてくれる機能です。これにより、お手持ちの写真素材をすべてストーリーズ用として無駄なく活用・救済できます。</p>
+                </div>
+
+                <div class="layout-split">
+                    <div>
+                        <p>AIで縦長に背景を拡張した写真の上に、視線誘導の法則を活かした「3つの黄金レイアウト」で文字を載せていきましょう。</p>
+                    </div>
+                    <img src="./assets/day09_slide11.png" alt="黄金レイアウトの紹介" class="slide-img">
+                </div>
+
+                <div class="card-grid-3">
+                    <div class="info-card">
+                        <div class="info-card-header">
+                            <div class="info-card-icon"><i class="fa-solid fa-heading"></i></div>
+                            <h3>① 上に文字、下に画像</h3>
+                        </div>
+                        <p>人間の目線が左上から右下へ流れる「Zの法則」に基づき、左上に目を引くメインタイトルを大きく配置。伝えたい文字情報をしっかり読ませたい時におすすめです。</p>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-card-header">
+                            <div class="info-card-icon"><i class="fa-solid fa-image"></i></div>
+                            <h3>② 上に画像、下に文字</h3>
+                        </div>
+                        <p>ビジュアルの雰囲気やエモさを第一に見せたい時。写真の下部に文字を載せる際、文字の可読性を上げるために「白いグラデーション（または薄い四角）」を敷くのが鉄則です。</p>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-card-header">
+                            <div class="info-card-icon"><i class="fa-solid fa-align-center"></i></div>
+                            <h3>③ 真ん中に文字（万能）</h3>
+                        </div>
+                        <p>背景写真の中央にメッセージをドーンと配置。背景写真の上に「黒い半透明の四角」を敷き、その上に白文字を載せることで、どんな背景でも文字が明瞭に読め、滞在時間も延びます。</p>
+                    </div>
+                </div>
+
+                <div class="layout-split">
+                    <div>
+                        <p>この3パターンのレイアウトをテンプレ化しておくことで、デザインに迷う時間をゼロにし、常に読みやすく美しいストーリーズを瞬時に量産することが可能になります。</p>
+                    </div>
+                    <img src="./assets/day09_slide12.png" alt="レイアウトの活用イメージ" class="slide-img">
+                </div>
+
+                <div class="layout-split">
+                    <div>
+                        <p>デザインのノイズを取り除き、テキスト情報と画像を美しく調和させることが、離脱を防いで読まれるストーリーズを作る極意です。</p>
+                    </div>
+                    <img src="./assets/day09_slide13.png" alt="デザインの引き算" class="slide-img">
+                </div>
+            </section>
+
+            <section class="section">
+                <h2><span class="sec-num">SECTION D</span> ハイライトで資産にする</h2>
+                <div class="layout-split">
+                    <div>
+                        <p>ストーリーズは通常24時間で消えてしまいますが、<strong>「ハイライト」</strong>機能を使うことで、プロフィールページにカテゴリ別のフォルダとして永久に残すことができます。</p>
+                    </div>
+                    <img src="./assets/day09_slide14.png" alt="ハイライト機能の概要" class="slide-img">
+                </div>
+
+                <div class="highlight-box">
+                    <p>💡 ハイライトは新規フォロワー向けの「常設カタログ（プロフィール上の固定資産）」</p>
+                    <p style="font-weight:normal; margin-top:8px; font-size:0.95rem; color:#475569;">プロフィールに来てくれた新規ユーザーは、過去の投稿だけでなくハイライトをタップしてあなたのアカウントの「提供価値」や「ストーリー」をまとめて把握します。自己紹介、過去の実績、おすすめコンテンツなどを綺麗に整理して格納し、資産化しましょう。</p>
+                </div>
+
+                <div class="layout-split">
+                    <div>
+                        <p>ハイライトをテーマごとに整理し、魅力的なカバー画像（Canvaで作成可能）を設定しておくことで、プロフィールを訪れたユーザーの回遊性を高め、フォロー率向上につなげます。</p>
+                    </div>
+                    <img src="./assets/day09_slide15.png" alt="ハイライトの整理術" class="slide-img">
+                </div>
+            </section>
+
+            <div class="video-section">
+                <div class="video-section-title">📺 授業の元動画（前半）</div>
+                <details class="video-item">
+                    <summary>① 【Instagramストーリーズ】親密度を爆上げする方法（3:00）</summary>
+                    <div class="video-embed">
+                        <iframe src="https://www.youtube.com/embed/SD4UJJ4dYL8" allowfullscreen loading="lazy" title="親密度を爆上げする方法"></iframe>
+                    </div>
+                </details>
+                <details class="video-item">
+                    <summary>② 【ストーリー実践】インスタのストーリーズの作り方を詳しく解説（29:50）</summary>
+                    <div class="video-embed">
+                        <iframe src="https://www.youtube.com/embed/XSc_Z-_KgM8" allowfullscreen loading="lazy" title="ストーリーズの作り方徹底解説"></iframe>
+                    </div>
+                </details>
+                <details class="video-item">
+                    <summary>③ 【センスゼロでも】canvaワンクリックでインスタストーリーを作る方法を徹底解説（20:10）</summary>
+                    <div class="video-embed">
+                        <iframe src="https://www.youtube.com/embed/W8ixFxr_aQU" allowfullscreen loading="lazy" title="Canvaでインスタストーリーを作る方法"></iframe>
+                    </div>
+                </details>
+            </div>
+
+            <section class="section">
+                <h2><span class="sec-num">WORK A</span> ストーリーズで10秒動画を投稿しよう</h2>
+                <p><strong>目的：</strong> ストーリーズの基本操作、ハイライトの追加、アクション（双方向スタンプ）機能の追加を体験する</p>
+                
+                <div class="practice-steps">
+                    <li>
+                        <strong>ストーリーズ作成画面を開いて撮影・編集する</strong>
+                        <span>スマホのInstagramアプリを起動し、ストーリーズ作成画面から10秒程度の動画（または写真）を選択。暗めフィルターを適用し、テキストを配置します。</span>
+                    </li>
+                    <li>
+                        <strong>双方向スタンプを画面の右下に配置して投稿する</strong>
+                        <span>アンケートや質問などのアクションスタンプを選択し、ユーザーが押しやすい「画面右下」に配置してストーリーズに投稿します。</span>
+                    </li>
+                    <li>
+                        <strong>投稿したストーリーを「ハイライト」に追加する</strong>
+                        <span>投稿完了後、そのストーリーを開いて画面下の「ハイライト（ハートアイコン）」をタップ。新規フォルダを作成（例：「自己紹介」や「実習ログ」）して保存します。</span>
+                    </li>
+                </div>
+
+                <div class="worksheet-grid">
+                    <div class="worksheet-card">
+                        <strong>使った双方向スタンプ</strong>
+                        <div class="ws-hint">今回使用したスタンプをメモしましょう（例：アンケート、質問箱など）</div>
+                        <textarea id="ws-a-1" placeholder="ここに入力..."></textarea>
+                        <button class="ws-copy-btn" onclick="copyText('ws-a-1', this)">コピー</button>
+                    </div>
+                    <div class="worksheet-card">
+                        <strong>作ったハイライトのカテゴリ名</strong>
+                        <div class="ws-hint">新規作成したハイライトのフォルダ名を記録しましょう</div>
+                        <textarea id="ws-a-2" placeholder="ここに入力..."></textarea>
+                        <button class="ws-copy-btn" onclick="copyText('ws-a-2', this)">コピー</button>
+                    </div>
+                </div>
+                <button class="ws-copy-all-btn" onclick="copyAll('A', this)"><i class="fa-solid fa-copy"></i> 前半の実習メモをすべてコピー</button>
+
+                <p style="margin-top:20px; text-align:center;">
+                    <a href="https://platinumzone.co.jp/dx-biome/2606/618instagram_stories_practice.html" target="_blank" rel="noopener" class="tool-link-btn">実習ページを開く <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                </p>
+            </section>
+
+            <div class="tab-nav-footer">
+                <button type="button" class="tool-link-btn" onclick="openTab('second')">後半へ進む <i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+        </div>
+
+        <div id="second" class="tab-content">
+            <h2 style="margin-top:0;">後半 ／ 閲覧数・DM数を伸ばす「心と行動を動かす」運用法</h2>
+
+            <section class="section">
+                <h2><span class="sec-num">SECTION E</span> 最新の役割と外部リンクNG</h2>
+                <div class="layout-split">
+                    <div>
+                        <p>現在のInstagramにおいて、ストーリーズの役割は数年前から変化しています。以前はストーリーズが「主要なファン化ツール」でしたが、今はカメラに向かって顔出しで直接語りかける「喋るリール動画」自体が強力なファン化装置となっています。</p>
+                    </div>
+                    <img src="./assets/day09_slide16.png" alt="ストーリーズの役割変化" class="slide-img">
+                </div>
+
+                <div class="highlight-box">
+                    <p>💡 ストーリーズは「リール動画の補助・補足・解説」の場所</p>
+                    <p style="font-weight:normal; margin-top:8px; font-size:0.95rem; color:#475569;">ファン化はリールに任せ、ストーリーズは「リールで話しきれなかった補足情報」「違う角度からの解説」をテキスト主体でじっくり伝える役割を担います。無理に複数枚のストーリーを作って消耗せず、<strong>「渾身の1枚（読むストーリーズ）」</strong>に価値ある情報をギュッと凝縮して届けるのが最新の鉄板戦略です。</p>
+                </div>
+
+                <div class="layout-split">
+                    <div>
+                        <p>この「補助・補足」としての長文テキストによる読むストーリーを構築し、しっかりと読ませるためのデザインを工夫します。</p>
+                    </div>
+                    <img src="./assets/day09_slide17.png" alt="読むストーリーズのメリット" class="slide-img">
+                </div>
+
+                <div class="warning-box">
+                    <p>⚠️ 外部リンク（LINE、ブログ等）のストーリー直接貼り付けは【厳禁】</p>
+                    <p style="font-weight:normal; margin-top:8px; font-size:0.94rem; color:#7f1d1d;">Instagram運営はユーザーに「アプリ内に長く滞在してほしい」と考えています。ストーリーに外部サイトへのリンクスタンプを直貼りしてユーザーをアプリ外へ逃がし続けると、アルゴリズムによってアカウントの評価が下げられ、<strong>ストーリーズの閲覧数が劇的に（最大120%）減少する</strong>というペナルティが生じます。</p>
+                </div>
+
+                <div class="layout-split">
+                    <div>
+                        <p>外部へのアクセス誘導を行いたい場合でも、直接リンクスタンプを貼る行為は避けましょう。</p>
+                    </div>
+                    <img src="./assets/day09_slide18.png" alt="外部リンク直貼りのペナルティ" class="slide-img">
+                </div>
+
+                <div class="layout-split">
+                    <div>
+                        <p><strong>正しい外部誘導プロセス：</strong></p>
+                        <p>ストーリー上にはリンクスタンプを貼らず、テキストで<strong>「プロフィール欄のリンクから詳細を受け取れます」</strong>と記載し、一度自分のプロフィールページへ誘導します。そこからプロフィールリンクを経由させて外部（LINEなど）へ誘導します。</p>
+                        <p style="margin-top:12px;">このプロセスであれば、Instagramアプリ内でのユーザー行動として完結するためアルゴリズム評価が落ちず、かつ「一度プロフィールに戻ってでも登録したい」という<strong>本当に熱量の高い濃いファン（見込み客）だけを厳選して集めることができる</strong>ため、最終的な成約率も格段に高まります。</p>
+                    </div>
+                    <img src="./assets/day09_slide19.png" alt="プロフ導線への誘導" class="slide-img">
+                </div>
+            </section>
+
+            <section class="section">
+                <h2><span class="sec-num">SECTION F</span> DM数を2倍にする「問いかけ（フック）」</h2>
+                <div class="layout-split">
+                    <div>
+                        <p>ストーリーズの閲覧数を伸ばし、フォロワーの反応を引き出すためには、いきなり自分の伝えたい説明（自己満足の長文）を書いてはいけません。人は思考停止状態でストーリーを見ているため、冒頭で<strong>「心に語りかける問いかけ（フック）」</strong>を入れる必要があります。</p>
+                    </div>
+                    <img src="./assets/day09_slide20.png" alt="問いかけの重要性" class="slide-img">
+                </div>
+
+                <div class="card-grid-3">
+                    <div class="info-card">
+                        <div class="info-card-header">
+                            <div class="info-card-icon"><i class="fa-solid fa-lightbulb"></i></div>
+                            <h3>① 問題の顕在化</h3>
+                        </div>
+                        <p>「こんなお悩みありませんか？」と相手の直面している課題を問いかけて自覚させます（例：「お金がなくて我慢した経験、ありますよね」）。自分の話だと認識させるためのフックです。</p>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-card-header">
+                            <div class="info-card-icon"><i class="fa-solid fa-star"></i></div>
+                            <h3>② 理想のイメージ化</h3>
+                        </div>
+                        <p>「こうなったら嬉しくないですか？」と、ターゲットが求める具体的な未来を、食費・家賃・旅行などの細かなバリエーションを交えて鮮明に想像させます（例：「月10万増えれば、部屋を1つ増やせます」）。</p>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-card-header">
+                            <div class="info-card-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                            <h3>③ 痛みの掘り起こし</h3>
+                        </div>
+                        <p>自分の過去の辛かった体験談（もやし生活など）も交え、ユーザーが日常の中で見て見ぬふりをして忘れている「現状維持を続けた場合の痛み（言いたいことを飲み込む毎日）」を言語化し、危機感を持たせます。</p>
+                    </div>
+                </div>
+
+                <div class="layout-split">
+                    <div>
+                        <p>問いかけをストーリーの冒頭に挟んで感情を揺さぶることで、視聴者は無意識に思考を開始し、自分の問題としてストーリーズを読み進めてくれます。</p>
+                    </div>
+                    <img src="./assets/day09_slide21.png" alt="感情を揺さぶるアプローチ" class="slide-img">
+                </div>
+
+                <div class="layout-split">
+                    <div>
+                        <p><strong>感情を動かす5つの問いかけフック（具体例）：</strong></p>
+                        <ul style="padding-left:1.3rem; line-height:1.72; color:#475569;">
+                            <li><strong>「あなたはどう思う？」の問いかけ連打</strong>：ファイヤーに必要な金額の質問から始め、「この数字達成できそう？」「本当に今の人生のままで満足？」と4回連続でじわじわ問いかける手法。</li>
+                            <li><strong>「人生の最大限の幸福を求めて生きているだろうか？」</strong>：スピリチュアル感を抑え、人間の本質的な幸せについて深く切り込んでハッとさせる問いかけ。</li>
+                            <li><strong>「少し考えてみてほしい」</strong>：一呼吸置いて真剣に考えさせ、老後資金のための数万円の貯金と自己投資の価値をロジカルに比較して常識を揺さぶる。</li>
+                            <li><strong>「想像してみてほしい」</strong>：月5万円プラスされたときに選べる贅沢や、我慢を強いられ続ける悪い未来をリアルに比較想像させる。</li>
+                            <li><strong>「今、心に手を当てて考えてみてほしい」</strong>：職場の経済的不安や我慢する毎日を突きつけ、心の奥の「変わりたい」を引き出す。</li>
+                        </ul>
+                        <p style="margin-top:12px;">※番外編：行動を先延ばしする人へ<strong>「あれ、以前も同じこと言っていませんでしたっけ？」</strong>と先回りして痛いところを突くフックも、思考の現状維持を壊すために絶大です。</p>
+                    </div>
+                    <img src="./assets/day09_slide22.png" alt="5つのフックテクニック" class="slide-img">
+                </div>
+
+                <div class="layout-split">
+                    <div>
+                        <p>視聴者の感情（悩みや憧れ）を引き出す適切な言葉の選択が、DM返信や次のアクションを起こすきっかけを作ります。</p>
+                    </div>
+                    <img src="./assets/day09_slide23.png" alt="言葉選びの重要性" class="slide-img">
+                </div>
+            </section>
+
+            <section class="section">
+                <h2><span class="sec-num">SECTION G</span> 売上を作る「問題意識」の教育ファネル</h2>
+                <div class="layout-split">
+                    <div>
+                        <p>アカウント設計をし、信頼（俗属性）を伝えることができても、商品やサービスが売れないケースがあります。それは、ユーザーが「今の状態を変えなければならない」という<strong>問題意識</strong>を自覚していないためです。</p>
+                    </div>
+                    <img src="./assets/day09_slide24.png" alt="問題意識の不足" class="slide-img">
+                </div>
+
+                <div class="flow-steps">
+                    <div class="flow-step">
+                        <span class="flow-step-num">Step 1</span>
+                        <div>
+                            <h4>問題の顕在化（気づき）</h4>
+                            <p>「このままではやばいかもしれない」と現状維持の危うさを提示して気づかせます。</p>
+                        </div>
+                    </div>
+                    <div class="flow-step">
+                        <span class="flow-step-num">Step 2</span>
+                        <div>
+                            <h4>理想のイメージ化（憧れ）</h4>
+                            <p>「解決すればこんな明るい未来が待っている」と具体的なベネフィットを見せます。</p>
+                        </div>
+                    </div>
+                    <div class="flow-step">
+                        <span class="flow-step-num">Step 3</span>
+                        <div>
+                            <h4>痛みの掘り起こし（共感・恐れ）</h4>
+                            <p>「何もしないままだと直面する現実」を示し、行動しないことへの不安を覚悟させます。</p>
+                        </div>
+                    </div>
+                    <div class="flow-step">
+                        <span class="flow-step-num">Step 4</span>
+                        <div>
+                            <h4>行動への誘導（コンバージョン）</h4>
+                            <p>「だから今、この解決手段（DM送信やLINE登録）をとりましょう」と背中を押します。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layout-split">
+                    <div>
+                        <p>この「気づき → 憧れ → 恐れ → 行動」の4ステップを通じて、フォロワーは初めて能動的に動き始めます。ストーリーズの中でこの心理フェーズを順に組み立てていきましょう。</p>
+                    </div>
+                    <img src="./assets/day09_slide25.png" alt="4ステップの組み立て" class="slide-img">
+                </div>
+
+                <div class="layout-split">
+                    <div>
+                        <p>ユーザーの多くは「現状維持バイアス（今のままでいい）」に捉われており、主体的に悩んでいません。ターゲットを<strong>「赤ちゃん」</strong>だと思うくらいに、何がなぜダメで、どうすれば良いのかを1から100まで丁寧に教育することが不可欠です。</p>
+                    </div>
+                    <img src="./assets/day09_slide26.png" alt="赤ちゃん教育の重要性" class="slide-img">
+                </div>
+
+                <div class="layout-split">
+                    <div>
+                        <p><strong>問題意識を育てる4つの要素：</strong></p>
+                        <ul style="padding-left:1.3rem; line-height:1.72; color:#475569;">
+                            <li><strong>理想と現状のギャップ（差分）の整理</strong>：現在の立ち位置から理想へ届かない論理的なギャップを可視化する。</li>
+                            <li><strong>うまくいかない原因の特定</strong>：行動が止まっている真の原因（リスクの過大評価など）を紐解く。</li>
+                            <li><strong>放置した場合のリスクの提示</strong>：インフレで預金価値が下がる、賃貸の突然の更新料値上がりなど、具体的な日常のリスクを示す。</li>
+                            <li><strong>時間の優位性（早く動く理由）</strong>：先に始めた人が構造的にどれだけ有利になるか（例：昨年のAI登場時にすぐ動いて独立した人の例など）を示し、今すぐやる意義を作る。</li>
+                        </ul>
+                    </div>
+                    <img src="./assets/day09_slide27.png" alt="問題意識育成の4要素" class="slide-img">
+                </div>
+
+                <div class="layout-split">
+                    <div>
+                        <p>人は理性（数値データ）だけでは動きません。理性の説明に加え、「我慢を続ける人生で本当に満足か？」といった感情面への強力なアプローチと組み合わせることで問題意識は最大化します。</p>
+                    </div>
+                    <img src="./assets/day09_slide28.png" alt="理性と感情のハイブリッド" class="slide-img">
+                </div>
+
+                <div class="layout-split">
+                    <div>
+                        <p>また、<strong>「上手に損する（短期的な投資思考）」</strong>を教育することも大切です。スクール代などのまとまったお金を「短期的な消費・損失」と捉えるフォロワーに対し、その先にある「長期的なリターン（投資）」の重要性を教えてあげる必要があります。</p>
+                    </div>
+                    <img src="./assets/day09_slide29.png" alt="上手に損する投資思考" class="slide-img">
+                </div>
+
+                <div class="layout-split">
+                    <div>
+                        <p>これらすべての問題意識の教育を行って初めて、フォロワーは「変わりたい、話を聞かせてほしい」とあなたの提供する商品に興味を持ち、成約へとつながる最高の顧客へと変化します。</p>
+                    </div>
+                    <img src="./assets/day09_slide30.png" alt="成約へのファイナルステップ" class="slide-img">
+                </div>
+            </section>
+
+            <div class="video-section">
+                <div class="video-section-title">📺 授業の元動画（後半）</div>
+                <details class="video-item">
+                    <summary>④ 【最新戦略】閲覧数が10倍になるインスタのストーリーズの作り方！（13:46）</summary>
+                    <div class="video-embed">
+                        <iframe src="https://www.youtube.com/embed/DvgNxjIwaSQ" allowfullscreen loading="lazy" title="閲覧数が10倍になるストーリーズの作り方"></iframe>
+                    </div>
+                </details>
+                <details class="video-item">
+                    <summary>⑤ 【保存版】Instagramストーリーズ攻略！「DM数を2倍にする」運用法（20:05）</summary>
+                    <div class="video-embed">
+                        <iframe src="https://www.youtube.com/embed/Qgfj-zUuDgU" allowfullscreen loading="lazy" title="DM数を2倍にする運用法"></iframe>
+                    </div>
+                </details>
+                <details class="video-item">
+                    <summary>⑥ 【最重要】ストーリーズで売上を作るための問題意識の作り方（18:39）</summary>
+                    <div class="video-embed">
+                        <iframe src="https://www.youtube.com/embed/NN19KnXUFAY" allowfullscreen loading="lazy" title="売上を作るための問題意識の作り方"></iframe>
+                    </div>
+                </details>
+            </div>
+
+            <section class="section">
+                <h2><span class="sec-num">WORK B</span> 目標達成に向けて課題を作成しよう</h2>
+                <p><strong>目的：</strong> 目標達成に向け、「推し」を発信するワークフローに沿って問いかけフックを企画する</p>
+                
+                <div class="practice-steps">
+                    <li>
+                        <strong>「推し」を発信するワークフローを確認する</strong>
+                        <span>下記の「ワークフローを開く」ボタンから全体の流れ（目標設定、リサーチ、発信設計）を確認し、今回のDay09の学びをどのように組み込むか考えます。</span>
+                    </li>
+                    <li>
+                        <strong>自分の発信用に、感情を動かす「問いかけフック」を1つ作る</strong>
+                        <span>後半で学んだ5つのフック（「あなたはどう思う？」「少し考えてみてほしい」など）を参考に、自分の「推し」を発信するストーリーの冒頭に載せる問いかけを1つ作成します。</span>
+                    </li>
+                    <li>
+                        <strong>Padletシェアボードに投稿して共有する</strong>
+                        <span>作成した問いかけフックや、前半で投稿したストーリーの体験ログを、Padletシェアボードにアップロードして受講者間で共有します。</span>
+                    </li>
+                </div>
+
+                <div class="worksheet-grid" style="grid-template-columns: 1fr;">
+                    <div class="worksheet-card">
+                        <strong>自分の発信に使う問いかけフックを1つ作る</strong>
+                        <div class="ws-hint">ストーリーの冒頭1枚目に載せる、フォロワーの思考を動かす問いかけを考えましょう（例：「ぶっちゃけ、[推し]ってただの趣味だと思ってませんか？」など）</div>
+                        <textarea id="ws-b-1" placeholder="ここに入力..."></textarea>
+                        <button class="ws-copy-btn" onclick="copyText('ws-b-1', this)">コピー</button>
+                    </div>
+                </div>
+                <button class="ws-copy-all-btn" onclick="copyAll('B', this)"><i class="fa-solid fa-copy"></i> 後半の実習メモをコピー</button>
+
+                <p style="margin-top:20px; text-align:center; display:flex; justify-content:center; gap:14px; flex-wrap:wrap;">
+                    <a href="https://platinumzone.co.jp/dx-biome/2606/dx_workflow_oshi.html" target="_blank" rel="noopener" class="tool-link-btn">ワークフローを開く <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                    <a href="https://padlet.com/platinumzonedx/dx-instagram-sfikt2pbwarlfa1x" target="_blank" rel="noopener" class="tool-link-btn secondary">Padletシェアボード <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                </p>
+            </section>
+
+            <div class="tab-nav-footer">
+                <button type="button" class="tool-link-btn" onclick="openTab('summary')">今日のまとめへ進む <i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+        </div>
+
+        <div id="summary" class="tab-content">
+            <h2 style="margin-top:0;">今日学んだこと</h2>
+            <div class="sticky-grid">
+                <div class="sticky-card">
+                    <strong>1. 親密度の最重要アクションはDM返信</strong>
+                    アンケート、質問、クイズなどの双方向スタンプをユーザーが親指で押しやすい「画面右下」に配置し、1日1回以上の投稿でプロフィール枠をアクティブに保ちます。
+                </div>
+                <div class="sticky-card">
+                    <strong>2. 伝わるストーリー作成とCanva AI</strong>
+                    暗めフィルターで文字を際立たせ、Canvaの「マジック拡張」で素材を縦長化し、Zの法則を意識した黄金レイアウト3パターンで読みやすさを担保します。
+                </div>
+                <div class="sticky-card">
+                    <strong>3. 外部リンク直貼りNGとプロフ導線</strong>
+                    ストーリーズはリールの補助・補足。直リンク貼り付けは表示優先度を下げるため厳禁。プロフィールリンクに誘導して、インスタ内で完結させ、濃いファンを集めます。
+                </div>
+                <div class="sticky-card">
+                    <strong>4. 「問いかけ」から問題意識を育てる</strong>
+                    自己満足の長文を避け、冒頭で感情を動かす「問いかけ（フック）」を設置。気づき→憧れ→恐れ→行動の4階段を設計し、問題意識を丁寧に育ててDM・売上につなげます。
+                </div>
+            </div>
+            <div class="tab-nav-footer">
+                <a href="#" class="tool-link-btn">▶ Day 10へ</a>
+                <a href="./index.html" class="tool-link-btn secondary"><i class="fa-solid fa-house"></i> コース一覧に戻る</a>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function openTab(tabId) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            const matchingBtn = Array.from(document.querySelectorAll('.tab-btn')).find(
+                b => (b.getAttribute('onclick') || '').includes("'" + tabId + "'")
+            );
+            if (matchingBtn) matchingBtn.classList.add('active');
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            window.scrollTo({ top: document.querySelector('.tabs').offsetTop - 20, behavior: 'smooth' });
+        }
+
+        function copyText(id, btn) {
+            const textarea = document.getElementById(id);
+            if (!textarea) return;
+            navigator.clipboard.writeText(textarea.value).then(() => {
+                const originalText = btn.textContent;
+                btn.textContent = 'コピー完了！';
+                btn.classList.add('ws-copied');
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.classList.remove('ws-copied');
+                }, 2000);
+            });
+        }
+
+        function copyAll(part, btn) {
+            let text = '';
+            if (part === 'A') {
+                text = `【実習A：使った双方向スタンプ】\n${document.getElementById('ws-a-1').value}\n\n【実習A：作ったハイライトのカテゴリ名】\n${document.getElementById('ws-a-2').value}`;
+            } else if (part === 'B') {
+                text = `【実習B：自分の発信に使う問いかけフック】\n${document.getElementById('ws-b-1').value}`;
+            }
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '<i class="fa-solid fa-check"></i> コピー完了！';
+                btn.classList.add('ws-copied');
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.classList.remove('ws-copied');
+                }, 2000);
+            });
+        }
+
+        (function () {
+            const overlay = document.createElement('div');
+            overlay.className = 'lb-overlay';
+            overlay.innerHTML = '<button class="lb-close" aria-label="閉じる">&times;</button><img class="lb-img" alt="">';
+            document.body.appendChild(overlay);
+            const lbImg = overlay.querySelector('.lb-img');
+            const lbClose = overlay.querySelector('.lb-close');
+            function openLb(src, alt) {
+                lbImg.src = src; lbImg.alt = alt || '';
+                overlay.classList.add('open');
+                document.body.style.overflow = 'hidden';
+            }
+            function closeLb() {
+                overlay.classList.remove('open');
+                document.body.style.overflow = '';
+            }
+            document.querySelectorAll('.slide-img:not(.cover-slide)').forEach(img => {
+                img.addEventListener('click', () => openLb(img.src, img.alt));
+            });
+            lbClose.addEventListener('click', closeLb);
+            overlay.addEventListener('click', e => { if (e.target === overlay) closeLb(); });
+            document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLb(); });
+        })();
+    </script>
+    <script src="./clock.js?v=20260617l" defer></script>
+</body>
+</html>
+<!-- cache-bust: 2026-06-18T20:00:00 -->

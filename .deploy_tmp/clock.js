@@ -22,8 +22,8 @@
     + '.jc-overlay.jc-dark{background:#000}'
     + '.jc-overlay.jc-light{background:#f4f4ef}'
     + '.jc-panel{display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:default;width:100%}'
-    + ".jc-label{font-family:'Noto Sans JP',sans-serif;letter-spacing:.42em;font-size:clamp(13px,2vw,40px);margin-bottom:clamp(34px,7vh,104px)}"
-    + ".jc-date{font-family:'Noto Sans JP',sans-serif;letter-spacing:.2em;font-size:clamp(16px,2.4vw,46px);margin-top:clamp(36px,7vh,106px)}"
+    + ".jc-label{font-family:'Noto Sans JP',sans-serif;font-weight:700;letter-spacing:.42em;font-size:clamp(13px,2vw,40px);margin-bottom:clamp(34px,7vh,104px)}"
+    + ".jc-date{font-family:'Noto Sans JP',sans-serif;font-weight:700;letter-spacing:.2em;font-size:clamp(16px,2.4vw,46px);margin-top:clamp(36px,7vh,106px)}"
     + '.jc-overlay.jc-dark .jc-label,.jc-overlay.jc-dark .jc-date{color:#e8e8e8}'
     + '.jc-overlay.jc-light .jc-label,.jc-overlay.jc-light .jc-date{color:#4a4458}'
     + '.jc-blocky,.jc-seven,.jc-flip{display:none;align-items:center;justify-content:center;width:100%}'
@@ -31,17 +31,20 @@
     + '.jc-overlay.jc-d2 .jc-seven{display:flex}'
     + '.jc-overlay.jc-d3 .jc-flip{display:flex}'
     + ".jc-blocky{font-family:'Roboto Mono',ui-monospace,monospace;font-weight:700;font-size:min(15vw,27vh);letter-spacing:.14em;line-height:1}"
-    + '.jc-overlay.jc-dark .jc-blocky{color:#f7a81b}'
+    + '.jc-overlay.jc-dark .jc-blocky{color:#f4ad3c}'
     + '.jc-overlay.jc-light .jc-blocky{color:#1e1035}'
-    + '.jc-seven{gap:min(2.6vw,4.4vh)}'
+    + '.jc-seven{gap:min(2.8vw,4.8vh)}'
     + '.jc-seven .jc-dg{width:min(10vw,18vh);height:auto}'
-    + '.jc-seven .jc-cl{width:min(3vw,5.4vh);height:auto;margin:0 min(1.5vw,2.6vh)}'
-    + '.jc-overlay.jc-dark .jc-seven .jc-on{fill:#f7a81b}'
+    + '.jc-seven .jc-cl{width:min(2.8vw,5vh);height:auto;margin:0 min(1.3vw,2.2vh)}'
+    /* ダーク：中央が明るく端が深い琥珀のグラデで丸みのある立体感（横=縦方向/縦=横方向） */
+    + '.jc-seven .jc-on[data-seg="a"],.jc-seven .jc-on[data-seg="g"],.jc-seven .jc-on[data-seg="d"]{fill:url(#jcGH)}'
+    + '.jc-seven .jc-on[data-seg="b"],.jc-seven .jc-on[data-seg="c"],.jc-seven .jc-on[data-seg="e"],.jc-seven .jc-on[data-seg="f"]{fill:url(#jcGV)}'
+    + '.jc-seven .jc-cl rect{fill:url(#jcGR)}'
     + '.jc-overlay.jc-dark .jc-seven .jc-off{fill:#141414}'
-    + '.jc-overlay.jc-dark .jc-seven .jc-cl circle{fill:#f7a81b}'
+    /* ライト：従来どおりフラット紺（高specificityでグラデを上書き） */
     + '.jc-overlay.jc-light .jc-seven .jc-on{fill:#171327}'
     + '.jc-overlay.jc-light .jc-seven .jc-off{fill:#e7e4da}'
-    + '.jc-overlay.jc-light .jc-seven .jc-cl circle{fill:#171327}'
+    + '.jc-overlay.jc-light .jc-seven .jc-cl rect{fill:#171327}'
     + '.jc-flip{gap:min(1.6vw,2.6vh)}'
     + '.jc-flip .jc-fcard{width:min(12vw,21vh);height:min(18vw,31vh);border-radius:min(1.4vh,12px);display:flex;align-items:center;justify-content:center;position:relative;perspective:600px}'
     + ".jc-flip .jc-fv{font-family:'Roboto',ui-monospace,monospace;font-weight:700;font-size:min(8.5vw,15vh);display:block}"
@@ -68,18 +71,47 @@
     + '.jc-overlay.jc-light .jc-close{color:#1e1035}'
     + '.jc-close:hover{opacity:1}'
     + ".jc-hint{position:absolute;top:22px;left:50%;transform:translateX(-50%);font-size:12px;letter-spacing:.08em;opacity:.5;font-family:'Noto Sans JP',sans-serif}"
+    + '@media (min-width:769px){.jc-seven{gap:min(2.4vw,4.3vh)}.jc-seven .jc-dg{width:min(8.8vw,16vh)}.jc-seven .jc-cl{width:min(2.46vw,4.5vh)}}'
     + '@media (max-width:768px){#jc-fab{right:20px}.jc-controls{bottom:18px;gap:10px}}';
   var style = document.createElement('style');
   style.textContent = css;
   document.head.appendChild(style);
 
-  /* ---- 7セグ図形ビルダー ---- */
+  /* ---- 7セグ図形ビルダー（本家NICT風：45°ミターの正統派LCD） ---- */
   var SEG = { '0': 'abcdef', '1': 'bc', '2': 'abdeg', '3': 'abcdg', '4': 'bcfg', '5': 'acdfg', '6': 'acdefg', '7': 'abc', '8': 'abcdefg', '9': 'abcdfg' };
-  function hseg(xL, xR, yc) { return xL + ',' + yc + ' ' + (xL + 8.5) + ',' + (yc - 8.5) + ' ' + (xR - 8.5) + ',' + (yc - 8.5) + ' ' + xR + ',' + yc + ' ' + (xR - 8.5) + ',' + (yc + 8.5) + ' ' + (xL + 8.5) + ',' + (yc + 8.5); }
-  function vseg(xc, yT, yB) { return xc + ',' + yT + ' ' + (xc + 8.5) + ',' + (yT + 8.5) + ' ' + (xc + 8.5) + ',' + (yB - 8.5) + ' ' + xc + ',' + yB + ' ' + (xc - 8.5) + ',' + (yB - 8.5) + ' ' + (xc - 8.5) + ',' + (yT + 8.5); }
+  var H = 9;   // セグメント半太さ
+  var G = 3.5; // セグメント間ノッチ
+  // 水平セグメント：左右端を45°にカットした横長六角形
+  function hseg(xL, xR, yc) {
+    var a = xL + G, b = xR - G;
+    return a + ',' + yc + ' ' + (a + H) + ',' + (yc - H) + ' ' + (b - H) + ',' + (yc - H) + ' ' + b + ',' + yc + ' ' + (b - H) + ',' + (yc + H) + ' ' + (a + H) + ',' + (yc + H);
+  }
+  // 垂直セグメント：上下端を45°にカットした縦長六角形
+  function vseg(xc, yT, yB) {
+    var a = yT + G, b = yB - G;
+    return xc + ',' + a + ' ' + (xc + H) + ',' + (a + H) + ' ' + (xc + H) + ',' + (b - H) + ' ' + xc + ',' + b + ' ' + (xc - H) + ',' + (b - H) + ' ' + (xc - H) + ',' + (a + H);
+  }
   function pg(p, s) { return '<polygon data-seg="' + s + '" points="' + p + '"/>'; }
-  function digit() { return '<svg class="jc-dg" viewBox="0 0 84 148">' + pg(hseg(16, 68, 12), 'a') + pg(vseg(12, 16, 70), 'f') + pg(vseg(72, 16, 70), 'b') + pg(hseg(16, 68, 74), 'g') + pg(vseg(12, 78, 132), 'e') + pg(vseg(72, 78, 132), 'c') + pg(hseg(16, 68, 136), 'd') + '</svg>'; }
-  var colon = '<svg class="jc-cl" viewBox="0 0 24 148"><circle cx="12" cy="52" r="8.5"/><circle cx="12" cy="96" r="8.5"/></svg>';
+  function digit() {
+    return '<svg class="jc-dg" viewBox="0 0 100 176">'
+      + pg(hseg(12, 88, 12), 'a')
+      + pg(vseg(12, 12, 88), 'f')
+      + pg(vseg(88, 12, 88), 'b')
+      + pg(hseg(12, 88, 88), 'g')
+      + pg(vseg(12, 88, 164), 'e')
+      + pg(vseg(88, 88, 164), 'c')
+      + pg(hseg(12, 88, 164), 'd')
+      + '</svg>';
+  }
+  // コロン：四角ドット（本家準拠）
+  var colon = '<svg class="jc-cl" viewBox="0 0 28 176"><rect x="6" y="47" width="16" height="16" rx="1.5"/><rect x="6" y="113" width="16" height="16" rx="1.5"/></svg>';
+  // セグメントの立体感用グラデーション定義（中央=明るい琥珀／端=深い琥珀）。objectBoundingBoxで各セグに追従。
+  var defsHTML = '<svg class="jc-defs" width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute;width:0;height:0">'
+    + '<defs>'
+    + '<linearGradient id="jcGH" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e7a236"/><stop offset=".5" stop-color="#fbc35a"/><stop offset="1" stop-color="#e7a236"/></linearGradient>'
+    + '<linearGradient id="jcGV" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#e7a236"/><stop offset=".5" stop-color="#fbc35a"/><stop offset="1" stop-color="#e7a236"/></linearGradient>'
+    + '<radialGradient id="jcGR" cx=".5" cy=".42" r=".72"><stop offset="0" stop-color="#fbc35a"/><stop offset="1" stop-color="#e7a236"/></radialGradient>'
+    + '</defs></svg>';
 
   var sevenHTML = digit() + digit() + colon + digit() + digit() + colon + digit() + digit();
   var flipHTML = '';
@@ -102,6 +134,7 @@
   overlay.setAttribute('aria-modal', 'true');
   overlay.setAttribute('aria-label', '日本標準時');
   overlay.innerHTML = ''
+    + defsHTML
     + '<span class="jc-hint">Esc／画面クリックで閉じる</span>'
     + '<button class="jc-close" type="button" aria-label="閉じる">&times;</button>'
     + '<div class="jc-panel">'
@@ -136,18 +169,36 @@
     var dBtns = overlay.querySelectorAll('[data-d]');
     var tBtns = overlay.querySelectorAll('[data-t]');
 
-    /* サーバー時刻アンカー（±1秒）。失敗時は端末時計（offset=0）。 */
+    /* サーバー時刻アンカー。HTTP Dateは秒未満を切り捨てる（平均0.5秒遅延＋最大1秒ジッタ）ため、
+       1回計測では合わせきれない。+500で切り捨て分を中心化し、5回サンプリングの中央値でジッタを低減。
+       LEADで本家にわずかに先行させる。失敗時は端末時計（offset=0）にフォールバック。 */
     var offset = 0;
+    var LEAD = 150;
+    function syncOnce() {
+      return new Promise(function (resolve) {
+        var t0 = Date.now();
+        fetch(location.href, { method: 'HEAD', cache: 'no-store' }).then(function (r) {
+          var t1 = Date.now();
+          var ds = r.headers.get('date');
+          if (!ds) { resolve(null); return; }
+          var server = new Date(ds).getTime();
+          if (isNaN(server)) { resolve(null); return; }
+          resolve(server + 500 + (t1 - t0) / 2 - t1);
+        }).catch(function () { resolve(null); });
+      });
+    }
     function syncTime() {
-      var t0 = Date.now();
-      fetch(location.href, { method: 'HEAD', cache: 'no-store' }).then(function (r) {
-        var t1 = Date.now();
-        var ds = r.headers.get('date');
-        if (!ds) return;
-        var server = new Date(ds).getTime();
-        if (isNaN(server)) return;
-        offset = server + (t1 - t0) / 2 - t1;
-      }).catch(function () {});
+      var samples = [], n = 5;
+      (function step(i) {
+        if (i >= n) {
+          if (samples.length) { samples.sort(function (a, b) { return a - b; }); offset = samples[samples.length >> 1]; }
+          return;
+        }
+        syncOnce().then(function (o) {
+          if (o !== null) samples.push(o);
+          setTimeout(function () { step(i + 1); }, 120);
+        });
+      })(0);
     }
     syncTime();
     setInterval(syncTime, 600000);
@@ -175,7 +226,7 @@
       }
     }
     function tick() {
-      var d = new Date(Date.now() + offset);
+      var d = new Date(Date.now() + offset + LEAD);
       var hh = two(d.getHours()), mm = two(d.getMinutes()), ss = two(d.getSeconds());
       c1.textContent = hh + ':' + mm + ':' + ss;
       var a = (hh + mm + ss).split('');
