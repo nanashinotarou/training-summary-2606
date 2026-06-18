@@ -237,6 +237,44 @@
             padding: 1px 6px; font-size: 0.83em;
         }
 
+        /* ── 紙芝居スライドショー ── */
+        .slideshow {
+            position: relative; margin: 24px 0;
+            border-radius: var(--radius-medium);
+            border: 1px solid #ede9f5; overflow: hidden;
+            background: #f8f5ff; box-shadow: var(--shadow-soft);
+        }
+        .ss-slide {
+            display: none; width: 100%; height: auto; cursor: zoom-in;
+        }
+        @keyframes ss-fade {
+            from { opacity: 0; } to { opacity: 1; }
+        }
+        .ss-slide.active {
+            display: block;
+            animation: ss-fade 0.3s ease;
+        }
+        .ss-nav {
+            display: flex; align-items: center; justify-content: center;
+            gap: 20px; padding: 10px 20px;
+            background: rgba(255,255,255,0.95);
+            border-top: 1px solid #ede9f5;
+        }
+        .ss-btn {
+            background: var(--ig-grad); color: #fff;
+            border: none; width: 34px; height: 34px; border-radius: 50%;
+            font-size: 1rem; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: 0.2s; flex-shrink: 0;
+        }
+        .ss-btn:hover { transform: scale(1.1); }
+        .ss-btn:disabled { opacity: 0.3; cursor: not-allowed; transform: none; }
+        .ss-counter {
+            font-family: 'Roboto', sans-serif;
+            font-size: 0.88rem; font-weight: 700; color: var(--ig-purple);
+            min-width: 48px; text-align: center; letter-spacing: 0.04em;
+        }
+
         .step-card {
             display: flex; gap: 16px; align-items: flex-start;
             background: #fff; border: 1px solid #ede9f5;
@@ -1066,14 +1104,16 @@
                     </div>
                 </div>
 
-                <div class="layout-split">
-                    <div>
-                        <p>問いかけをストーリーの冒頭に挟んで感情を揺さぶることで、視聴者は無意識に思考を開始し、自分の問題としてストーリーズを読み進めてくれます。</p>
+                <p>問いかけをストーリーの冒頭に挟んで感情を揺さぶることで、視聴者は無意識に思考を開始し、自分の問題としてストーリーズを読み進めてくれます。</p>
+                <div class="slideshow">
+                    <img src="./assets/day09_slide21.png" alt="感情を揺さぶるアプローチ" class="ss-slide active">
+                    <img src="./assets/day09_slide22.png" alt="5つのフックテクニック" class="ss-slide">
+                    <div class="ss-nav">
+                        <button class="ss-btn ss-prev">&#10094;</button>
+                        <span class="ss-counter">1 / 2</span>
+                        <button class="ss-btn ss-next">&#10095;</button>
                     </div>
-                    <img src="./assets/day09_slide21.png" alt="感情を揺さぶるアプローチ" class="slide-img">
                 </div>
-
-                <img src="./assets/day09_slide22.png" alt="5つのフックテクニック" class="slide-img">
                 <p style="font-weight:700; color:var(--text-main); margin-bottom:14px;">感情を動かす5つの問いかけフック（具体例）</p>
                 <div class="step-card">
                     <div class="step-num">1</div>
@@ -1157,14 +1197,16 @@
                 <div class="sub-note">この「気づき → 憧れ → 恐れ → 行動」の4ステップを通じて、フォロワーは初めて能動的に動き始めます。ストーリーズの中でこの心理フェーズを順に組み立てていきましょう。</div>
                 <img src="./assets/day09_slide25.png" alt="4ステップの組み立て" class="slide-img">
 
-                <div class="layout-split">
-                    <div>
-                        <p>ユーザーの多くは「現状維持バイアス（今のままでいい）」に捉われており、主体的に悩んでいません。ターゲットを<strong>「赤ちゃん」</strong>だと思うくらいに、何がなぜダメで、どうすれば良いのかを1から100まで丁寧に教育することが不可欠です。</p>
+                <p>ユーザーの多くは「現状維持バイアス（今のままでいい）」に捉われており、主体的に悩んでいません。ターゲットを<strong>「赤ちゃん」</strong>だと思うくらいに、何がなぜダメで、どうすれば良いのかを1から100まで丁寧に教育することが不可欠です。</p>
+                <div class="slideshow">
+                    <img src="./assets/day09_slide26.png" alt="赤ちゃん教育の重要性" class="ss-slide active">
+                    <img src="./assets/day09_slide27.png" alt="問題意識育成の4要素" class="ss-slide">
+                    <div class="ss-nav">
+                        <button class="ss-btn ss-prev">&#10094;</button>
+                        <span class="ss-counter">1 / 2</span>
+                        <button class="ss-btn ss-next">&#10095;</button>
                     </div>
-                    <img src="./assets/day09_slide26.png" alt="赤ちゃん教育の重要性" class="slide-img">
                 </div>
-
-                <img src="./assets/day09_slide27.png" alt="問題意識育成の4要素" class="slide-img">
                 <div class="card-grid-2">
                     <div class="info-card">
                         <div class="info-card-header">
@@ -1368,15 +1410,36 @@
                 overlay.classList.remove('open');
                 document.body.style.overflow = '';
             }
-            document.querySelectorAll('.slide-img:not(.cover-slide)').forEach(img => {
+            document.querySelectorAll('.slide-img:not(.cover-slide), .ss-slide').forEach(img => {
                 img.addEventListener('click', () => openLb(img.src, img.alt));
             });
             lbClose.addEventListener('click', closeLb);
             overlay.addEventListener('click', e => { if (e.target === overlay) closeLb(); });
             document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLb(); });
         })();
+
+        (function () {
+            document.querySelectorAll('.slideshow').forEach(function (ss) {
+                var slides = ss.querySelectorAll('.ss-slide');
+                var counter = ss.querySelector('.ss-counter');
+                var prevBtn = ss.querySelector('.ss-prev');
+                var nextBtn = ss.querySelector('.ss-next');
+                var cur = 0;
+                function show(n) {
+                    slides[cur].classList.remove('active');
+                    cur = Math.max(0, Math.min(n, slides.length - 1));
+                    slides[cur].classList.add('active');
+                    counter.textContent = (cur + 1) + ' / ' + slides.length;
+                    prevBtn.disabled = cur === 0;
+                    nextBtn.disabled = cur === slides.length - 1;
+                }
+                prevBtn.addEventListener('click', function () { show(cur - 1); });
+                nextBtn.addEventListener('click', function () { show(cur + 1); });
+                show(0);
+            });
+        })();
     </script>
     <script src="./clock.js?v=20260617l" defer></script>
 </body>
 </html>
-<!-- cache-bust: 2026-06-19T10:00:00 -->
+<!-- cache-bust: 2026-06-19T12:00:00 -->
