@@ -143,6 +143,23 @@
         }
         h4 { margin: 0; font-size: 1.1rem; color: #334155; }
         p { margin: 2px 0 0; font-size: 0.85rem; color: #64748b; }
+        /* ── 受講進捗トラッカー ── */
+        .progress-tracker { margin: 0 0 12px; padding: 0 2px; }
+        .pt-label { display: flex; justify-content: space-between; align-items: center;
+            font-size: 0.78rem; font-weight: 700; color: var(--text-main); margin-bottom: 5px; }
+        .pt-count { color: var(--ig-purple); font-family: "Roboto", sans-serif; }
+        .pt-bar { height: 8px; background: #f0e8f8; border-radius: 4px; overflow: hidden; }
+        .pt-fill { height: 100%; width: 0; background: var(--ig-grad); border-radius: 4px; transition: width 0.35s ease; }
+        .done-toggle {
+            flex-shrink: 0; width: 30px; height: 30px; border-radius: 50%; margin-left: 8px;
+            border: 2px solid #e0d4ee; color: #cbb8e0; background: #fff;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.8rem; cursor: pointer; transition: 0.2s;
+        }
+        .done-toggle:hover { border-color: var(--ig-purple); color: var(--ig-purple); transform: scale(1.1); }
+        .c-item.done { background: #f3fbf4; border-color: #b6e3bf; }
+        .c-item.done .done-toggle { background: #2e9e54; border-color: #2e9e54; color: #fff; }
+        .c-item.done h4 { color: #2e9e54; }
         /* ── TODAY ── */
         .cal-cell.is-today {
             border: 2px solid var(--ig-orange) !important;
@@ -358,6 +375,11 @@
                 </div>
             </details>
 
+            <div class="progress-tracker">
+                <div class="pt-label"><span><i class="fa-solid fa-graduation-cap"></i> 受講進捗</span><span class="pt-count">0 / 13</span></div>
+                <div class="pt-bar"><div class="pt-fill"></div></div>
+            </div>
+
             <div class="curriculum-list">
                 <a href="./vol01-1.html" class="c-item">
                     <div class="date-box"><span class="db-month">Tue</span><span class="db-day">02</span></div>
@@ -501,8 +523,48 @@
                 });
             }
         });
+
+        // ── 受講進捗（localStorage・各Dayの✓トグル） ──
+        document.addEventListener('DOMContentLoaded', () => {
+            const KEY = 'dx2606_progress';
+            const items = document.querySelectorAll('.c-item');
+            const total = items.length;
+            let done = {};
+            try { done = JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) { done = {}; }
+            const tracker = document.querySelector('.progress-tracker');
+            const countEl = tracker && tracker.querySelector('.pt-count');
+            const fillEl = tracker && tracker.querySelector('.pt-fill');
+            function update() {
+                const n = Object.keys(done).filter(k => done[k]).length;
+                if (countEl) countEl.textContent = n + ' / ' + total;
+                if (fillEl) fillEl.style.width = (total ? (100 * n / total) : 0) + '%';
+            }
+            items.forEach(item => {
+                const href = item.getAttribute('href') || '';
+                const mo = href.match(/vol(\d+)-/);
+                const day = mo ? mo[1] : href;
+                const toggle = document.createElement('span');
+                toggle.className = 'done-toggle';
+                toggle.setAttribute('role', 'button');
+                toggle.setAttribute('tabindex', '0');
+                toggle.setAttribute('aria-label', 'このDayを完了にする');
+                toggle.innerHTML = '<i class="fa-solid fa-check"></i>';
+                if (done[day]) item.classList.add('done');
+                function toggleDone(e) {
+                    e.preventDefault(); e.stopPropagation();
+                    done[day] = !done[day];
+                    item.classList.toggle('done', !!done[day]);
+                    try { localStorage.setItem(KEY, JSON.stringify(done)); } catch (err) {}
+                    update();
+                }
+                toggle.addEventListener('click', toggleDone);
+                toggle.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') toggleDone(e); });
+                item.appendChild(toggle);
+            });
+            update();
+        });
     </script>
     <script src="./clock.js?v=20260617l" defer></script>
 </body>
 </html>
-<!-- cache-bust: 2026-06-19T15:30:00 -->
+<!-- cache-bust: 2026-06-19T17:00:00 -->
