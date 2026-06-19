@@ -177,8 +177,21 @@
         }
         .zoom-btn:hover { background: #1a6dcc; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(45,140,255,0.5); }
         .zoom-btn:active { transform: translateY(0); }
-        /* ── リソースカード ── */
-        .resource-section { margin: 12px 0 4px; display: flex; flex-direction: column; gap: 7px; }
+        /* ── リソースカード（折りたたみ） ── */
+        .resource-toggle { margin: 12px 0 4px; border: 1px solid #ede9f5; border-radius: 10px; overflow: hidden; }
+        .resource-toggle[open] { background: #fdfaff; }
+        .resource-toggle > summary {
+            list-style: none; cursor: pointer; user-select: none;
+            display: flex; align-items: center; gap: 10px;
+            padding: 10px 13px; font-weight: 700; font-size: 0.82rem; color: var(--text-main); transition: 0.2s;
+        }
+        .resource-toggle > summary::-webkit-details-marker { display: none; }
+        .resource-toggle > summary:hover { background: #fdf0ff; }
+        .rt-icon { font-size: 1.1rem; flex-shrink: 0; }
+        .rt-label { flex: 1; }
+        .rt-chevron { color: var(--ig-purple); font-size: 0.78rem; transition: transform 0.25s; }
+        .resource-toggle[open] .rt-chevron { transform: rotate(180deg); }
+        .rt-body { display: flex; flex-direction: column; gap: 7px; padding: 2px 8px 10px; }
         .res-card {
             display: flex; align-items: center; gap: 12px;
             padding: 9px 13px; border: 1px solid #ede9f5; border-radius: 10px;
@@ -320,23 +333,30 @@
                 🎥 &nbsp;研修Zoomに参加する
             </button>
 
-            <!-- ── リソースリンク ── -->
-            <div class="resource-section">
-                <a href="https://platinumzone.co.jp/dx-biome/2606/dx_workflow_oshi.html" target="_blank" class="res-card">
-                    <span class="res-card-icon">📋</span>
-                    <div class="res-card-body">
-                        <span class="res-card-title">コースワークフロー（推し発信7ステップ）</span>
-                        <span class="res-card-sub">課題：リール3本投稿 ／ 1本50再生達成 ／ 提出期限：6/30</span>
-                    </div>
-                </a>
-                <a href="https://platinumzone.co.jp/dx-biome/2606/dx_tutorial_june.html" target="_blank" class="res-card">
-                    <span class="res-card-icon">📖</span>
-                    <div class="res-card-body">
-                        <span class="res-card-title">初回チュートリアル（受講ガイド）</span>
-                        <span class="res-card-sub">Zoom接続ルール・Canva設定・おしゃべり会案内</span>
-                    </div>
-                </a>
-            </div>
+            <!-- ── リソースリンク（折りたたみ・デフォルト畳み） ── -->
+            <details class="resource-toggle">
+                <summary>
+                    <span class="rt-icon">📚</span>
+                    <span class="rt-label">受講リソース（コースワークフロー・初回チュートリアル）</span>
+                    <i class="fa-solid fa-chevron-down rt-chevron"></i>
+                </summary>
+                <div class="rt-body">
+                    <a href="https://platinumzone.co.jp/dx-biome/2606/dx_workflow_oshi.html" target="_blank" class="res-card">
+                        <span class="res-card-icon">📋</span>
+                        <div class="res-card-body">
+                            <span class="res-card-title">コースワークフロー（推し発信7ステップ）</span>
+                            <span class="res-card-sub">課題：リール3本投稿 ／ 1本50再生達成 ／ 提出期限：6/30</span>
+                        </div>
+                    </a>
+                    <a href="https://platinumzone.co.jp/dx-biome/2606/dx_tutorial_june.html" target="_blank" class="res-card">
+                        <span class="res-card-icon">📖</span>
+                        <div class="res-card-body">
+                            <span class="res-card-title">初回チュートリアル（受講ガイド）</span>
+                            <span class="res-card-sub">Zoom接続ルール・Canva設定・おしゃべり会案内</span>
+                        </div>
+                    </a>
+                </div>
+            </details>
 
             <div class="curriculum-list">
                 <a href="./vol01-1.html" class="c-item">
@@ -485,4 +505,4 @@
     <script src="./clock.js?v=20260617l" defer></script>
 </body>
 </html>
-<!-- cache-bust: 2026-06-19T14:00:00 -->
+<!-- cache-bust: 2026-06-19T14:30:00 -->
