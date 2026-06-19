@@ -71,6 +71,10 @@
     + '.jc-overlay.jc-light .jc-close{color:#1e1035}'
     + '.jc-close:hover{opacity:1}'
     + ".jc-hint{position:absolute;top:22px;left:50%;transform:translateX(-50%);font-size:12px;letter-spacing:.08em;opacity:.5;font-family:'Noto Sans JP',sans-serif}"
+    + ".jc-tlabel{font-family:'Noto Sans JP',sans-serif;font-size:13px;font-weight:700;opacity:.65;align-self:center}"
+    + '.jc-grp.jc-timer button.jc-trun{background:' + GRAD + ';color:#fff}'
+    + '@keyframes jcflash{0%,100%{opacity:1}50%{opacity:.2}}'
+    + '.jc-panel.jc-flash{animation:jcflash .55s ease 6}'
     + '@media (min-width:769px){.jc-seven{gap:min(2.4vw,4.3vh)}.jc-seven .jc-dg{width:min(8.8vw,16vh)}.jc-seven .jc-cl{width:min(2.46vw,4.5vh)}}'
     + '@media (max-width:768px){#jc-fab{right:20px}.jc-controls{bottom:18px;gap:10px}}';
   var style = document.createElement('style');
@@ -154,6 +158,13 @@
     + '<button type="button" data-t="dark">ダーク</button>'
     + '<button type="button" data-t="light">ライト</button>'
     + '</div>'
+    + '<span class="jc-tlabel">休憩</span>'
+    + '<div class="jc-grp jc-timer">'
+    + '<button type="button" data-min="5">5分</button>'
+    + '<button type="button" data-min="10">10分</button>'
+    + '<button type="button" data-min="15">15分</button>'
+    + '<button type="button" data-min="0" class="jc-tclear" aria-label="タイマー解除">✕</button>'
+    + '</div>'
     + '</div>';
 
   function attach() {
@@ -225,12 +236,50 @@
         }
       }
     }
+    var labelEl = overlay.querySelector('.jc-label');
+    var panel = overlay.querySelector('.jc-panel');
+    var LABEL_CLOCK = '日 本 標 準 時 ・ JST';
+    var LABEL_TIMER = '休 憩 タ イ マ ー';
+    var LABEL_DONE = '休 憩 お わ り';
+    var timerEnd = 0, timerMode = false, timerDone = false, audioCtx = null;
+    function ensureAudio() {
+      try {
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+      } catch (e) {}
+    }
+    function beep() {
+      if (!audioCtx) return;
+      try {
+        var t = audioCtx.currentTime;
+        for (var i = 0; i < 3; i++) {
+          var o = audioCtx.createOscillator(), g = audioCtx.createGain();
+          o.type = 'sine'; o.frequency.value = 880;
+          o.connect(g); g.connect(audioCtx.destination);
+          var s = t + i * 0.35;
+          g.gain.setValueAtTime(0.0001, s);
+          g.gain.exponentialRampToValueAtTime(0.25, s + 0.02);
+          g.gain.exponentialRampToValueAtTime(0.0001, s + 0.3);
+          o.start(s); o.stop(s + 0.32);
+        }
+      } catch (e) {}
+    }
+    function show(a) { c1.textContent = a[0] + a[1] + ':' + a[2] + a[3] + ':' + a[4] + a[5]; setSeven(a); setFlip(a); }
     function tick() {
+      if (timerMode) {
+        var rem = Math.round((timerEnd - (Date.now() + offset + LEAD)) / 1000);
+        if (rem <= 0) {
+          rem = 0;
+          if (!timerDone) { timerDone = true; labelEl.textContent = LABEL_DONE; panel.classList.add('jc-flash'); beep(); }
+        }
+        var hh = Math.floor(rem / 3600), mm = Math.floor((rem % 3600) / 60), ss = rem % 60;
+        show((two(hh) + two(mm) + two(ss)).split(''));
+        var de = new Date(timerEnd);
+        dateEl.textContent = timerDone ? 'おつかれさまでした' : (two(de.getHours()) + ':' + two(de.getMinutes()) + ' に再開');
+        return;
+      }
       var d = new Date(Date.now() + offset + LEAD);
-      var hh = two(d.getHours()), mm = two(d.getMinutes()), ss = two(d.getSeconds());
-      c1.textContent = hh + ':' + mm + ':' + ss;
-      var a = (hh + mm + ss).split('');
-      setSeven(a); setFlip(a);
+      show((two(d.getHours()) + two(d.getMinutes()) + two(d.getSeconds())).split(''));
       dateEl.textContent = d.getFullYear() + '/' + two(d.getMonth() + 1) + '/' + two(d.getDate()) + ' (' + days[d.getDay()] + ')';
     }
     tick();
@@ -265,6 +314,27 @@
         overlay.classList.add('jc-' + theme);
         localStorage.setItem('jstClockTheme', theme);
         markSel();
+      });
+    });
+
+    var tmBtns = overlay.querySelectorAll('[data-min]');
+    tmBtns.forEach(function (b) {
+      b.addEventListener('click', function () {
+        var min = parseInt(b.getAttribute('data-min'), 10);
+        if (min > 0) {
+          ensureAudio();
+          timerEnd = Date.now() + offset + LEAD + min * 60000;
+          timerMode = true; timerDone = false;
+          labelEl.textContent = LABEL_TIMER;
+          panel.classList.remove('jc-flash');
+          tmBtns.forEach(function (x) { x.classList.toggle('jc-trun', x === b); });
+        } else {
+          timerMode = false; timerDone = false;
+          labelEl.textContent = LABEL_CLOCK;
+          panel.classList.remove('jc-flash');
+          tmBtns.forEach(function (x) { x.classList.remove('jc-trun'); });
+        }
+        tick();
       });
     });
   }

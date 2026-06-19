@@ -19,6 +19,7 @@ Set-Location $proj
 # --- Step 1: .deploy_tmp を同期 ---
 Copy-Item index.html .deploy_tmp\ -Force
 Copy-Item vol*.html  .deploy_tmp\ -Force
+Copy-Item clock.js   .deploy_tmp\ -Force
 if (-not $NoAssets) {
     Copy-Item assets\* .deploy_tmp\assets\ -Force -Recurse
     Write-Host "[1/3] HTML + assets を .deploy_tmp に同期しました"
