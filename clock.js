@@ -87,6 +87,7 @@
     + ".jc-tgt-time-input{font-family:'Roboto Mono',ui-monospace,monospace;font-weight:700;font-size:15px;border:none;border-radius:18px;padding:5px 10px;outline:none}"
     + '.jc-overlay.jc-dark .jc-tgt-time-input{color-scheme:dark;background:rgba(255,255,255,.16);color:#eee}'
     + '.jc-overlay.jc-light .jc-tgt-time-input{color-scheme:light;background:rgba(0,0,0,.07);color:#1e1035}'
+    + '.jc-grp.jc-tgt .jc-tgt-nudge{padding:6px 9px}'
     + ".jc-tset{position:relative;cursor:pointer;font-family:'Roboto Mono',ui-monospace,monospace;font-weight:700;font-size:18px;min-width:34px;height:34px;display:flex;align-items:center;justify-content:center;border-radius:6px;user-select:none}"
     + '.jc-tset:hover{background:rgba(131,58,180,.22)}'
     + ".jc-tset::before{content:'\\25B2';position:absolute;top:0;left:0;right:0;text-align:center;font-size:8px;line-height:9px;opacity:.55}"
@@ -187,7 +188,9 @@
     + '<div class="jc-grp jc-tgt">'
     + '<input class="jc-tgt-label" type="text" maxlength="24" value="フィードバックタイム" aria-label="目標の見出し">'
     + '<button type="button" class="jc-tgt-nudge" data-delta="-5" aria-label="5分早める">−5</button>'
+    + '<button type="button" class="jc-tgt-nudge" data-delta="-1" aria-label="1分早める">−1</button>'
     + '<input class="jc-tgt-time-input" type="time" value="10:30" step="60" aria-label="目標の時刻">'
+    + '<button type="button" class="jc-tgt-nudge" data-delta="1" aria-label="1分遅らせる">＋1</button>'
     + '<button type="button" class="jc-tgt-nudge" data-delta="5" aria-label="5分遅らせる">＋5</button>'
     + '<button type="button" class="jc-tgt-set">セット</button>'
     + '<button type="button" class="jc-tgt-clear" aria-label="目標を消す">✕</button>'
