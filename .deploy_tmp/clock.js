@@ -186,7 +186,9 @@
     + '<span class="jc-tlabel">目標</span>'
     + '<div class="jc-grp jc-tgt">'
     + '<input class="jc-tgt-label" type="text" maxlength="24" value="フィードバックタイム" aria-label="目標の見出し">'
+    + '<button type="button" class="jc-tgt-nudge" data-delta="-5" aria-label="5分早める">−5</button>'
     + '<input class="jc-tgt-time-input" type="time" value="10:30" step="60" aria-label="目標の時刻">'
+    + '<button type="button" class="jc-tgt-nudge" data-delta="5" aria-label="5分遅らせる">＋5</button>'
     + '<button type="button" class="jc-tgt-set">セット</button>'
     + '<button type="button" class="jc-tgt-clear" aria-label="目標を消す">✕</button>'
     + '</div>'
@@ -392,6 +394,15 @@
       if (!isNaN(m)) setMM = ((m % 60) + 60) % 60;
     }
     timeInput.addEventListener('change', function () { if (targetActive) activateTarget(); });
+    overlay.querySelectorAll('.jc-tgt-nudge').forEach(function (b) {
+      b.addEventListener('click', function () {
+        readTime();
+        var total = ((setHH * 60 + setMM + parseInt(b.getAttribute('data-delta'), 10)) % 1440 + 1440) % 1440;
+        setHH = Math.floor(total / 60); setMM = total % 60;
+        renderSet();
+        if (targetActive) activateTarget();
+      });
+    });
     function activateTarget() {
       readTime();
       targetLabel = (tgtLabelInput.value || '').trim() || 'タイマー';
@@ -424,9 +435,8 @@
     })();
 
     var PRESETS = [
-      { label: '後半開始', h: 11, m: 30 },
-      { label: '午後開始', h: 13, m: 0 },
-      { label: '研修終了', h: 17, m: 0 }
+      { label: 'フィードバックタイム', h: 10, m: 30 },
+      { label: '後半開始', h: 11, m: 30 }
     ];
     var presetWrap = overlay.querySelector('#jc-presets');
     PRESETS.forEach(function (p) {
