@@ -75,6 +75,20 @@
     + '.jc-grp.jc-timer button.jc-trun{background:' + GRAD + ';color:#fff}'
     + '@keyframes jcflash{0%,100%{opacity:1}50%{opacity:.2}}'
     + '.jc-panel.jc-flash{animation:jcflash .55s ease 6}'
+    + ".jc-target{display:none;text-align:center;margin-top:clamp(16px,3vh,40px);font-family:'Noto Sans JP',sans-serif;font-weight:700;font-size:clamp(14px,1.7vw,30px);letter-spacing:.06em;line-height:1.5}"
+    + ".jc-target .jc-tgt-time,.jc-target .jc-tgt-rem{font-family:'Roboto Mono',ui-monospace,monospace}"
+    + '.jc-overlay.jc-dark .jc-target{color:#d8c89a}'
+    + '.jc-overlay.jc-light .jc-target{color:#7a5a2a}'
+    + '.jc-target .jc-tgt-rem{color:#f4ad3c}'
+    + '.jc-grp.jc-tgt{flex-wrap:wrap;align-items:center}'
+    + ".jc-tgt-label{font-family:'Noto Sans JP',sans-serif;font-size:13px;font-weight:700;border:none;border-radius:18px;padding:6px 12px;width:150px;outline:none}"
+    + '.jc-overlay.jc-dark .jc-tgt-label{background:rgba(255,255,255,.16);color:#eee}'
+    + '.jc-overlay.jc-light .jc-tgt-label{background:rgba(0,0,0,.07);color:#1e1035}'
+    + ".jc-tset{position:relative;cursor:pointer;font-family:'Roboto Mono',ui-monospace,monospace;font-weight:700;font-size:18px;min-width:34px;height:34px;display:flex;align-items:center;justify-content:center;border-radius:6px;user-select:none}"
+    + '.jc-tset:hover{background:rgba(131,58,180,.22)}'
+    + ".jc-tset::before{content:'\\25B2';position:absolute;top:0;left:0;right:0;text-align:center;font-size:8px;line-height:9px;opacity:.55}"
+    + ".jc-tset::after{content:'\\25BC';position:absolute;bottom:0;left:0;right:0;text-align:center;font-size:8px;line-height:9px;opacity:.55}"
+    + ".jc-tcolon{font-family:'Roboto Mono',ui-monospace,monospace;font-weight:700;font-size:18px;display:flex;align-items:center}"
     + '@media (min-width:769px){.jc-seven{gap:min(2.4vw,4.3vh)}.jc-seven .jc-dg{width:min(8.8vw,16vh)}.jc-seven .jc-cl{width:min(2.46vw,4.5vh)}}'
     + '@media (max-width:768px){#jc-fab{right:20px}.jc-controls{bottom:18px;gap:10px}}';
   var style = document.createElement('style');
@@ -147,6 +161,7 @@
     + '<div id="jc-c2" class="jc-seven">' + sevenHTML + '</div>'
     + '<div id="jc-c3" class="jc-flip">' + flipHTML + '</div>'
     + '<div id="jc-date" class="jc-date">----/--/--</div>'
+    + '<div id="jc-target" class="jc-target"></div>'
     + '</div>'
     + '<div class="jc-controls">'
     + '<div class="jc-grp">'
@@ -164,6 +179,15 @@
     + '<button type="button" data-min="10">10分</button>'
     + '<button type="button" data-min="15">15分</button>'
     + '<button type="button" data-min="0" class="jc-tclear" aria-label="タイマー解除">✕</button>'
+    + '</div>'
+    + '<span class="jc-tlabel">目標</span>'
+    + '<div class="jc-grp jc-tgt">'
+    + '<input class="jc-tgt-label" type="text" maxlength="24" value="フィードバックタイム" aria-label="目標の見出し">'
+    + '<span class="jc-tset" data-u="h" title="上半分で＋／下半分で−"><span class="jc-tnum">10</span></span>'
+    + '<span class="jc-tcolon">:</span>'
+    + '<span class="jc-tset" data-u="m" title="上半分で＋／下半分で−"><span class="jc-tnum">30</span></span>'
+    + '<button type="button" class="jc-tgt-set">セット</button>'
+    + '<button type="button" class="jc-tgt-clear" aria-label="目標を消す">✕</button>'
     + '</div>'
     + '</div>';
 
@@ -265,7 +289,24 @@
       } catch (e) {}
     }
     function show(a) { c1.textContent = a[0] + a[1] + ':' + a[2] + a[3] + ':' + a[4] + a[5]; setSeven(a); setFlip(a); }
+    var targetEl = overlay.querySelector('#jc-target');
+    var setHH = 10, setMM = 30;
+    var targetActive = false, targetDone = false, targetTime = 0, targetHHMM = '', targetLabel = '';
+    function esc(s) { return String(s).replace(/[&<>]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]; }); }
+    function updateTarget(nowMs) {
+      if (!targetActive) { targetEl.style.display = 'none'; return; }
+      targetEl.style.display = 'block';
+      var rem = Math.round((targetTime - nowMs) / 1000);
+      if (rem <= 0) {
+        if (!targetDone) { targetDone = true; panel.classList.add('jc-flash'); beep(); }
+        targetEl.innerHTML = '<b>' + esc(targetLabel) + '</b> の時間になりました';
+        return;
+      }
+      var mm = Math.floor(rem / 60), ss = rem % 60;
+      targetEl.innerHTML = '<span class="jc-tgt-time">' + targetHHMM + '</span> の <b>' + esc(targetLabel) + '</b> まで あと <span class="jc-tgt-rem">' + mm + '分' + two(ss) + '秒</span>';
+    }
     function tick() {
+      updateTarget(Date.now() + offset + LEAD);
       if (timerMode) {
         var rem = Math.round((timerEnd - (Date.now() + offset + LEAD)) / 1000);
         if (rem <= 0) {
@@ -337,6 +378,49 @@
         tick();
       });
     });
+
+    var tgtLabelInput = overlay.querySelector('.jc-tgt-label');
+    var hhEl = overlay.querySelector('.jc-tset[data-u="h"] .jc-tnum');
+    var mmEl = overlay.querySelector('.jc-tset[data-u="m"] .jc-tnum');
+    function renderSet() { hhEl.textContent = two(setHH); mmEl.textContent = two(setMM); }
+    overlay.querySelectorAll('.jc-tset').forEach(function (box) {
+      box.addEventListener('click', function (e) {
+        var rect = box.getBoundingClientRect();
+        var up = (e.clientY - rect.top) < rect.height / 2;
+        if (box.getAttribute('data-u') === 'h') setHH = (setHH + (up ? 1 : 23)) % 24;
+        else setMM = (setMM + (up ? 5 : 55)) % 60;
+        renderSet();
+      });
+    });
+    function activateTarget() {
+      targetLabel = (tgtLabelInput.value || '').trim() || 'タイマー';
+      targetHHMM = two(setHH) + ':' + two(setMM);
+      var nowMs = Date.now() + offset + LEAD;
+      var t = new Date(nowMs); t.setHours(setHH, setMM, 0, 0);
+      if (t.getTime() <= nowMs) t.setDate(t.getDate() + 1);
+      targetTime = t.getTime();
+      targetActive = true; targetDone = false;
+      panel.classList.remove('jc-flash');
+      try { localStorage.setItem('jstClockTgt', JSON.stringify({ h: setHH, m: setMM, label: targetLabel })); } catch (e) {}
+      updateTarget(nowMs);
+    }
+    overlay.querySelector('.jc-tgt-set').addEventListener('click', activateTarget);
+    overlay.querySelector('.jc-tgt-clear').addEventListener('click', function () {
+      targetActive = false; targetDone = false;
+      panel.classList.remove('jc-flash');
+      try { localStorage.removeItem('jstClockTgt'); } catch (e) {}
+      updateTarget(0);
+    });
+    (function () {
+      try {
+        var sv = JSON.parse(localStorage.getItem('jstClockTgt'));
+        if (sv && typeof sv.h === 'number') {
+          setHH = sv.h; setMM = sv.m;
+          if (sv.label) tgtLabelInput.value = sv.label;
+          renderSet(); activateTarget();
+        } else { renderSet(); }
+      } catch (e) { renderSet(); }
+    })();
   }
 
   if (document.body) attach();
