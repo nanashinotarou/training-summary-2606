@@ -84,6 +84,9 @@
     + ".jc-tgt-label{font-family:'Noto Sans JP',sans-serif;font-size:13px;font-weight:700;border:none;border-radius:18px;padding:6px 12px;width:150px;outline:none}"
     + '.jc-overlay.jc-dark .jc-tgt-label{background:rgba(255,255,255,.16);color:#eee}'
     + '.jc-overlay.jc-light .jc-tgt-label{background:rgba(0,0,0,.07);color:#1e1035}'
+    + ".jc-tgt-time-input{font-family:'Roboto Mono',ui-monospace,monospace;font-weight:700;font-size:15px;border:none;border-radius:18px;padding:5px 10px;outline:none}"
+    + '.jc-overlay.jc-dark .jc-tgt-time-input{color-scheme:dark;background:rgba(255,255,255,.16);color:#eee}'
+    + '.jc-overlay.jc-light .jc-tgt-time-input{color-scheme:light;background:rgba(0,0,0,.07);color:#1e1035}'
     + ".jc-tset{position:relative;cursor:pointer;font-family:'Roboto Mono',ui-monospace,monospace;font-weight:700;font-size:18px;min-width:34px;height:34px;display:flex;align-items:center;justify-content:center;border-radius:6px;user-select:none}"
     + '.jc-tset:hover{background:rgba(131,58,180,.22)}'
     + ".jc-tset::before{content:'\\25B2';position:absolute;top:0;left:0;right:0;text-align:center;font-size:8px;line-height:9px;opacity:.55}"
@@ -183,9 +186,7 @@
     + '<span class="jc-tlabel">目標</span>'
     + '<div class="jc-grp jc-tgt">'
     + '<input class="jc-tgt-label" type="text" maxlength="24" value="フィードバックタイム" aria-label="目標の見出し">'
-    + '<span class="jc-tset" data-u="h" title="上半分で＋／下半分で−"><span class="jc-tnum">10</span></span>'
-    + '<span class="jc-tcolon">:</span>'
-    + '<span class="jc-tset" data-u="m" title="上半分で＋／下半分で−"><span class="jc-tnum">30</span></span>'
+    + '<input class="jc-tgt-time-input" type="time" value="10:30" step="60" aria-label="目標の時刻">'
     + '<button type="button" class="jc-tgt-set">セット</button>'
     + '<button type="button" class="jc-tgt-clear" aria-label="目標を消す">✕</button>'
     + '</div>'
@@ -382,19 +383,17 @@
     });
 
     var tgtLabelInput = overlay.querySelector('.jc-tgt-label');
-    var hhEl = overlay.querySelector('.jc-tset[data-u="h"] .jc-tnum');
-    var mmEl = overlay.querySelector('.jc-tset[data-u="m"] .jc-tnum');
-    function renderSet() { hhEl.textContent = two(setHH); mmEl.textContent = two(setMM); }
-    overlay.querySelectorAll('.jc-tset').forEach(function (box) {
-      box.addEventListener('click', function (e) {
-        var rect = box.getBoundingClientRect();
-        var up = (e.clientY - rect.top) < rect.height / 2;
-        if (box.getAttribute('data-u') === 'h') setHH = (setHH + (up ? 1 : 23)) % 24;
-        else setMM = (setMM + (up ? 5 : 55)) % 60;
-        renderSet();
-      });
-    });
+    var timeInput = overlay.querySelector('.jc-tgt-time-input');
+    function renderSet() { timeInput.value = two(setHH) + ':' + two(setMM); }
+    function readTime() {
+      var v = (timeInput.value || '').split(':');
+      var h = parseInt(v[0], 10), m = parseInt(v[1], 10);
+      if (!isNaN(h)) setHH = ((h % 24) + 24) % 24;
+      if (!isNaN(m)) setMM = ((m % 60) + 60) % 60;
+    }
+    timeInput.addEventListener('change', function () { if (targetActive) activateTarget(); });
     function activateTarget() {
+      readTime();
       targetLabel = (tgtLabelInput.value || '').trim() || 'タイマー';
       targetHHMM = two(setHH) + ':' + two(setMM);
       var nowMs = Date.now() + offset + LEAD;
