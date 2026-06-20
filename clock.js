@@ -189,6 +189,8 @@
     + '<button type="button" class="jc-tgt-set">セット</button>'
     + '<button type="button" class="jc-tgt-clear" aria-label="目標を消す">✕</button>'
     + '</div>'
+    + '<span class="jc-tlabel">よく使う</span>'
+    + '<div class="jc-grp jc-tgt-presets" id="jc-presets"></div>'
     + '</div>';
 
   function attach() {
@@ -421,6 +423,25 @@
         } else { renderSet(); }
       } catch (e) { renderSet(); }
     })();
+
+    var PRESETS = [
+      { label: '後半開始', h: 11, m: 30 },
+      { label: '午後開始', h: 13, m: 0 },
+      { label: '研修終了', h: 17, m: 0 }
+    ];
+    var presetWrap = overlay.querySelector('#jc-presets');
+    PRESETS.forEach(function (p) {
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.textContent = p.label + ' ' + two(p.h) + ':' + two(p.m);
+      btn.addEventListener('click', function () {
+        tgtLabelInput.value = p.label;
+        setHH = p.h; setMM = p.m;
+        renderSet();
+        activateTarget();
+      });
+      presetWrap.appendChild(btn);
+    });
   }
 
   if (document.body) attach();
