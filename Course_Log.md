@@ -121,4 +121,7 @@
 **YouTube:** 
 - 前半：https://youtu.be/fmGfol7kU2E
 - 前半：https://youtu.be/FNFyKowO-K4
-**備考:** 実習: 目標達成に向けて、課題を作成し、Padletに投稿しよう（「推し」を発信するワークフローに沿ってプロフィールURLをPadletシェアボードに投稿、初回チュートリアル確認）
+- 後半：https://youtu.be/uJV-8uENcwI
+- 後半：https://youtu.be/3AdagOZOhEU
+- 後半：https://youtu.be/aL8PnehWhk0
+**備考:** 実習: 目標達成に向けて、課題を作成し、Padletに投稿しよう（「推し」を発信するワークフローに沿ってプロフィールURL・課題をPadletシェアボードに投稿、初回チュートリアル確認）
