@@ -1,165 +1,167 @@
-# Today_Plan.md — Day 09「ストーリーズ・ハイライト」実装計画（完全版）
+# Today_Plan.md — Day 10「インスタグラムが伸びるポイント」前半実装計画
 
-**作成日時**: 2026-06-18
-**対象ファイル**: `vol09-1.html`（新規作成）
-**テンプレート元**: `vol08-1.html`（コピーして全内容を差し替える）
-**実装担当**: Antigravity → **レビュー・デプロイ: ClaudeCode（必須）** ／ 計画作成: ClaudeCode 2026-06-18
-**追加作業**: `vol08-1.html` のまとめタブに「▶ Day 09へ」リンクを実URLに張替え
+**作成日時**: 2026-06-23  
+**対象ファイル**: `vol10-1.html`（新規作成）  
+**テンプレート元**: `vol09-1.html`（コピーして全内容を差し替える）  
+**実装担当**: Antigravity → **レビュー: ClaudeCode（必須）** ／ デプロイ: Codex試験可  
+**追加作業**: `vol09-1.html` のまとめタブの「▶ Day 10へ」リンクを実URLに張替え
 
 ---
 
 ## ⚠ 最重要方針（ユーザー指示）
+
 **NotebookLMスライドの貼り付けだけで済ませない。** 各スライドに対応する本文（説明・手順・効果・補足カード）を必ず添え、簡素なレイアウト/デザインにしない。スライドは要点提示、理解は本文で作る。**画像→本文→画像→本文の縦1列**（`layout-split` は `1fr` のみ・2カラム禁止）。
 
 ---
 
 ## スライド構成（リネーム）
-NotebookLM英語名 → `day09_slideN.png` に通し番号でリネーム（カバー目視確認済み：Stories=前半・Engagement=後半）。
+
+NotebookLM英語名 → `day10_slideN.png` に通し番号でリネーム（今回は前半のみ・14枚）。
 
 ```powershell
 $a = "G:\マイドライブ\研修\【202606】Instagramコース\assets"
-1..15 | ForEach-Object { Rename-Item "$a\Instagram_Stories_Mastery_-_Slide_$_.png"    "day09_slide$_.png" }
-1..15 | ForEach-Object { Rename-Item "$a\Instagram_Engagement_Roadmap_-_Slide_$_.png" ("day09_slide" + ($_ + 15) + ".png") }
+1..14 | ForEach-Object { Rename-Item "$a\Instagram_Level_Up_-_Slide_$_.png" "day10_slide$_.png" }
 ```
 
-| セット | ファイル名 | 枚数 |
-|---|---|---|
-| 前半（Stories Mastery） | `assets/day09_slide1.png` ～ `day09_slide15.png` | 15枚 |
-| 後半（Engagement Roadmap） | `assets/day09_slide16.png` ～ `day09_slide30.png` | 15枚 |
-| **合計** | | **30枚** |
+| ファイル名 | 枚数 |
+|---|---|
+| `assets/day10_slide1.png` ～ `day10_slide14.png` | 14枚（全て前半） |
 
-※各セクションのスライド範囲は目安。実装者は中身を見て内容に合うスライドを配置（調整可）。
+※実装者は中身を確認し、セクション分けと配置を内容に合わせて調整すること。
 
 ---
 
 ## 【重要】実装上の注意点
-- テンプレート（vol08-1.html）の **CSS・ライトボックス・タブJS・clock.js タグ** をそのまま引き継ぐ
+
+- テンプレート（vol09-1.html）の **CSS・ライトボックス・タブJS・clock.js タグ** をそのまま引き継ぐ
 - `layout-split` の 2カラム化禁止（`@media(min-width:1200px)` の2カラム指定を足さない）
 - スライド画像と説明文は**縦1列**（テキスト→画像 or 画像→テキスト）
 - 動画は `<details class="video-item">` アコーディオン（`loading="lazy"` + `title` 必須）
 - 設定値・URL・プロンプトは `<code>`／`quote-box`／`<pre>` で表示（Markdownバッククォート禁止）
-- **リサーチ `Today_Research.md` の誤変換「最大限 of 幸福」は「最大限の幸福」に直して使う**
+- **後半タブは「準備中」プレースホルダーを置くだけ**（コンテンツ追加禁止）
 
 ---
 
-## ① vol08-1.html の修正（最初に行うこと）
-まとめタブ末尾 `tab-nav-footer` の「▶ Day 09へ」を実URLへ：
+## ① vol09-1.html の修正（最初に行うこと）
+
+まとめタブ末尾 `tab-nav-footer` の「▶ Day 10へ」を実URLへ：
+
 ```html
-<!-- 変更前 --> <a href="#" class="tool-link-btn">▶ Day 09へ</a>
-<!-- 変更後 --> <a href="./vol09-1.html" class="tool-link-btn">▶ Day 09へ</a>
+<!-- 変更前 --> <a href="#" class="tool-link-btn">▶ Day 10へ</a>
+<!-- 変更後 --> <a href="./vol10-1.html" class="tool-link-btn">▶ Day 10へ</a>
 ```
-→ vol08-1.html と `.deploy_tmp/vol08-1.html` の cache-bust も `2026-06-18T20:00:00` に更新。
+
+→ vol09-1.html の cache-bust を `<!-- cache-bust: 2026-06-23T20:00:00 -->` に更新。
 
 ---
 
-## ② vol09-1.html の新規作成
+## ② vol10-1.html の新規作成
 
 ### 基本設定
-- `<title>`: `Day 09 ストーリーズ・ハイライト | Instagram運用コース`
-- `.day-title`: `Day 09` ／ `.day-subtitle`: `ストーリーズ・ハイライト`
-- `header-sub`: `親密度を上げる運用と"心を動かす"導線設計 — Jun 2026`
-- `progress-pill`: `Day 09 / 13` ／ `back-link`: `./vol08-1.html`（Day 08へ）
-- cache-bust: `<!-- cache-bust: 2026-06-18T20:00:00 -->`
+
+- `<title>`: `Day 10 インスタグラムが伸びるポイント | Instagram運用コース`
+- `.day-title`: `Day 10` ／ `.day-subtitle`: `インスタグラムが伸びるポイント`
+- `header-sub`: `フォロワー数より「質」の時代へ — Jun 2026`
+- `progress-pill`: `Day 10 / 13` ／ `back-link`: `./vol09-1.html`（Day 09へ）
+- cache-bust: `<!-- cache-bust: 2026-06-23T20:00:00 -->`
+- clock.js: `<script src="./clock.js?v=20260621a"></script>`
 - タブラベル：「今日の目標」「前半」「後半」「今日のまとめ」
 
 ---
 
 ### タブ1: 今日の目標（`id="goal"`）
-**カバースライド**: `<img src="assets/day09_slide1.png" alt="Day09 カバー" class="slide-img cover-slide">`
+
+**カバースライド**: `<img src="assets/day10_slide1.png" alt="Day10 カバー" class="slide-img cover-slide">`
 
 **今日のゴール**:
-> ストーリーズの基本操作とハイライト・アクション機能を習得し、フォロワーとの「親密度」を高める仕掛けと、見た人の"心と行動（DM）"を動かす問いかけを、自分の発信に1つ落とし込めるようになる。
+> フォロワー数より投稿の「質」が重視される新アルゴリズムの本質を理解し、視聴維持率・共有数・オリジナリティを意識したリール制作の基礎を、自分の発信に1つ落とし込めるようになる。
 
 **ポイントカード（3枚・info-card）**:
-1. アルゴリズムが評価する「親密度」の仕組み（DM返信が最重要）を理解し、双方向スタンプで反応を取れるようになる
-2. 暗めフィルター・右下スタンプ配置・Canvaマジック拡張など、伝わるストーリーズの作り方を身につける
-3. 外部リンク直貼りを避けてプロフィール導線に誘導し、「問いかけ（フック）」でDM数を伸ばす運用法を知る
+1. InstagramCEOが「フォロワー数は意味がない」と明言した背景〜Uアルゴリズムの仕組みを理解し、なぜ今が初心者に有利な時代なのかを知る
+2. 投稿の質を決める4指標（視聴維持率・ターゲット・オリジナリティ・共有数）を整理し、特に「共有（紙飛行機マーク）」が最重要アクションである理由を知る
+3. 初心者がなぜ伸びやすいか（比率評価・自動テスト再生）を理解し、AIに「誰向けか」を学習させるための最初の目標「30本投稿」を設定できる
 
 **フッター**: `<button class="tool-link-btn" onclick="openTab('first')">前半へ進む <i class="fa-solid fa-arrow-right"></i></button>`
 
 ---
 
-### タブ2: 前半（`id="first"`）— 作り方・親密度・ハイライト
-**見出し**: `前半 ／ フォロワーとの「親密度」を爆上げする基本とハック`
-**スライド**: `day09_slide2`〜`day09_slide15` を縦1列で配置（各スライドに下記本文）。
+### タブ2: 前半（`id="first"`）— アルゴリズムと投稿の質
 
-#### SECTION A: ストーリーズのアルゴリズムと親密度（要点1）
-- **info-card 2枚並べ**:〔高評価＝親密度UP〕①DM返信（最重要）②プロフィール移動 ③スタンプタップ ④長押し滞在 ⑤戻る・見直し ⑥リンクタップ ‖〔低評価＝DOWN〕スワイプ離脱・即離脱・早送り
-- **親密度を上げる5つの双方向スタンプ**: <code>アンケート</code> <code>質問</code> <code>クイズ</code> <code>絵文字スライダー</code> <code>お題</code>
-- **NG行動**: 文字が小さすぎ／毎回リンクばかり／更新が不規則 → **1日1回以上**投稿でプロフィール枠（周り枠）をアクティブに保つ
+**見出し**: `前半 ／ 「フォロワー数」から「質と共有」へ〜伸びるリールの新常識`  
+**スライド**: `day10_slide2`〜`day10_slide14` を縦1列で配置（各スライドに下記本文）。
 
-#### SECTION B: 作成の基本と便利機能（要点2）
-- **step-card（操作手順）**: ①撮影（長押しで動画）or 写真選択 → ②暗めフィルター <code>Now2.0</code> で文字を際立たせる → ③テキスト（上品=明朝体／インパクト=ゴシック体）→ ④**スタンプは画面の右下**へ（右下タップで進める人が多くリアクション率UP）
-- **便利機能カード**: BGM of the day（最大15秒・切取り）／ハッシュタグ・位置情報・メンション／**ストーリーコメント欄**（2024年9月新機能・24時間限定で全員可視＝気軽に書かれる）／リポスト（メンションDMから・全画面拡大）
+#### SECTION A: アルゴリズムの転換〜「フォロワー数より質」の時代（要点1）
 
-#### SECTION C: CanvaのAIと黄金レイアウト（要点3）
-- **マジック拡張（Magic Expand）**: 横長・見切れ写真をAIが背景補完して <code>9:16</code> 縦長化 → 素材を実質無限に
-- **黄金レイアウト3パターン（info-card 3枚）**: ①上に文字・下に画像（Zの法則／左上に大きくタイトル）②上に画像・下に文字（文字下に白グラデで可読性）③真ん中に文字＝万能（黒半透明＋白文字／滞在時間UP）
+- **InstagramCEO発言の真意**：「フォロワー数は意味がない」＝アルゴリズムが「人気アカウント優先」から「個人の興味・関心に合う質の高い投稿」へシフトしているため
+- **Uアルゴリズム（関心アルゴリズム）**の登場：ユーザー自身が興味ジャンル（例：ネイル等）を設定すると優先表示される仕組み。海外でテスト実装中、日本にも近く導入予定
+- **以前 vs 現在の比較（info-card 2枚並べ）**:
+  - 以前：人気アカウントを表示 → フォロワー総数が多いほど有利
+  - 現在：ユーザー個人の興味に合う「質の高い投稿」を表示 → 投稿の中身が最重要
+- **Google/AI検索からの流入**が2025年比で160倍に激増。「インスタを検索する人」が増えている今が仕込み時
 
-#### SECTION D: ハイライトで資産にする
-- 24時間で消えるストーリーズを **ハイライト** にまとめると、後から来た新規フォロワーの滞在時間を伸ばす「カタログ（プロフィールに残る資産）」になる
-- 実習でハイライトのカテゴリ分けを実際に作る（実習Aと連動）
+#### SECTION B: 投稿の質を決める4つの評価指標（要点2）
 
-#### 動画セクション（前半3本）`<div class="video-section">`（`video-section-title`: 📺 授業の元動画（前半））
-1. `<details class="video-item">` 【Instagramストーリーズ】親密度を爆上げする方法（約3:00）— embed `https://www.youtube.com/embed/SD4UJJ4dYL8`
-2. 【ストーリー実践】ストーリーズの作り方を総フォロワー50万人の運用者が超詳しく解説（約29:50）— embed `https://www.youtube.com/embed/XSc_Z-_KgM8`
-3. 【センスゼロでも】canvaワンクリックでインスタストーリーを作る方法（約20:10）— embed `https://www.youtube.com/embed/W8ixFxr_aQU`
+**4指標を info-card 4枚で**（各カードに概要＋実践ポイントを記載）:
 
-#### ワークシートA（実習）
-- タイトル：**ストーリーズで10秒動画を投稿しよう**／目的：基本操作・**ハイライト追加**・**アクション（双方向スタンプ）機能の追加**
-- 実習ページ: `<a href="https://platinumzone.co.jp/dx-biome/2606/618instagram_stories_practice.html" target="_blank" rel="noopener" class="tool-link-btn">実習ページを開く</a>`
-- worksheet-card: 「使った双方向スタンプ」「作ったハイライトのカテゴリ名」をメモする欄
+1. **視聴維持率（完読率）** — 動画が最後まで見られたか。インサイトで冒頭離脱が多い場合は1秒目に「意外性フック（例：実はこれ…）」や「質問フック（例：これできる？）」を置く
+2. **ターゲットの明確化** — 悩みを具体的に絞り込み、プロフィールに1文で明記。アルゴリズムはプロフィールを参考に「誰におすすめすべきか」を判断している
+3. **投稿のオリジナリティ** — AI作成そのまま・他人のコピーは埋もれる。自分の体験談・失敗談・検証期間などのリアルな一次情報が差別化になる
+4. **共有（シェア）数【最重要】** — 紙飛行機マーク。投稿を見た人が他者にアプリを開かせる＝Instagram運営が最も価値を置くアクション。いいね・保存よりも重視される
+
+**共有されやすい投稿の3パターン（info-card 3枚）**:
+- **あるある投稿**：日常の共感（子育て・転職・ダイエット我慢など）
+- **勉強になる投稿**：ノウハウまとめ・知って得する雑学・名言
+- **感情が大きく動く話題**：賛否両論あるテーマ（割り勘ありなし等）や驚き情報
+
+#### SECTION C: 初心者が伸びる理由とリール制作の鉄則（要点3）
+
+- **初心者優遇と比率評価の仕組み**：昔はフォロワー総数が有利だったが、現在はフォロワー数に対する「反応の割合」が重視される。間違った運用で割合が極めて低い大御所より、フォロワーは少なくても割合が高い新規アカウントの方がおすすめに載りやすい
+- **自動テスト再生とAI属性学習**：フォロワー0人でも投稿リールは必ず数百回自動再生される。AIがA〜Dなどの属性グループにテスト表示し「どの層に受けるか」を判定。初期テストで維持率が高ければ一気に拡散される
+- **まず「30本投稿」を目指す理由**：AIの属性学習精度を高め、アルゴリズムに「自分の投稿は誰向けか」を覚えさせるために30本が最初の目標
+- **リール制作の鉄則 3ルール（step-card）**:
+  - Step 1: **徹底した他者リサーチ** — 自分の言いたいことではなく、同ジャンルで「直近1週間以内」にフォロワー数以上の再生（3〜10万再生目安）を出した伸びたテーマを模倣する
+  - Step 2: **冒頭1秒の設計** — 録画開始時の謎の間・画質の粗さは即離脱を招く。損失回避の心理に基づき「痩せる方法」より「これやると絶対太る」というネガティブ訴求が最もクリックされる
+  - Step 3: **初心者は短尺（40秒〜1分）** — 長すぎると維持率が下がる。コンパクトにまとめることで完読率を高める
+
+#### 動画セクション（2本）`<div class="video-section">`（`video-section-title`: 📺 授業の元動画）
+
+1. `<details class="video-item">` 【衝撃】フォロワーを増やす時代はもう終わりました。（約20:38）  
+   — embed `https://www.youtube.com/embed/fmGfol7kU2E`
+2. `<details class="video-item">` 【2026年 Instagram攻略】フォロワー爆伸びさせる５つのポイントを徹底解説します（約13:07）  
+   — embed `https://www.youtube.com/embed/FNFyKowO-K4`
 
 **フッター**: `<button class="tool-link-btn secondary" onclick="openTab('second')">後半へ <i class="fa-solid fa-arrow-right"></i></button>`
 
 ---
 
-### タブ3: 後半（`id="second"`）— 心と行動を動かす運用法
-**見出し**: `後半 ／ 閲覧数・DM数を伸ばす「心と行動を動かす」運用法`
-**スライド**: `day09_slide16`〜`day09_slide30` を縦1列で配置。
+### タブ3: 後半（`id="second"`）— 準備中プレースホルダー
 
-#### SECTION E: 最新の役割と外部リンクNG（要点4）
-- ストーリーズは**リールの補助・補足**。複数枚で疲弊せず「**渾身の1枚（読むストーリーズ）**」に有益情報を凝縮
-- **STOP：外部リンク直貼りNG** — Instagramが「アプリ外へ逃がすアカウント」と評価し表示優先度↓→閲覧数激減
-- **正しい導線**: ストーリー →（直リンクせず）**プロフィールリンク**へ誘導（インスタ内完結で評価が落ちず、意欲の高いファンだけ登録で成約率UP）
-- 離脱防止デザイン: 暗背景＋白文字で読ませる／ポートレートで背景ぼかし・被写体右端・文字左上（Zの法則）
+**内容**: 後半コンテンツは準備中のため、以下のプレースホルダーのみ設置。**本文・スライド・動画は追加しないこと。**
 
-#### SECTION F: DM数を2倍にする「問いかけ（フック）」（要点5）
-- 自己満足の長文ではなく、冒頭に必ず**フック**を入れて思考を動かす
-- **3つの感情アプローチ（info-card 3枚）**: ①問題の顕在化（「こんなお悩みありませんか？」）②理想のイメージ化（具体的な未来）③痛みの掘り起こし（現状維持の痛みを言語化）
-- **5つの問いかけフック**（リサーチ要点5の5例をカード化。※「最大限の幸福」表記に直す）
-
-#### SECTION G: 売上を作る「問題意識」の教育ファネル（要点6）
-- **黄金の4階段（step-card／後半スライドのメイン図）**: Step1 問題の顕在化（気づき）→ Step2 理想のイメージ化（憧れ）→ Step3 痛みの掘り起こし（共感・恐れ）→ **Step4 行動への誘導（背中を押す＝DM送信）**
-- **問題意識を育てる4要素**: ①理想と現状のギャップ整理 ②うまくいかない原因の特定 ③放置リスク（インフレで貯金が目減り 等）④時間の優位性（早く動いた人が勝つ）
-- **上手に損する思考**: 短期の支出を長期リターンへの投資と捉えさせる
-
-#### 動画セクション（後半3本）`video-section`（📺 授業の元動画（後半））
-4. 【最新戦略】閲覧数が10倍になるインスタのストーリーズの作り方！（13:46）— embed `https://www.youtube.com/embed/DvgNxjIwaSQ`
-5. 【保存版】Instagramストーリーズ攻略！「DM数を2倍にする」運用法（20:05）— embed `https://www.youtube.com/embed/Qgfj-zUuDgU`
-6. 【最重要】ストーリーズで売上を作るための問題意識の作り方（18:39）— embed `https://www.youtube.com/embed/NN19KnXUFAY`
-
-#### ワークシートB（実習）
-- タイトル：**目標達成に向けて課題を作成しよう**
-- ワークフロー: `<a href="https://platinumzone.co.jp/dx-biome/2606/dx_workflow_oshi.html" target="_blank" rel="noopener" class="tool-link-btn">ワークフローを開く</a>`
-- Padlet: `<a href="https://padlet.com/platinumzonedx/dx-instagram-sfikt2pbwarlfa1x" target="_blank" rel="noopener" class="tool-link-btn secondary">Padletシェアボード</a>`
-- worksheet-card: 「自分の発信に使う問いかけフックを1つ作る」欄
+```html
+<div class="section-block">
+    <p style="text-align:center; color:var(--text-muted, #999); padding:40px 0;">
+        後半コンテンツは準備中です。
+    </p>
+</div>
+```
 
 **フッター**: `<button class="tool-link-btn" onclick="openTab('summary')">今日のまとめへ <i class="fa-solid fa-arrow-right"></i></button>`
 
 ---
 
 ### タブ4: 今日のまとめ（`id="summary"`）
-**今日学んだこと（4点・sticky-grid 4枚）**:
-1. 親密度の最重要アクションは**DM返信**。双方向スタンプ（アンケート/質問/クイズ等）を右下に置き、1日1回投稿で枠をアクティブに保つ
-2. 作り方：暗めフィルター×文字、Canvaマジック拡張で素材を縦長化、黄金レイアウト3パターンで可読性を確保
-3. **外部リンクは直貼りせずプロフィール導線へ**。ストーリーズはリールの補助として渾身の1枚で勝負
-4. **問いかけ（フック）→黄金の4階段**で心と行動を動かす。問題意識を育ててDM・売上につなげる
 
-**フッター**（Day10未作成のため `href="#"` のまま）:
+**今日学んだこと（4点・sticky-grid 4枚）**:
+1. アルゴリズムが「フォロワー総数」から「反応の割合・投稿の質」重視へ転換。Uアルゴリズム上陸前の今が仕込み時
+2. 最重要アクションは「共有（紙飛行機）」。あるある・勉強になる・感情が動く投稿で共有されやすくなる
+3. 初心者はフォロワー0でも自動テスト再生される。AIに「誰向けか」を学習させるためにまず**30本投稿**を目指す
+4. リール鉄則：直近1週間で伸びている他者を真似る・冒頭1秒でフック・短尺（40〜60秒）でコンパクトに
+
+**フッター**（Day11未作成のため `href="#"` のまま）:
 ```html
 <div class="tab-nav-footer">
-    <a href="#" class="tool-link-btn">▶ Day 10へ</a>
+    <a href="#" class="tool-link-btn">▶ Day 11へ</a>
     <a href="./index.html" class="tool-link-btn secondary"><i class="fa-solid fa-house"></i> コース一覧に戻る</a>
 </div>
 ```
@@ -167,39 +169,72 @@ $a = "G:\マイドライブ\研修\【202606】Instagramコース\assets"
 ---
 
 ## ③ Antigravity向け実装チェックリスト
-- [ ] `vol08-1.html` まとめタブの「▶ Day 09へ」を `href="#"` → `href="./vol09-1.html"` に変更
-- [ ] `vol08-1.html` を `vol09-1.html` にコピーして**全内容を差し替え**
-- [ ] スライド `assets/day09_slideN.png`（N=1〜30）を使用。`day09_slide1` のみ `.cover-slide`
-- [ ] 前半3本・後半3本を `<details class="video-item">`（`loading="lazy"` + `title` 必須）。前半は前半タブ・後半は後半タブ
-- [ ] `<code>` チップ：`Now2.0`／`9:16`／URL／プロンプト
-- [ ] cache-bust: `<!-- cache-bust: 2026-06-18T20:00:00 -->`
-- [ ] まとめの「▶ Day 10へ」は `href="#"` のまま
-- [ ] `.deploy_tmp/vol08-1.html` と `.deploy_tmp/vol09-1.html` も同内容に更新
+
+- [ ] `vol09-1.html` まとめタブの「▶ Day 10へ」を `href="#"` → `href="./vol10-1.html"` に変更
+- [ ] `vol09-1.html` の cache-bust を `<!-- cache-bust: 2026-06-23T20:00:00 -->` に更新
+- [ ] `vol09-1.html` を `vol10-1.html` にコピーして**全内容を差し替え**
+- [ ] スライドリネームコマンドを実行（`Instagram_Level_Up_-_Slide_N.png` → `day10_slideN.png`）
+- [ ] スライド `assets/day10_slideN.png`（N=1〜14）を使用。`day10_slide1` のみ `.cover-slide`
+- [ ] 動画2本を `<details class="video-item">`（`loading="lazy"` + `title` 必須）
+- [ ] 後半タブは**プレースホルダーのみ**（コンテンツを書かない）
+- [ ] `<code>` チップ：`Now2.0` のような固有名称・コード・URL
+- [ ] cache-bust: `<!-- cache-bust: 2026-06-23T20:00:00 -->`
+- [ ] まとめの「▶ Day 11へ」は `href="#"` のまま
+- [ ] `.deploy_tmp/vol09-1.html` と `.deploy_tmp/vol10-1.html` も同内容に更新
 
 ---
 
-## ④ デプロイ手順（ClaudeCode担当）
+## ④ レビュー必須チェック（ClaudeCode担当）
+
+Antigravity実装後、デプロイ前に以下を確認する。
+
+- [ ] **全4タブ**（目標／前半／後半／まとめ）が Day10 内容へ差し替わっているか照合
+- [ ] **目標タブのポイントカード3枚**がコピー元（Day09）の文言のまま残っていないか
+- [ ] 本文を全文検索し、**半角英単語の混入**（特に` of `/` in `/` the `＝助詞「の」化け）がないか
+- [ ] **前半スライド（slide1〜14）が実際に挿入**されているか、枚数確認
+- [ ] **後半タブにコンテンツが書かれていないか**（プレースホルダーのみであるか）
+- [ ] スライド計14枚・動画計2本が揃っているか
+- [ ] 合格項目（layout-split 1fr・lightbox・cover-slide・lazy+title・code・cache-bust ISO形式）を全クリア
+
+### Codexに委ねる場合の機械チェックコマンド（PowerShell）
+
+```powershell
+# of化けチェック（0件なら合格）
+Select-String -Path vol10-1.html -Pattern " of | in | the " -CaseSensitive
+
+# スライド枚数（14件なら合格）
+(Select-String -Path vol10-1.html -Pattern "day10_slide" | Measure-Object).Count
+
+# 動画数（2件なら合格）
+(Select-String -Path vol10-1.html -Pattern "video-item" | Measure-Object).Count
+
+# cover-slide 存在確認（1件なら合格）
+Select-String -Path vol10-1.html -Pattern "cover-slide"
+
+# cache-bust 形式確認（ISO形式か）
+Select-String -Path vol10-1.html -Pattern "cache-bust: \d{4}-\d{2}-\d{2}T"
+
+# Day09のリンク差し替え確認（vol10-1.html が含まれていれば合格）
+Select-String -Path vol09-1.html -Pattern "vol10-1\.html"
+```
+
+---
+
+## ⑤ デプロイ手順
+
 ```powershell
 Set-Location "G:\マイドライブ\研修\【202606】Instagramコース"
-Copy-Item assets\day09_slide*.png .deploy_tmp\assets\ -Force
-Copy-Item vol08-1.html .deploy_tmp\ -Force
-Copy-Item vol09-1.html .deploy_tmp\ -Force
-$ts = Get-Date -Format "yyyyMMddHHmmss"
-$dest = "C:\Users\Hi\AppData\Local\Temp\deploy-instagram-2606-$ts"
-New-Item -ItemType Directory -Path $dest | Out-Null
-Copy-Item ".deploy_tmp\*" $dest -Recurse -Force
-Set-Location $dest
-npx wrangler pages deploy . --project-name=training-summary-2606 --commit-dirty=true
+.\deploy.ps1
 ```
-本番確認: `https://training-summary-2606.pages.dev/vol09-1.html`
+
+本番確認: `https://training-summary-2606.pages.dev/vol10-1.html`
 
 ---
 
-## ⑤ レビュー必須チェック（Day08の不具合からの再発防止・ClaudeCodeレビュー時に必ず）
-Antigravity（特にFlash）実装は差し替え漏れ・文字化けが出るため、**デプロイ前のClaudeCodeレビューを必須工程**とする。
-- [ ] テンプレ複製後、**全4タブ**（目標／前半／後半／まとめ）の本文・スライド・動画・実習が Day09 内容へ差し替わっているか、1タブずつ照合（Day08で前半タブ丸ごと残存・後半スライド0枚の事故あり）
-- [ ] **目標タブのポイントカード3枚**がコピー元（Day08）の文言のまま残っていないか
-- [ ] 本文を全文検索し、**半角英単語の混入**（特に` of `／` in `／` the `＝助詞「の」化け）がないか
-- [ ] 後半SECTIONに**後半スライド（slide16〜30）が実際に挿入**されているか、枚数を数えて確認
-- [ ] スライド計30枚・動画計6本が揃っているか（コース情報共有 Day9 と一致）
-- [ ] 合格項目（layout-split 1fr・lightbox・cover-slide・lazy+title・code・cache-bust ISO形式）を全クリア
+## ⑥ Codex委任について（デプロイのみ試験可・レビューはClaudeCode継続）
+
+- **実装**: Antigravity（従来通り）
+- **レビュー**: ClaudeCode（of化け・スライド残骸の品質ゲートはここで担う）
+- **デプロイ**: Codex試験可（③のPowerShellコマンド確認 → `.\deploy.ps1` 実行 → URLで本番確認の3ステップ）
+
+Codexにレビューも任せる場合は上記「機械チェックコマンド」を実行させて出力結果を報告させること。ただし初回は ClaudeCode との並走を推奨。

@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 10 インスタグラムが伸びるポイント | Instagram運用コース</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700;900&family=Teko:wght@600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-body: #fdf4ff;
+            --bg-card: rgba(255, 255, 255, 0.92);
+            --bg-card-solid: #ffffff;
+            --text-main: #1e1035;
+            --text-sub: #64748b;
+            --ig-purple: #833ab4;
+            --ig-magenta: #c13584;
+            --ig-orange: #f77737;
+            --ig-grad: linear-gradient(45deg, #833ab4, #c13584, #f77737);
+            --ig-light: #f3e8ff;
+            --canva-purple: #7B2FF7;
+            --canva-cyan: #00C4CC;
+            --shadow-soft: 0 10px 30px rgba(131, 58, 180, 0.08);
+            --shadow-hover: 0 15px 40px rgba(193, 53, 132, 0.18);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.7);
+            --radius-large: 24px;
+            --radius-medium: 16px;
+            --radius-small: 8px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background-color: var(--bg-body);
+            background-image:
+                radial-gradient(at 0% 0%, rgba(255, 255, 255, 0.9) 0, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(243, 232, 255, 0.9) 0, transparent 50%);
+            background-attachment: fixed;
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 40px 20px;
+        }
+
+        .home-btn {
+            position: fixed; bottom: 30px; right: 30px;
+            width: 60px; height: 60px;
+            background: var(--ig-grad); color: #fff;
+            border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            font-size: 1.5rem; text-decoration: none;
+            box-shadow: 0 10px 25px rgba(193, 53, 132, 0.4);
+            transition: all 0.3s; z-index: 1000;
+        }
+        .home-btn:hover { transform: translateY(-5px) scale(1.05); }
+
+        .container {
+            width: 100%; max-width: 900px;
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            border: var(--glass-border);
+            border-radius: var(--radius-large);
+            box-shadow: var(--shadow-soft);
+            overflow: hidden;
+            animation: fadeIn 0.8s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .header { padding: 36px 40px 20px; text-align: center; border-bottom: 2px solid var(--ig-light); }
+        .header-top {
+            display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 14px; flex-wrap: wrap; gap: 10px;
+        }
+        .header-nav { display: flex; gap: 12px; flex-wrap: wrap; }
+        .back-link {
+            display: inline-flex; align-items: center; gap: 6px;
+            color: var(--ig-purple); text-decoration: none;
+            font-weight: 700; font-size: 0.9rem;
+        }
+        .back-link:hover { color: var(--ig-magenta); }
+        .progress-pill {
+            font-family: 'Roboto', sans-serif;
+            font-size: 0.85rem; font-weight: 700; color: #fff;
+            background: var(--ig-grad);
+            padding: 6px 14px; border-radius: 20px;
+        }
+        .header-tag {
+            display: inline-block; background: var(--ig-grad);
+            color: #fff; font-weight: 700; padding: 4px 14px; border-radius: 20px;
+            font-family: 'Roboto', sans-serif; font-size: 0.85rem; letter-spacing: 1px; margin-bottom: 12px;
+        }
+        .header h1 {
+            font-size: 2rem; font-weight: 900;
+            background: var(--ig-grad);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text; margin-bottom: 10px; line-height: 1.35;
+        }
+        .header-sub { margin: 0; color: var(--text-sub); font-size: 0.95rem; }
+
+        .slide-img {
+            width: 100%; height: auto; display: block;
+            border-radius: var(--radius-medium);
+            margin: 24px 0; box-shadow: var(--shadow-soft);
+            border: 1px solid #ede9f5;
+        }
+        .cover-slide { margin: 0; border-radius: 0; border: none; box-shadow: none; }
+
+        .tabs {
+            display: flex; padding: 0 20px;
+            background: rgba(255, 255, 255, 0.5);
+            border-bottom: 1px solid #ede9f5; overflow-x: auto;
+        }
+        .tab-btn {
+            border: none; background: none; padding: 18px 14px;
+            font-size: 0.88rem; font-weight: 700; color: var(--text-sub);
+            cursor: pointer; position: relative; white-space: nowrap;
+        }
+        .tab-btn:hover, .tab-btn.active { color: var(--ig-purple); }
+        .tab-btn.active::after {
+            content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 3px;
+            background: var(--ig-grad); border-radius: 3px 3px 0 0;
+        }
+        .tab-content {
+            display: none; padding: 40px;
+            background: var(--bg-card-solid); min-height: 500px;
+            animation: fadeInTab 0.4s ease-out;
+        }
+        .tab-content.active { display: block; }
+        @keyframes fadeInTab {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            font-size: 1.55rem; color: var(--text-main);
+            border-left: 5px solid var(--ig-purple);
+            padding-left: 15px; margin: 30px 0 20px;
+            display: flex; align-items: center; gap: 10px;
+        }
+        h2:first-child { margin-top: 0; }
+        h2 .sec-num {
+            font-family: 'Teko', sans-serif; font-size: 1.1rem;
+            color: var(--ig-magenta); font-weight: 600;
+        }
+        h3.sub-heading {
+            font-size: 1.05rem; font-weight: 700; color: var(--ig-purple);
+            margin: 24px 0 16px;
+            background: linear-gradient(to right, rgba(131,58,180,0.07), transparent);
+            border-left: 4px solid var(--ig-purple);
+            padding: 8px 14px;
+            border-radius: 0 var(--radius-small) var(--radius-small) 0;
+        }
+        div + h3.sub-heading,
+        img.slide-img + h3.sub-heading {
+            margin-top: 56px;
+        }
+        p { line-height: 1.72; margin-bottom: 11px; color: #475569; font-size: 1.02rem; }
+
+        .goal-box {
+            background: linear-gradient(135deg, #f5f0ff, #f0fdff);
+            border: 1px solid #e9d5f5; border-radius: var(--radius-medium);
+            padding: 30px; margin-bottom: 28px; text-align: center;
+        }
+        .goal-box i {
+            font-size: 2.5rem;
+            background: var(--ig-grad);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text; margin-bottom: 12px;
+        }
+        .goal-box h3 { font-size: 1.35rem; color: var(--ig-purple); margin-bottom: 12px; }
+        .goal-box p { margin-bottom: 8px; font-size: 1.05rem; color: var(--text-main); }
+        .goal-box p:last-child { margin-bottom: 0; }
+
+        .goal-list {
+            background: #faf8ff; border: 1px solid #ede9f5;
+            border-radius: var(--radius-medium); padding: 22px 26px; margin: 20px 0;
+        }
+        .goal-list h4 { font-size: 1rem; color: var(--ig-purple); margin-bottom: 10px; }
+        .goal-list ul { margin: 0; padding-left: 1.3rem; line-height: 1.72; color: #475569; }
+
+        .section {
+            margin-bottom: 64px; padding-bottom: 64px;
+            border-bottom: 2px dashed #ddd6f5;
+        }
+        .section:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+
+        .card-grid-2 {
+            display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px; margin: 24px 0;
+        }
+        .info-card {
+            background: #fff; border: 1px solid #ede9f5;
+            border-radius: var(--radius-medium); padding: 22px;
+            box-shadow: var(--shadow-soft); transition: 0.25s;
+            position: relative; overflow: hidden;
+        }
+        .info-card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+            background: var(--ig-grad);
+        }
+        .info-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); }
+        .info-card-header {
+            display: flex; align-items: center; gap: 12px; margin-bottom: 14px;
+        }
+        .info-card-icon {
+            flex-shrink: 0;
+            width: 40px; height: 40px; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            background: linear-gradient(135deg, rgba(131,58,180,0.12), rgba(247,119,55,0.10));
+            color: var(--ig-purple); font-size: 1.1rem;
+        }
+        .info-card h3 { font-size: 1.05rem; color: var(--ig-purple); margin-bottom: 0; }
+        .info-card p { font-size: 1rem; margin-bottom: 0; line-height: 1.65; color: var(--text-main); font-weight: 500; }
+
+        .sub-note {
+            font-size: 0.88rem; color: var(--text-sub);
+            background: #faf8ff; border: 1px solid #ede9f5;
+            border-radius: var(--radius-small); padding: 14px 18px;
+            margin-top: 16px; line-height: 1.7;
+        }
+
+        code {
+            font-family: 'Roboto Mono', 'Courier New', monospace;
+            background: #f3f0ff; color: var(--ig-purple);
+            border: 1px solid #e2d8f5; border-radius: 4px;
+            padding: 1px 6px; font-size: 0.83em;
+        }
+
+        .step-card {
+            display: flex; gap: 16px; align-items: flex-start;
+            background: #fff; border: 1px solid #ede9f5;
+            border-radius: var(--radius-medium); padding: 18px 20px;
+            margin-bottom: 14px; transition: 0.2s;
+        }
+        .step-card:hover { border-color: var(--ig-magenta); box-shadow: var(--shadow-soft); }
+        .step-num {
+            flex-shrink: 0; width: 36px; height: 36px; border-radius: 50%;
+            background: var(--ig-grad);
+            color: #fff; font-family: 'Roboto', sans-serif;
+            font-weight: 900; font-size: 1rem;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .step-card h4 { font-size: 1rem; color: var(--text-main); margin-bottom: 6px; }
+        .step-card p { font-size: 0.92rem; margin-bottom: 0; }
+
+        .warning-box {
+            background: #fff5f5; border: 2px solid #fca5a5;
+            border-radius: var(--radius-medium); padding: 20px 24px; margin: 16px 0;
+        }
+        .warning-box p { margin-bottom: 0; color: #7f1d1d; font-size: 0.96rem; font-weight: 600; }
+
+        .tips-box {
+            background: linear-gradient(135deg, #fdf0ff, #fff8f3);
+            border: 1px solid #e9d5f5; border-left: 5px solid var(--ig-magenta);
+            border-radius: var(--radius-medium); padding: 20px 24px; margin: 20px 0;
+        }
+        .tips-box h4 {
+            color: var(--ig-purple); font-size: 1rem; margin-bottom: 8px;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .tips-box p { margin-bottom: 0; font-size: 0.96rem; }
+
+        .info-box {
+            background: #faf8ff; border: 1px solid #e9d5f5; border-left: 5px solid var(--ig-purple);
+            border-radius: var(--radius-medium); padding: 20px 24px; margin: 20px 0;
+        }
+        .info-box p { margin-bottom: 8px; font-size: 0.96rem; color: #475569; line-height: 1.75; }
+        .info-box p:last-child { margin-bottom: 0; }
+        .info-box ul { margin: 8px 0 0; padding-left: 1.3rem; line-height: 1.72; color: #475569; font-size: 0.96rem; }
+
+        .before-after-grid {
+            display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px; margin: 24px 0;
+        }
+        .ba-card {
+            padding: 22px; border-radius: var(--radius-medium);
+            border: 1px solid #ede9f5;
+        }
+        .ba-card.before { background: #fef2f2; border-color: #fecaca; }
+        .ba-card.after { background: #f0fdf4; border-color: #bbf7d0; }
+        .ba-card h4 { font-size: 1rem; margin-bottom: 10px; }
+        .ba-card.before h4 { color: #b91c1c; }
+        .ba-card.after h4 { color: #15803d; }
+        .ba-card p { font-size: 0.92rem; margin-bottom: 0; line-height: 1.7; }
+
+        .practice-steps {
+            counter-reset: practice; list-style: none; padding: 0; margin: 24px 0;
+        }
+        .practice-steps li {
+            counter-increment: practice; position: relative;
+            padding: 20px 20px 20px 70px; margin-bottom: 14px;
+            background: linear-gradient(135deg, #fdf0ff, #fff);
+            border: 1px solid #e9d5f5; border-radius: var(--radius-medium);
+        }
+        .practice-steps li::before {
+            content: 'Step ' counter(practice);
+            position: absolute; left: 16px; top: 50%; transform: translateY(-50%);
+            font-family: 'Roboto', sans-serif; font-size: 0.72rem; font-weight: 700;
+            color: #fff;
+            background: var(--ig-grad);
+            padding: 6px 10px; border-radius: 8px; white-space: nowrap;
+        }
+        .practice-steps li strong {
+            display: block; font-size: 1rem; color: var(--text-main); margin-bottom: 6px;
+        }
+        .practice-steps li span { font-size: 0.92rem; color: #64748b; line-height: 1.7; }
+
+        .next-step-box {
+            background: var(--ig-light); border: 1px solid #e9d5f5;
+            border-radius: var(--radius-medium); padding: 20px 24px;
+            margin-top: 24px; text-align: center;
+        }
+        .next-step-box p { margin-bottom: 0; color: var(--text-main); font-weight: 500; }
+
+        .placeholder-box {
+            text-align: center; padding: 60px 30px;
+            background: #faf8ff; border: 2px dashed #e9d5f5;
+            border-radius: var(--radius-medium); margin: 20px 0;
+        }
+        .placeholder-box i { font-size: 2.5rem; color: #c4b5fd; margin-bottom: 16px; }
+        .placeholder-box p { color: var(--text-sub); margin-bottom: 0; font-size: 1.05rem; }
+
+        .tool-link-btn {
+            display: inline-flex; align-items: center; gap: 10px;
+            background: var(--ig-grad);
+            color: #fff; padding: 14px 32px; border-radius: 30px;
+            text-decoration: none; font-weight: bold; font-size: 1.05rem;
+            border: none; cursor: pointer; transition: 0.3s;
+            box-shadow: 0 8px 20px rgba(193, 53, 132, 0.25);
+        }
+        .tool-link-btn:hover { transform: translateY(-3px); }
+        .tool-link-btn.secondary {
+            background: #fff; color: var(--text-main);
+            border: 2px solid #ede9f5; box-shadow: none;
+        }
+        .tab-nav-footer {
+            text-align: center; margin-top: 36px;
+            display: flex; flex-direction: column; gap: 14px; align-items: center;
+        }
+
+        .card-grid-3 {
+            display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 14px; margin: 24px 0;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #fdf0ff, #fff8f3);
+            border: 1px solid #e9d5f5; border-left: 5px solid var(--ig-magenta);
+            border-radius: var(--radius-medium); padding: 22px 26px; margin: 20px 0;
+        }
+        .highlight-box p { margin-bottom: 0; font-weight: 600; color: var(--text-main); }
+
+        .flow-steps {
+            display: flex; flex-direction: column; gap: 12px; margin: 20px 0;
+        }
+        .flow-step {
+            display: flex; gap: 14px; align-items: flex-start;
+            background: #fff; border: 1px solid #ede9f5;
+            border-radius: var(--radius-medium); padding: 16px 18px;
+        }
+        .flow-step-num {
+            flex-shrink: 0; font-family: 'Roboto', sans-serif;
+            font-size: 0.75rem; font-weight: 700; color: #fff;
+            background: var(--ig-grad); padding: 6px 10px; border-radius: 8px;
+        }
+        .flow-step h4 { font-size: 0.98rem; margin-bottom: 4px; color: var(--ig-purple); }
+        .flow-step p { font-size: 0.9rem; margin-bottom: 0; }
+
+        .flow-horizontal {
+            display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
+            gap: 8px; margin: 24px 0; padding: 20px;
+            background: #faf8ff; border: 1px solid #ede9f5; border-radius: var(--radius-medium);
+        }
+        .flow-h-item {
+            background: #fff; border: 1px solid #ede9f5;
+            border-radius: var(--radius-small); padding: 14px 16px;
+            text-align: center; min-width: 140px; flex: 1;
+        }
+        .flow-h-item strong { display: block; color: var(--ig-purple); margin-bottom: 4px; font-size: 0.95rem; }
+        .flow-h-item span { font-size: 0.82rem; color: #64748b; line-height: 1.5; }
+        .flow-arrow { color: var(--ig-magenta); font-size: 1.2rem; font-weight: 700; }
+
+        .compare-card {
+            background: #fff; border: 1px solid #ede9f5;
+            border-radius: var(--radius-medium); padding: 20px;
+            box-shadow: var(--shadow-soft);
+        }
+        .compare-card.low { border-top: 4px solid var(--ig-purple); }
+        .compare-card.high { border-top: 4px solid var(--ig-magenta); }
+        .compare-card h4 { font-size: 1rem; color: var(--ig-purple); margin-bottom: 10px; }
+        .compare-card ul { margin: 0; padding-left: 1.2rem; font-size: 0.88rem; line-height: 1.7; color: #475569; }
+
+        .iceberg-box {
+            background: linear-gradient(180deg, #e0f2fe 0%, #f0f9ff 35%, #faf8ff 35%);
+            border: 1px solid #bae6fd; border-radius: var(--radius-medium);
+            padding: 24px; margin: 20px 0;
+        }
+        .iceberg-top, .iceberg-bottom { padding: 16px; border-radius: var(--radius-small); }
+        .iceberg-top { background: rgba(255,255,255,0.9); margin-bottom: 12px; }
+        .iceberg-bottom { background: rgba(131,58,180,0.08); border: 1px dashed var(--ig-purple); }
+        .iceberg-top h4, .iceberg-bottom h4 { font-size: 0.95rem; color: var(--ig-purple); margin-bottom: 8px; }
+        .iceberg-top p, .iceberg-bottom p { font-size: 0.9rem; margin-bottom: 0; }
+
+        .persona-example {
+            background: #fffbeb; border: 1px solid #fde68a;
+            border-left: 5px solid #f59e0b; border-radius: var(--radius-medium);
+            padding: 22px; margin: 20px 0;
+        }
+        .persona-example h4 { color: #b45309; margin-bottom: 12px; }
+        .persona-example p { font-size: 0.92rem; margin-bottom: 8px; }
+        .persona-example p:last-child { margin-bottom: 0; }
+
+        .worksheet-grid {
+            display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px; margin: 24px 0;
+        }
+        .worksheet-card {
+            background: #fffef5; border: 2px dashed #fcd34d;
+            border-radius: var(--radius-medium); padding: 16px 16px 12px;
+            min-height: 150px; position: relative;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .worksheet-card:focus-within {
+            border-color: #f59e0b; border-style: solid;
+            box-shadow: 0 0 0 3px rgba(252, 211, 77, 0.3);
+        }
+        .worksheet-card strong {
+            display: block; color: var(--ig-purple); font-size: 0.9rem; margin-bottom: 4px;
+        }
+        .ws-hint {
+            font-size: 0.78rem; color: #9ca3af; margin-bottom: 8px; line-height: 1.4;
+        }
+        .worksheet-card textarea {
+            width: 100%; min-height: 80px;
+            background: transparent; border: none; outline: none;
+            resize: vertical; padding: 2px 0;
+            font-family: 'Noto Sans JP', sans-serif; font-size: 0.92rem;
+            color: var(--text-main); line-height: 1.75;
+        }
+        .worksheet-card textarea::placeholder { color: #d1d5db; font-size: 0.85rem; }
+        .ws-copy-btn {
+            position: absolute; top: 10px; right: 10px;
+            background: none; border: 1px solid #fcd34d; border-radius: 6px;
+            padding: 3px 8px; font-size: 0.72rem; color: #a16207;
+            cursor: pointer; transition: 0.2s; opacity: 0.6;
+            font-family: 'Noto Sans JP', sans-serif;
+        }
+        .ws-copy-btn:hover { background: #fef9c3; opacity: 1; }
+        .ws-copy-btn.ws-copied { background: #d1fae5; border-color: #10b981; color: #065f46; opacity: 1; }
+        .ws-copy-all-btn {
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            width: 100%; margin-top: 12px; padding: 13px;
+            background: #fff; border: 2px solid #fcd34d; border-radius: var(--radius-medium);
+            font-family: 'Noto Sans JP', sans-serif; font-size: 0.95rem; font-weight: 700;
+            color: #a16207; cursor: pointer; transition: 0.2s;
+        }
+        .ws-copy-all-btn:hover { background: #fffbeb; border-color: #f59e0b; }
+        .ws-copy-all-btn.ws-copied { background: #d1fae5; border-color: #10b981; color: #065f46; }
+
+        /* ── カウントダウンタイマー ── */
+        .timer-container { text-align: center; margin: 20px 0 28px; }
+        .timer-badge {
+            display: inline-flex; align-items: center; justify-content: center; gap: 12px;
+            background: #1e1035; color: #fff;
+            font-family: 'Roboto', sans-serif; font-size: 2.2rem; font-weight: 700;
+            padding: 14px 40px; border-radius: 40px; margin: 8px 0;
+            min-width: 220px; letter-spacing: 3px;
+            transition: background 0.5s ease, box-shadow 0.5s ease;
+        }
+        .timer-badge i { font-size: 1.6rem; }
+        .timer-badge.timer-warning {
+            background: #f59e0b;
+            box-shadow: 0 0 20px rgba(245, 158, 11, 0.4);
+        }
+        .timer-badge.timer-danger {
+            background: #ef4444;
+            animation: pulse-timer 0.8s ease-in-out infinite;
+        }
+        .timer-badge.timer-done {
+            background: #10b981; letter-spacing: 1px;
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
+        }
+        @keyframes pulse-timer {
+            0%, 100% { transform: scale(1);    box-shadow: 0 0 0 0 rgba(239,68,68,0.5); }
+            50%       { transform: scale(1.04); box-shadow: 0 0 0 14px rgba(239,68,68,0); }
+        }
+        .timer-controls { display: flex; gap: 12px; justify-content: center; margin-top: 12px; }
+        .timer-btn {
+            border: none; border-radius: 20px; padding: 10px 28px;
+            font-family: 'Noto Sans JP', sans-serif; font-size: 0.95rem; font-weight: 700;
+            cursor: pointer; transition: 0.2s;
+        }
+        .timer-start {
+            background: var(--ig-grad); color: #fff;
+            box-shadow: 0 4px 15px rgba(193,53,132,0.3);
+        }
+        .timer-start:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(193,53,132,0.4); }
+        .timer-reset { background: #f1f5f9; color: var(--text-main); border: 1px solid #e2e8f0; }
+        .timer-reset:hover { background: #e2e8f0; }
+
+        .sticky-grid {
+            display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px; margin: 24px 0;
+        }
+        .sticky-card {
+            padding: 20px; border-radius: 4px;
+            box-shadow: 2px 4px 8px rgba(0,0,0,0.1);
+            font-size: 0.95rem; line-height: 1.65;
+        }
+        .sticky-card:nth-child(1) { background: #fef08a; transform: rotate(-1deg); }
+        .sticky-card:nth-child(2) { background: #bbf7d0; transform: rotate(1deg); }
+        .sticky-card:nth-child(3) { background: #fbcfe8; transform: rotate(-0.5deg); }
+        .sticky-card:nth-child(4) { background: #bfdbfe; transform: rotate(0.5deg); }
+        .sticky-card strong { display: block; margin-bottom: 6px; color: var(--text-main); }
+
+        .closing-message {
+            text-align: center; font-size: 1.2rem; font-weight: 700;
+            color: var(--ig-purple); margin: 28px 0 16px; line-height: 1.6;
+        }
+
+        .caution-box {
+            background: #fffbeb; border: 2px solid #f59e0b;
+            border-left: 6px solid #d97706; border-radius: var(--radius-medium);
+            padding: 20px 24px; margin: 20px 0;
+        }
+        .caution-box p { margin-bottom: 0; color: #92400e; font-weight: 600; font-size: 0.98rem; }
+
+        .layout-split {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            margin: 24px 0;
+            align-items: start;
+        }
+
+        .video-section {
+            background: #faf8ff; border: 1px solid #e9d5f5;
+            border-radius: var(--radius-medium);
+            padding: 18px 22px; margin-bottom: 36px;
+        }
+        .video-section-title {
+            font-size: 0.9rem; font-weight: 700; color: var(--ig-purple);
+            margin-bottom: 12px; display: flex; align-items: center; gap: 8px;
+        }
+        details.video-item { margin-bottom: 8px; }
+        details.video-item summary {
+            cursor: pointer; font-size: 0.88rem; font-weight: 600;
+            color: var(--text-main); padding: 10px 14px;
+            background: #fff; border: 1px solid #ede9f5;
+            border-radius: var(--radius-small);
+            list-style: none; display: flex; align-items: center; gap: 8px; transition: 0.2s;
+        }
+        details.video-item summary::before { content: '▶'; color: var(--ig-magenta); flex-shrink: 0; }
+        details.video-item[open] summary::before { content: '▼'; }
+        details.video-item summary:hover { background: #fdf0ff; border-color: var(--ig-purple); }
+        details.video-item[open] summary {
+            border-radius: var(--radius-small) var(--radius-small) 0 0; border-bottom: none;
+        }
+        .video-embed {
+            position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;
+            border-radius: 0 0 var(--radius-small) var(--radius-small);
+            border: 1px solid #ede9f5; border-top: none;
+        }
+        .video-embed iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+
+        @media (max-width: 768px) {
+            body { padding: 10px 5px; }
+            .header, .tab-content { padding: 24px 18px; }
+            .header h1 { font-size: 1.5rem; }
+            .card-grid-2, .before-after-grid, .card-grid-3, .worksheet-grid, .sticky-grid { grid-template-columns: 1fr; }
+            .flow-horizontal { flex-direction: column; }
+            .flow-arrow { transform: rotate(90deg); }
+            .practice-steps li { padding-left: 18px; padding-top: 52px; }
+            .practice-steps li::before { top: 14px; left: 16px; transform: none; }
+        }
+
+        @media (min-width: 769px) {
+            .container { max-width: 1050px; }
+        }
+
+        @media (min-width: 1200px) {
+            .container { max-width: 1240px; }
+            .tab-content { padding: 50px 70px; }
+            .header { padding: 40px 70px 24px; }
+            .tab-btn { font-size: 0.92rem; padding: 20px 18px; }
+            .card-grid-2, .before-after-grid, .worksheet-grid { gap: 24px; }
+            .card-grid-3 { gap: 20px; }
+        }
+
+        /* ── Lightbox ──────────────────────────────── */
+        .lb-overlay {
+            display: none; position: fixed; inset: 0; z-index: 2000;
+            background: rgba(10, 4, 22, 0.9); cursor: zoom-out;
+            justify-content: center; align-items: center; padding: 20px;
+        }
+        .lb-overlay.open { display: flex; animation: lbFadeIn 0.2s ease; }
+        @keyframes lbFadeIn { from { opacity: 0 } to { opacity: 1 } }
+        .lb-img {
+            max-width: 92vw; max-height: 90vh; width: auto; height: auto;
+            border-radius: var(--radius-medium);
+            box-shadow: 0 24px 80px rgba(0, 0, 0, 0.7);
+            cursor: default;
+            animation: lbImgIn 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        @keyframes lbImgIn {
+            from { transform: scale(0.88); opacity: 0; }
+            to   { transform: scale(1);    opacity: 1; }
+        }
+        .lb-close {
+            position: absolute; top: 18px; right: 24px;
+            color: #fff; font-size: 2.2rem; line-height: 1;
+            cursor: pointer; opacity: 0.75; transition: opacity 0.15s;
+            background: none; border: none; padding: 4px 8px;
+        }
+        .lb-close:hover { opacity: 1; }
+        .slide-img:not(.cover-slide) { cursor: zoom-in; }
+
+        .quote-box {
+            background: linear-gradient(135deg, #f3e8ff, #fff7ed);
+            border: 2px solid #d8b4fe; border-left: 6px solid var(--ig-purple);
+            border-radius: var(--radius-medium); padding: 22px 26px; margin: 24px 0;
+        }
+        .quote-box p { margin-bottom: 8px; font-size: 0.96rem; color: #475569; line-height: 1.75; }
+        .quote-box p:last-child { margin-bottom: 0; }
+
+        .day-title { margin-bottom: 4px; }
+        .day-subtitle {
+            font-size: 1.05rem; font-weight: 700; color: var(--text-sub);
+            margin: 0 0 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <a href="./index.html" class="home-btn" title="ホームに戻る"><i class="fa-solid fa-house"></i></a>
+
+    <div class="container">
+        <header class="header">
+            <div class="header-top">
+                <div class="header-nav">
+                    <a href="./vol09-1.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> Day 09へ</a>
+                    <a href="./index.html" class="back-link"><i class="fa-solid fa-house"></i> ホームへ</a>
+                </div>
+                <span class="progress-pill">Day 10 / 13</span>
+            </div>
+            <span class="header-tag">DAY 10</span>
+            <h1 class="day-title">Day 10</h1>
+            <p class="day-subtitle">インスタグラムが伸びるポイント</p>
+            <p class="header-sub">フォロワー数より「質」の時代へ — Jun 2026</p>
+        </header>
+
+        <nav class="tabs">
+            <button class="tab-btn active" onclick="openTab('goal')">今日の目標</button>
+            <button class="tab-btn" onclick="openTab('first')">前半</button>
+            <button class="tab-btn" onclick="openTab('second')">後半</button>
+            <button class="tab-btn" onclick="openTab('summary')">今日のまとめ</button>
+        </nav>
+
+        <div id="goal" class="tab-content active">
+            <img src="assets/day10_slide1.png" alt="Day10 カバー" class="slide-img cover-slide" style="margin-top:0;">
+            <h2 style="margin-top:24px;">今日のゴール</h2>
+            <p>フォロワー数より投稿の「質」が重視される新アルゴリズムの本質を理解し、視聴維持率・共有数・オリジナリティを意識したリール制作の基礎を、自分の発信に1つ落とし込めるようになる。</p>
+            <div class="card-grid-3">
+                <div class="info-card">
+                    <div class="info-card-header">
+                        <div class="info-card-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+                        <h3>ポイント 1</h3>
+                    </div>
+                    <p>InstagramのCEOが「フォロワー数は意味がない」と明言した背景〜Uアルゴリズムの仕組みを理解し、なぜ今が初心者に有利な時代なのかを知る</p>
+                </div>
+                <div class="info-card">
+                    <div class="info-card-header">
+                        <div class="info-card-icon"><i class="fa-solid fa-chart-bar"></i></div>
+                        <h3>ポイント 2</h3>
+                    </div>
+                    <p>投稿の質を決める4指標（視聴維持率・ターゲット・オリジナリティ・共有数）を整理し、特に「共有（紙飛行機マーク）」が最重要アクションである理由を知る</p>
+                </div>
+                <div class="info-card">
+                    <div class="info-card-header">
+                        <div class="info-card-icon"><i class="fa-solid fa-circle-check"></i></div>
+                        <h3>ポイント 3</h3>
+                    </div>
+                    <p>初心者がなぜ伸びやすいか（比率評価・自動テスト再生）を理解し、AIに「誰向けか」を学習させるための最初の目標「30本投稿」を設定できる</p>
+                </div>
+            </div>
+            <div class="tab-nav-footer">
+                <button type="button" class="tool-link-btn" onclick="openTab('first')">前半へ進む <i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+        </div>
+
+        <div id="first" class="tab-content">
+            <h2 style="margin-top:0;">前半 ／ 「フォロワー数」から「質と共有」へ〜伸びるリールの新常識</h2>
+
+            <section class="section">
+                <h2><span class="sec-num">SECTION A</span> アルゴリズムの転換〜「フォロワー数より質」の時代</h2>
+                <div class="layout-split">
+                    <div>
+                        <p>InstagramのCEOアダム・モッセーリ氏が<strong>「フォロワー数は意味がない」</strong>と明言したことが業界で大きな話題となっています。これは、アルゴリズムが「人気アカウントの優先表示」から「ユーザー個人の興味・関心に合う質の高い投稿の表示」へ根本的に転換したことを意味しています。</p>
+                    </div>
+                    <img src="./assets/day10_slide2.png" alt="アルゴリズムの転換" class="slide-img">
+                </div>
+
+                <div class="layout-split">
+                    <div>
+                        <p>インスタグラム運営が最も重要視しているのは、昔も今も変わらず「ユーザーのアプリ滞在時間」です。以前は、すでに人気の高いフォロワー数の多いアカウントの投稿を優先表示させることで滞在時間を延ばそうとしていました。しかし、現在は<strong>「ユーザー個人の好みにマッチした新鮮なコンテンツ」</strong>を届ける方が、結果的にアプリに長く留まってもらえるという考え方に変わっています。</p>
+                    </div>
+                    <img src="./assets/day10_slide3.png" alt="滞在時間とアルゴリズム" class="slide-img">
+                </div>
+
+                <div class="card-grid-2">
+                    <div class="info-card">
+                        <div class="info-card-header">
+                            <div class="info-card-icon"><i class="fa-solid fa-history"></i></div>
+                            <h3>以前の評価基準</h3>
+                        </div>
+                        <p>フォロー関係や「いいね総数」を基準に、すでにフォロワーの多い人気アカウントをおすすめ表示。新規参入者が埋もれやすい構造。</p>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-card-header">
+                            <div class="info-card-icon"><i class="fa-solid fa-bolt"></i></div>
+                            <h3>現在の評価基準</h3>
+                        </div>
+                        <p>投稿自体のクオリティや「反応の割合」、ユーザー個人の関心を基準に評価。フォロワーが少なくても、質の高い投稿なら平等に拡散される。</p>
+                    </div>
+                </div>
+
+                <div class="layout-split">
+                    <div>
+                        <p>この変化を象徴するのが、海外で先行テストされている<strong>「Uアルゴリズム（関心アルゴリズム）」</strong>です。ユーザーがネイルやダイエットなどの関心ジャンルを設定すると、フォローの有無に関わらず、関連する質の高い投稿が自動でタイムラインに優先表示される機能です。これは近い将来に全世界および日本へ上陸する可能性が高く、ますます投稿自体の質が重視されるようになります。</p>
+                    </div>
+                    <img src="./assets/day10_slide4.png" alt="Uアルゴリズムの登場" class="slide-img">
+                </div>
+
+                <div class="layout-split">
+                    <div>
+                        <p>さらに現在、Google検索やAI検索ツール（ChatGPTなど）の検索結果に、Instagramの投稿が直接ヒットして露出するようになっています。なんと、Google等の検索エンジン経由によるインスタへのアクセス流入数は、2025年比で<strong>「160倍」に激増</strong>しています。フォロワー総数に依存せず、検索需要のある有益情報を届ける運用の重要性が急速に高まっています。</p>
+                    </div>
+                    <img src="./assets/day10_slide5.png" alt="検索エンジンからの流入増" class="slide-img">
+                </div>
+            </section>
+
+            <section class="section">
+                <h2><span class="sec-num">SECTION B</span> 投稿の質を決める4つの評価指標</h2>
+                <div class="layout-split">
+                    <div>
+                        <p>フォロワー数に関係なく、投稿が「質が高い」と判断されておすすめ表示されるためには、アルゴリズムが測定している4つの評価シグナルを正しく理解し、対策を施す必要があります。</p>
+                    </div>
+                    <img src="./assets/day10_slide6.png" alt="4つの評価シグナル" class="slide-img">
+                </div>
+
+                <div class="card-grid-2">
+                    <div class="info-card">
+                        <div class="info-card-header">
+                            <div class="info-card-icon"><i class="fa-solid fa-clock"></i></div>
+                            <h3>① 視聴維持率（完読率）</h3>
+                        </div>
+                        <p>動画が途中で離脱されずにどれだけ長く見られたか。インサイトで冒頭の数秒に離脱が多い場合は、1秒目に「意外性フック（例：実はこれ…）」や「質問フック（例：これできる？）」を置き、強制的にユーザーのスクロールする親指を止める必要があります。</p>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-card-header">
+                            <div class="info-card-icon"><i class="fa-solid fa-bullseye"></i></div>
+                            <h3>② ターゲットの明確化</h3>
+                        </div>
+                        <p>誰に向けた投稿なのかを悩みまで具体的に絞り込みます。ターゲットの悩みを言語化し、さらにプロフィールに1文でターゲットと発信内容を明記（例：「20代OLの貯金術」）することで、アルゴリズムがおすすめすべきユーザーを迷わず正しくマッチングしてくれます。</p>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-card-header">
+                            <div class="info-card-icon"><i class="fa-solid fa-medal"></i></div>
+                            <h3>③ 投稿のオリジナリティ</h3>
+                        </div>
+                        <p>他者のコピーやAIで生成したテキストそのままの無機質な投稿はアルゴリズムに見抜かれて埋もれます。自分の体験談や思ったこと、失敗したエピソード（例：「火加減を間違えて焦げたので注意」）、検証にかかった具体的な期間など、一次情報を載せるのが差別化になります。</p>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-card-header">
+                            <div class="info-card-icon"><i class="fa-solid fa-paper-plane"></i></div>
+                            <h3>④ 共有（シェア）された数【最重要】</h3>
+                        </div>
+                        <p>紙飛行機マークから家族や友人に共有された数です。いいねやコメントは自身のアプリ内で完結しますが、共有は「他の新規ユーザーにインスタアプリを強制起動させてアクセスさせる（利用者を2倍にする）」ため、インスタ運営に最も評価されるアクションとなります。</p>
+                    </div>
+                </div>
+
+                <div class="layout-split">
+                    <div>
+                        <p>保存数は「本人があとで見返す」だけですが、共有数は「周りの人も巻き込んでインスタを開かせる」ため、現在インスタ運営は保存よりも<strong>共有数を最優先評価</strong>しています。</p>
+                    </div>
+                    <img src="./assets/day10_slide7.png" alt="共有数の重要性" class="slide-img">
+                </div>
+
+                <h3 class="sub-heading">共有されやすい投稿の3パターン</h3>
+                <div class="card-grid-3" style="margin-top:10px;">
+                    <div class="info-card">
+                        <div class="info-card-header">
+                            <div class="info-card-icon"><i class="fa-solid fa-users"></i></div>
+                            <h3>① あるある投稿</h3>
+                        </div>
+                        <p>日常の強烈な共感。「ダイエット中なのに深夜にお菓子が我慢できない」「子育てで共感する夫の行動」など、わかる！と思わず身内に送りたくなる話題です。</p>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-card-header">
+                            <div class="info-card-icon"><i class="fa-solid fa-book-open"></i></div>
+                            <h3>② 勉強になる投稿</h3>
+                        </div>
+                        <p>「〇〇すべき大掃除のチェックポイント6選」などのノウハウのまとめや、知って得する生活の雑学、偉人の心に刺さる名言など、他者にも有益な情報です。</p>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-card-header">
+                            <div class="info-card-icon"><i class="fa-solid fa-comments"></i></div>
+                            <h3>③ 感情が大きく動く話題</h3>
+                        </div>
+                        <p>「デートの割り勘論争」や「SNSの子供の顔出し是非」といった賛否両論あるテーマや、見た瞬間に「やばくない？」と驚きを他者と共有したくなる情報です。</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2><span class="sec-num">SECTION C</span> 初心者が伸びる理由とリール制作の鉄則</h2>
+                <div class="layout-split">
+                    <div>
+                        <p>「フォロワーゼロだから伸ばすのは無理」というのは古い常識です。新しいアルゴリズムは、初心者が活動しやすく、平等に評価される仕組みを導入しています。</p>
+                    </div>
+                    <img src="./assets/day10_slide8.png" alt="初心者が伸びる仕組み" class="slide-img">
+                </div>
+
+                <div class="layout-split">
+                    <div>
+                        <p><strong>理由1：反応の「比率（割合）」で評価されるため</strong></p>
+                        <p>昔はいいねの総数が重視されましたが、現在は「フォロワー数に対するアクション数の割合」が重視されます。フォロワーが10万人いても100いいねしかつかない古いアカウントよりも、フォロワーは少なくても1人1人が確実に反応してくれる新規アカウントの方がおすすめ表示されやすいのです。</p>
+                    </div>
+                    <img src="./assets/day10_slide9.png" alt="割合評価の解説" class="slide-img">
+                </div>
+
+                <div class="layout-split">
+                    <div>
+                        <p><strong>理由2：最初のテスト自動再生があるため</strong></p>
+                        <p>インスタ公式の機能として、フォロワーが0人のアカウントであっても、投稿したリール動画は必ず<strong>最初のテストとして数百回（100〜200回）は自動的にユーザーに表示・再生される</strong>ように設計されています。新規クリエイターの発信意欲を損なわせないための平等なチャンスです。</p>
+                    </div>
+                    <img src="./assets/day10_slide10.png" alt="自動テスト再生" class="slide-img">
+                </div>
+
+                <div class="layout-split">
+                    <div>
+                        <p><strong>理由3：AIによるターゲット（属性）テスト</strong></p>
+                        <p>自動再生された数百回の中で、AIがA〜Dなどの異なる興味グループに動画を表示し「この投稿はどの属性の人に響くか」を細かくテストしています。テスト結果で維持率が高かった属性のユーザーグループに、おすすめの輪がどんどん広がっていく仕組みです。</p>
+                    </div>
+                    <img src="./assets/day10_slide11.png" alt="AI属性テスト" class="slide-img">
+                </div>
+
+                <div class="layout-split">
+                    <div>
+                        <p><strong>まず「30本投稿」を目指すべき理由：</strong></p>
+                        <p>数本の投稿だけでは、AIが「このアカウントは誰向けのジャンルなのか」の正しい判定（学習）を完了できません。再生数が数百回で停滞していても心配せず、まずは30本投稿を継続してください。30本投稿する中でAIの属性ターゲット精度が高まり、ある瞬間に突然バズる軌道に乗ります。</p>
+                    </div>
+                    <img src="./assets/day10_slide12.png" alt="30本投稿の重要性" class="slide-img">
+                </div>
+
+                <div class="layout-split">
+                    <div>
+                        <p>初期テスト再生の段階でしっかりと評価され、おすすめ枠を突破するためのリール制作には、3つの鉄則があります。</p>
+                    </div>
+                    <img src="./assets/day10_slide13.png" alt="リール制作の鉄則" class="slide-img">
+                </div>
+
+                <div class="practice-steps">
+                    <li style="padding-left: 20px; padding-top: 20px;">
+                        <strong style="font-size: 1.1rem; color: var(--ig-purple);"><span style="font-family:'Roboto',sans-serif;font-weight:900;margin-right:8px;">Step 1</span> 徹底した他者リサーチ</strong>
+                        <span style="font-size: 0.95rem; color: #475569;">自分の言いたいことを発信するのはNG。同ジャンルで「直近1週間以内」に投稿され、すでにフォロワー数以上の再生（3万〜10万再生以上目安）を出している伸びたテーマをリサーチして模倣します。</span>
+                    </li>
+                    <li style="padding-left: 20px; padding-top: 20px;">
+                        <strong style="font-size: 1.1rem; color: var(--ig-purple);"><span style="font-family:'Roboto',sans-serif;font-weight:900;margin-right:8px;">Step 2</span> 冒頭1秒の設計とネガティブ訴求</strong>
+                        <span style="font-size: 0.95rem; color: #475569;">動画開始時の「あ、こんにちは…」などの謎の間や画質の粗さは即離脱のもと。1秒目から発言します。また、「痩せる方法」より「これやると絶対太る」といった、人間の損失を避けたい心理（損失回避）を突くネガティブ訴求が最もクリックされます。</span>
+                    </li>
+                    <li style="padding-left: 20px; padding-top: 20px;">
+                        <strong style="font-size: 1.1rem; color: var(--ig-purple);"><span style="font-family:'Roboto',sans-serif;font-weight:900;margin-right:8px;">Step 3</span> 初心者は短尺（40秒〜1分）にまとめる</strong>
+                        <span style="font-size: 0.95rem; color: #475569;">動画が長すぎると、最後まで見てもらう難易度が上がり視聴維持率が低下します。初心者は「40秒〜1分」の短い時間の中に有益情報をきれいにまとめ、完読率を高めてアルゴリズムの初期評価を突破しましょう。</span>
+                    </li>
+                </div>
+
+                <div class="layout-split">
+                    <div>
+                        <p>この3つの手順を守ることで、フォロワー数に頼らずに最初の自動再生枠からおすすめ表示の波へと乗り移ることができます。</p>
+                    </div>
+                    <img src="./assets/day10_slide14.png" alt="初期評価の突破" class="slide-img">
+                </div>
+            </section>
+
+            <div class="video-section">
+                <div class="video-section-title">📺 授業の元動画（前半）</div>
+                <details class="video-item">
+                    <summary>① 【衝撃】フォロワーを増やす時代はもう終わりました。（20:38）</summary>
+                    <div class="video-embed">
+                        <iframe src="https://www.youtube.com/embed/fmGfol7kU2E" allowfullscreen loading="lazy" title="フォロワーを増やす時代は終了"></iframe>
+                    </div>
+                </details>
+                <details class="video-item">
+                    <summary>② 【2026年 Instagram攻略】フォロワー爆伸びさせる５つのポイントを徹底解説します（13:07）</summary>
+                    <div class="video-embed">
+                        <iframe src="https://www.youtube.com/embed/FNFyKowO-K4" allowfullscreen loading="lazy" title="フォロワー爆伸び5つのポイント"></iframe>
+                    </div>
+                </details>
+            </div>
+
+            <section class="section">
+                <h2><span class="sec-num">WORK A</span> 目標達成に向けて、課題を作成し、Padletに投稿しよう</h2>
+                <p><strong>目的：</strong> 「推し」を発信するワークフローに沿ってアカウントのプロフィールを整え、共有ボードに提出する</p>
+                
+                <div class="practice-steps">
+                    <li>
+                        <strong>「推し」を発信するワークフローを確認する</strong>
+                        <span>下記の「ワークフローを開く」ボタンから全体の流れを確認し、自身のアカウント設計とターゲット設定、発信の方向性が言語化されているか再確認します。</span>
+                    </li>
+                    <li>
+                        <strong>初回チュートリアルを確認してプロフィール文をブラッシュアップする</strong>
+                        <span>初回チュートリアルを参考に、ターゲットと発信内容が1文で伝わるようなプロフィール文を作成し、自身のアカウントのプロフィール画面に反映させます。</span>
+                    </li>
+                    <li>
+                        <strong>プロフィールURLをコピーし、Padletシェアボードに投稿する</strong>
+                        <span>作成した自分のInstagramアカウントのプロフィール画面のURLをコピーし、受講生の共有スペースである「Padletシェアボード」に投稿・提出して他の受講生や講師へ共有します。</span>
+                    </li>
+                </div>
+
+                <div class="worksheet-grid">
+                    <div class="worksheet-card">
+                        <strong>自分のインスタアカウントのプロフィールURL</strong>
+                        <div class="ws-hint">提出するご自身のInstagramプロフィールURLを入力してください（例：https://www.instagram.com/ユーザーネーム）</div>
+                        <textarea id="ws-a-1" placeholder="https://www.instagram.com/"></textarea>
+                        <button class="ws-copy-btn" onclick="copyText('ws-a-1', this)">コピー</button>
+                    </div>
+                    <div class="worksheet-card">
+                        <strong>実習の気づき・学んだことのメモ</strong>
+                        <div class="ws-hint">アルゴリズムの変化について今回学んだ気づきを自由に記録しましょう</div>
+                        <textarea id="ws-a-2" placeholder="ここに入力..."></textarea>
+                        <button class="ws-copy-btn" onclick="copyText('ws-a-2', this)">コピー</button>
+                    </div>
+                </div>
+                <button class="ws-copy-all-btn" onclick="copyAll('A', this)"><i class="fa-solid fa-copy"></i> 前半の実習メモをすべてコピー</button>
+
+                <p style="margin-top:20px; text-align:center; display:flex; justify-content:center; gap:14px; flex-wrap:wrap;">
+                    <a href="https://platinumzone.co.jp/dx-biome/2606/dx_workflow_oshi.html" target="_blank" rel="noopener" class="tool-link-btn">ワークフローを開く <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                    <a href="https://padlet.com/platinumzonedx/dx-instagram-sfikt2pbwarlfa1x" target="_blank" rel="noopener" class="tool-link-btn secondary">Padletシェアボード <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                    <a href="https://platinumzone.co.jp/dx-biome/2606/dx_tutorial_june.html" target="_blank" rel="noopener" class="tool-link-btn secondary">初回チュートリアル <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                </p>
+            </section>
+
+            <div class="tab-nav-footer">
+                <button type="button" class="tool-link-btn" onclick="openTab('second')">後半へ進む <i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+        </div>
+
+        <div id="second" class="tab-content">
+            <div class="section-block">
+                <p style="text-align:center; color:var(--text-sub); padding:80px 0; font-size: 1.1rem; font-weight: 500;">
+                    <i class="fa-solid fa-lock" style="font-size: 2rem; color: #cbd5e1; display: block; margin-bottom: 12px;"></i>
+                    後半コンテンツは準備中です。
+                </p>
+            </div>
+
+            <div class="tab-nav-footer">
+                <button type="button" class="tool-link-btn" onclick="openTab('summary')">今日のまとめへ <i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+        </div>
+
+        <div id="summary" class="tab-content">
+            <h2 style="margin-top:0;">今日学んだこと</h2>
+            <div class="sticky-grid">
+                <div class="sticky-card">
+                    <strong>1. 質と割合重視のアルゴリズム</strong>
+                    アルゴリズムが「フォロワー総数」から「反応の割合・投稿の質」重視へ転換。海外で先行テストされているUアルゴリズム上陸前の今が仕込み時です。
+                </div>
+                <div class="sticky-card">
+                    <strong>2. 最重要アクションは「共有（紙飛行機）」</strong>
+                    共有は他の人をアプリに呼び寄せて滞在時間を最大化するため、保存よりも重視されるアクションです。あるある・有益ノウハウ・感情が動く投稿で共有を促します。
+                </div>
+                <div class="sticky-card">
+                    <strong>3. 自動再生と属性テスト（30本目標）</strong>
+                    初心者はフォロワー0でも自動で数百回テスト再生されます。AIにターゲット属性を学習させるために、まずは諦めずに「30本投稿」を目指すことが第一歩です。
+                </div>
+                <div class="sticky-card">
+                    <strong>4. 伸びるリール制作の3つの鉄則</strong>
+                    直近1週間で伸びている他者を徹底的にリサーチして真似、冒頭1秒にフックを置き（ネガティブ訴求有効）、初心者は40〜60秒の短尺で完読率を高めます。
+                </div>
+            </div>
+            <div class="tab-nav-footer">
+                <a href="#" class="tool-link-btn">▶ Day 11へ</a>
+                <a href="./index.html" class="tool-link-btn secondary"><i class="fa-solid fa-house"></i> コース一覧に戻る</a>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function openTab(tabId) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            const matchingBtn = Array.from(document.querySelectorAll('.tab-btn')).find(
+                b => (b.getAttribute('onclick') || '').includes("'" + tabId + "'")
+            );
+            if (matchingBtn) matchingBtn.classList.add('active');
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            window.scrollTo({ top: document.querySelector('.tabs').offsetTop - 20, behavior: 'smooth' });
+        }
+
+        function copyText(id, btn) {
+            const textarea = document.getElementById(id);
+            if (!textarea) return;
+            navigator.clipboard.writeText(textarea.value).then(() => {
+                const originalText = btn.textContent;
+                btn.textContent = 'コピー完了！';
+                btn.classList.add('ws-copied');
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.classList.remove('ws-copied');
+                }, 2000);
+            });
+        }
+
+        function copyAll(part, btn) {
+            let text = '';
+            if (part === 'A') {
+                text = `【実習A：自分のインスタアカウントのプロフィールURL】\n${document.getElementById('ws-a-1').value}\n\n【実習A：実習の気づき・学んだことのメモ】\n${document.getElementById('ws-a-2').value}`;
+            }
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '<i class="fa-solid fa-check"></i> コピー完了！';
+                btn.classList.add('ws-copied');
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.classList.remove('ws-copied');
+                }, 2000);
+            });
+        }
+
+        (function () {
+            const overlay = document.createElement('div');
+            overlay.className = 'lb-overlay';
+            overlay.innerHTML = '<button class="lb-close" aria-label="閉じる">&times;</button><img class="lb-img" alt="">';
+            document.body.appendChild(overlay);
+            const lbImg = overlay.querySelector('.lb-img');
+            const lbClose = overlay.querySelector('.lb-close');
+            function openLb(src, alt) {
+                lbImg.src = src; lbImg.alt = alt || '';
+                overlay.classList.add('open');
+                document.body.style.overflow = 'hidden';
+            }
+            function closeLb() {
+                overlay.classList.remove('open');
+                document.body.style.overflow = '';
+            }
+            document.querySelectorAll('.slide-img:not(.cover-slide)').forEach(img => {
+                img.addEventListener('click', () => openLb(img.src, img.alt));
+            });
+            lbClose.addEventListener('click', closeLb);
+            overlay.addEventListener('click', e => { if (e.target === overlay) closeLb(); });
+            document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLb(); });
+        })();
+    </script>
+    <script src="./clock.js?v=20260621a" defer></script>
+</body>
+</html>
+<!-- cache-bust: 2026-06-23T20:00:00 -->
