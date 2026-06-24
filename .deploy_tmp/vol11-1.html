@@ -17,7 +17,7 @@
     <meta property="og:image:height" content="630">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="DX研修まとめ 2026年6月｜Day 11 フィード投稿と資料生成AI">
-    <meta name="twitter:description" content="AIを活用したInstagram運用を学ぶDX研修のまとめサイト（2026年6月）。スライド・動画・実習をまとめています.">
+    <meta name="twitter:description" content="AIを活用したInstagram運用を学ぶDX研修のまとめサイト（2026年6月）。スライド・動画・実習をまとめています。">
     <meta name="twitter:image" content="https://training-summary-2606.pages.dev/assets/ogp.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700;900&family=Teko:wght@600&display=swap" rel="stylesheet">
@@ -660,15 +660,15 @@
         <header class="header">
             <div class="header-top">
                 <div class="header-nav">
-                    <a href="./vol09-1.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> Day 09へ</a>
+                    <a href="./vol10-1.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> Day 10へ</a>
                     <a href="./index.html" class="back-link"><i class="fa-solid fa-house"></i> ホームへ</a>
                 </div>
-                <span class="progress-pill">Day 10 / 13</span>
+                <span class="progress-pill">Day 11 / 13</span>
             </div>
-            <span class="header-tag">DAY 10</span>
-            <h1 class="day-title">Day 10</h1>
-            <p class="day-subtitle">インスタグラムが伸びるポイント</p>
-            <p class="header-sub">フォロワー数より「質」の時代へ — Jun 2026</p>
+            <span class="header-tag">DAY 11</span>
+            <h1 class="day-title">Day 11</h1>
+            <p class="day-subtitle">フィード投稿と資料生成AI</p>
+            <p class="header-sub">CanvaとChatGPTで投稿を"量産"する時短ワークフロー — Jun 2026</p>
         </header>
 
         <nav class="tabs">
@@ -716,7 +716,7 @@
                 <h2><span class="sec-num">SECTION A</span> Canva「一括作成（Bulk Create）」とは</h2>
                 <div class="layout-split">
                     <div>
-                        <p>Instagramの投稿作成において、毎回1枚ずつ手作業で画像や動画を編集するのは非常に時間がかかります。そこで強力な武器となるのが、Canvaに搭載されている<strong>「一括作成（Bulk Create）」</strong>機能です。これは、テキストや画像などのデータを流し込むだけで、数十枚〜数百枚の投稿デザインを一瞬で自動生成できる、まさに「量産エンジン」です。</p>
+                        <p>Instagramの投稿作成において、毎回1枚ずつ手作業で画像や動画を編集するのは非常に時間がかかります。そこで強力な武器となるのが、Canvaに搭載されている<strong>「一括作成（Bulk Create）」</strong>機能です。これは、テキストや画像などのデータを流し込むだけで、数十枚〜数百枚の投稿デザインを一瞬で自動生成できる, まさに「量産エンジン」です。</p>
                     </div>
                     <img src="./assets/day11_slide2.png" alt="一括作成機能の概要" class="slide-img" loading="lazy">
                 </div>
@@ -831,7 +831,7 @@
                 <h2><span class="sec-num">SECTION C</span> データバインドで一括生成する</h2>
                 <div class="layout-split">
                     <div>
-                        <p>準備したCSVファイルをCanvaに読み込ませ、デザインの各要素とデータを紐付ける<strong>「データバインド（接続）」</strong>の操作を行います。この設定を行うことで、CSV内の各行のテキストや画像データが、テンプレートの指定位置へ自動的に流し込まれる仕組みが構築されます。</p>
+                        <p>準備したCSVファイルをCanvaに読み込ませ、デザインの各要素とデータを紐付ける<strong>「データバインド（接続）」</strong>の操作を行います。この設定を行うことで、CSV内の各行のテキストや画像データが, テンプレートの指定位置へ自動的に流し込まれる仕組みが構築されます。</p>
                     </div>
                     <img src="./assets/day11_slide10.png" alt="インポート操作" class="slide-img" loading="lazy">
                 </div>
@@ -945,6 +945,74 @@
                 <a href="./index.html" class="tool-link-btn secondary"><i class="fa-solid fa-house"></i> コース一覧に戻る</a>
             </div>
         </div>
+    <script>
+        function openTab(tabId) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            const matchingBtn = Array.from(document.querySelectorAll('.tab-btn')).find(
+                b => (b.getAttribute('onclick') || '').includes("'" + tabId + "'")
+            );
+            if (matchingBtn) matchingBtn.classList.add('active');
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            window.scrollTo({ top: document.querySelector('.tabs').offsetTop - 20, behavior: 'smooth' });
+        }
+
+        function copyText(id, btn) {
+            const textarea = document.getElementById(id);
+            if (!textarea) return;
+            navigator.clipboard.writeText(textarea.value).then(() => {
+                const originalText = btn.textContent;
+                btn.textContent = 'コピー完了！';
+                btn.classList.add('ws-copied');
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.classList.remove('ws-copied');
+                }, 2000);
+            });
+        }
+
+        function copyAll(part, btn) {
+            let text = '';
+            if (part === 'A') {
+                text = `【実習A：自分のインスタアカウントのプロフィールURL】\n${document.getElementById('ws-a-1').value}\n\n【実習A：実習の気づき・学んだことのメモ】\n${document.getElementById('ws-a-2').value}`;
+            } else if (part === 'B') {
+                text = `【実習B：実習の気づき・学んだことのメモ（後半）】\n${document.getElementById('ws-b-1').value}`;
+            }
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '<i class="fa-solid fa-check"></i> コピー完了！';
+                btn.classList.add('ws-copied');
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.classList.remove('ws-copied');
+                }, 2000);
+            });
+        }
+
+        (function () {
+            const overlay = document.createElement('div');
+            overlay.className = 'lb-overlay';
+            overlay.innerHTML = '<button class="lb-close" aria-label="閉じる">&times;</button><img class="lb-img" alt="">';
+            document.body.appendChild(overlay);
+            const lbImg = overlay.querySelector('.lb-img');
+            const lbClose = overlay.querySelector('.lb-close');
+            function openLb(src, alt) {
+                lbImg.src = src; lbImg.alt = alt || '';
+                overlay.classList.add('open');
+                document.body.style.overflow = 'hidden';
+            }
+            function closeLb() {
+                overlay.classList.remove('open');
+                document.body.style.overflow = '';
+            }
+            document.querySelectorAll('.slide-img:not(.cover-slide)').forEach(img => {
+                img.addEventListener('click', () => openLb(img.src, img.alt));
+            });
+            lbClose.addEventListener('click', closeLb);
+            overlay.addEventListener('click', e => { if (e.target === overlay) closeLb(); });
+            document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLb(); });
+        })();
+    </script>
     <script src="./clock.js?v=20260621a" defer></script>
 </body>
 </html>
