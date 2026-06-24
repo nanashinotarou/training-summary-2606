@@ -1,16 +1,20 @@
-# Today_Plan.md — Day 11「フィード投稿と資料生成AI」前半 実装計画
+# Today_Plan.md — Day 11「フィード投稿と資料生成AI」後半 実装計画
 
 **作成日時**: 2026-06-24  
-**対象ファイル**: `vol11-1.html`（新規作成）  
-**テンプレート元**: `vol10-1.html`（コピーして全内容を差し替える）  
-**実装担当**: Antigravity → **レビュー: Codex（機械チェック）**  
-**追加作業**: `vol10-1.html` のまとめタブ「▶ Day 11へ」を実URLに張替え
+**対象ファイル**: `vol11-1.html`（既存ファイルの後半タブを差し替え。新規ファイル作成なし）  
+**実装担当**: Antigravity → **レビュー: 目視確認**  
+**追加作業**: なし（vol10のDay11リンクは前半実装時に対応済み）
 
 ---
 
-## ⚠ 最重要方針（ユーザー指示）
+## ⚠ 最重要方針＋Day11前半の教訓（必読）
 
-スライドの貼り付けだけで済ませない。各スライドに対応する本文・手順・補足カードを必ず添える。**縦1列**（`layout-split` 2カラム禁止）。手順・コマンドは `<code>` または `<pre>` で表示。
+- スライドの貼り付けだけで済ませない。本文で理解できる詳細さで説明を書く（スライドは補完）
+- **`の→of` 文字化けは前半でも再発した。実装後に必ず全文検索すること**
+- `.step-num` の中には数字のみ（`1`,`2`,`3`）。「Step 1」などの文字列は書かない
+- Font Awesome アイコンは Free で確実に表示されるものだけ使う（`fa-list-columns` は無効）
+- 後半タブの「準備中プレースホルダー」を全削除してから実コンテンツを書く
+- **インラインJSを削除しないこと**（`openTab` 等のタブ切替JS・コピーボタンJSが消えるとボタンが全滅する）
 
 ---
 
@@ -18,132 +22,74 @@
 
 ```powershell
 $a = "G:\マイドライブ\研修\【202606】Instagramコース\assets"
-1..14 | ForEach-Object { Rename-Item "$a\Magical_AI_Content_Factory_-_Slide_$_.png" "day11_slide$_.png" }
+1..14 | ForEach-Object { Rename-Item "$a\Manus_AI_Instagram_Workflow_-_Slide_$_.png" ("day11_slide" + ($_ + 14) + ".png") }
 ```
 
 | ファイル名 | 枚数 |
 |---|---|
-| `assets/day11_slide1.png` ～ `day11_slide14.png` | 14枚（前半のみ） |
+| `assets/day11_slide15.png` ～ `day11_slide28.png` | 14枚（後半） |
+| 前半 `day11_slide1〜14` と合わせて合計 | **28枚** |
 
 ---
 
-## ① vol10-1.html の修正（最初に行うこと）
+## ① 後半タブ（`id="second"`）の差し替え
 
-まとめタブ末尾 `tab-nav-footer` の「▶ Day 11へ」を実URLへ：
+**見出し**: `後半 ／ 自律型AIエージェント「Manus」でInstagram運用を全自動化する`  
+**スライド**: `day11_slide15`〜`day11_slide28` を縦1列で配置。
 
-```html
-<!-- 変更前 --> <a href="#" class="tool-link-btn">▶ Day 11へ</a>
-<!-- 変更後 --> <a href="./vol11-1.html" class="tool-link-btn">▶ Day 11へ</a>
-```
+### SECTION D: 自律型AIエージェント「Manus AI」とは（要点4）
 
-→ vol10-1.html の cache-bust を `<!-- cache-bust: 2026-06-24T20:00:00 -->` に更新。
+- **従来のAIとの違い（info-card 2枚対比）**:
+  - ChatGPT等：質問に答える「先生」型。人間が都度指示を出して操作する
+  - Manus：自律的にブラウザ操作・検索・ツール連携を実行する「秘書」型。指示を出すとあとはAIが完遂する
+- **Meta公式API連携の安全性**：ManusはMeta社グループ傘下に入りMeta公式のAPI連携が実現。ストーリー自動投稿も含む安全で強固な自動運用が可能になった
+- **活用イメージ**：「競合を調べてレポートして」「今日の投稿を作って予約して」などの依頼を一言出すだけでManusが全部やってくれる
 
----
+### SECTION E: Manusが実現する4大自動化機能（要点5）
 
-## ② vol11-1.html の新規作成
+**4機能を info-card 4枚で**（アイコン付き）:
 
-### 基本設定
+1. **競合アカウントの自動分析** — 競合アカウントを伝えるだけで、いいね数・フォロワー数・投稿頻度・リール再生数・ハッシュタグ等を自動収集しレポートを作成
+2. **自社アカウントのインサイト分析** — アカウント連携でリーチ数・エンゲージメント率を自動分析、ダッシュボードと改善案を自動生成
+3. **コンテンツの自動生成と投稿** — フィード・リール・ストーリーのデザインからキャプション・タグまで生成し、Instagramへの自動投稿（予約投稿も可）を実行
+4. **メタ広告マネージャー連携（中級者向け）** — Instagram広告のパフォーマンス分析と改善案を自動テスト
 
-- `<title>`: `Day 11 フィード投稿と資料生成AI | Instagram運用コース`
-- `.day-title`: `Day 11` ／ `.day-subtitle`: `フィード投稿と資料生成AI`
-- `header-sub`: `CanvaとChatGPTで投稿を"量産"する時短ワークフロー — Jun 2026`
-- `progress-pill`: `Day 11 / 13` ／ `back-link`: `./vol10-1.html`（Day 10へ）
-- cache-bust: `<!-- cache-bust: 2026-06-24T20:00:00 -->`
-- clock.js: `<script src="./clock.js?v=20260621a"></script>`
-- タブラベル：「今日の目標」「前半」「後半」「今日のまとめ」
+### SECTION F: Manus×Gemini×Instagram 3ステップ自動化フロー（要点6）
 
----
-
-### タブ1: 今日の目標（`id="goal"`）
-
-**カバースライド**: `<img src="assets/day11_slide1.png" alt="Day11 カバー" class="slide-img cover-slide">`
-
-**今日のゴール**:
-> CanvaのAI一括作成機能とChatGPTを組み合わせ、投稿コンテンツを「自動化・量産」するワークフローの全体像を理解し、自分のアカウントに使えるCSV設計とデータバインドを1セット試せるようになる。
-
-**ポイントカード（3枚・info-card）**:
-1. Canvaの「一括作成（Bulk Create）」機能で、テンプレートに大量データを流し込む仕組みを理解し、サイドバーから有効化できる
-2. ChatGPTに「CSV形式で出力して」と指示するだけで、Canvaへ流し込める投稿用データの設計図（見出し・キャプション等）が作れるようになる
-3. データバインドの3ステップ（インポート→接続→生成）を踏んで、複数デザインを一括で自動生成できる
-
-**フッター**: `<button class="tool-link-btn" onclick="openTab('first')">前半へ進む <i class="fa-solid fa-arrow-right"></i></button>`
-
----
-
-### タブ2: 前半（`id="first"`）— Canva×ChatGPT 量産ワークフロー
-
-**見出し**: `前半 ／ CanvaとChatGPTで投稿を"量産"する3ステップ`  
-**スライド**: `day11_slide2`〜`day11_slide14` を縦1列で配置。
-
-#### SECTION A: Canva「一括作成（Bulk Create）」とは（要点1）
-
-- **機能概要**：複数のテキスト・画像データをデザインテンプレートに一括で流し込み、数十〜数百枚の投稿画像やリール動画を瞬時に自動生成する機能。毎回手作業でデザインする必要がなくなる「量産エンジン」
-- **有効化の手順（step-card）**:
-  - Step 1: Canva編集画面の左サイドバー → 「アプリ」を開く
-  - Step 2: 検索欄に <code>一括作成</code> と入力 → ツールを有効化
-  - Step 3: テンプレートを開いた状態で使用可能になる
-- **活用イメージ**: 1つのテンプレート × 50行のCSV = **50枚の投稿が数秒で完成**
-
-#### SECTION B: ChatGPTで「設計図（CSV）」を作る（要点2）
-
-- **なぜCSVか**：Canvaの一括作成はCSV形式のデータを読み込む。ChatGPTに「表形式で出力して」と指示するだけで、そのままCanvaに流し込める設計図が作れる
-- **CSVの基本4列構成（info-card）**:
-  - `アイデア` — 投稿のテーマ・切り口
-  - `見出し` — サムネイル上に表示するキャッチコピー
-  - `キャプション` — 本文（1行目にキーワードを入れる三位一体）
-  - `画像プロンプト` — Canva AIまたは別の画像生成AIへの指示文
-- **ChatGPTへのプロンプト例（`<pre>` で表示）**:
-
-```
-以下の条件で投稿アイデアを10件、CSV形式で作成してください。
-列名: アイデア,見出し,キャプション,画像プロンプト
-条件: [自分のジャンル・ターゲット・トーン]
-```
-
-- **ポイント**: 列名をCanvaのテンプレート変数名と一致させると、接続作業がスムーズになる
-
-#### SECTION C: データバインドで一括生成する（要点3）
-
+- **なぜGeminiを組み合わせるか**：Manus単体でも画像生成はできるが、文字化けや品質にばらつきが出る。Geminiに画像生成を担わせることで高品質なカルーセル画像を作れる
 - **3ステップ（step-card）**:
-  - Step 1: **インポート** — 一括作成パネルから「CSVをアップロード」または「データを手動入力」でデータを読み込む
-  - Step 2: **データバインド（接続）** — テンプレート上のテキストボックス・画像フレームを右クリック → 「データの接続」をクリック → CSVの対応する列名を選択して接続
-  - Step 3: **一括生成の実行** — 「続行」をクリックすると全データ分のデザインが新しいページとして一瞬で生成される
-- **完成後の使い方**: 生成されたデザインを一括でPNG/MP4ダウンロード → Instagramに順次投稿。ネタ切れゼロの「コンテンツ在庫」を作れる
+  - Step 1: **市場調査とコンセプト設計（Manus）** — Manusにテーマを指示し、市場・ライバル調査から「投稿コンセプト」と「3枚の画像設計図（テキスト指示文）」を作らせる（このステップでは画像を生成させない）
+  - Step 2: **画像生成（Gemini）** — ManusがStep 1で作った画像設計図をそのままGeminiに渡し「1枚ずつ出力してください」と指示して高品質なカルーセル画像を生成。文字化けのない仕上がりになる
+  - Step 3: **自動投稿（Manus）** — 生成された画像の共有URLをManusに渡し「Instagramのカルーセル投稿をして」と指示。Manusが自動ログインして投稿設定を行い、最終確認の1クリックで完了
+- **実習メモ（quote-box）**: 無料アカウントで画像をカルーセル投稿する際は、画像を直接アップロードするのではなく「画像の共有URLリンクを渡す」のがコツ
 
-#### 動画セクション（2本）`<div class="video-section">`（`video-section-title`: 📺 授業の元動画（前半））
+#### 動画セクション（後半2本）`<div class="video-section">`（`video-section-title`: 📺 授業の元動画（後半））
 
-1. `<details class="video-item">` 【2026年最新】超時短！インスタ投稿・リールを一瞬で自動生成する方法 Canva×ChatGPT（22:35）  
-   — embed `https://www.youtube.com/embed/v0ugbT1wq78`
-2. `<details class="video-item">` 【ChatGPT×Canva】インスタグラム投稿を自動化で主婦が月10万円稼ぐ！（約18:00）  
-   — embed `https://www.youtube.com/embed/60hBVQzVJU0`
+1. `<details class="video-item">` 【インスタ自動化】自律型AIエージェントManusでインスタ運用を自動化する方法【初心者向け】（38:39）  
+   — embed `https://www.youtube.com/embed/UjIa7_0oe8U`
+2. `<details class="video-item">` 【Manus×Gemini×インスタ自動化】競合調査からインスタ画像・投稿まで全自動化する3つのステップ（6:50）  
+   — embed `https://www.youtube.com/embed/VHCD5lZ77Rs`
 
-**フッター**: `<button class="tool-link-btn secondary" onclick="openTab('second')">後半へ <i class="fa-solid fa-arrow-right"></i></button>`
+#### ワークシートB（実習）
 
----
-
-### タブ3: 後半（`id="second"`）— 準備中プレースホルダー
-
-```html
-<div class="section-block">
-    <p style="text-align:center; color:var(--text-muted, #999); padding:40px 0;">
-        後半コンテンツは準備中です。
-    </p>
-</div>
-```
+- タイトル：**Manusを登録してInstagramと連携しよう**
+- 実習内容：Manusの無料アカウント登録（紹介コード経由）→ Instagram連携 → 上記3ステップフローを1回試す
+- worksheet-card: 「試してみた感想・できたこと・詰まったこと」メモ欄
 
 **フッター**: `<button class="tool-link-btn" onclick="openTab('summary')">今日のまとめへ <i class="fa-solid fa-arrow-right"></i></button>`
 
 ---
 
-### タブ4: 今日のまとめ（`id="summary"`）
+## ② まとめタブ（`id="summary"`）の更新
 
-**今日学んだこと（4点・sticky-grid 4枚）**:
-1. Canva一括作成はテンプレ＋CSVデータで**数十〜数百枚**の投稿を瞬時に生成できる「量産エンジン」。毎回の手作業が不要になる
-2. ChatGPTに「〇〇を表形式でXX行出力して」と指示するだけでCanvaへ流し込めるCSV設計図が作れる。列名をテンプレート変数名と合わせるのがコツ
-3. データバインド3ステップ（①CSVインポート ②テキスト/画像フレームを右クリック→データ接続 ③続行で一括生成）
-4. 見出し・キャプション・画像プロンプトをCSVの列として設計しておけばコンテンツ在庫をまとめて作れる。ネタ切れゼロのループを回す
+**前半+後半を網羅した4枚に書き換える**（sticky-grid 4枚維持）:
 
-**フッター**（Day12未作成のため `href="#"` のまま）:
+1. Canva一括作成＋ChatGPT CSV設計で投稿を量産。テンプレ×データで数十枚が瞬時に完成、ネタ切れゼロのコンテンツ在庫が作れる
+2. データバインド3ステップ（①CSVインポート ②右クリック→データ接続 ③続行で一括生成）。見出し・キャプション・画像プロンプトをCSV列として設計しておくのがコツ
+3. 自律型AIエージェントManusはMeta公式API連携で**競合分析・コンテンツ生成・自動投稿**まで実現。指示1つで「秘書が全部やってくれる」時代へ
+4. Manus×Gemini 3ステップ（①Manusで市場調査＋画像設計図 → ②Geminiで高品質画像生成 → ③Manusで自動投稿）で文字化けなしの高品質投稿を自動化
+
+**フッター**（Day12未作成のため変更なし）:
 ```html
 <div class="tab-nav-footer">
     <a href="#" class="tool-link-btn">▶ Day 12へ</a>
@@ -153,39 +99,41 @@ $a = "G:\マイドライブ\研修\【202606】Instagramコース\assets"
 
 ---
 
-## ③ Codex機械チェックリスト
+## ③ cache-bust 更新
+
+```html
+<!-- cache-bust: 2026-06-24T21:00:00 -->
+```
+
+`.deploy_tmp/vol11-1.html` も同じ値に更新すること。
+
+---
+
+## ④ 機械チェックリスト（後半追加後の合格値）
 
 ```powershell
 # ① of化けチェック（0件なら合格）
 Select-String -Path vol11-1.html -Pattern " of | in | the " -CaseSensitive
 
-# ② スライド枚数（14件なら合格）
+# ② スライド枚数（28件なら合格：前半14＋後半14）
 (Select-String -Path vol11-1.html -Pattern "day11_slide" | Measure-Object).Count
 
-# ③ 動画数（2件なら合格）―― class= で絞りCSS行を除外
+# ③ 動画数（4件なら合格：前半2＋後半2）
 (Select-String -Path vol11-1.html -Pattern 'class="video-item"' | Measure-Object).Count
 
 # ④ cover-slide 存在（1件なら合格）
 Select-String -Path vol11-1.html -Pattern "cover-slide"
 
-# ⑤ cache-bust 形式（2026-06-24T20:00:00 なら合格）
-Select-String -Path vol11-1.html -Pattern "cache-bust: 2026-06-24T20:00:00"
+# ⑤ cache-bust（2026-06-24T21:00:00 なら合格）
+Select-String -Path vol11-1.html -Pattern "cache-bust: 2026-06-24T21:00:00"
 
-# ⑥ vol10のDay11リンク差し替え確認（vol11-1.htmlが含まれていれば合格）
-Select-String -Path vol10-1.html -Pattern "vol11-1\.html"
+# ⑥ 後半プレースホルダーが消えているか（0件なら合格）
+Select-String -Path vol11-1.html -Pattern "後半コンテンツは準備中"
 ```
 
 ---
 
-## ④ Codexへの注意事項（必読）
-
-- **INDEX.mdを更新する場合は既存の「Instagramコース 2606」行を上書き更新すること。新規行を追加しない。テーブルは4列（プロジェクト｜詳細ファイル｜最終更新｜一言概要）を維持すること**
-- チェックコマンドの結果が想定外の数値でも、コード側を変更してカウントを合わせないこと。必ず「結果：X件、想定：Y件、原因仮説」の形式で報告すること
-- デプロイは行わないこと
-
----
-
-## ⑤ デプロイ手順（Codex or ClaudeCode担当）
+## ⑤ デプロイ手順
 
 ```powershell
 Set-Location "G:\マイドライブ\研修\【202606】Instagramコース"
