@@ -714,20 +714,32 @@
 
             <section class="section">
                 <h2><span class="sec-num">SECTION A</span> Canva「一括作成（Bulk Create）」とは</h2>
+                
+                <h3 class="sub-heading">手作業からの脱却：量産エンジン「一括作成」</h3>
                 <div class="layout-split">
                     <div>
-                        <p>Instagramの投稿作成において、毎回1枚ずつ手作業で画像や動画を編集するのは非常に時間がかかります。そこで強力な武器となるのが、Canvaに搭載されている<strong>「一括作成（Bulk Create）」</strong>機能です。これは、テキストや画像などのデータを流し込むだけで、数十枚〜数百枚の投稿デザインを一瞬で自動生成できる, まさに「量産エンジン」です。</p>
+                        <p>Instagramの投稿作成において、毎回1枚ずつ手作業で画像や動画を編集するのは非常に時間がかかります。そこで強力な武器となるのが、Canvaに搭載されている<strong>「一括作成（Bulk Create）」</strong>機能です。</p>
+                        <div class="info-box" style="margin-top:12px;">
+                            <p><strong>「一括作成」の定義：</strong><br>あらかじめ用意したテキストや画像などのデータ一覧（CSVなど）を、1つのデザインテンプレートに流し込むことで、数十枚から数百枚の投稿デザインを一瞬で自動生成する機能です。</p>
+                        </div>
                     </div>
                     <img src="./assets/day11_slide2.png" alt="一括作成機能の概要" class="slide-img" loading="lazy">
                 </div>
 
+                <h3 class="sub-heading">データ接続（データバインド）による自動化のメリット</h3>
                 <div class="layout-split" style="margin-top:20px;">
                     <div>
-                        <p>1つのデザインテンプレートに大量のデータ行を紐付ける（データバインドする）ことで、デザインの統一感を保ったまま、文字情報だけが切り替わった投稿スライドやリール動画を大量に作り出すことができます。これにより、作業工数を極限まで減らし、一ヶ月分の投稿在庫を数分で用意することが可能になります。</p>
+                        <p>1つのデザインテンプレートに対して、複数のデータ行を「データの接続（データバインド）」させることで、以下のメリットが得られます。</p>
+                        <ul style="padding-left: 20px; margin-top: 10px; line-height: 1.8;">
+                            <li style="margin-bottom: 8px;"><strong>デザインの一貫性維持：</strong>フォントやレイアウトのズレをなくし、統一されたトンマナで量産可能</li>
+                            <li style="margin-bottom: 8px;"><strong>圧倒的な時短：</strong>手動コピペを撲滅し、1ヶ月分の投稿（30枚など）を数分で自動作成</li>
+                            <li style="margin-bottom: 8px;"><strong>在庫運用の実現：</strong>時間がある時にまとめて作成し、投稿スケジュールを事前確保可能</li>
+                        </ul>
                     </div>
                     <img src="./assets/day11_slide3.png" alt="量産のメリット" class="slide-img" loading="lazy">
                 </div>
 
+                <h3 class="sub-heading">初期設定：Canvaアプリストアから追加する手順</h3>
                 <div class="practice-steps" style="margin-top:28px;">
                     <div class="step-card">
                         <div class="step-num">1</div>
@@ -748,14 +760,18 @@
 
                 <div class="layout-split" style="margin-top:20px;">
                     <div>
-                        <p>アプリの追加自体は数クリックで完了します。一度有効化しておけば、今後の大量作成プロセスをいつでもスムーズに開始することができます。</p>
+                        <p>アプリの追加自体は数クリックで完了します。一度有効化しておけば、サイドバーにアイコンが常駐するため、次回以降は検索する必要がなくなります。</p>
+                        <div class="tips-box" style="margin-top:12px;">
+                            <h4>💡 ワンポイントアドバイス</h4>
+                            <p>アプリがサイドバーに見当たらない場合は、Canvaのバージョンアップやアカウントの種類（Pro版・無料版）にかかわらず、アプリ検索から「一括作成」と再入力すればいつでも呼び出せます。</p>
+                        </div>
                     </div>
                     <img src="./assets/day11_slide4.png" alt="アプリ検索手順" class="slide-img" loading="lazy">
                 </div>
 
                 <div class="layout-split" style="margin-top:20px;">
                     <div>
-                        <p>一括作成アプリアイコンをクリックしてツールを立ち上げると、データの入力方法を選択する画面に移行します。これで量産準備の第一段階が完了です。</p>
+                        <p>ツールを立ち上げると、<strong>「データを手動で入力」</strong>するか<strong>「CSVをアップロード」</strong>するかの選択画面になります。今回はChatGPTで作成したCSVデータをアップロードして量産する、最も効率的な手法を進めていきます。</p>
                     </div>
                     <img src="./assets/day11_slide5.png" alt="有効化完了" class="slide-img" loading="lazy">
                 </div>
@@ -763,16 +779,23 @@
 
             <section class="section">
                 <h2><span class="sec-num">SECTION B</span> ChatGPTで「設計図（CSV）」を作る</h2>
+                
+                <h3 class="sub-heading">ChatGPTで「表形式データ」を作成するメリット</h3>
                 <div class="layout-split">
                     <div>
-                        <p>Canvaの一括作成機能は、スプレッドシートやExcelから出力された<strong>CSV形式のデータ</strong>を読み込んで動作します。手動で1行ずつ入力することも可能ですが、ChatGPTを活用して「表形式でデータを出力して」と指示することで、大量の投稿用テキスト素材を一瞬で設計・作成することができます。</p>
+                        <p>Canvaの一括作成機能は、スプレッドシートやExcelから出力された<strong>CSV形式（カンマ区切りの表データ）</strong>を読み込んで動作します。</p>
+                        <p>手動で1行ずつCanvaに入力することもできますが、ChatGPTに対して「表形式で出力して」と明確に指示することで、大量の投稿用テキスト素材を自動生成できます。これにより、アイデア出しから執筆までの時間を極限まで圧縮します。</p>
                     </div>
                     <img src="./assets/day11_slide6.png" alt="CSV設計の重要性" class="slide-img" loading="lazy">
                 </div>
 
+                <h3 class="sub-heading">Canvaテンプレートと連動する「列（項目）」の指定</h3>
                 <div class="layout-split" style="margin-top:20px;">
                     <div>
-                        <p>ChatGPTに指示する際は、単にアイデアを箇条書きさせるのではなく、Canvaのテンプレートに直接紐付けられるよう「列（項目）」を指定した表形式で出力させるのが最も効率的です。</p>
+                        <p>ChatGPTにプロンプトを投げる際、単に「投稿案を箇条書きして」と指示してはいけません。Canvaのテンプレート側にある各テキストボックス（タイトル、本文、等）に対応した「列（ヘッダー名）」を指示し、<strong>表（テーブル）形式</strong>で出力させることが必須です。</p>
+                        <div class="warning-box" style="margin-top:12px;">
+                            <p>⚠️ 注意：列名がChatGPTの出力とCanva側で一致していないと、どの文字をどこに流し込むべきか判断できず、接続エラー（バインドエラー）になります。</p>
+                        </div>
                     </div>
                     <img src="./assets/day11_slide7.png" alt="CSV基本構成" class="slide-img" loading="lazy">
                 </div>
@@ -801,16 +824,27 @@
                     </div>
                 </div>
 
+                <h3 class="sub-heading">ChatGPTへのプロンプト実行と表データ生成</h3>
                 <div class="layout-split" style="margin-top:20px;">
                     <div>
-                        <p>プロンプトで項目を指定してChatGPTを実行すると、指定した列名に沿って表形式のテキストデータが綺麗に生成されます。これをコピーしてスプレッドシート等に貼り付けるだけでCSVデータの完成です。</p>
+                        <p>指定した列名に沿ってプロンプトを実行すると、ChatGPTはきれいに整理された表データを作成します。表のヘッダー（アイデア, 見出し, キャプション, 画像プロンプト）が正確に出力されていることを確認しましょう。</p>
                     </div>
                     <img src="./assets/day11_slide8.png" alt="プロンプトの解説" class="slide-img" loading="lazy">
                 </div>
 
+                <h3 class="sub-heading">Googleスプレッドシートを仲介したCSVファイルの作成</h3>
                 <div class="layout-split" style="margin-top:20px;">
                     <div>
-                        <p>ChatGPTから出力されたテキストをコピーし、Googleスプレッドシートなどに貼り付けて「.csv」形式でダウンロードします。これでCanvaへ流し込むための設計図の準備が完了します。</p>
+                        <p>ChatGPTが出力した表データをコピーし、以下の手順でCSVファイルを作成します。</p>
+                        <ol style="padding-left: 20px; margin-top: 10px; line-height: 1.8;">
+                            <li style="margin-bottom: 6px;">Googleスプレッドシートの新規シートを開き、左上のセル（A1）を選択してペーストします。</li>
+                            <li style="margin-bottom: 6px;">列名とデータが正しく各セルに展開されていることを確認します。</li>
+                            <li style="margin-bottom: 6px;">メニューの「ファイル」 ＞ 「ダウンロード」 ＞ 「カンマ区切り形式（.csv）」を選択してPCに保存します。</li>
+                        </ol>
+                        <div class="tips-box" style="margin-top:12px;">
+                            <h4>💡 文字化けを防ぐポイント</h4>
+                            <p>GoogleスプレッドシートからダウンロードしたCSVは自動的に「UTF-8」形式になるため、Canvaで読み込ませた際に日本語が文字化けするトラブルを防ぐことができます。</p>
+                        </div>
                     </div>
                     <img src="./assets/day11_slide9.png" alt="出力例" class="slide-img" loading="lazy">
                 </div>
@@ -829,9 +863,12 @@
 
             <section class="section">
                 <h2><span class="sec-num">SECTION C</span> データバインドで一括生成する</h2>
+                
+                <h3 class="sub-heading">CanvaへのCSVインポートとデータの読み込み</h3>
                 <div class="layout-split">
                     <div>
-                        <p>準備したCSVファイルをCanvaに読み込ませ、デザインの各要素とデータを紐付ける<strong>「データバインド（接続）」</strong>の操作を行います。この設定を行うことで、CSV内の各行のテキストや画像データが, テンプレートの指定位置へ自動的に流し込まれる仕組みが構築されます。</p>
+                        <p>作成したCSVファイルをCanvaに読み込ませ、デザインテンプレートの文字要素とCSVデータを紐付ける<strong>「データバインド（接続）」</strong>を行います。これにより、テンプレートに自動でデータが流し込まれる準備が整います。</p>
+                        <p>サイドバーの「一括作成」メニューから「CSVをアップロード」を選択し、保存したファイルを選択します。アップロードが成功すると、CSVの列名（見出し、キャプション等）がバインド可能な変数として一覧表示されます。</p>
                     </div>
                     <img src="./assets/day11_slide10.png" alt="インポート操作" class="slide-img" loading="lazy">
                 </div>
