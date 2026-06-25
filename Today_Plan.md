@@ -1,5 +1,7 @@
-# Today_Plan.md — Day 12 前半 実装計画
+# Today_Plan.md — Day 12 前半・後半 実装計画
 > 作成: 2026-06-25 | 担当: ClaudeCode → Antigravity実装
+> 前半実装: ✅ 完了済み（vol12-1.html 前半タブ）
+> 後半実装: 🔲 未実施（本計画書の後半セクションを参照）
 
 ---
 
@@ -165,28 +167,110 @@ h2: `<span class="sec-num">WORK A</span> 実習：台本を作ってPadletにシ
 
 ---
 
-## タブ3：後半（準備中プレースホルダー）
+## タブ3：後半
 
-後半のリサーチ・スライド生成は未実施。以下のプレースホルダーを表示:
+### 後半スライド素材（14枚）
+ファイルパス: `./assets/Canva_AI_Reel_Mass_Production_-_Slide_X.png`
 
-```html
-<div style="text-align:center; padding:60px 20px; color:#94a3b8;">
-  <i class="fas fa-tools" style="font-size:3rem; margin-bottom:16px; display:block;"></i>
-  <p style="font-size:1.1rem; font-weight:700;">後半コンテンツは準備中です</p>
-  <p>もうしばらくお待ちください。</p>
-</div>
-```
+| スライド# | 配置セクション |
+|---|---|
+| 1 | カバー（`.cover-slide`） |
+| 2〜5 | SECTION E |
+| 6〜10 | SECTION F |
+| 11〜14 | SECTION G + WORK B |
+
+### 後半動画素材（3本）
+
+| # | YouTube ID | タイトル | 長さ | 配置 |
+|---|---|---|---|---|
+| 4 | `yn6niFOS8zQ` | 【AI×Canva】スキル0から在宅収入を作る雑学ショート動画量産法 | 16:26 | SECTION E 末尾 |
+| 5 | `yUV1JtubFcY` | 【Canva Pro】N8N不要！1ヶ月分30本のショート動画を15分で作る一括作成機能の使い方 | 11:42 | SECTION F 末尾 |
+| 6 | `jM9uTdYBM9I` | 【Canva最新機能】自分の素材をAIが自動編集！BGM・テロップまで一瞬で完成するAI動画編集機能 | 10:34 | SECTION G 末尾 |
 
 ---
 
-## タブ4：今日のまとめ
+### SECTION E：雑学ショート動画量産法（Canva×AI）
 
-info-box 内の ul で箇条書き:
+h2: `<span class="sec-num">SECTION E</span> 雑学ショート動画量産法`
+
+- **後半Slide 1**（カバー・`.cover-slide`）
+- **Slide 2**
+- h3: 「「作品作り」ではなく「工程作り」で量産する」
+  - 雑学ショート動画は気合や根性ではなく、毎回同じ工程を回す仕組みで量産する。ネタ出し→画像→音声→編集の4ステップを固定化することで、月30万円を狙う再現性の高いフローを構築できる。
+- **Slide 3**
+- h3: 「4ステップ制作フロー」
+  - step-card 4枚:
+    1. **ネタ出し（ChatGPT）**: 雑学系プロンプトで「明日から話したくなる雑学」を出力。必ず裏取りをする
+    2. **画像生成（AI/Canva）**: 文字なし・1枚ずつ生成。ポップなアニメ調が離脱されにくい
+    3. **音声生成（VOICEVOX等）**: 声を固定し、読点多めで自然なスピードに
+    4. **編集（Canva）**: 9:16サイズ。音声基準で画像を切り替え、テロップは1行10文字以内
+- **Slide 4**
+- h3: 「投稿と検証の戦略」
+  - YouTube・TikTok・Instagramの3媒体に横展開。まず2ジャンル各10本（計20本）を同じ構成で投稿し、どのジャンルが伸びるか傾向を掴む。精神的安定のため小額でも早く収益化できる「平行動線」を同時に持つ。
+- **Slide 5**
+- **動画4**（`yn6niFOS8zQ`）
+
+---
+
+### SECTION F：Canva一括作成で30本を15分で量産
+
+h2: `<span class="sec-num">SECTION F</span> Canva一括作成：30本を15分で`
+
+- **Slide 6**
+- h3: 「一括作成機能による自動化の3ステップ」
+  - step-card 3枚:
+    1. **台本作成（Canva AI）**: マジック作文で「フック・本題・行動喚起」の3列構成30個を表形式で爆速生成
+    2. **テンプレート作成**: 9:16テンプレートにテキストボックス3つ。タイムラインでフック(0-3秒)・本題(3-6秒)・行動喚起(6-9秒)を設定
+    3. **データ接続と一括生成**: 一括作成機能でデータを接続し「デザインを生成」→一瞬で30本完成
+- **Slide 7**
+- h3: 「量産感を消すひと手間」
+  - 3〜5本に1本の割合で背景動画を差し替える。改行位置を手動で整えるだけでプロっぽい仕上がりになる。
+- **Slide 8**・**Slide 9**・**Slide 10**
+- **動画5**（`yUV1JtubFcY`）
+
+---
+
+### SECTION G：Canva AI動画編集 — 手持ち素材が自動でリールに
+
+h2: `<span class="sec-num">SECTION G</span> Canva AI動画編集`
+
+- **Slide 11**
+- h3: 「素材をアップするだけでAIが自動編集」
+  - 自分の動画・写真素材をアップロードするだけで、CanvaのAIが自動的に場面切り替え・音楽・エフェクトをあてて完成させてくれる最新機能。
+- **Slide 12**
+- h3: 「AI動画編集の手順」
+  - step-card 4枚:
+    1. ホームの「動画」→「スマホ動画」でキャンバス作成
+    2. 左メニューから使いたい動画素材（最大10個）をアップロード
+    3. プロンプトを入力（例：「東京旅行Vlog。30秒ぐらい。楽しい雰囲気」）
+    4. 「デザインを生成」→AIが瞬時に自動編集完成
+- **Slide 13**
+- tips-box: 「💡 無料プランは月5回まで。有料プランは制限なし」
+- **動画6**（`jM9uTdYBM9I`）
+
+---
+
+### WORK B：実習 — Canva一括作成で動画を量産してみよう
+
+h2: `<span class="sec-num">WORK B</span> 実習：Canva一括作成を体験する`
+
+- **Slide 14**
+- step-card 3枚:
+  1. Canvaで9:16テンプレートを作り、テキストボックスを3つ配置する
+  2. マジック作文で自分のジャンルの台本を5本分生成する
+  3. 一括作成機能でデータを接続して5本分のデザインを一気に生成する
+- info-box: 「まず5本。うまくいったら30本に増やせばいい。「量産できる仕組み」があれば、あとはスケールするだけ。」
+
+---
+
+## タブ4：今日のまとめ（後半実装後に更新）
+
+info-box 内の ul で箇条書き（前半+後半の総まとめ）:
 - AIは「道具」ではなく「仕組み化の相棒」。一度覚えさせたら量産してくれる
 - コンテンツマージ（競合ヒット × 自分の一次情報）が独自性の源泉
 - アルゴリズムが最優先するのは「保存数」——コンテンツ設計の起点にする
-- AIツールチェーン（ChatGPT→Sora 2→Fish Audio→Vrew）で作業時間を1/5に
-- まずVrewだけでも始めてみる。段階的にチェーンを伸ばしていく
+- Canva一括作成 × AI台本生成で、30本の動画が15分で完成する
+- まずVrewかCanva AI編集どちらかでも試してみる。ツールは段階的に増やしていけばいい
 
 末尾のリンク:
 ```html
@@ -199,16 +283,281 @@ info-box 内の ul で箇条書き:
 
 ## 実装上の注意
 
-1. **スライドパスのファイル名**: スペース→`_`・ハイフン`-`あり
-   - 正: `./assets/AI_Instagram_Mastery_-_Slide_1.png`
-   - 誤: `./assets/day12_slide1.png`（使わない）
+1. **前半スライドパス**: `./assets/AI_Instagram_Mastery_-_Slide_X.png`
+2. **後半スライドパス**: `./assets/Canva_AI_Reel_Mass_Production_-_Slide_X.png`
+3. **後半Slide 1はカバースライド**: `.cover-slide` クラスを付ける
+4. **文字化け厳禁**: 「の」が「of」に化けないよう必ずチェック
+5. **cache-bust**: `<!-- cache-bust: 2026-06-25T22:00:00 -->` をHTML末尾に記入
+6. **両ファイル同期**: 完成後、`.deploy_tmp/vol12-1.html` にも同じファイルをコピー
+7. **完了報告フォーマット（GEMINI.md §4-9 準拠）**: vol番号・スライド数・動画数・cache-bust値を含めて報告
 
-2. **Slide 1はカバースライド**: `.cover-slide` クラスを付ける
+---
 
-3. **文字化け厳禁**: 「の」が「of」に化けないよう必ずチェック
+---
 
-4. **cache-bust**: `<!-- cache-bust: 2026-06-25T22:00:00 -->` をHTML末尾に記入
+# ⚠️ 緊急修正指示 — vol11・vol12 実習セクション修正（Antigravity向け）
 
-5. **両ファイル同期**: `vol12-1.html` 完成後、`.deploy_tmp/vol12-1.html` にも同じファイルをコピー
+> 作成: ClaudeCode 2026-06-25
+> 優先度: 高（Day 11/12 の実習内容が主催者指定と乖離している）
 
-6. **完了報告フォーマット（GEMINI.md §4-9 準拠）**: vol番号・スライド数・動画数・使用スライドパス・cache-bust値を含めて報告
+## 背景・根本原因
+
+Course_Log.md の備考（主催者指定の実習内容）がリサーチに取り込まれておらず、
+Antigravity が動画内容から実習を独自創作してしまった。
+
+**正しい実習（Day 10〜12 共通）:**
+> 「目標達成に向けて、課題を作成し、Padletに投稿しよう」
+>（「推し」を発信するワークフロー、Padletシェアボード、初回チュートリアル連携）
+
+---
+
+## チェック結果サマリー
+
+| ページ | WORK A | WORK B | 判定 |
+|---|---|---|---|
+| vol09-1.html | ストーリーズ10秒投稿 ✅ | ワークフロー+Padlet ✅ | **OK** |
+| vol10-1.html | ワークフロー+Padlet+チュートリアル ✅ | 同上 ✅ | **OK** |
+| vol11-1.html | **WORK A セクション自体が存在しない** ❌ | Manus実習のみ・Padlet未 ❌ | **要修正** |
+| vol12-1.html | 「台本を作ってPadletにシェア」（AI創作）❌ | 「Canva一括作成を体験」（AI創作）❌ | **要修正** |
+
+---
+
+## 修正①: vol11-1.html
+
+### 1-A: 前半タブに WORK A セクションを追加
+
+**挿入位置**: 前半タブ (`<div id="first" class="tab-content">`) 内の、
+`<div class="tab-nav-footer">` の直前（line 938 の `</div>` と line 939 の間）
+
+**追加するコード**（vol10 WORK A をベースに、内容を Day11 に合わせて調整）:
+
+```html
+<section class="section">
+    <h2><span class="sec-num">WORK A</span> 目標達成に向けて、課題を作成し、Padletに投稿しよう</h2>
+    <p><strong>目的：</strong> 「推し」を発信するワークフローに沿って今日の学び（Canva一括作成・CSV量産）を自分のアカウント課題に活かし、共有ボードに提出する</p>
+
+    <div class="practice-steps">
+        <li>
+            <strong>「推し」を発信するワークフローを確認する</strong>
+            <span>下記の「ワークフローを開く」ボタンから全体の流れを確認し、今日学んだCanva一括作成とCSV量産の技術をどのフェーズに活かせるか考えます。</span>
+        </li>
+        <li>
+            <strong>初回チュートリアルを参考に課題を作成する</strong>
+            <span>初回チュートリアルに沿って、自身のアカウントの現状を振り返り、今後のアクションプランを言語化します。</span>
+        </li>
+        <li>
+            <strong>課題内容をPadletシェアボードに投稿する</strong>
+            <span>作成した課題やアクションプランをPadletシェアボードに投稿して、講師・他の受講生と共有します。</span>
+        </li>
+    </div>
+
+    <div class="worksheet-grid">
+        <div class="worksheet-card">
+            <strong>自分のインスタアカウントのプロフィールURL</strong>
+            <div class="ws-hint">提出するご自身のInstagramプロフィールURLを入力してください（例：https://www.instagram.com/ユーザーネーム）</div>
+            <textarea id="ws-a-1" placeholder="https://www.instagram.com/"></textarea>
+            <button class="ws-copy-btn" onclick="copyText('ws-a-1', this)">コピー</button>
+        </div>
+        <div class="worksheet-card">
+            <strong>実習の気づき・学んだことのメモ</strong>
+            <div class="ws-hint">Canva一括作成や今日の学びを、自分のアカウント運用にどう活かすか自由に記録しましょう</div>
+            <textarea id="ws-a-2" placeholder="ここに入力..."></textarea>
+            <button class="ws-copy-btn" onclick="copyText('ws-a-2', this)">コピー</button>
+        </div>
+    </div>
+    <button class="ws-copy-all-btn" onclick="copyAll('A', this)"><i class="fa-solid fa-copy"></i> 前半の実習メモをすべてコピー</button>
+
+    <p style="margin-top:20px; text-align:center; display:flex; justify-content:center; gap:14px; flex-wrap:wrap;">
+        <a href="https://platinumzone.co.jp/dx-biome/2606/dx_workflow_oshi.html" target="_blank" rel="noopener" class="tool-link-btn">ワークフローを開く <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+        <a href="https://padlet.com/platinumzonedx/dx-instagram-sfikt2pbwarlfa1x" target="_blank" rel="noopener" class="tool-link-btn secondary">Padletシェアボード <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+        <a href="https://platinumzone.co.jp/dx-biome/2606/dx_tutorial_june.html" target="_blank" rel="noopener" class="tool-link-btn secondary">初回チュートリアル <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+    </p>
+</section>
+```
+
+### 1-B: 後半タブに WORK B セクションを追加
+
+**挿入位置**: 後半タブ (`<div id="second" class="tab-content">`) 内の、
+既存の `<div class="practice-box">` (Manus実習) の `</div>` の直後かつ
+`<div class="tab-nav-footer">` の直前（line 1188 と line 1190 の間）
+
+**追加するコード**:
+
+```html
+<section class="section" style="margin-top:28px;">
+    <h2><span class="sec-num">WORK B</span> 目標達成に向けて、課題を作成し、Padletに投稿しよう</h2>
+    <p><strong>目的：</strong> 後半の講義内容（Manus AI・自律型エージェント）を踏まえ、自分のアカウント課題をアップデートしてPadletシェアボードに提出する</p>
+
+    <div class="practice-steps">
+        <li>
+            <strong>ワークフローの各フェーズに沿って課題を見直す</strong>
+            <span>「推し」を発信するワークフローにアクセスし、自律型AIエージェントの活用をどのフェーズに組み込めるか考えながら課題を洗い出します。</span>
+        </li>
+        <li>
+            <strong>初回チュートリアルと本日の講義を結びつけて改善案をメモする</strong>
+            <span>Manusやデジタルツールを活用した新たな運用改善案を言語化し、気づきや今後のアクションプランをまとめます。</span>
+        </li>
+        <li>
+            <strong>改善した課題内容をPadletシェアボードに提出・共有する</strong>
+            <span>実習を通じて整理した気づきや今後のアクションプランをコピーし、Padletシェアボードに投稿して講師・他の受講生と共有します。</span>
+        </li>
+    </div>
+
+    <div class="worksheet-grid">
+        <div class="worksheet-card">
+            <strong>実習の気づき・学んだことのメモ（後半）</strong>
+            <div class="ws-hint">Manus AI体験やワークで気づいたこと、自分のアカウント運用に活かせるアイデアなどを自由に記録しましょう</div>
+            <textarea id="ws-b-1" placeholder="ここに入力..."></textarea>
+            <button class="ws-copy-btn" onclick="copyText('ws-b-1', this)">コピー</button>
+        </div>
+    </div>
+    <button class="ws-copy-all-btn" onclick="copyAll('B', this)"><i class="fa-solid fa-copy"></i> 後半の実習メモをすべてコピー</button>
+
+    <p style="margin-top:20px; text-align:center; display:flex; justify-content:center; gap:14px; flex-wrap:wrap;">
+        <a href="https://platinumzone.co.jp/dx-biome/2606/dx_workflow_oshi.html" target="_blank" rel="noopener" class="tool-link-btn">ワークフローを開く <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+        <a href="https://padlet.com/platinumzonedx/dx-instagram-sfikt2pbwarlfa1x" target="_blank" rel="noopener" class="tool-link-btn secondary">Padletシェアボード <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+        <a href="https://platinumzone.co.jp/dx-biome/2606/dx_tutorial_june.html" target="_blank" rel="noopener" class="tool-link-btn secondary">初回チュートリアル <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+    </p>
+</section>
+```
+
+### 1-C: 両ファイル同期
+
+修正完了後、`vol11-1.html` を `.deploy_tmp/vol11-1.html` にもコピーすること。
+cache-bust の更新は**不要**（値はそのままでよい。内容修正のみ）。
+Codex にレビュー→デプロイを依頼すること。
+
+---
+
+## 修正②: vol12-1.html
+
+### 2-A: 前半タブの WORK A セクション全体を差し替え
+
+**差し替え対象**: 前半タブ内の `<section class="section">` で
+`WORK A` ヘッダーを持つブロック全体（line 971〜line 1014 の `</section>`）
+
+**古い内容（削除）**: 「台本を作ってPadletにシェア」（スライド15 + 3つのstep-card + info-box + workspace-area）
+
+**新しい内容（挿入）**（vol10 WORK A をベースに Day12 向け調整）:
+
+```html
+<section class="section">
+    <h2><span class="sec-num">WORK A</span> 目標達成に向けて、課題を作成し、Padletに投稿しよう</h2>
+    <p><strong>目的：</strong> 「推し」を発信するワークフローに沿って今日の学び（AI駆動Instagram運用の仕組み化）を自分のアカウント課題に活かし、共有ボードに提出する</p>
+
+    <div class="practice-steps">
+        <li>
+            <strong>「推し」を発信するワークフローを確認する</strong>
+            <span>下記の「ワークフローを開く」ボタンから全体の流れを確認し、今日学んだAI駆動の仕組み化（台本量産・コンテンツマージ）をどのフェーズに活かせるか考えます。</span>
+        </li>
+        <li>
+            <strong>初回チュートリアルを参考に課題を作成する</strong>
+            <span>初回チュートリアルに沿って、自身のアカウントの現状を振り返り、今後のアクションプランを言語化します。</span>
+        </li>
+        <li>
+            <strong>課題内容をPadletシェアボードに投稿する</strong>
+            <span>作成した課題やアクションプランをPadletシェアボードに投稿して、講師・他の受講生と共有します。</span>
+        </li>
+    </div>
+
+    <div class="worksheet-grid">
+        <div class="worksheet-card">
+            <strong>自分のインスタアカウントのプロフィールURL</strong>
+            <div class="ws-hint">提出するご自身のInstagramプロフィールURLを入力してください（例：https://www.instagram.com/ユーザーネーム）</div>
+            <textarea id="ws-a-1" placeholder="https://www.instagram.com/"></textarea>
+            <button class="ws-copy-btn" onclick="copyText('ws-a-1', this)">コピー</button>
+        </div>
+        <div class="worksheet-card">
+            <strong>実習の気づき・学んだことのメモ</strong>
+            <div class="ws-hint">AI駆動の仕組み化や保存数に関する今日の学びを、自分のアカウント運用にどう活かすか自由に記録しましょう</div>
+            <textarea id="ws-a-2" placeholder="ここに入力..."></textarea>
+            <button class="ws-copy-btn" onclick="copyText('ws-a-2', this)">コピー</button>
+        </div>
+    </div>
+    <button class="ws-copy-all-btn" onclick="copyAll('A', this)"><i class="fa-solid fa-copy"></i> 前半の実習メモをすべてコピー</button>
+
+    <p style="margin-top:20px; text-align:center; display:flex; justify-content:center; gap:14px; flex-wrap:wrap;">
+        <a href="https://platinumzone.co.jp/dx-biome/2606/dx_workflow_oshi.html" target="_blank" rel="noopener" class="tool-link-btn">ワークフローを開く <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+        <a href="https://padlet.com/platinumzonedx/dx-instagram-sfikt2pbwarlfa1x" target="_blank" rel="noopener" class="tool-link-btn secondary">Padletシェアボード <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+        <a href="https://platinumzone.co.jp/dx-biome/2606/dx_tutorial_june.html" target="_blank" rel="noopener" class="tool-link-btn secondary">初回チュートリアル <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+    </p>
+</section>
+```
+
+### 2-B: 後半タブの WORK B セクション全体を差し替え
+
+**差し替え対象**: 後半タブ内の `<section class="section">` で
+`WORK B` ヘッダーを持つブロック全体（line 1233〜line 1265 の `</section>`）
+
+**古い内容（削除）**: 「Canva一括作成を体験する」（スライド14 + 3つのstep-card + info-box）
+
+**新しい内容（挿入）**（vol10 WORK B をベースに Day12 向け調整）:
+
+```html
+<section class="section">
+    <h2><span class="sec-num">WORK B</span> 目標達成に向けて、課題を作成し、Padletに投稿しよう</h2>
+    <p><strong>目的：</strong> 後半の講義内容（Canva一括作成・AI動画編集）を踏まえ、自分のアカウント課題をアップデートしてPadletシェアボードに提出する</p>
+
+    <div class="practice-steps">
+        <li>
+            <strong>ワークフローの各フェーズに沿って課題を見直す</strong>
+            <span>「推し」を発信するワークフローにアクセスし、Canva一括作成やAI動画編集をどのフェーズに組み込めるか考えながら課題を洗い出します。</span>
+        </li>
+        <li>
+            <strong>初回チュートリアルと本日の講義を結びつけて改善案をメモする</strong>
+            <span>量産フローや保存数を意識したコンテンツ設計を活かした新たな運用改善案を言語化し、気づきや今後のアクションプランをまとめます。</span>
+        </li>
+        <li>
+            <strong>改善した課題内容をPadletシェアボードに提出・共有する</strong>
+            <span>実習を通じて整理した気づきや今後のアクションプランをコピーし、Padletシェアボードに投稿して講師・他の受講生と共有します。</span>
+        </li>
+    </div>
+
+    <div class="worksheet-grid">
+        <div class="worksheet-card">
+            <strong>実習の気づき・学んだことのメモ（後半）</strong>
+            <div class="ws-hint">Canva一括作成体験や保存数アップのヒントなど、ワークで気づいたことや今後のアクションプランを自由に記録しましょう</div>
+            <textarea id="ws-b-1" placeholder="ここに入力..."></textarea>
+            <button class="ws-copy-btn" onclick="copyText('ws-b-1', this)">コピー</button>
+        </div>
+    </div>
+    <button class="ws-copy-all-btn" onclick="copyAll('B', this)"><i class="fa-solid fa-copy"></i> 後半の実習メモをすべてコピー</button>
+
+    <p style="margin-top:20px; text-align:center; display:flex; justify-content:center; gap:14px; flex-wrap:wrap;">
+        <a href="https://platinumzone.co.jp/dx-biome/2606/dx_workflow_oshi.html" target="_blank" rel="noopener" class="tool-link-btn">ワークフローを開く <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+        <a href="https://padlet.com/platinumzonedx/dx-instagram-sfikt2pbwarlfa1x" target="_blank" rel="noopener" class="tool-link-btn secondary">Padletシェアボード <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+        <a href="https://platinumzone.co.jp/dx-biome/2606/dx_tutorial_june.html" target="_blank" rel="noopener" class="tool-link-btn secondary">初回チュートリアル <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+    </p>
+</section>
+```
+
+### 2-C: vol12 スクリプトの不整合修正
+
+現在 vol12-1.html のスクリプト末尾に `saveWorkspace('ws-day12-a')` 呼び出しと、
+`ws-day12-a` を参照する `saveWorkspace` 関数が存在するが、
+WORK A 差し替えで `ws-day12-a` ID は `ws-a-1`/`ws-a-2` に変更される。
+
+対処: saveWorkspace 関数と `save-btn` の呼び出しは**削除する**（copyAll に統一）。
+`copyAll` 関数と `copyText` 関数はそのまま維持する。
+
+### 2-D: 両ファイル同期とデプロイ
+
+修正完了後:
+1. `vol12-1.html` を `.deploy_tmp/vol12-1.html` にコピー
+2. cache-bust は変更不要
+3. Codex にレビュー→デプロイを依頼すること
+
+---
+
+## 修正後の確認チェックリスト
+
+- [ ] vol11 前半タブ: WORK A セクション追加（ワークフロー/Padlet/チュートリアルボタン付き）
+- [ ] vol11 前半タブ: ws-a-1 と ws-a-2 の textarea が存在する
+- [ ] vol11 後半タブ: WORK B セクション追加（Manus実習の後）
+- [ ] vol11 後半タブ: ws-b-1 の textarea が存在する
+- [ ] vol12 前半タブ: WORK A が「目標達成・Padlet投稿」内容に差し替わっている
+- [ ] vol12 前半タブ: ws-a-1, ws-a-2 のIDが正しく存在する
+- [ ] vol12 後半タブ: WORK B が「目標達成・Padlet投稿」内容に差し替わっている
+- [ ] vol12 後半タブ: ws-b-1 のIDが正しく存在する
+- [ ] vol11/vol12 両方: 3つのURLボタン（ワークフロー/Padlet/チュートリアル）が全て正しく入っている
+- [ ] vol12: saveWorkspace 関連コードが削除されている（または ws-a-1 が存在して動く状態）

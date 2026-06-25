@@ -936,6 +936,48 @@
                 </details>
             </div>
 
+            <section class="section">
+                <h2><span class="sec-num">WORK A</span> 目標達成に向けて、課題を作成し、Padletに投稿しよう</h2>
+                <p><strong>目的：</strong> 「推し」を発信するワークフローに沿って今日の学び（Canva一括作成・CSV量産）を自分のアカウント課題に活かし、共有ボードに提出する</p>
+
+                <div class="practice-steps">
+                    <li>
+                        <strong>「推し」を発信するワークフローを確認する</strong>
+                        <span>下記の「ワークフローを開く」ボタンから全体の流れを確認し、今日学んだCanva一括作成とCSV量産の技術をどのフェーズに活かせるか考えます。</span>
+                    </li>
+                    <li>
+                        <strong>初回チュートリアルを参考に課題を作成する</strong>
+                        <span>初回チュートリアルに沿って、自身のアカウントの現状を振り返り、今後のアクションプランを言語化します。</span>
+                    </li>
+                    <li>
+                        <strong>課題内容をPadletシェアボードに投稿する</strong>
+                        <span>作成した課題やアクションプランをPadletシェアボードに投稿して、講師・他の受講生と共有します。</span>
+                    </li>
+                </div>
+
+                <div class="worksheet-grid">
+                    <div class="worksheet-card">
+                        <strong>自分のインスタアカウントのプロフィールURL</strong>
+                        <div class="ws-hint">提出するご自身のInstagramプロフィールURLを入力してください（例：https://www.instagram.com/ユーザーネーム）</div>
+                        <textarea id="ws-a-1" placeholder="https://www.instagram.com/"></textarea>
+                        <button class="ws-copy-btn" onclick="copyText('ws-a-1', this)">コピー</button>
+                    </div>
+                    <div class="worksheet-card">
+                        <strong>実習の気づき・学んだことのメモ</strong>
+                        <div class="ws-hint">Canva一括作成や今日の学びを、自分のアカウント運用にどう活かすか自由に記録しましょう</div>
+                        <textarea id="ws-a-2" placeholder="ここに入力..."></textarea>
+                        <button class="ws-copy-btn" onclick="copyText('ws-a-2', this)">コピー</button>
+                    </div>
+                </div>
+                <button class="ws-copy-all-btn" onclick="copyAll('A', this)"><i class="fa-solid fa-copy"></i> 前半の実習メモをすべてコピー</button>
+
+                <p style="margin-top:20px; text-align:center; display:flex; justify-content:center; gap:14px; flex-wrap:wrap;">
+                    <a href="https://platinumzone.co.jp/dx-biome/2606/dx_workflow_oshi.html" target="_blank" rel="noopener" class="tool-link-btn">ワークフローを開く <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                    <a href="https://padlet.com/platinumzonedx/dx-instagram-sfikt2pbwarlfa1x" target="_blank" rel="noopener" class="tool-link-btn secondary">Padletシェアボード <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                    <a href="https://platinumzone.co.jp/dx-biome/2606/dx_tutorial_june.html" target="_blank" rel="noopener" class="tool-link-btn secondary">初回チュートリアル <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                </p>
+            </section>
+
             <div class="tab-nav-footer">
                 <button type="button" class="tool-link-btn" onclick="openTab('second')">後半へ進む <i class="fa-solid fa-arrow-right"></i></button>
             </div>
@@ -1175,17 +1217,43 @@
                     </ol>
                 </div>
 
-                <div class="worksheet-grid" style="margin-top:20px;">
+            </div>
+
+            <section class="section" style="margin-top:28px;">
+                <h2><span class="sec-num">WORK B</span> 目標達成に向けて、課題を作成し、Padletに投稿しよう</h2>
+                <p><strong>目的：</strong> 後半の講義内容（Manus AI・自律型エージェント）を踏まえ、自分のアカウント課題をアップデートしてPadletシェアボードに提出する</p>
+
+                <div class="practice-steps">
+                    <li>
+                        <strong>ワークフローの各フェーズに沿って課題を見直す</strong>
+                        <span>「推し」を発信するワークフローにアクセスし、自律型AIエージェントの活用をどのフェーズに組み込めるか考えながら課題を洗い出します。</span>
+                    </li>
+                    <li>
+                        <strong>初回チュートリアルと本日の講義を結びつけて改善案をメモする</strong>
+                        <span>Manusやデジタルツールを活用した新たな運用改善案を言語化し、気づきや今後のアクションプランをまとめます。</span>
+                    </li>
+                    <li>
+                        <strong>改善した課題内容をPadletシェアボードに提出・共有する</strong>
+                        <span>実習を通じて整理した気づきや今後のアクションプランをコピーし、Padletシェアボードに投稿して講師・他の受講生と共有します。</span>
+                    </li>
+                </div>
+
+                <div class="worksheet-grid">
                     <div class="worksheet-card">
-                        <h3>実習ワークシートB（後半）</h3>
-                        <p>Manusを登録し、Geminiと連携して自動投稿を試してみた感想や、新時代の自律型AIに触れて驚いた点、うまくいった部分、設定時に詰まった点などをメモしましょう。</p>
-                        <textarea id="ws-day11-b" placeholder="ここに実習の感想や気づき、実行結果を書き込んでください..."></textarea>
-                        <div class="ws-control-row">
-                            <button type="button" class="ws-copy-btn" onclick="copyText('ws-day11-b', this)"><i class="fa-solid fa-copy"></i> ワークシートをコピー</button>
-                        </div>
+                        <strong>実習の気づき・学んだことのメモ（後半）</strong>
+                        <div class="ws-hint">Manus AI体験やワークで気づいたこと、自分のアカウント運用に活かせるアイデアなどを自由に記録しましょう</div>
+                        <textarea id="ws-b-1" placeholder="ここに入力..."></textarea>
+                        <button class="ws-copy-btn" onclick="copyText('ws-b-1', this)">コピー</button>
                     </div>
                 </div>
-            </div>
+                <button class="ws-copy-all-btn" onclick="copyAll('B', this)"><i class="fa-solid fa-copy"></i> 後半の実習メモをすべてコピー</button>
+
+                <p style="margin-top:20px; text-align:center; display:flex; justify-content:center; gap:14px; flex-wrap:wrap;">
+                    <a href="https://platinumzone.co.jp/dx-biome/2606/dx_workflow_oshi.html" target="_blank" rel="noopener" class="tool-link-btn">ワークフローを開く <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                    <a href="https://padlet.com/platinumzonedx/dx-instagram-sfikt2pbwarlfa1x" target="_blank" rel="noopener" class="tool-link-btn secondary">Padletシェアボード <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                    <a href="https://platinumzone.co.jp/dx-biome/2606/dx_tutorial_june.html" target="_blank" rel="noopener" class="tool-link-btn secondary">初回チュートリアル <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                </p>
+            </section>
 
             <div class="tab-nav-footer">
                 <button type="button" class="tool-link-btn" onclick="openTab('summary')">今日のまとめへ <i class="fa-solid fa-arrow-right"></i></button>

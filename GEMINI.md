@@ -41,6 +41,21 @@ Hiroyaから渡されるコース情報（Day番号・日付・テーマ・YouTu
 - 余分な改行・全角スペース・箇条書きの揺れなどを統一すること
 - 既存エントリは絶対に編集しない。**末尾に追記のみ**
 
+### Step 1-1b：Course_Log.md の備考（実習内容）を Today_Research.md に転記
+
+Course_Log.md に当日Dayのエントリを追記したら、**その `備考` フィールドの実習内容を必ず Today_Research.md の末尾に追記する**。
+
+```markdown
+## 実習内容（主催者指定・原文そのまま）
+[Course_Log.md の備考フィールドの内容をそのままコピー]
+```
+
+- 実習内容は Hiroya（研修主催者）が指定したもの。**YouTube動画の内容から独自に推測・創作しないこと**
+- 「目標達成に向けて、課題を作成し、Padletに投稿しよう」という実習が出てきたら、以下の3つのURLを必ずWORKセクションのボタンに入れること：
+  - ワークフロー: `https://platinumzone.co.jp/dx-biome/2606/dx_workflow_oshi.html`
+  - Padletシェアボード: `https://padlet.com/platinumzonedx/dx-instagram-sfikt2pbwarlfa1x`
+  - 初回チュートリアル: `https://platinumzone.co.jp/dx-biome/2606/dx_tutorial_june.html`
+
 ### Step 1-2：YouTube文字起こし → Today_Research.md に書き出し
 
 対象動画を文字起こしし、以下の構成で `Today_Research.md` を**上書き**する。
@@ -100,6 +115,7 @@ Hiroyaから渡されるコース情報（Day番号・日付・テーマ・YouTu
 Instagram運用を学ぶ社会人初心者向けの研修スライドです。
 プレゼンターのスライド形式で、一枚ごとに重要ポイントを1〜2つに絞ってください。
 明るく親しみやすいビジュアルで、シンプルで視覚的に分かりやすくしてください。
+スライドは8〜10枚程度にまとめてください（前半・後半それぞれ）。
 
 【今日の授業内容】
 テーマ：[今日のDay番号とテーマ名]
@@ -263,7 +279,11 @@ Instagram運用を学ぶ社会人初心者向けの研修スライドです。
 | 6 | プレースホルダー | 0件 | 0件 | ✅ |
 
 Obsidian（Instagramコース 2606.md / INDEX.md）更新済み。レビュー＋デプロイをお願いします。
+
+[ANTIGRAVITY_COMPLETE]
 ```
+
+> ⚠️ `[ANTIGRAVITY_COMPLETE]` は監視スクリプトが完了検知に使う文字列。必ず報告末尾に出力すること。
 
 ---
 

@@ -645,76 +645,6 @@
         .quote-box p:last-child { margin-bottom: 0; }
 
         .day-title { margin-bottom: 4px; }
-        /* ── 実習記録シート（Day 12追加分） ── */
-        .workspace-area {
-            background: #fffef5;
-            border: 2px dashed #fcd34d;
-            border-radius: var(--radius-medium);
-            padding: 24px;
-            margin: 30px 0;
-        }
-        .workspace-area h3 {
-            font-size: 1.1rem;
-            color: var(--ig-purple);
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .workspace-desc {
-            font-size: 0.88rem;
-            color: var(--text-sub);
-            margin-bottom: 16px;
-        }
-        .workspace-editor {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            position: relative;
-        }
-        .workspace-editor textarea {
-            width: 100%;
-            min-height: 120px;
-            background: #fff;
-            border: 1px solid #fcd34d;
-            border-radius: var(--radius-small);
-            padding: 12px;
-            font-family: 'Noto Sans JP', sans-serif;
-            font-size: 0.92rem;
-            color: var(--text-main);
-            line-height: 1.75;
-            outline: none;
-            resize: vertical;
-        }
-        .workspace-editor textarea:focus {
-            border-color: #f59e0b;
-            box-shadow: 0 0 0 3px rgba(252, 211, 77, 0.3);
-        }
-        .save-btn {
-            align-self: flex-start;
-            background: var(--ig-grad);
-            color: #fff;
-            border: none;
-            border-radius: 20px;
-            padding: 8px 20px;
-            font-family: 'Noto Sans JP', sans-serif;
-            font-size: 0.88rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: 0.2s;
-            box-shadow: 0 4px 10px rgba(193,53,132,0.2);
-        }
-        .save-btn:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 6px 14px rgba(193,53,132,0.3);
-        }
-        .save-status {
-            font-size: 0.85rem;
-            margin-left: 10px;
-            display: inline-block;
-            vertical-align: middle;
-            transition: opacity 0.3s;
-        }
     </style>
 </head>
 
@@ -969,48 +899,45 @@
             </section>
 
             <section class="section">
-                <h2><span class="sec-num">WORK A</span> 実習：台本を作ってPadletにシェア</h2>
-                
-                <!-- Slide 15 -->
-                <img src="./assets/AI_Instagram_Mastery_-_Slide_15.png" alt="スライド15" class="slide-img" loading="lazy">
-                
-                <div class="step-card" style="margin-top:20px;">
-                    <div class="step-num">1</div>
-                    <div class="step-content">
-                        <strong>リール台本を1本作る</strong>
-                        <p>ChatGPTやGeminiなどの生成AIを開き、本日学んだプロンプト設計（悩み・ターゲット・変数定義）を参考に、自分のジャンルに特化したリール台本を1本作成します。</p>
-                    </div>
-                </div>
-                <div class="step-card">
-                    <div class="step-num">2</div>
-                    <div class="step-content">
-                        <strong>Padletシェアボードへ投稿</strong>
-                        <p>作成した台本、またはプロフィールのURLを、クラスのPadletシェアボードに投稿します。（スライドのQRコードまたは以下のリンクからアクセスできます）</p>
-                        <p style="margin-top:8px;"><a href="https://padlet.com/platinumzonedx/dx-instagram-sfikt2pbwarlfa1x" target="_blank" class="tool-link-btn" style="padding:6px 12px; font-size:0.85rem;"><i class="fa-solid fa-share-nodes"></i> Padletシェアボードを開く</a></p>
-                    </div>
-                </div>
-                <div class="step-card">
-                    <div class="step-num">3</div>
-                    <div class="step-content">
-                        <strong>お互いの投稿にコメント</strong>
-                        <p>シェアボードに投稿された他メンバーの台本やアカウントを見て、良い点や改善のアドバイスなど「いいね」やコメントを残し、学びを深めましょう。</p>
-                    </div>
+                <h2><span class="sec-num">WORK A</span> 目標達成に向けて、課題を作成し、Padletに投稿しよう</h2>
+                <p><strong>目的：</strong> 「推し」を発信するワークフローに沿って今日の学び（AI駆動Instagram運用の仕組み化）を自分のアカウント課題に活かし、共有ボードに提出する</p>
+
+                <div class="practice-steps">
+                    <li>
+                        <strong>「推し」を発信するワークフローを確認する</strong>
+                        <span>下記の「ワークフローを開く」ボタンから全体の流れを確認し、今日学んだAI駆動の仕組み化（台本量産・コンテンツマージ）をどのフェーズに活かせるか考えます。</span>
+                    </li>
+                    <li>
+                        <strong>初回チュートリアルを参考に課題を作成する</strong>
+                        <span>初回チュートリアルに沿って、自身のアカウントの現状を振り返り、今後のアクションプランを言語化します。</span>
+                    </li>
+                    <li>
+                        <strong>課題内容をPadletシェアボードに投稿する</strong>
+                        <span>作成した課題やアクションプランをPadletシェアボードに投稿して、講師・他の受講生と共有します。</span>
+                    </li>
                 </div>
 
-                <div class="info-box" style="margin-top:20px;">
-                    <p><strong>💡 メンターからのアドバイス</strong></p>
-                    <p>完璧な台本を目指して制作が止まってしまうより、まずは「完了（投稿）」させることが仕組み化運用の大きな第一歩です。AIという頼れる右腕を得たあなたは、もう一人で悩む必要はありません。まずは気軽に出力・投稿してみましょう！</p>
-                </div>
-
-                <div class="workspace-area" style="margin-top:30px;">
-                    <h3><i class="fa-solid fa-keyboard"></i> 実習記録シート</h3>
-                    <p class="workspace-desc">作成した台本の概要や、AIを使って感じたこと・Padlet投稿後の気づきを記録しましょう。</p>
-                    <div class="workspace-editor">
-                        <textarea id="ws-day12-a" placeholder="ここに実習の気づきや、作成した台本のテーマ、実行結果を書き込んでください..."></textarea>
-                        <button type="button" class="save-btn" onclick="saveWorkspace('ws-day12-a')"><i class="fa-solid fa-floppy-disk"></i> 進行状況を保存</button>
-                        <span id="save-status-ws-day12-a" class="save-status"></span>
+                <div class="worksheet-grid">
+                    <div class="worksheet-card">
+                        <strong>自分のインスタアカウントのプロフィールURL</strong>
+                        <div class="ws-hint">提出するご自身のInstagramプロフィールURLを入力してください（例：https://www.instagram.com/ユーザーネーム）</div>
+                        <textarea id="ws-a-1" placeholder="https://www.instagram.com/"></textarea>
+                        <button class="ws-copy-btn" onclick="copyText('ws-a-1', this)">コピー</button>
+                    </div>
+                    <div class="worksheet-card">
+                        <strong>実習の気づき・学んだことのメモ</strong>
+                        <div class="ws-hint">AI駆動の仕組み化や保存数に関する今日の学びを、自分のアカウント運用にどう活かすか自由に記録しましょう</div>
+                        <textarea id="ws-a-2" placeholder="ここに入力..."></textarea>
+                        <button class="ws-copy-btn" onclick="copyText('ws-a-2', this)">コピー</button>
                     </div>
                 </div>
+                <button class="ws-copy-all-btn" onclick="copyAll('A', this)"><i class="fa-solid fa-copy"></i> 前半の実習メモをすべてコピー</button>
+
+                <p style="margin-top:20px; text-align:center; display:flex; justify-content:center; gap:14px; flex-wrap:wrap;">
+                    <a href="https://platinumzone.co.jp/dx-biome/2606/dx_workflow_oshi.html" target="_blank" rel="noopener" class="tool-link-btn">ワークフローを開く <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                    <a href="https://padlet.com/platinumzonedx/dx-instagram-sfikt2pbwarlfa1x" target="_blank" rel="noopener" class="tool-link-btn secondary">Padletシェアボード <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                    <a href="https://platinumzone.co.jp/dx-biome/2606/dx_tutorial_june.html" target="_blank" rel="noopener" class="tool-link-btn secondary">初回チュートリアル <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                </p>
             </section>
 
             <div class="tab-nav-footer">
@@ -1231,37 +1158,39 @@
             </section>
 
             <section class="section">
-                <h2><span class="sec-num">WORK B</span> 実習：Canva一括作成を体験する</h2>
+                <h2><span class="sec-num">WORK B</span> 目標達成に向けて、課題を作成し、Padletに投稿しよう</h2>
+                <p><strong>目的：</strong> 後半の講義内容（Canva一括作成・AI動画編集）を踏まえ、自分のアカウント課題をアップデートしてPadletシェアボードに提出する</p>
 
-                <!-- Slide 14 -->
-                <img src="./assets/Canva_AI_Reel_Mass_Production_-_Slide_14.png" alt="スライド14" class="slide-img" loading="lazy">
-
-                <div class="step-card" style="margin-top:20px;">
-                    <div class="step-num">1</div>
-                    <div class="step-content">
-                        <strong>テンプレートの準備</strong>
-                        <p>Canvaで9:16サイズの動画キャンバスを作成し、お好みのデザインテンプレートを設定します。フック、本題、行動喚起に対応する3つのテキストボックスを配置し、表示時間のタイミングをずらしておきます。</p>
-                    </div>
-                </div>
-                <div class="step-card">
-                    <div class="step-num">2</div>
-                    <div class="step-content">
-                        <strong>マジック作文で台本の準備</strong>
-                        <p>Canvaのドキュメントまたはマジック作文に指示を入力し、自分の発信テーマに沿った台本を5本分（フック、本題、行動喚起の3列形式で）自動生成して保存します。</p>
-                    </div>
-                </div>
-                <div class="step-card">
-                    <div class="step-num">3</div>
-                    <div class="step-content">
-                        <strong>一括生成の実行</strong>
-                        <p>一括作成メニューから台本データをバインド（接続）し、5本のショート動画を一気に自動生成します。生成後、1〜2本の動画の背景画像を差し替えて量産感を消す調整を行ってみましょう。</p>
-                    </div>
+                <div class="practice-steps">
+                    <li>
+                        <strong>ワークフローの各フェーズに沿って課題を見直す</strong>
+                        <span>「推し」を発信するワークフローにアクセスし、Canva一括作成やAI動画編集をどのフェーズに組み込めるか考えながら課題を洗い出します。</span>
+                    </li>
+                    <li>
+                        <strong>初回チュートリアルと本日の講義を結びつけて改善案をメモする</strong>
+                        <span>量産フローや保存数を意識したコンテンツ設計を活かした新たな運用改善案を言語化し、気づきや今後のアクションプランをまとめます。</span>
+                    </li>
+                    <li>
+                        <strong>改善した課題内容をPadletシェアボードに提出・共有する</strong>
+                        <span>実習を通じて整理した気づきや今後のアクションプランをコピーし、Padletシェアボードに投稿して講師・他の受講生と共有します。</span>
+                    </li>
                 </div>
 
-                <div class="info-box" style="margin-top:20px;">
-                    <p><strong>💡 メンターからのアドバイス</strong></p>
-                    <p>まずは5本のショート動画を作ってみましょう。自動生成のコツが掴めたら、あとは30本、50本と数を増やしていくだけです。「量産できる仕組み（型）」を一度手に入れれば、あなたの発信は自然とスケールしていきます！</p>
+                <div class="worksheet-grid">
+                    <div class="worksheet-card">
+                        <strong>実習の気づき・学んだことのメモ（後半）</strong>
+                        <div class="ws-hint">Canva一括作成体験や保存数アップのヒントなど、ワークで気づいたことや今後のアクションプランを自由に記録しましょう</div>
+                        <textarea id="ws-b-1" placeholder="ここに入力..."></textarea>
+                        <button class="ws-copy-btn" onclick="copyText('ws-b-1', this)">コピー</button>
+                    </div>
                 </div>
+                <button class="ws-copy-all-btn" onclick="copyAll('B', this)"><i class="fa-solid fa-copy"></i> 後半の実習メモをすべてコピー</button>
+
+                <p style="margin-top:20px; text-align:center; display:flex; justify-content:center; gap:14px; flex-wrap:wrap;">
+                    <a href="https://platinumzone.co.jp/dx-biome/2606/dx_workflow_oshi.html" target="_blank" rel="noopener" class="tool-link-btn">ワークフローを開く <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                    <a href="https://padlet.com/platinumzonedx/dx-instagram-sfikt2pbwarlfa1x" target="_blank" rel="noopener" class="tool-link-btn secondary">Padletシェアボード <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                    <a href="https://platinumzone.co.jp/dx-biome/2606/dx_tutorial_june.html" target="_blank" rel="noopener" class="tool-link-btn secondary">初回チュートリアル <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                </p>
             </section>
 
             <div class="tab-nav-footer">
@@ -1367,29 +1296,6 @@
             document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLb(); });
         })();
 
-        function saveWorkspace(id) {
-            const textarea = document.getElementById(id);
-            if (!textarea) return;
-            localStorage.setItem('jstWorkspace_' + id, textarea.value);
-            const status = document.getElementById('save-status-' + id);
-            if (status) {
-                status.textContent = '✓ 保存しました！';
-                status.style.color = '#10b981';
-                status.style.fontWeight = 'bold';
-                setTimeout(() => { status.textContent = ''; }, 2000);
-            }
-        }
-
-        // ページロード時に実習記録シートの進行状況を復元
-        document.addEventListener('DOMContentLoaded', () => {
-            const textarea = document.getElementById('ws-day12-a');
-            if (textarea) {
-                const saved = localStorage.getItem('jstWorkspace_ws-day12-a');
-                if (saved !== null) {
-                    textarea.value = saved;
-                }
-            }
-        });
     </script>
     <script src="./clock.js?v=20260621a" defer></script>
 </body>

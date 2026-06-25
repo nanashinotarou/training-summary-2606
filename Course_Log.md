@@ -142,5 +142,8 @@
 - 前半：https://youtu.be/AOO6tSQb3Pg
 - 前半：https://youtu.be/SbnQykwN_wI
 - 前半：https://youtu.be/hoOFlqLHPYM
+- 後半：https://youtu.be/yn6niFOS8zQ
+- 後半：https://youtu.be/yUV1JtubFcY
+- 後半：https://youtu.be/jM9uTdYBM9I
 **備考:** 実習：目標達成に向けて、課題を作成し、Padletに投稿しよう💡（「推し」を発信するワークフロー、Padletシェアボード、初回チュートリアル連携）
 

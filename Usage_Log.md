@@ -73,6 +73,7 @@
 | 2026-06-25 | 12 | implement | Antigravity | ~15% | 20分 | Day12前半 HTML実装・デプロイ完了。チェック全件合格。 |
 | 2026-06-25 | 12 | fix / deploy | Antigravity | ~10% | 15分 | 実習記録シートの保存機能・スタイル崩れ修正と再デプロイ |
 | 2026-06-25 | 12 | implement / deploy | Antigravity | ~25% | 35分 | Day12後半（Canva一括作成・AI編集）HTML実装・デプロイ完了。 |
+| 2026-06-25 | 11,12 | fix-plan | ClaudeCode | ~5% | 25分 | 実習乖離の根本原因特定・GEMINI.md §1-1b 追記・vol11/12 修正指示書作成 |
 
 <!-- 上記を最古行として、新しい記録を末尾に追記していく -->
 

@@ -645,10 +645,6 @@
         .quote-box p:last-child { margin-bottom: 0; }
 
         .day-title { margin-bottom: 4px; }
-        .day-subtitle {
-            font-size: 1.05rem; font-weight: 700; color: var(--text-sub);
-            margin: 0 0 10px;
-        }
     </style>
 </head>
 
@@ -903,48 +899,45 @@
             </section>
 
             <section class="section">
-                <h2><span class="sec-num">WORK A</span> 実習：台本を作ってPadletにシェア</h2>
-                
-                <!-- Slide 15 -->
-                <img src="./assets/AI_Instagram_Mastery_-_Slide_15.png" alt="スライド15" class="slide-img" loading="lazy">
-                
-                <div class="step-card" style="margin-top:20px;">
-                    <div class="step-num">1</div>
-                    <div class="step-content">
-                        <strong>リール台本を1本作る</strong>
-                        <p>ChatGPTやGeminiなどの生成AIを開き、本日学んだプロンプト設計（悩み・ターゲット・変数定義）を参考に、自分のジャンルに特化したリール台本を1本作成します。</p>
-                    </div>
-                </div>
-                <div class="step-card">
-                    <div class="step-num">2</div>
-                    <div class="step-content">
-                        <strong>Padletシェアボードへ投稿</strong>
-                        <p>作成した台本、またはプロフィールのURLを、クラスのPadletシェアボードに投稿します。（スライドのQRコードまたは以下のリンクからアクセスできます）</p>
-                        <p style="margin-top:8px;"><a href="https://padlet.com/platinumzonedx/dx-instagram-sfikt2pbwarlfa1x" target="_blank" class="tool-link-btn" style="padding:6px 12px; font-size:0.85rem;"><i class="fa-solid fa-share-nodes"></i> Padletシェアボードを開く</a></p>
-                    </div>
-                </div>
-                <div class="step-card">
-                    <div class="step-num">3</div>
-                    <div class="step-content">
-                        <strong>お互いの投稿にコメント</strong>
-                        <p>シェアボードに投稿された他メンバーの台本やアカウントを見て、良い点や改善のアドバイスなど「いいね」やコメントを残し、学びを深めましょう。</p>
-                    </div>
+                <h2><span class="sec-num">WORK A</span> 目標達成に向けて、課題を作成し、Padletに投稿しよう</h2>
+                <p><strong>目的：</strong> 「推し」を発信するワークフローに沿って今日の学び（AI駆動Instagram運用の仕組み化）を自分のアカウント課題に活かし、共有ボードに提出する</p>
+
+                <div class="practice-steps">
+                    <li>
+                        <strong>「推し」を発信するワークフローを確認する</strong>
+                        <span>下記の「ワークフローを開く」ボタンから全体の流れを確認し、今日学んだAI駆動の仕組み化（台本量産・コンテンツマージ）をどのフェーズに活かせるか考えます。</span>
+                    </li>
+                    <li>
+                        <strong>初回チュートリアルを参考に課題を作成する</strong>
+                        <span>初回チュートリアルに沿って、自身のアカウントの現状を振り返り、今後のアクションプランを言語化します。</span>
+                    </li>
+                    <li>
+                        <strong>課題内容をPadletシェアボードに投稿する</strong>
+                        <span>作成した課題やアクションプランをPadletシェアボードに投稿して、講師・他の受講生と共有します。</span>
+                    </li>
                 </div>
 
-                <div class="info-box" style="margin-top:20px;">
-                    <p><strong>💡 メンターからのアドバイス</strong></p>
-                    <p>完璧な台本を目指して制作が止まってしまうより、まずは「完了（投稿）」させることが仕組み化運用の大きな第一歩です。AIという頼れる右腕を得たあなたは、もう一人で悩む必要はありません。まずは気軽に出力・投稿してみましょう！</p>
-                </div>
-
-                <div class="workspace-area" style="margin-top:30px;">
-                    <h3><i class="fa-solid fa-keyboard"></i> 実習記録シート</h3>
-                    <p class="workspace-desc">作成した台本の概要や、AIを使って感じたこと・Padlet投稿後の気づきを記録しましょう。</p>
-                    <div class="workspace-editor">
-                        <textarea id="ws-day12-a" placeholder="ここに実習の気づきや、作成した台本のテーマ、実行結果を書き込んでください..."></textarea>
-                        <button type="button" class="save-btn" onclick="saveWorkspace('ws-day12-a')"><i class="fa-solid fa-floppy-disk"></i> 進行状況を保存</button>
-                        <span id="save-status-ws-day12-a" class="save-status"></span>
+                <div class="worksheet-grid">
+                    <div class="worksheet-card">
+                        <strong>自分のインスタアカウントのプロフィールURL</strong>
+                        <div class="ws-hint">提出するご自身のInstagramプロフィールURLを入力してください（例：https://www.instagram.com/ユーザーネーム）</div>
+                        <textarea id="ws-a-1" placeholder="https://www.instagram.com/"></textarea>
+                        <button class="ws-copy-btn" onclick="copyText('ws-a-1', this)">コピー</button>
+                    </div>
+                    <div class="worksheet-card">
+                        <strong>実習の気づき・学んだことのメモ</strong>
+                        <div class="ws-hint">AI駆動の仕組み化や保存数に関する今日の学びを、自分のアカウント運用にどう活かすか自由に記録しましょう</div>
+                        <textarea id="ws-a-2" placeholder="ここに入力..."></textarea>
+                        <button class="ws-copy-btn" onclick="copyText('ws-a-2', this)">コピー</button>
                     </div>
                 </div>
+                <button class="ws-copy-all-btn" onclick="copyAll('A', this)"><i class="fa-solid fa-copy"></i> 前半の実習メモをすべてコピー</button>
+
+                <p style="margin-top:20px; text-align:center; display:flex; justify-content:center; gap:14px; flex-wrap:wrap;">
+                    <a href="https://platinumzone.co.jp/dx-biome/2606/dx_workflow_oshi.html" target="_blank" rel="noopener" class="tool-link-btn">ワークフローを開く <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                    <a href="https://padlet.com/platinumzonedx/dx-instagram-sfikt2pbwarlfa1x" target="_blank" rel="noopener" class="tool-link-btn secondary">Padletシェアボード <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                    <a href="https://platinumzone.co.jp/dx-biome/2606/dx_tutorial_june.html" target="_blank" rel="noopener" class="tool-link-btn secondary">初回チュートリアル <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                </p>
             </section>
 
             <div class="tab-nav-footer">
@@ -952,13 +945,253 @@
             </div>
         </div>
         <div id="second" class="tab-content">
-            <h2 style="margin-top:0;">後半 ／ コンテンツ準備中</h2>
-            
-            <div style="text-align:center; padding:60px 20px; color:#94a3b8;">
-                <i class="fas fa-tools" style="font-size:3rem; margin-bottom:16px; display:block;"></i>
-                <p style="font-size:1.1rem; font-weight:700;">後半コンテンツは準備中です</p>
-                <p>もうしばらくお待ちください。</p>
-            </div>
+            <!-- カバー画像：Canva_AI_Reel_Mass_Production_-_Slide_1.png (cover-slide) -->
+            <img src="./assets/Canva_AI_Reel_Mass_Production_-_Slide_1.png" alt="後半 カバー" class="slide-img cover-slide" style="margin-top:0;">
+
+            <section class="section" style="margin-top:24px;">
+                <h2><span class="sec-num">SECTION E</span> 雑学ショート動画量産法</h2>
+
+                <!-- Slide 2 -->
+                <img src="./assets/Canva_AI_Reel_Mass_Production_-_Slide_2.png" alt="スライド2" class="slide-img" loading="lazy">
+
+                <h3 class="sub-heading">「作品作り」ではなく「工程作り」で量産する</h3>
+                <p>雑学ショート動画の制作で成果を出すためには、センスや気合に頼るのではなく、プロセスを仕組み化して「工程」として淡々と回すことが重要です。ネタ出し、画像生成、音声合成、編集という4つのステップを固定の順番とやり方で回すことで、1本20分での爆速制作と、月30万円を狙う再現性の高い量産フローを構築できます。</p>
+
+                <!-- Slide 3 -->
+                <img src="./assets/Canva_AI_Reel_Mass_Production_-_Slide_3.png" alt="スライド3" class="slide-img" loading="lazy">
+
+                <h3 class="sub-heading">4ステップ制作フロー</h3>
+                <p>量産を実現するための具体的な4ステップの構成です。</p>
+
+                <div class="step-card" style="margin-top:20px;">
+                    <div class="step-num">1</div>
+                    <div class="step-content">
+                        <strong>ネタ出し（ChatGPT）</strong>
+                        <p>ChatGPTに「雑学プロンプト」を入力し、特定のジャンル（動物・恋愛・心理など）からショート動画向きのネタを5個ずつ出力させます。出力されたネタは必ず数秒の簡易検索で裏取りを行います。</p>
+                    </div>
+                </div>
+                <div class="step-card">
+                    <div class="step-num">2</div>
+                    <div class="step-content">
+                        <strong>画像生成（AI / Canva）</strong>
+                        <p>文字を含めず「ビジュアルだけ」を1ネタにつき1枚ずつ画像生成します（文字崩れや世界観のばらつきを防ぐため）。ショート動画ではリアルな写真よりもポップなイラスト調が親しみやすく、離読されにくいです。</p>
+                    </div>
+                </div>
+                <div class="step-card">
+                    <div class="step-num">3</div>
+                    <div class="step-content">
+                        <strong>音声生成（VOICEVOX等）</strong>
+                        <p>聞き慣れた安心感のある声を固定して使用します。音声に違和感があるだけで視聴者は離脱するため、個性を出すより聞き取りやすさを最優先にし、読点を多くして自然なスピードに調整します。</p>
+                    </div>
+                </div>
+                <div class="step-card">
+                    <div class="step-num">4</div>
+                    <div class="step-content">
+                        <strong>テロップ・編集（Canva）</strong>
+                        <p>スマホ動画の基本サイズ（9:16、1080×1920）で編集します。音声を基準線にして画像を切り替え、1行10文字以内の見やすいテロップと音量を極めて小さくしたBGMを重ねて動画を仕上げます。</p>
+                    </div>
+                </div>
+
+                <!-- Slide 4 -->
+                <img src="./assets/Canva_AI_Reel_Mass_Production_-_Slide_4.png" alt="スライド4" class="slide-img" loading="lazy">
+
+                <h3 class="sub-heading">投稿と検証の戦略</h3>
+                <p>動画が完成したら、YouTubeショート、TikTok、Instagramリールの3つのプラットフォームすべてに横展開（同一編集・構成でそのまま投稿）して露出チャンスを最大化します。まずは2ジャンル（各10本・計20本）を同じ構成で投稿し、どのジャンルに反応が出るか傾向を掴む検証期間を設けます。また、無風の検証期間を耐えるために、比較的早く収益化しやすい別の「平行動線」を持っておくことも挫折防止に極めて有効です。</p>
+
+                <!-- Slide 5 -->
+                <img src="./assets/Canva_AI_Reel_Mass_Production_-_Slide_5.png" alt="スライド5" class="slide-img" loading="lazy">
+
+                <!-- 動画4 (yn6niFOS8zQ) -->
+                <div class="video-gallery" style="margin-top:20px;">
+                    <details class="video-item">
+                        <summary class="video-summary">
+                            <span class="video-icon"><i class="fa-brands fa-youtube"></i></span>
+                            <div class="video-info">
+                                <span class="video-label">講義動画④ (16:26)</span>
+                                <span class="video-title">【AI×Canva】スキル0から在宅収入を作る雑学ショート動画量産法</span>
+                            </div>
+                            <span class="video-chevron"><i class="fa-solid fa-chevron-down"></i></span>
+                        </summary>
+                        <div class="video-content">
+                            <div class="video-wrapper">
+                                <iframe src="https://www.youtube.com/embed/yn6niFOS8zQ" title="【AI×Canva】スキル0から在宅収入を作る雑学ショート動画量産法" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+                            </div>
+                        </div>
+                    </details>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2><span class="sec-num">SECTION F</span> Canva一括作成：30本を15分で</h2>
+
+                <!-- Slide 6 -->
+                <img src="./assets/Canva_AI_Reel_Mass_Production_-_Slide_6.png" alt="スライド6" class="slide-img" loading="lazy">
+
+                <h3 class="sub-heading">一括作成機能による自動化の3ステップ</h3>
+                <p>複雑な外部ツールを使わず、CanvaのAI機能と一括作成機能（Canva Pro）のみを用いて、1か月分（30本）の動画を15分で一括生成する手順です。</p>
+
+                <div class="step-card" style="margin-top:20px;">
+                    <div class="step-num">1</div>
+                    <div class="step-content">
+                        <strong>台本作成（Canva AI）</strong>
+                        <p>Canva内の「マジック作文」機能にプロンプトを入力し、「フック」「本題」「行動喚起」の3列形式で30個の台本を表（CSV）形式で瞬時に自動生成させます。</p>
+                    </div>
+                </div>
+                <div class="step-card">
+                    <div class="step-num">2</div>
+                    <div class="step-content">
+                        <strong>テンプレート作成</strong>
+                        <p>スマホ動画の9:16テンプレートを選択。複製した3つのテキストボックスを配置し、タイムラインでそれぞれ表示時間「フック（0〜3秒）」「本題（3〜6秒）」「行動喚起（6〜9秒）」とずらして配置します（計9秒の尺）。</p>
+                    </div>
+                </div>
+                <div class="step-card">
+                    <div class="step-num">3</div>
+                    <div class="step-content">
+                        <strong>データ接続と一括生成</strong>
+                        <p>Canvaの一括作成機能を開き、選択した台本データを読み込みます。テンプレート上の各テキストボックスを台本の該当するデータ列（フック・本題・行動喚起）に右クリックで「データの接続」を行い、生成ボタンを押すだけで30本が一括出力されます。</p>
+                    </div>
+                </div>
+
+                <!-- Slide 7 -->
+                <img src="./assets/Canva_AI_Reel_Mass_Production_-_Slide_7.png" alt="スライド7" class="slide-img" loading="lazy">
+
+                <h3 class="sub-heading">量産感を消すひと手間</h3>
+                <p>自動生成された動画はすべて背景が同じになります。量産感を消してプロ風に仕上げるため、3〜5本に1本程度の割合で「背景動画の差し替え」（素材から背景にドラッグ＆ドロップして背景差し替えを選択）を行い、改行位置が不自然に切れているテキストボックスをダブルクリックして手動で改行を整えましょう。この僅かなひと手間で動画の品質が格段に向上します。</p>
+
+                <!-- Slide 8 -->
+                <img src="./assets/Canva_AI_Reel_Mass_Production_-_Slide_8.png" alt="スライド8" class="slide-img" loading="lazy">
+                <!-- Slide 9 -->
+                <img src="./assets/Canva_AI_Reel_Mass_Production_-_Slide_9.png" alt="スライド9" class="slide-img" loading="lazy">
+                <!-- Slide 10 -->
+                <img src="./assets/Canva_AI_Reel_Mass_Production_-_Slide_10.png" alt="スライド10" class="slide-img" loading="lazy">
+
+                <!-- 動画5 (yUV1JtubFcY) -->
+                <div class="video-gallery" style="margin-top:20px;">
+                    <details class="video-item">
+                        <summary class="video-summary">
+                            <span class="video-icon"><i class="fa-brands fa-youtube"></i></span>
+                            <div class="video-info">
+                                <span class="video-label">講義動画⑤ (11:42)</span>
+                                <span class="video-title">【Canva Pro】N8N不要！1ヶ月分30本のショート動画を15分で作る一括作成機能の使い方</span>
+                            </div>
+                            <span class="video-chevron"><i class="fa-solid fa-chevron-down"></i></span>
+                        </summary>
+                        <div class="video-content">
+                            <div class="video-wrapper">
+                                <iframe src="https://www.youtube.com/embed/yUV1JtubFcY" title="【Canva Pro】N8N不要！1ヶ月分30本のショート動画を15分で作る一括作成機能の使い方" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+                            </div>
+                        </div>
+                    </details>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2><span class="sec-num">SECTION G</span> Canva AI動画編集</h2>
+
+                <!-- Slide 11 -->
+                <img src="./assets/Canva_AI_Reel_Mass_Production_-_Slide_11.png" alt="スライド11" class="slide-img" loading="lazy">
+
+                <h3 class="sub-heading">素材をアップするだけでAIが自動編集</h3>
+                <p>スマートフォンのカメラロールなどに撮りためた日常の動画や写真素材をアップロードするだけで、CanvaのAIが自動的に見栄えの良い場面カットを繋ぎ、音楽やエフェクトをあてて完成させてくれる最新のAI自動編集機能です。自分でタイムラインを切り刻む面倒な編集作業から完全に解放されます。</p>
+
+                <!-- Slide 12 -->
+                <img src="./assets/Canva_AI_Reel_Mass_Production_-_Slide_12.png" alt="スライド12" class="slide-img" loading="lazy">
+
+                <h3 class="sub-heading">AI動画編集の手順</h3>
+                <p>アップロードから完成までの4つの簡単な手順です。</p>
+
+                <div class="step-card" style="margin-top:20px;">
+                    <div class="step-num">1</div>
+                    <div class="step-content">
+                        <strong>スマホ動画キャンバスの作成</strong>
+                        <p>Canvaホーム画面の「動画」から「スマホ動画」のキャンバス（9:16）を新規作成します。</p>
+                    </div>
+                </div>
+                <div class="step-card">
+                    <div class="step-num">2</div>
+                    <div class="step-content">
+                        <strong>動画素材のアップロード</strong>
+                        <p>左メニューの「デザイン」内にある写真マーク（またはカメラロール接続）から、リールに使いたい自前の動画や写真素材（最大10個）を複数選択してアップロードします。</p>
+                    </div>
+                </div>
+                <div class="step-card">
+                    <div class="step-num">3</div>
+                    <div class="step-content">
+                        <strong>プロンプトの入力</strong>
+                        <p>入力欄に「どんな動画を作りたいか」の指示文（例：「東京旅行Vlog。30秒ぐらい。楽しい雰囲気。サクサク場面が変わる」）を入力します。</p>
+                    </div>
+                </div>
+                <div class="step-card">
+                    <div class="step-num">4</div>
+                    <div class="step-content">
+                        <strong>AIによる自動編集・生成</strong>
+                        <p>「デザインを生成」をクリックすると、AIが動画を解析・構成し、テンポに合わせたカット編集、BGM、エフェクト、テキスト（タイトル）がすべて配置された状態の動画を数秒〜数十秒で自動作成します。配置されたフォントやテキスト内容、音楽などは後から自由に変更・カスタマイズできます。</p>
+                    </div>
+                </div>
+
+                <!-- Slide 13 -->
+                <img src="./assets/Canva_AI_Reel_Mass_Production_-_Slide_13.png" alt="スライド13" class="slide-img" loading="lazy">
+
+                <div class="tips-box" style="margin-top:20px;">
+                    <p><strong>💡 無料プランは月5回まで。有料プランは制限なし</strong></p>
+                    <p>この非常に便利なAI自動動画編集機能は、無料プランのアカウントでも毎月5回までお試しで生成・利用可能です。より高い頻度で量産を行いたい場合は、回数制限が解除されるCanva Pro（有料プラン）へのアップグレードをおすすめします。</p>
+                </div>
+
+                <!-- 動画6 (jM9uTdYBM9I) -->
+                <div class="video-gallery" style="margin-top:20px;">
+                    <details class="video-item">
+                        <summary class="video-summary">
+                            <span class="video-icon"><i class="fa-brands fa-youtube"></i></span>
+                            <div class="video-info">
+                                <span class="video-label">講義動画⑥ (10:34)</span>
+                                <span class="video-title">【Canva最新機能】自分の素材をAIが自動編集！BGM・テロップまで一瞬で完成するAI動画編集機能</span>
+                            </div>
+                            <span class="video-chevron"><i class="fa-solid fa-chevron-down"></i></span>
+                        </summary>
+                        <div class="video-content">
+                            <div class="video-wrapper">
+                                <iframe src="https://www.youtube.com/embed/jM9uTdYBM9I" title="【Canva最新機能】自分の素材をAIが自動編集！BGM・テロップまで一瞬で完成するAI動画編集機能" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+                            </div>
+                        </div>
+                    </details>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2><span class="sec-num">WORK B</span> 目標達成に向けて、課題を作成し、Padletに投稿しよう</h2>
+                <p><strong>目的：</strong> 後半の講義内容（Canva一括作成・AI動画編集）を踏まえ、自分のアカウント課題をアップデートしてPadletシェアボードに提出する</p>
+
+                <div class="practice-steps">
+                    <li>
+                        <strong>ワークフローの各フェーズに沿って課題を見直す</strong>
+                        <span>「推し」を発信するワークフローにアクセスし、Canva一括作成やAI動画編集をどのフェーズに組み込めるか考えながら課題を洗い出します。</span>
+                    </li>
+                    <li>
+                        <strong>初回チュートリアルと本日の講義を結びつけて改善案をメモする</strong>
+                        <span>量産フローや保存数を意識したコンテンツ設計を活かした新たな運用改善案を言語化し、気づきや今後のアクションプランをまとめます。</span>
+                    </li>
+                    <li>
+                        <strong>改善した課題内容をPadletシェアボードに提出・共有する</strong>
+                        <span>実習を通じて整理した気づきや今後のアクションプランをコピーし、Padletシェアボードに投稿して講師・他の受講生と共有します。</span>
+                    </li>
+                </div>
+
+                <div class="worksheet-grid">
+                    <div class="worksheet-card">
+                        <strong>実習の気づき・学んだことのメモ（後半）</strong>
+                        <div class="ws-hint">Canva一括作成体験や保存数アップのヒントなど、ワークで気づいたことや今後のアクションプランを自由に記録しましょう</div>
+                        <textarea id="ws-b-1" placeholder="ここに入力..."></textarea>
+                        <button class="ws-copy-btn" onclick="copyText('ws-b-1', this)">コピー</button>
+                    </div>
+                </div>
+                <button class="ws-copy-all-btn" onclick="copyAll('B', this)"><i class="fa-solid fa-copy"></i> 後半の実習メモをすべてコピー</button>
+
+                <p style="margin-top:20px; text-align:center; display:flex; justify-content:center; gap:14px; flex-wrap:wrap;">
+                    <a href="https://platinumzone.co.jp/dx-biome/2606/dx_workflow_oshi.html" target="_blank" rel="noopener" class="tool-link-btn">ワークフローを開く <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                    <a href="https://padlet.com/platinumzonedx/dx-instagram-sfikt2pbwarlfa1x" target="_blank" rel="noopener" class="tool-link-btn secondary">Padletシェアボード <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                    <a href="https://platinumzone.co.jp/dx-biome/2606/dx_tutorial_june.html" target="_blank" rel="noopener" class="tool-link-btn secondary">初回チュートリアル <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                </p>
+            </section>
 
             <div class="tab-nav-footer">
                 <button type="button" class="tool-link-btn" onclick="openTab('summary')">今日のまとめへ <i class="fa-solid fa-arrow-right"></i></button>
@@ -981,12 +1214,12 @@
                     InstagramのAIは「いいね」や「コメント」よりも「保存数」を最優先で評価します。保存数は新しい認知を広げてくれる「拡散のエンジン」であるため、コンテンツ設計の段階から「後で見返したくなる仕掛け」を仕込むことが重要です。
                 </div>
                 <div class="sticky-card">
-                    <strong>4. AIツールチェーンで制作1/5</strong>
-                    ChatGPTによる台本作成、Sora 2による背景映像生成、Fish Audioによるクローン音声合成、Vrewによる自動テロップ・編集という一連のツールチェーンを繋ぐことで、動画制作にかかる作業時間を劇的に削減できます。
+                    <strong>4. 一括作成で30本が15分</strong>
+                    複雑な自動化システムを使わなくても、Canva Proの一括作成機能とAIマジック作文を活用すれば、1か月分（30本）の動画のテロップ・配置作業がわずか15分の流し込みだけで自動完了します。
                 </div>
                 <div class="sticky-card">
                     <strong>5. 段階的なツールの導入</strong>
-                    最初からすべてのツールを完璧に使いこなす必要はありません。まずは「Vrew単体で撮影動画に自動テロップを付ける」といった簡単なところから始めて、徐々にAIツールの連携範囲（チェーン）を広げていきましょう。
+                    最初からすべてのツールを完璧に使いこなす必要はありません。まずはVrewかCanva AI編集どちらか簡単なものから試してみて、慣れてきたら徐々にAIツールの連携範囲（チェーン）を広げていきましょう。
                 </div>
             </div>
 
@@ -1062,6 +1295,7 @@
             overlay.addEventListener('click', e => { if (e.target === overlay) closeLb(); });
             document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLb(); });
         })();
+
     </script>
     <script src="./clock.js?v=20260621a" defer></script>
 </body>
