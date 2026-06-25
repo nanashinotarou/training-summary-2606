@@ -135,3 +135,12 @@
 - 後半：https://youtu.be/UjIa7_0oe8U
 - 後半：https://youtu.be/VHCD5lZ77Rs
 **備考:** 実習: 目標達成に向けて、課題を作成し、Padletに投稿しよう（「推し」を発信するワークフロー、Padletシェアボード、初回チュートリアル連携）。前半は資料生成AIの学習とCSV量産プロンプトの実践。後半は自律型AIエージェント「Manus」の紹介と、Manus×Gemini×Instagram連携による競合調査から自動画像生成・自動投稿までの全自動化フローの体験。
+
+## Day 12 — 2026/06/25 (木)
+**テーマ:** AI駆動によるInstagram運用の仕組み化と「保存される」リール量産フロー
+**YouTube:** 
+- 前半：https://youtu.be/AOO6tSQb3Pg
+- 前半：https://youtu.be/SbnQykwN_wI
+- 前半：https://youtu.be/hoOFlqLHPYM
+**備考:** 実習：目標達成に向けて、課題を作成し、Padletに投稿しよう💡（「推し」を発信するワークフロー、Padletシェアボード、初回チュートリアル連携）
+
