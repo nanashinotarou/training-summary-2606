@@ -72,6 +72,7 @@
 | 2026-06-25 | 12 | plan | ClaudeCode | ~5% | 30分 | Day12前半実装計画（前半15枚+動画3本・後半placeholder）|
 | 2026-06-25 | 12 | implement | Antigravity | ~15% | 20分 | Day12前半 HTML実装・デプロイ完了。チェック全件合格。 |
 | 2026-06-25 | 12 | fix / deploy | Antigravity | ~10% | 15分 | 実習記録シートの保存機能・スタイル崩れ修正と再デプロイ |
+| 2026-06-25 | 12 | implement / deploy | Antigravity | ~25% | 35分 | Day12後半（Canva一括作成・AI編集）HTML実装・デプロイ完了。 |
 
 <!-- 上記を最古行として、新しい記録を末尾に追記していく -->
 
