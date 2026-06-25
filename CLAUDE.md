@@ -110,3 +110,24 @@ npx wrangler pages deploy . --project-name=training-summary-2606 --commit-dirty=
 ```
 git add / commit / push origin master
 ```
+
+---
+
+## 6. Usage_Log 運用ルール（エージェント間トークン最適化）
+
+**セッション開始時（必ず Read）**
+- `Usage_Log.md` を読み、直近5件の自分の使用量と他エージェントの使用量を確認する
+- 偏りがあれば今日の役割分担をHiroyaに提案してから作業に入る
+
+**自己調整ルール**（`Usage_Log.md` の「自己調整ルール」セクション参照）
+
+**タスク完了後（必ず追記）**
+以下フォーマットで `Usage_Log.md` のログ末尾に1行追記する：
+
+```
+| YYYY-MM-DD | XX | plan | ClaudeCode | ~X% | XX分 | メモ |
+```
+
+- 推定%は正直に。判断難しければ `?` と書いてメモ欄に補足
+- 所要時間はおよそで可（例：「15分」「1時間」）
+- パターンが見えたら `Usage_Log.md` の「傾向メモ」に追記する
