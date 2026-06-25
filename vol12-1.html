@@ -645,9 +645,75 @@
         .quote-box p:last-child { margin-bottom: 0; }
 
         .day-title { margin-bottom: 4px; }
-        .day-subtitle {
-            font-size: 1.05rem; font-weight: 700; color: var(--text-sub);
-            margin: 0 0 10px;
+        /* ── 実習記録シート（Day 12追加分） ── */
+        .workspace-area {
+            background: #fffef5;
+            border: 2px dashed #fcd34d;
+            border-radius: var(--radius-medium);
+            padding: 24px;
+            margin: 30px 0;
+        }
+        .workspace-area h3 {
+            font-size: 1.1rem;
+            color: var(--ig-purple);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .workspace-desc {
+            font-size: 0.88rem;
+            color: var(--text-sub);
+            margin-bottom: 16px;
+        }
+        .workspace-editor {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            position: relative;
+        }
+        .workspace-editor textarea {
+            width: 100%;
+            min-height: 120px;
+            background: #fff;
+            border: 1px solid #fcd34d;
+            border-radius: var(--radius-small);
+            padding: 12px;
+            font-family: 'Noto Sans JP', sans-serif;
+            font-size: 0.92rem;
+            color: var(--text-main);
+            line-height: 1.75;
+            outline: none;
+            resize: vertical;
+        }
+        .workspace-editor textarea:focus {
+            border-color: #f59e0b;
+            box-shadow: 0 0 0 3px rgba(252, 211, 77, 0.3);
+        }
+        .save-btn {
+            align-self: flex-start;
+            background: var(--ig-grad);
+            color: #fff;
+            border: none;
+            border-radius: 20px;
+            padding: 8px 20px;
+            font-family: 'Noto Sans JP', sans-serif;
+            font-size: 0.88rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 4px 10px rgba(193,53,132,0.2);
+        }
+        .save-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 14px rgba(193,53,132,0.3);
+        }
+        .save-status {
+            font-size: 0.85rem;
+            margin-left: 10px;
+            display: inline-block;
+            vertical-align: middle;
+            transition: opacity 0.3s;
         }
     </style>
 </head>
@@ -1062,6 +1128,30 @@
             overlay.addEventListener('click', e => { if (e.target === overlay) closeLb(); });
             document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLb(); });
         })();
+
+        function saveWorkspace(id) {
+            const textarea = document.getElementById(id);
+            if (!textarea) return;
+            localStorage.setItem('jstWorkspace_' + id, textarea.value);
+            const status = document.getElementById('save-status-' + id);
+            if (status) {
+                status.textContent = '✓ 保存しました！';
+                status.style.color = '#10b981';
+                status.style.fontWeight = 'bold';
+                setTimeout(() => { status.textContent = ''; }, 2000);
+            }
+        }
+
+        // ページロード時に実習記録シートの進行状況を復元
+        document.addEventListener('DOMContentLoaded', () => {
+            const textarea = document.getElementById('ws-day12-a');
+            if (textarea) {
+                const saved = localStorage.getItem('jstWorkspace_ws-day12-a');
+                if (saved !== null) {
+                    textarea.value = saved;
+                }
+            }
+        });
     </script>
     <script src="./clock.js?v=20260621a" defer></script>
 </body>
