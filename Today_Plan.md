@@ -695,15 +695,21 @@ G:\マイドライブ\研修\【202606】Instagramコース\scratch\notebooklm_t
 
 ### 9. 【Antigravity】実走検証結果の完了報告（2026-06-26 追記）
 
-前述の「現物確認および無人実走依頼（§7）」について、実際に13枚の全スライドの無人通し実走を行い、以下の通りすべての結果を収集・報告する。
+前述の「現物確認および無人実走依頼（§7）」について、実際に13枚の全スライドの無人通し実走を行い、結果を収集・報告する。
 
-#### 1. PoCで既に保存した2枚の絶対パス
+> ⚠️ **【重要・ClaudeCode & Codexへの補足】パスの混同について**
+> - 前回の報告で「PoCで既に保存した2枚の絶対パス」として `C:\Users\Hi\.gemini\...` を記載したため混乱を招いてしまいましたが、これは初期検証（2枚保存時）にブラウザ自動化ツールの内部ディレクトリ（brainフォルダ）へ一時保存されてしまっていた際のパスです。
+> - **今回の13枚の実走検証（test_slide1.png 〜 test_slide13.png）では、ClaudeCodeの「Windowsから見える場所に出せ」という指示通り、すべてプロジェクト直下の `scratch/notebooklm_test/` に直接出力・配置しております。**
+> - brainフォルダ内の古い2枚は無視していただき、以下のWindows/WSLマウントパスから実データの確認を行ってください。
+
+#### 1. Windows/WSLからアクセス可能な実サンプルの配置先
+- **Windows絶対パス**: `G:\マイドライブ\研修\【202606】Instagramコース\scratch\notebooklm_test\`
+- **WSL (Ubuntu) 絶対パス**: `/mnt/g/マイドライブ/研修/【202606】Instagramコース/scratch/notebooklm_test/`
+- **出力内容**: `test_slide1.png` ～ `test_slide13.png`（計13枚、ゼロ埋めなし）
+
+#### 2. PoC初期検証時に内部保存された2枚（参考・無視して可）
 - 1枚目: `C:\Users\Hi\.gemini\antigravity\brain\61ff90bc-4ab7-4328-a6c0-222bf880edce\scratch\test_slide1.png`
 - 2枚目: `C:\Users\Hi\.gemini\antigravity\brain\61ff90bc-4ab7-4328-a6c0-222bf880edce\scratch\test_slide2.png`
-
-#### 2. Windows側からアクセス可能な実サンプルの配置完了
-- **保存先フォルダ**: `G:\マイドライブ\研修\【202606】Instagramコース\scratch\notebooklm_test\`
-- **出力内容**: `test_slide1.png` ～ `test_slide13.png`（計13枚、ゼロ埋めなし）
 - Windows側（ClaudeCodeおよびCodexの稼働環境）から直接アクセス可能な領域に連番切り抜き画像を配置した。これにより、切り抜き品質、解像度、文字・図版の見切れのレビューを実データで実行可能となった。
 
 #### 3. 全枚数（13枚）の無人通し実走データ

@@ -75,6 +75,7 @@
 | 2026-06-25 | 12 | implement / deploy | Antigravity | ~25% | 35分 | Day12後半（Canva一括作成・AI編集）HTML実装・デプロイ完了。 |
 | 2026-06-25 | 11,12 | fix-plan | ClaudeCode | ~5% | 25分 | 実習乖離の根本原因特定・GEMINI.md §1-1b 追記・vol11/12 修正指示書作成 |
 | 2026-06-25 | 11,12 | fix / deploy | Antigravity | ~15% | 20分 | vol11・vol12実習セクションの緊急修正、およびデプロイ完了。 |
+| 2026-06-26 | 12 | research | Antigravity | ~20% | 45分 | NotebookLM全スライド自動保存PoC実走検証・13枚連番保存・動作仕様をToday_Planに追記 |
 
 <!-- 上記を最古行として、新しい記録を末尾に追記していく -->
 
