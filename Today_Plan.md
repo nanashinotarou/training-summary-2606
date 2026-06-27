@@ -820,3 +820,223 @@ ClaudeCode（§11）およびCodex（§12）から指摘された「解像度不
 
 これで「自動キャプチャするとボヤけた眠い絵になる」という本番化の最後の壁を完全に突破した。土曜2時のリセット後、ClaudeCodeはこの仕様（Method 2ベース、ログ出力構造化、複数動画追試、一時フォルダ運用）で最小本番版の設計および実装コードの記述に入ること。
 
+---
+
+# 📐 §14【ClaudeCode → Antigravity】NotebookLM自動保存 本番スクリプト 実装指示書（2026-06-27 壁打ち確定）
+
+> 週次リミット リセット後の壁打ち（Hiroya × ClaudeCode、MAJI議事録 2026-06-26 発の構想）で **10論点すべて合意**。本番化の設計が確定したので、Antigravityへの実装指示書としてここに清書する。
+> **これはDay13（6/30月）本番投入用の仕様**。§1〜§13の検証記録（特に §4 DOM再取得・§9 セレクタ・§13 Method2）が前提。
+
+## 14-0. 制約ファースト（再議論・再実験を禁止する確定事項）
+
+> MAJI議事録の「制約ファースト」原則に従い、ここは**蒸し返さない**。先祖返り防止のための固定値。
+
+```yaml
+confirmed_locked:
+  image_method: "Method 2（img.src → ページ内fetch → FileReader → Base64 → fs.writeFileSync）"
+  banned_method1: "deviceScaleFactor=2 は禁止。実測556×318に低下した（§13）。試すな"
+  dom_detach_fix: "スライドめくり後は毎回DOM要素を再取得してからキャプチャ（§4）"
+  selectors: "座標クリック禁止。XPathテキスト一致 / aria-label / parentElement / clientWidth>500（§9）"
+  connection: "PoCと同じ chrome-devtools-mcp で、ログイン済みChromeセッションを再利用"
+  terminator: ".thumbnail-image-container.selected の index が（総数M − 1）に達したら停止（§9）"
+  gen_complete: "progressbar消失 AND 成果物サムネ出現 のANDポーリング（§9）"
+  quality_target: "1376×768（手動保存同等）。下限 width ≥ 1000px"
+  antigravity_slide_gen: "Antigravity単独のスライド生成は依頼禁止（確定・Day12実証）。スライドはNotebookLM産のみ"
+```
+
+## 14-1. 目的とアーキテクチャ
+
+**目的**：NotebookLMの「1枚ずつ手動保存」を撲滅し、**品質維持＋手数ほぼゼロ**にする。最終ビジョンは「Antigravityに YouTubeリンクと実習内容を貼るだけ → リサーチ → スライド生成 → 連番保存 → 実装計画 → 実装 → レビュー → デプロイ → 通知 まで全自動」。本指示書はその**スライド生成・保存ブロック**を担う。
+
+**アーキテクチャ（論点1・2 合意）**：
+- PoC同様 **Antigravityが `chrome-devtools-mcp`（内部Puppeteer/CDP）で駆動**する。スタンドアロン化はしない。
+- ただし**強化した処理コードを `scratch/notebooklm-auto.js` に再利用可能な形で保存**しておくこと（L5＝来月以降の制作OS資産にするため。MAJI L5）。
+- Chromeの起動は**特別なことをしない**。PoCで動いた接続方法（ログイン済みセッション再利用）をそのまま使う。Hiroyaは普段どおりChromeを開いてNotebookLMにログイン済みであればよい。
+
+## 14-2. 入力インターフェース（論点3 合意）
+
+Hiroyaが当日Antigravityに渡すのは**最小限**（ビジョン：「URLと実習内容だけ貼る」）。テーマ・重点図解ポイントは**Antigravityがリサーチ（GEMINI.md §1 / Today_Research.md）から補完**する。
+
+```
+【NotebookLM自動生成 依頼】
+Day: 13
+前後半: 前半
+動画URL（複数可・改行区切り）:
+  https://www.youtube.com/watch?v=XXXX
+  https://www.youtube.com/watch?v=YYYY
+実習内容: （当日主催者から共有された実習。Hiroyaが貼る）
+出力先: scratch/day13_auto/
+```
+
+- **動画本数は不定**（1〜5本超）。当日まで不明。`動画URL` 欄の**全URLをソースに追加**する。本数で分岐しない。
+- `テーマ／重点図解ポイント` はリサーチ結果から自動生成。Hiroyaに考えさせない。
+
+## 14-3. 処理フロー（ステップ別・待機とエラー処理込み）
+
+```
+[STEP 0] 既存ログイン済みChromeに接続。NotebookLMダッシュボードを開く。
+         → 失敗時：ログイン要求が出たら「ログインして合図して」とユーザーへ通知し停止（勝手に認証情報を入力しない）。
+
+[STEP 1] 「＋新規作成」→ ソース追加ダイアログ。
+         全 --url を textarea に投入 → Enter で確定。
+         ★ソース読込チェック（論点7・Hiroya指摘の重要ケース）：
+           各ソースのタイトル横✅を最大30秒ポーリング。
+           ✅が付かないソースがあれば → そのソースを削除して再追加（最大3回）。
+           3回失敗 → ログに該当URLを残し「ソース読込に失敗。手動確認を」とユーザー通知。
+
+[STEP 2] Studioパネル展開 → スライドカードのカスタマイズダイアログ起動
+         → 「プレゼンターのスライド」選択（座標でなくセマンティックに）→ 言語=日本語維持
+         → プロンプト投入（14-4のテンプレ）→「生成」実行。
+
+[STEP 3] 生成完了ポーリング（論点7）：
+           AND条件 = progressbar系（mat-progress-bar / [role=progressbar]）消失
+                     AND 成果物サムネ（.thumbnail-image-container / タイトル）出現。
+           タイムアウト = 10分（複数ソース初投入・長尺生成を考慮した安全マージン）。超過 → エラー終了（途中状態をログに残す。固定sleep禁止）。
+
+[STEP 4] 成果物クリックでビューア起動 → button[aria-label="開く"] で最大化。
+         サムネ総数 M を .thumbnail-image-container の個数で取得（=期待枚数）。
+
+[STEP 5] 連番キャプチャ・ループ（i = 0 .. M-1）：
+           a) スライド本体 <img>（clientWidth>500）を【毎回再取得】（§4 detach対策）
+           b) Method 2 で画像バイナリ取得・保存（14-5）
+           c) per-slideログを1行出力（14-6）
+           d) ★終端判定（ArrowRight より前）：.thumbnail-image-container.selected の index が M-1 ならループ終了
+              ※順序厳守：「保存→判定→ArrowRight」。d と e を逆にすると最終スライドを保存せず終了するバグになる（Codex P1指摘）
+           e) ArrowRight でめくる → 遷移アニメ完了待ち
+         保存先：出力先ディレクトリに day{XX}_slide{NN}.png（NN=ゼロ埋め2桁）
+
+[STEP 6] summary.json を出力（14-6）。総枚数 = M = 実保存数 を確認。
+         不一致なら exit code 非ゼロ＋ログに明示。
+
+[STEP 7] ユーザーへ「全{M}枚 保存完了。scratch/day13_auto/ を確認して」と通知（人間確認5秒）。
+```
+
+## 14-4. 生成プロンプト（テンプレ・§3踏襲）
+
+リサーチ結果から下記を埋める。`スライドは8〜10枚程度`（GEMINI.md準拠）は維持。
+
+```text
+Instagram運用を学ぶ社会人初心者向けの研修スライドです。
+プレゼンターのスライド形式で、一枚ごとに重要ポイントを1〜2つに絞ってください。
+明るく親しみやすいビジュアルで、シンプルで視覚的に分かりやすくしてください。
+スライドは8〜10枚程度にまとめてください。
+
+【今日の授業内容】
+テーマ：Day {XX}{前半/後半}「{リサーチで判明したテーマ}」
+実習内容：{Hiroyaが貼った実習内容}
+重点的に図解してほしいポイント：
+- {リサーチから抽出した論点1}
+- {リサーチから抽出した論点2}
+- {リサーチから抽出した論点3}
+```
+
+## 14-5. 画質取得＝Method 2（論点4 確定・§13）
+
+```javascript
+// slideImgElement は STEP5-a で「毎回再取得」した最新の <img>（clientWidth>500）
+const blobUrl = await page.evaluate(el => el.src, slideImgElement);   // googleusercontent等のネイティブURL
+const base64Data = await page.evaluate(async (url) => {
+  const response = await fetch(url);
+  const blob = await response.blob();
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.onloadend = () => resolve(reader.result);
+    reader.readAsDataURL(blob);
+  });
+}, blobUrl);
+const buffer = Buffer.from(base64Data.split(',')[1], 'base64');
+fs.writeFileSync(outputPath, buffer);   // 1376×768・無圧縮同等
+```
+
+- 保存後、書き出したPNGの実寸を読み、`width < 1000` なら**リトライ（最大3回）**：
+  「500ms待つ → メイン `<img>`（clientWidth>500）を再探索してsrcを取り直す → Method2再実行」。
+  同一URLを再fetchするだけでは直らないため、**必ずDOM再探索まで行うこと**（Method2が正しく動けば1376×768になる）。
+
+## 14-6. ログ仕様（論点5・Codex §6/§12要望）
+
+**per-slide（1枚ごとに標準出力へ1行）**：
+```
+[slide 03/13] file=day13_slide03.png  size=1376x768  bytes=1024000  md5=abc123…  retry=0
+```
+
+**summary.json（出力先ディレクトリに1ファイル）**：
+```json
+{
+  "day": 13,
+  "half": "前半",
+  "sourceUrls": ["https://...","https://..."],
+  "total": 13,
+  "savedCount": 13,
+  "generatedAt": "2026-06-30T10:00:00+09:00",
+  "slides": [
+    { "index": 1, "filename": "day13_slide01.png", "width": 1376, "height": 768,
+      "bytes": 1024000, "md5": "…", "retryCount": 0 }
+  ]
+}
+```
+→ Codexはこの summary.json を読むだけで14-8の品質ゲートを機械実行できる。
+
+## 14-7. 出力・命名の規律（論点6 合意）
+
+- **まず `scratch/day{XX}_auto/` に出力**。`assets/` へ直書きしない（巻き戻し不能・本番混入防止。§8/§11の規律踏襲）。
+- ファイル名は**スクリプトが自動命名**：`day{XX}_slide{NN}.png`（NN=ゼロ埋め2桁。欠番チェックとソート安定のため）。Hiroyaに命名を考えさせない。
+- Hiroyaが枚数確認（5秒）→ Codex品質ゲート合格 → **その後 `assets/` へ昇格コピー**。HTML実装はその assets を参照する。
+- **検証画像・summary.jsonは使い捨て**。本番採用が確定したら scratch を整理（CLAUDE.md §2）。
+
+## 14-8. 品質ゲート（論点8・Codex担当）
+
+Codexが `summary.json` ＋ 実ファイルで機械チェック：
+```
+□ 連番欠番なし（slide01..slideM が連続）
+□ 0バイトファイルなし
+□ 全枚 width/height ≈ 1.78（16:9・許容 ±0.05）
+□ savedCount == total（NotebookLMビューアのM値と一致）
+□ MD5 全ユニーク（重複保存なし）
+□ 全枚 width ≥ 1000px（解像度下限。Method2が効いていれば1376）
+□ 見切れなし（端画素にUI/黒帯混入なし）
+```
+Pass → 「assets昇格OK」をHiroyaへ。Fail → 欠番・問題スライドのindexを返し、該当枚のみ再取得指示。
+
+## 14-9. エラー処理マトリクス（論点7）
+
+| ケース | 対処 |
+|---|---|
+| ソース✅が付かない | 削除して再追加（最大3回）→ 全滅でユーザー通知・停止 |
+| 生成が終わらない | 10分タイムアウト（複数ソース安全マージン）→ エラー終了（途中状態をログ）。固定sleep禁止 |
+| `img.src` fetch失敗 / width<1000 | 3回リトライ（500ms間隔）→ 全失敗で当該スライドをスキップ＋ログにindex記録 |
+| `Node is detached` | 既解決：めくり後に毎回再取得（§4）。再発したらログにstep番号を残す |
+| 途中クラッシュ | `progress.json` を随時更新 → 再実行時は最後の成功index+1から再開 |
+| セレクタが見つからない | **黙って止まらない**。「どのSTEPのどのセレクタで失敗したか」を明示してエラー終了（14-10） |
+
+## 14-10. UI変更耐性（論点9）
+
+- 使用セレクタを `scratch/SELECTORS.md` に一覧化し、各行に**最終確認日**を付ける（NotebookLMはGoogle製でUI churnあり）。
+- **`--dry-run` 相当モード**：スライド生成はせず、STEP0〜4の主要セレクタが全部見つかるかだけ事前確認。当日朝にこれを1回流せば「今日はUIが変わってないか」を5秒で判定できる。
+- エラーは必ず「STEP名＋セレクタ名」付きで出す。
+
+## 14-11. 適用範囲（論点10）
+
+- 今回は **NotebookLM専用・研修まとめ用に特化**。汎用化（MAJI SYSTEM等）はしない。
+- ただし入出力の形（YouTube URL群 → 連番PNG＋summary.json）は変えない設計にしておけば、将来そのまま再利用できる。
+
+## 14-12. 成功定義（MAJI L1〜L5 対応）
+
+| 階梯 | 内容 | 本指示書での担保 |
+|---|---|---|
+| L1 | 手動保存なしで連番取得成功 | STEP5ループ＋Method2 |
+| L2 | Day13 HTMLへ組込み成功 | assets昇格→Antigravity実装（vol13-1.html） |
+| L3 | Codex構造検証Pass | 14-8品質ゲート＋通常HTMLレビュー |
+| L4 | デプロイ成功（公開後微修正可） | `auto_if_structural_pass` |
+| L5 | 再利用可能スクリプト/ルールが残る | `scratch/notebooklm-auto.js`＋本§14＋SELECTORS.md |
+
+## 14-13. 申し送り
+
+- **Antigravity（実装担当）**：
+  ①上記14-3〜14-10を**1本のコードに清書**し `scratch/notebooklm-auto.js` に保存。Day13当日は朝に `--dry-run` でセレクタ生存確認 → 本実行。**複数動画・長尺生成での挙動**は本番が初の複数ソースになるので、生成ポーリング・終端検知が崩れないか注視し、崩れたら summary に記録して報告。
+  ②Codex品質ゲートPass後にassets昇格が完了したら、**`vol13-1.html` のHTML実装**（GEMINI.md §4 通常フロー）を担当。完了報告をCodexへ渡す。
+- **Codex（門番）**：14-8の品質ゲートを `summary.json` 駆動で実装。Pass判定後に「assets昇格してよし」をHiroyaへ連絡。**その後Antigravityの `vol13-1.html` 実装完了報告を受けてから**、通常HTMLレビュー→`auto_if_structural_pass`でデプロイ。
+  ※Codexが直接HTML実装するわけではない（GEMINI.md §4 = Antigravity担当）。混同注意。
+- **ClaudeCode（設計）**：本§14が設計成果。Day13実走でセレクタ破損やポーリング破綻が出たら、その実データを受けて14-3/14-10を改訂する。
+
+> **次アクション**：6/30（月）Day13本番でこの仕様を初投入。当日までにAntigravityが `notebooklm-auto.js` へ清書しておけば、Hiroyaは「URLと実習内容を貼る」だけで済む。
+

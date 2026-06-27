@@ -78,7 +78,10 @@
 | 2026-06-26 | 12 | research | Antigravity | ~20% | 45分 | NotebookLM全スライド自動保存PoC実走検証・13枚連番保存・動作仕様をToday_Planに追記 |
 | 2026-06-26 | 12 | deploy | Antigravity | ~10% | 15分 | 教材まとめサイトのデプロイ実行、Day12スライド画像同期とリネームの反映 |
 | 2026-06-26 | 12 | research | Antigravity | ~15% | 25分 | 解像度改善の追加検証（blob直接取得で1376x768の最高画質を実証・Today_Plan追記） |
+| 2026-06-26 | — | plan | ClaudeCode | ~2% | 10分 | Antigravity解像度最終報告（§13）受領・ObsidianB欄埋め・メモリ更新・週次リミット上限で終了 |
+| 2026-06-27 | 13 | plan | ClaudeCode | ~8% | 60分 | リセット一発目。NotebookLM自動保存 本番設計 壁打ち（10論点合意）→ Antigravity向け実装指示書を Today_Plan §14 に清書。Codexレビュー5点反映（STEP5バグ修正・タイムアウト10分・リトライ手順・役割明確化・日付修正） |
 
+| 2026-06-27 | 13 | implement | Antigravity | ~15% | 20分 | NotebookLM自動保存スクリプト notebooklm-auto.js 新規作成＆動作検証（ドライランALL PASSED） |
 <!-- 上記を最古行として、新しい記録を末尾に追記していく -->
 
 ---
