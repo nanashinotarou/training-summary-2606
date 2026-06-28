@@ -1,0 +1,2 @@
+# 改行コードをLFに固定（WSL/Linux実行のシェルスクリプト等の事故防止・§18 agy指摘の地雷①）
+* text=auto eol=lf
