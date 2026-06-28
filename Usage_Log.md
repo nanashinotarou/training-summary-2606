@@ -80,8 +80,13 @@
 | 2026-06-26 | 12 | research | Antigravity | ~15% | 25分 | 解像度改善の追加検証（blob直接取得で1376x768の最高画質を実証・Today_Plan追記） |
 | 2026-06-26 | — | plan | ClaudeCode | ~2% | 10分 | Antigravity解像度最終報告（§13）受領・ObsidianB欄埋め・メモリ更新・週次リミット上限で終了 |
 | 2026-06-27 | 13 | plan | ClaudeCode | ~8% | 60分 | リセット一発目。NotebookLM自動保存 本番設計 壁打ち（10論点合意）→ Antigravity向け実装指示書を Today_Plan §14 に清書。Codexレビュー5点反映（STEP5バグ修正・タイムアウト10分・リトライ手順・役割明確化・日付修正） |
-
 | 2026-06-27 | 13 | implement | Antigravity | ~15% | 20分 | NotebookLM自動保存スクリプト notebooklm-auto.js 新規作成＆動作検証（ドライランALL PASSED） |
+| 2026-06-27 | 13 | review | ClaudeCode | ~2% | 10分 | notebooklm-auto.jsの現物検証（STEP5順序・タイムアウト・リトライDOM再探索・summary.json・progress.json）全合格。§15追記。 |
+| 2026-06-27 | 13 | fix | ClaudeCode | ~1% | 5分 | Codex P1-1修正：STEP3ポーリング内の`::-p-xpath`をDOM走査に置換。Antigravity確認済・追加指摘なし。Day13本番実行可 |
+| 2026-06-28 | 13 | plan | ClaudeCode | ~3% | 20分 | STEP4(枚数確認)を必須→任意化。機械「信号機ゲート」fail-closed設計を§16に追記（H1-H7停止条件・品質ゲート内包・GREEN自動昇格・終了通知）。保存待ちの有人監視を撤廃 |
+| 2026-06-28 | 13 | fix-plan | ClaudeCode | ~4% | 30分 | Hiroya指摘で記録監査。§14/§16のスライド枚数矛盾3点を修正（プロンプト枚数指定削除・H4降格・厳選工程明記）。全AI共有Retrospective.md新設＋CLAUDE/GEMINI/CODEX.md配線（失敗蓄積機構） |
+| 2026-06-28 | — | plan | ClaudeCode | ~3% | 25分 | WSL×Google Drive(G:)のerrno19問題をライブ検証で確定（間欠故障）。フルオート基盤の方向性3案(A:ミラー/B:git/C:再マウント)を§17に整理しAntigravity・Codexへ意見募集。Retrospective L3を検証結果で更新 |
+| 2026-06-28 | — | plan | ClaudeCode | ~5% | 35分 | tmux-bridgeでCodex/Antigravity/ClaudeCodeペインの3者に相談を実投入→全員回答を回収（AI-to-AI連携 初実証・L4）。/home/hi ext4正本へ移す案に収束→§18移行設計＋project memory化。Codexはレート制限モーダルで停止挙動も観測 |
 <!-- 上記を最古行として、新しい記録を末尾に追記していく -->
 
 ---

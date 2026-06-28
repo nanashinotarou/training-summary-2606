@@ -913,13 +913,12 @@ Day: 13
 
 ## 14-4. 生成プロンプト（テンプレ・§3踏襲）
 
-リサーチ結果から下記を埋める。`スライドは8〜10枚程度`（GEMINI.md準拠）は維持。
+リサーチ結果から下記を埋める。**⚠️訂正（2026-06-28）：プロンプトに枚数指定（「8〜10枚程度」等）は書かない**。`GEMINI.md:128` のとおり、NotebookLMの枚数は制御不能で常時〜14枚出力される（Day12は8-10指定でも15/14枚出た）。枚数はNotebookLMに任せ、**HTMLに載せる分の取捨選択は ClaudeCode の計画工程で行う**（14-7参照）。
 
 ```text
 Instagram運用を学ぶ社会人初心者向けの研修スライドです。
 プレゼンターのスライド形式で、一枚ごとに重要ポイントを1〜2つに絞ってください。
 明るく親しみやすいビジュアルで、シンプルで視覚的に分かりやすくしてください。
-スライドは8〜10枚程度にまとめてください。
 
 【今日の授業内容】
 テーマ：Day {XX}{前半/後半}「{リサーチで判明したテーマ}」
@@ -1039,4 +1038,304 @@ Pass → 「assets昇格OK」をHiroyaへ。Fail → 欠番・問題スライド
 - **ClaudeCode（設計）**：本§14が設計成果。Day13実走でセレクタ破損やポーリング破綻が出たら、その実データを受けて14-3/14-10を改訂する。
 
 > **次アクション**：6/30（月）Day13本番でこの仕様を初投入。当日までにAntigravityが `notebooklm-auto.js` へ清書しておけば、Hiroyaは「URLと実習内容を貼る」だけで済む。
+
+---
+
+# ✅ §15【ClaudeCode】notebooklm-auto.js 現物検証・受領記録（2026-06-27）
+
+> §14設計→Antigravity実装→Codexドライラン確認→ClaudeCode現物検証の完了記録。
+
+## 検証結果
+
+| 検証項目 | 確認方法 | 結果 |
+|---|---|---|
+| STEP5バグ修正（d→e順序） | line 1278-1296 読解 | ✅ 終端判定がArrowRight送信前。`i === M-1` も二重ガード |
+| タイムアウト10分 | line 1098 | ✅ `10 * 60 * 1000` |
+| width<1000リトライ（DOM再探索） | line 1237-1252 | ✅ `findSlideImage()` で再探索してから保存 |
+| Method2実装 | line 1185-1197 | ✅ `img.src → fetch → FileReader → Base64 → Buffer` |
+| per-slideログ | line 1263 | ✅ `[slide NN/MM] file= size= bytes= md5= retry=` |
+| summary.json | line 1307-1318 | ✅ 仕様通り（total/savedCount/slides配列） |
+| progress.json中断再開 | line 1156-1168 | ✅ `lastSuccessfulIndex` で再開インデックスを保存 |
+| ソース✅ポーリング（30秒） | line 910-921 | ✅ 5回×5秒 = 最大25秒ポーリング（概ね仕様充足） |
+| ソース読込失敗→削除再追加 | line 930-943 | ✅ 3回リトライ（attempt 1〜3） |
+| --dry-run モード | line 422-872 | ✅ フェーズA（Studio側）+ フェーズB（新規作成側）の2段階検証 |
+| 上限到達時の警告付きPASS | line 808-823 | ✅ 上限検知→Studioセレクタスキップ→ALL PASSEDとして継続 |
+
+## 設計との差異（実用上問題なし）
+
+- **接続方式**：設計では「chrome-devtools-mcp駆動」と記載したが、実装は `puppeteer.launch()` + Antigravityの `userDataDir`（`antigravity-browser-profile`）で独立headless起動。
+  - ドライランPASS＝ログインセッション有効を確認済みのため実用上は同等。
+  - ログイン切れ時は「Enterを押して合図を」の対話フローでリカバリ可。
+
+## 引き渡し先ファイル
+
+- `scratch/notebooklm-auto.js` — 本番スクリプト本体 ✅
+- `scratch/SELECTORS.md` — セレクタ一覧・最終確認日2026-06-27 ✅
+- `scratch/dump_dashboard.js` / `scratch/dump_notebook.js` — Antigravityのデバッグ用。Day13本番後に不要であれば削除対象（CLAUDE.md §2）。
+
+## 次アクション（6/30当日）※§16でSTEP4を任意化（auto-proceed版）
+
+```
+1. Hiroya: Day13動画URLと実習内容をAntigravityに渡す（唯一の必須入力）
+2. Antigravity: Today_Research.mdにリサーチ結果を書く → notebooklm-auto.jsを本実行
+   node scratch/notebooklm-auto.js --day 13 --half 前半 --urls "URL1" "URL2" --work "実習内容"
+   → スクリプトが内部で機械ゲートを自己判定（§16）。
+       GREEN: 自動でassets昇格＋GO信号 → 次へ無人で進む
+       HALT : scratch/で停止＋HALT.txt＋通知 → Hiroyaを呼ぶ（fail-closed）
+3. Hiroya: 枚数確認は【任意】。終了通知を受け取るだけ。異変に気づいたら止められる
+4. ★ClaudeCode: Today_Research.md＋昇格済みスライド＋実習内容を読み、
+   vol13-1.html の実装計画をToday_Planに清書（Day12と同じ plan 工程。飛ばさない）
+5. Antigravity: 上記計画に沿って vol13-1.html を実装（GEMINI.md §4）→ 完了報告
+6. Codex: summary.jsonの独立再チェック（特に見切れ）＋HTMLレビュー → デプロイ
+7. Hiroya: 完成通知を受け取る
+
+※「auto-proceed」が消すのは"人間の承認待ち"だけ。各エージェントの実作業
+  （ClaudeCode=計画 / Antigravity=実装 / Codex=レビュー・デプロイ）は従来どおり全て実施する。
+```
+
+---
+
+# §16【ClaudeCode】STEP4任意化：機械「信号機ゲート」への置換（auto-proceed版）2026-06-28
+
+> Hiroya判断：NotebookLM保存待ち（最長10分・通知なし）の有人監視を撤廃する。
+> STEP4（Hiroyaの枚数確認5秒）を**必須→任意**に降格し、その安全価値を上流の機械ゲートへ移管する。
+> 設計原則：**fail-closed**（全項目グリーンの時だけ自動前進。少しでも怪しければassets昇格の手前で自動停止し人を呼ぶ）。
+> 実装担当：Antigravity。本§16は§14への差分指示。§14本体の各STEPは維持し、下記を上乗せする。
+
+## 16-1. STEP4は照合先が存在しなかった（＝元からノーガード）
+
+**前提の訂正（2026-06-28）**：当初「Hiroyaが枚数確認」としていたが、**照合する基準が存在しない**。研修中に流れるのはYouTube動画のみで、スライドは1枚も提示されない。NotebookLMのスライドは研修後に動画を要約・再構成して生成され、枚数もNotebookLM側が決める。よって「研修中に見た枚数と突き合わせる」は成立せず、STEP4は実質ノーガードだった。
+
+→ 人間の枚数確認を強化するのではなく、**機械ゲートを"最初の実チェック"として導入する**。枚数破綻を起こす実際の事故と、その機械的検知：
+
+| 枚数破綻を起こす実際の事故 | 機械での検知 | 状態 |
+|---|---|---|
+| 動画が一部しか取り込まれず枚数不足 | STEP1 ソース✅ポーリング（sources_loaded === sources_requested） | 既存・**ゲート化** |
+| 生成途中で早すぎる確定→枚数不足 | STEP3 サムネ数の**安定判定**（2連続同値） | **新規追加** |
+| 連番欠番・0byte・重複・低解像度・比率崩れ | 14-8品質ゲートを**スクリプト内に内包**（summary.json生成時の実データで自己判定） | **新規追加** |
+| 生成したM枚を取りこぼして保存 | savedCount === M（取りこぼし検知。"期待枚数との一致"ではない） | 既存 |
+
+> 枚数破綻の真因＝ソース取込失敗は機械が直接見られる。人間の枚数勘では照合先がなく検知できなかった。よってSTEP4は安全に撤廃でき、機械ゲートが置き換える。
+>
+> **⚠️ 枚数の現実（GEMINI.md:128/161・記録に基づく訂正2026-06-28）**：NotebookLMは枚数を制御できず**常態で〜14枚**出る（多すぎることはあっても少なすぎは稀）。よって機械ゲートは「過少（生成全崩れ）だけ」をH4で見れば足り、**上限HALTは設けない**。〜14枚から**HTMLに載せる分を厳選するのはClaudeCodeの計画工程**（16-1の下に独立工程として明記。auto-proceedでも飛ばさない＝§15で復活させた plan 工程に内包）。「枚数一致」を安全の主概念に置くのは誤り——主概念は①ソース取込完全性②取りこぼしゼロ③厳選、の3つ。
+
+## 16-2. 自動停止（stop-the-line）条件 — 1つでも該当でHALT
+
+該当したら **assets/ に触れず scratch/day{XX}_auto/ で停止**。`HALT.txt`（失敗した項目名・該当index・実値）を書き、Hiroyaへ通知。HTML/デプロイへ進ませない。
+
+```
+[H1] sources_loaded < sources_requested（✅が3回再追加でも全部揃わない）→ HALT
+[H2] STEP3が10分タイムアウト → HALT（途中状態をログ）
+[H3] M === 0 → HALT
+[H4] M < --min-slides（既定3。NotebookLMは常態で〜14枚出る。3枚未満は生成が
+     ほぼ全崩れしたサインなので停止）→ HALT（--allow-low で解除可）
+     ※注意：枚数が「多すぎる」のは異常ではない。〜14枚は正常で、HTMLに載せる分の
+       取捨選択はClaudeCodeが計画工程で行う（16-1・GEMINI.md:128/161）。上限HALTは設けない。
+[H5] サムネ数が安定しない（規定poll内で2連続同値にならない）→ HALT
+[H6] savedCount !== M → HALT
+[H7] 内包品質ゲート（16-3）のいずれかFail → HALT
+```
+
+## 16-3. 品質ゲートのスクリプト内包（自己認証）
+
+スクリプトは summary.json 生成時に**既に各スライドの width/height/bytes/md5 を保持**している。これを使い、Codexを待たずに下記を**自分で**アサートする：
+
+```
+□ 連番欠番なし（slide01..slideM 連続）
+□ 0バイトなし
+□ 全枚 アスペクト比 ≈ 1.78（±0.05）
+□ savedCount === M
+□ MD5 全ユニーク
+□ 全枚 width ≥ 1000
+```
+- 全通過 = **GREEN**。`見切れ`（端画素のUI/黒帯混入）だけは画素解析が要るため**スクリプトでは判定せず**、Codexの独立再チェックに残す（defense-in-depth）。
+- summary.json には `gateResult: "GREEN" | "HALT"`, `gateFailures: [...]`, `sourcesRequested`, `sourcesLoaded` を追記する。
+
+## 16-4. GREEN時の自動前進
+
+```
+GREEN 確定 →
+  1) scratch/day{XX}_auto/*.png を assets/ へ昇格コピー（既存の昇格規律＝中身のみ、§14-7）
+  2) scratch/day{XX}_auto/GO.signal を書く（次工程が読む機械可読の合図。中身: day, half, savedCount, assetPaths[]）
+  3) 端末ベル + STATUS行を出力：「✅ GREEN: 全{M}枚 assets昇格済み。次工程=ClaudeCodeが厳選＋実装計画。」
+```
+- GREEN後の正しい順序：**ClaudeCode が〜14枚から HTMLに載せる分を厳選し実装計画を書く（plan工程）→ Antigravity が実装 → Codex がデプロイ**。GREENは「Antigravity直行」ではない（取捨選択を飛ばさない）。
+- **オーケストレーター（6/30予定）完成後**：GO.signal を ClaudeCode が拾って厳選＋計画→Antigravity実装→Codexデプロイまで無人連鎖。Hiroyaへは最後に完了通知のみ。
+- **オーケストレーター未完の当日**：GO.signal＝最終ステータス行を Hiroya が好きなタイミングで一目見て次工程（ClaudeCodeの厳選＋計画）をキックするだけ（10分の張り付き監視は消える）。
+
+## 16-5. 通知（Hiroyaの「通知もない」を解消）
+
+実行終了時（GREEN/HALT どちらも）に必ず：
+- 端末ベル（`process.stdout.write('\x07')`）
+- `scratch/day{XX}_auto/STATUS.txt` に1行（`GREEN ...` or `HALT: <理由>`）
+- 可能なら Windows トースト（任意・無ければベル＋STATUSで足りる）
+
+## 16-6. Hiroyaのアクション（再定義）
+
+| 場面 | 必須/任意 |
+|---|---|
+| URL＋実習内容を貼る（STEP1入力） | **必須**（唯一） |
+| 保存待ちの監視 | **撤廃**（無人。終了時にベル＋通知） |
+| 枚数確認 | **任意**（気が向いたら一目。HALT時のみ要対応） |
+| 強制停止 | いつでも可（異変を自分で察知したら割り込む） |
+
+## 16-7. 新規CLIフラグ
+
+```
+--min-slides <N>   既定3。これ未満でHALT（H4＝生成ほぼ全崩れの検知）。上限は設けない
+--allow-low        H4を無効化（短い単一動画など枚数が少なくて正常と分かっている時）
+--no-auto-promote  GREENでもassets昇格しない（scratchで止めて手で確認したい時のデバッグ用）
+```
+
+## 16-8. 残存リスク（正直な明示）
+
+- 全ソースが✅で取り込まれ枚数も妥当でも、**生成された中身が主題的にズレている**ケースは、どの機械ゲートも見切れも検出できない。これは**STEP4の人間チェックでも元々見抜けなかった**（5秒の枚数勘では中身の正しさは判定不能）。
+- この主題ズレの最終セーフティネットは「デプロイ後の公開ページ確認」。vol13-1.html は**既存サイトへの加算（新規ページ＋index リンク）**で他ページを壊さず、巻き戻しも容易なため、auto-proceed＋事後確認で安全に運用できる。
+
+## 16-9. 申し送り
+
+- **Antigravity**：§14の既存STEPは保持し、16-2〜16-7を notebooklm-auto.js に上乗せ実装。特に [H5] サムネ安定判定 と 16-3 内包ゲート と GREEN自動昇格 が新規。実装後 `--dry-run` で回帰、ClaudeCodeへ報告。
+- **Codex**：品質ゲートは「Hiroyaの時間を止める門番」から「GREEN後の独立再チェック（特に見切れ）」へ役割変更。スクリプトの自己判定とCodex再チェックの二重化（defense-in-depth）。
+- **ClaudeCode**：本§16が設計差分。Day13実走で [H5] 安定判定の閾値やmin-slides既定値が実態に合わなければ改訂する。
+
+---
+
+# §17【相談メモ】WSL×Google Drive(G:) 問題と、フルオート基盤の方向性 — Antigravity・Codex へ意見募集（2026-06-28）
+
+> ⚠️ **このメモ自体がG:上にある**。WSLペインのAntigravity/Codex CLIは現状G:をerrno19で読めない可能性がある（下記）。
+> その場合は**デスクトップアプリ版（Windows・G:正常）で読む**か、G:回復後に読むこと。
+
+## 17-1. 背景と確定事実（実機検証済み）
+
+フルオート化（運用安定済みのものは無人で回す）に向け、ClaudeCodeとHiroyaで基盤を詰める中で、**WSLからGoogle Drive(G:)が読めない問題**が確定した。
+
+| 検証 | 結果 |
+|---|---|
+| WSLから `/mnt/c`（ローカルNTFS）読む | ✅ 正常（WSLのdrvfs自体は問題なし） |
+| WSL（**ライブtmuxセッションのペイン**）から `/mnt/g/…/【202606】Instagramコース` | ❌ `errno19 No such device` |
+| GoogleDriveFS（Drive本体） | ✅ 稼働中 |
+| **Windows**側からG:プロジェクト | ✅ 正常 |
+
+- **間欠故障である**ことも確定：tmuxの3エージェントペインは起動時 `cd '$WORK' && claude` 等が**成功**してG:に入れている（cd失敗ならCLIは起動しない）。**＝マウント直後は読め、時間経過でerrno19へ劣化する**。
+- 原因：Google DriveのストリームFSがWSLのdrvfs層を安定して通せない既知の相性問題。設計ミスではなく外部依存の経時劣化。6/25「全工程完成（G:自動マウント含む）」も起動時成功も事実。
+
+## 17-2. 解くべき問題（1行）
+
+**WSLのtmuxで動くエージェントが、無人運用中ずっと安定してプロジェクト＋signalファイル（GO/STATUS/HALT/Retrospective）を読み書きできる場所が要る。** G:直読みはこれを満たさない。
+
+核となる考え方の候補：**G:を「WSLの作業面」ではなく「Windows側からの公開・デプロイ先」と割り切る**。
+
+## 17-3. 検討中の3案（＋D募集）
+
+| 案 | 内容 | 利点 | 懸念 |
+|---|---|---|---|
+| **A. Driveをミラーモード化** | 該当フォルダをストリーム→ミラーにし、実体をローカルNTFSへ。WSLは /mnt/c 経由で安定読取 | git不要・二重化なし・最小構成 | **ミラーモードの実挙動は未検証**（要確認）。全Drive設定・ディスク使用量に影響しうる |
+| **B. gitをブリッジ** | auto-runはWSLローカルcloneで作業＋signal→push。G:反映とCloudflareデプロイはWindows側（盤石・既存§5手順）で実施 | 堅牢・既存デプロイ手順と整合 | 二重コピーの分岐リスク→pull/push規律が必要 |
+| **C. errno19監視→自動再マウント** | 検知して `sudo umount/mount` 張り直すwatchdog | 最小変更 | 対症療法。Google Drive×WSLの不安定さは残る。無人運用に弱い |
+
+**ClaudeCodeの暫定推奨**：まずAが成立するか検証 → ダメならB。Cは保険。
+
+## 17-4. 各エージェントへの質問
+
+**Antigravity（実装＋notebooklm-auto.js＝Windows側Puppeteer担当）へ**：
+1. notebooklm-auto.js はWindows側でChrome/プロファイルを駆動し、出力はG:に書く。auto-runの作業面がWSLローカルclone（案B）になると、スライド出力先・assets昇格・HTML実装の参照パスはどう整理するのが自然か？
+2. 案A（ミラーモード）にした場合、あなたのWindows側Puppeteer処理に支障はないか？
+3. 見落としている案D・実装上の地雷はあるか？
+
+**Codex（レビュー＋デプロイ＝Windows側§5担当）へ**：
+1. 品質ゲートは summary.json を読む。auto-runのファイルがWSLローカル（案B）になると、レビュー対象パスとデプロイ元（§5のASCII一時パス経由）の整合はどう取るのが安全か？
+2. 案A/B/Cで、デプロイ事故（404・中身だけコピー漏れ等の既知トラブル）が増えそうな点はあるか？
+3. 見落としている案D・レビュー観点はあるか？
+
+> 回答は本§17の下、または各自の判断で追記。最終決定はHiroya。ClaudeCodeは決まった方向で基盤設計に入る。
+
+## 17-5. 各エージェントの回答（2026-06-28・tmux-bridge経由で取得）
+
+> ClaudeCodeがtmux-bridgeで両ペインに相談を投入し、回答をペインから回収（AI-to-AI連携の初実証・Retrospective L4）。
+> Codexは回答直後にレート制限モーダルで停止（1.5hで回復見込み）。Antigravityは余裕ありフル回答。
+
+### Codex の回答 — **案D推奨（WSL native正本）**
+- **D: WSLローカル/ASCIIパス（`/home/hi/...` ext4）を正本にし、G:は同期・バックアップ・配布面へ降格**。
+- signal/STATUS/HALT/Retrospective・生成物・summary.json・品質ゲートを全部WSLローカルに置く。
+- deploy = WSLローカル→ASCII一時dir→`wrangler pages deploy`。G:反映はdeploy後にWindows側がpull/copy。
+- **レビュー対象とデプロイ元は commit SHA で接続**。「今見えているG:のファイル」を信用する設計は事故る。
+- 追加観点：summary.jsonに `commit`/`generated_at`/`source_root_kind:wsl-local`、HTML参照の.deploy_tmp存在チェック、cache-bust一致チェック、deploy時に対象SHA表示。
+- 各案の事故リスク：A=同期遅延でstale deploy・同時操作競合／B=二重ツリーのHTML/assets不整合・push/pull忘れ・.gitignore生成物で本番404／C=remount中の0byte欠損。対策＝.deploy_tmpは毎回削除再生成・コピー対象明示・最後にfind＋参照存在チェック。
+
+### Antigravity の回答 — **別案D（/mnt/c ローカルNTFS）＋UNCトリック**
+- **案A(ミラー)の地雷**：ローカルNTFS書込→Drive即アップロード中に別プロセスがリネーム/削除/変換すると `EBUSY`。対策＝scratch/を同期対象外 or `%TEMP`で処理完結後に完成WebPのみ配置。
+- **案Bの工夫**：Windows側notebooklm-auto.jsから `\\wsl.localhost\Ubuntu\home\hi\<repo>\scratch\` へ**直接書込**（drvfs経由しない＝errno19を受けない／WindowsからWSLへのUNC書込は安定）。HTML参照は相対パス統一。
+- **agyの案D**：**WindowsローカルフォルダをGoogle Driveミラー同期対象にし、WSLは `/mnt/c` 経由で直接作業**。/mnt/cはWSL2から100%安定・git/同期スクリプト/手動コピー不要・単一フォルダ共有で完結。懸念＝/mnt/cはネイティブより低速だが少数の静的HTML/画像なら無視可。
+- **地雷**：①CRLF/LF→`.gitattributes * text eol=lf`／②WSL2→Windows Chrome CDPのIP変動→`localhostForwarding=true` or resolv.confパース／③同期停止に気づかずデプロイ→0byte/ハッシュ検証＋HALT必須。
+
+### ClaudeCode（tmuxペイン・別インスタンス）の回答 — **Codex案D推し＋案E補完（決定打）**
+- **Codex案D（/home/hi 正本）を推す。理由＝`/mnt/c` も drvfs 経由**。/mnt/c は /mnt/g より安定だが errno19 の根本層（WSLのdrvfs層）は同じで、無人長時間運用で同じ経時劣化を起こさない保証がない。`/home/hi`(ext4)は drvfs を一切経由しない＝「問題が起きない構造」。対症療法でなく根治。← Antigravityの「/mnt/cは100%安定」への重要な反論。
+- **案E：`/mnt/c/wsl-inbox/` を「Windows→WSLの着地点」として限定使用**。Windows側Puppeteer→/mnt/c/wsl-inbox/に書く→WSL側watcher(inotify/polling)が書込完了後 `/home/hi/project/` へ mv して空にする。drvfs依存を「1回読み・即mv」の最小接触に限定。signal(GO/STATUS/HALT)は/home/hi内のみ＝errno19影響ゼロ。Codex案Dの**補完**（agy案Dの代替ではない）。
+- 懸念緩和：vhdx障害→git pushをpublishと定義し常にremoteに最新／Cloudflare deployは/home/hiからwrangler直実行で**日本語パス問題（既知トラブル①②）が消滅**。
+- 結論：A・B・agy案D はいずれも drvfs の持続的依存が残る。**Codex案D ＋ 案E が最も構造的に安全**。
+
+### 三者総合（ClaudeCode設計まとめ・暫定）
+全員「/mnt/g を作業面にするな」で一致。tmuxペインClaudeCodeの「/mnt/cも同じdrvfs層＝根治にならない」が決定打。収束する構成：
+- **正本（読み書き主戦場）＝`/home/hi/project`（WSL ext4・drvfsゼロ）**。signal/summary.json/品質ゲート/Retrospectiveも全部ここ。
+- **Windows→WSL の受け渡し（Puppeteer出力）＝Antigravityの `\\wsl.localhost\` UNC直書き**（ext4へ直接着地・drvfsを通らない／最もクリーン）。fallbackがClaudeCodeペインの案E（/mnt/c/wsl-inbox→mv）。
+- **公開＝git push を publish と定義**。G: はその downstream（Windows側がpull/copy）。
+- **deploy＝/home/hi から wrangler 直実行**（日本語パス起因の既知トラブル消滅）。レビュー対象とデプロイ元は commit SHA で接続（Codex）。
+- 決定はHiroya。決まれば ClaudeCode が基盤設計（移行手順・watcher・signal規約）に入る。
+
+---
+
+# §18【設計】`/home/hi` 正本への移行設計（2026-06-28・Hiroya「1」で決定）
+
+> 三者壁打ちの収束案（§17-5）を採用。フルオート基盤を「Google Driveストリーム(G:)依存」から「WSL ext4 正本」へ移す。
+> **方針：非破壊**（G:の現行ツリーは消さない。/home/hi は新規clone。問題あれば即ロールバック）。
+
+## 18-0. 確定した土台（実機検証済み 2026-06-28）
+- origin: `https://github.com/nanashinotarou/training-summary-2606.git`／master=origin/master 同期・未push 0。
+- 未コミット：CLAUDE/CODEX/GEMINI/Today_Plan/Usage_Log(M)＋Retrospective.md(??)。←移行前にcommit+pushが必要（cloneで取りこぼさないため）。
+- repo 721MB／`/home/hi` に clone 未作成（`ls ~`＝start-agents.sh/.agents/.smux のみ）。
+
+## 18-1. ターゲット構成（§17-5確定）
+| レイヤ | 結論 |
+|---|---|
+| 正本（読み書き主戦場） | `/home/hi/project`（WSL ext4・drvfsゼロ）。signal/summary.json/品質ゲート/Retrospective も全部ここ |
+| Win→WSL受渡（Puppeteer出力） | `\\wsl.localhost\Ubuntu\home\hi\project\…` UNC直書き（ext4へ直接・drvfs通らない）※**要検証**。fallback＝案E（/mnt/c/wsl-inbox→watcherでmv） |
+| 公開 | `git push`＝publish。G:はdownstream（Windowsがpull/copy） |
+| deploy | /home/hi から `wrangler pages deploy` 直実行（**日本語パス起因の既知デプロイ事故が消滅**）。review↔deploy は commit SHA接続（Codex） |
+
+## 18-2. 移行ステップ（順序厳守）
+```
+Step 0【保全】G:で今セッションの変更をcommit + push（5変更+Retrospective.md）
+        ※push＝外向き操作。Hiroya合図で実行。
+Step 1【clone】WSLで: git clone <origin> /home/hi/project
+        → git -C /home/hi/project status が clean を確認。HTTPS認証はPAT/gh。
+Step 2【起動先変更】start-agents.sh の WORK を /home/hi/project に。drvfs mount行は不要化。
+Step 3【出力先変更】notebooklm-auto.js（Windows実行）の出力先を
+        \\wsl.localhost\Ubuntu\home\hi\project\scratch\dayXX_auto\ に（設定変数 WSL_PROJECT_UNC）。
+        signal(GO/STATUS/HALT)も同ツリー。
+Step 4【deploy改修】/home/hi/project から .deploy_tmp 生成→wrangler直。
+        CLAUDE.md §5 のASCII退避コピー手順を「不要」に書き換え（日本語パスが無いため）。
+Step 5【G: downstream】deploy/commit後に Windows側が git pull でG:をorigin追従。G:は閲覧・バックアップへ降格。
+Step 6【signal規約＆watcher】UNC直書きで足りるか検証→不足なら /mnt/c/wsl-inbox + inotifywait watcher（案E）を追加。
+```
+
+## 18-3. 運用変更（Hiroya向け・重要）
+- 今後の正本は `/home/hi/project`。手動編集も原則ここへ（\\wsl.localhost 経由でWindowsエディタから編集可／WSL内エディタでも可）。
+- **G:を直接編集すると正本と分岐する**。G:編集は避ける、もしくは編集したら必ずgit経由で正本へ反映する規律。
+- デスクトップアプリで作業する場合の作業ディレクトリも /home/hi（\\wsl.localhost）を指すよう統一。
+
+## 18-4. 既知の地雷（エージェント指摘の反映）
+- **CRLF/LF**：clone直後に `.gitattributes` に `* text eol=lf` があるか確認、無ければ追加commit（agy指摘）。
+- **UNC書込中の競合（EBUSY類）**：書込完了を検知（サイズ安定 or `.part`→rename）してからmv（agy指摘）。
+- **WSL→Windows Chrome CDPのIP変動**：当面notebooklm-auto.jsはWindows実行なので影響小。将来WSL実行する場合は `.wslconfig localhostForwarding=true`（agy指摘）。
+- **git認証**：HTTPS clone/pushに PAT or `gh auth` が必要。
+
+## 18-5. Day13で移行＋フルオート実験（Hiroya決定 2026-06-28）
+- **Day13(6/30)＝今月で最もステークスが低い日**。最終日で実習は形骸化（動画を消化試合的に眺める／お披露目・コメント程度）。最悪、実装が間に合わなくても困る人がほぼいない。→ **新パイプラインの実験に最適な窓**。
+- 逆に**月を跨ぐと混乱増**：毎月Day1/2は前半=「生成AIとは/Canvaとは」のハウトゥー、後半だけテーマ性、と毛色が違う（[[memory: 月次コンテンツ構造]]）。移行をそこに重ねない方がよい。
+- **よって：Day13で /home/hi 正本へ移行し、Day13本番を新基盤で初フルオート実走する**。ClaudeCodeの当初「Day13後」案はステークス評価が逆で却下。
+- **保険**：Hiroyaが当日のYouTubeリンク・実習内容（主催チャット）をメモ→ダメなら現行(G:)手動フローへ即ロールバック（18-6）。
+- **2日間の準備（6/28-29）**：要検証項目（UNC書込・/home/hi clone・/home/hiからのwrangler deploy・WSL git認証）を事前検証し、Day13は「検証済み基盤で走らせるだけ」にしておく。
+
+## 18-6. ロールバック
+- 非破壊設計。G:の現行ツリーは温存。問題時は start-agents.sh の WORK を /mnt/g に戻すだけで現行運用へ即復帰。
 

@@ -10,6 +10,7 @@ Codex は本ファイルを必ず読み込むこと。
 **セッション開始時（必ず Read）**
 - `C:\Users\Hi\OneDrive\ドキュメント\Obsidian Vault\ClaudeCode\INDEX.md`
 - 本プロジェクト作業時: 同 Vault の `Instagramコース 2606.md`
+- **`Retrospective.md`（全AI共有の失敗・教訓ログ）の「直近の教訓」**。過去の確定事項を再発させないために必ず読む（§8）。
 
 **詳細ルール**: `C:\Users\Hi\OneDrive\ドキュメント\Obsidian Vault\ClaudeCode\SHARED_RULES.md`
 
@@ -139,6 +140,6 @@ Hiroyaがこれをそのまま Antigravity に貼り付けて修正依頼する�
 
 ## 8. 振り返り・教訓の書き先
 
+- **`Retrospective.md`（全AI共有）— デプロイ到達ごとに必ず追記する**。Codexはデプロイ実行者なので、**デプロイ成功＝振り返りトリガー**。その日のDayエントリを起票し、自分の担当（review/deploy）で何が起きたかを1行書く（Pass/Fail件数・つまずき・教訓）。⚠️ 2026-06-28 Hiroya指示で「Hiroya指示待ち」から「必須・自動」に変更（指示待ちだから失敗が蓄積しなかった）。
 - Today_Plan.md には書かない（翌日上書きで消える）
-- レビューで気づいた恒久的な教訓は Hiroya に口頭報告し、記録要否の判断を仰ぐ
-- Obsidian `Web教材制作ハンドブック` への追記は Hiroya の指示があったときのみ行う（自己判断で追記しない）
+- レビューで気づいた恒久的な禁止事項は CODEX.md / GEMINI.md の該当ルールに1行昇格。横断的な重大教訓の Obsidian `Web教材制作ハンドブック` への追記は従来どおり Hiroya 指示時のみ。
