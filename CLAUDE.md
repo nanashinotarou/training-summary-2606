@@ -100,6 +100,8 @@ npx --yes wrangler pages deploy .deploy_tmp --project-name=training-summary-2606
 
 > ⚠️ **緊急フォールバック（WSL不調時のみ）**：Windows側で `.deploy_tmp/*` の**中身だけ**をASCII一時フォルダ（例 `C:\Users\Hi\AppData\Local\Temp\deploy-instagram-2606`）へコピー →そこで `npx wrangler pages deploy .`（既存OAuth認証）。**日本語パスからの直接デプロイは禁止**（旧トラブル①）。
 
+> 🔒 **セキュリティ**：トークンを扱うシェルで `set -x`（xtrace）を使わない。`export CLOUDFLARE_API_TOKEN="$(cat ~/.cloudflare_token)"` がトレースに展開され平文露出する（実例：Retrospective L7）。変数確認は値でなく `${#VAR}`（長さ）・`[ -n "$VAR" ]` で。
+
 ### git の手順（デプロイとは別）
 
 ```
@@ -141,3 +143,17 @@ npx --yes wrangler pages deploy .deploy_tmp --project-name=training-summary-2606
 - 関与した3エージェント（ClaudeCode/Antigravity/Codex）が**各自1行ずつ**：成果物・うまくいった点・つまずき・次回教訓。
 - オーケストレーター完成後は、デプロイ成功signalを受けてこの追記が自動発火する設計（現状は手動追記）。
 - 汎用化できる教訓は `SHARED_RULES.md` か該当ルールファイルへ昇格させ、`Retrospective.md` には「いつ・何が・なぜ」を残す。
+
+---
+
+## 8. オーケストレーター連携（フルオート時の信号書込）
+
+フルオートモードでは `scratch/orchestrator.sh` が各ペインにタスクを投入する。**先頭が `【orchestrator】` のメッセージ**がそれ。ClaudeCodeの担当は**厳選＋vol計画ステージ**。
+
+- 起動の合図：`【orchestrator】… volXX計画＋スライド厳選 … plan.done を書け`
+- 入力：`scratch/orch/inbox.json` の `{day,half,urls,work}` と、agyが昇格したスライド（`scratch/dayXX_auto/` 等）。
+- やること：スライド（〜14枚）からHTMLに載せる分を厳選し、`Today_Plan.md` に当日のvol計画（タブ構成・セクション・スライド/動画割当・§④チェック値）を書く。
+- **完了したら最後に1回 `scratch/orch/plan.done` に `{"status":"OK"}` を書く**。失敗・判断不能なら書かず、`scratch/orch/HALT` に理由を1行書いて止まる。
+- signalは必ず **`scratch/orch/` 配下**（正本内）に書く。`status` がOK以外だとパイプラインは停止する。
+
+> デプロイのsignal連動：オーケストレーターは `deploy.done`(codex) を受けて全工程完了を通知する。Retrospective.md追記はデプロイ実行者（codex）がトリガー（§7・CODEX.md §8）。signalプロトコルの全体像は `scratch/orchestrator.sh` 冒頭コメントが正。

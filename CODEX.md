@@ -74,6 +74,14 @@ Set-Location "G:\マイドライブ\研修\【202606】Instagramコース"
 - assets を更新していない日は `.\deploy.ps1 -NoAssets` で高速化してよい
 - デプロイ後、本番URL `https://training-summary-2606.pages.dev/volXX-1.html` を開いて200応答を確認し、Hiroyaに報告する
 
+### 3-B. WSL直デプロイ（フルオート/Day13以降・正本 `/home/hi/project`）
+
+正本（`/home/hi/project`）のtmuxペインで作業しているとき（＝オーケストレーター経由）は、§3 のASCII退避は不要。**デプロイ手順は CLAUDE.md §5「✅ 推奨：WSL正本から直接デプロイ」が正**：`.deploy_tmp` をクリーン再生成 → `export CLOUDFLARE_API_TOKEN="$(cat ~/.cloudflare_token)"` ＋ `CLOUDFLARE_ACCOUNT_ID` → `npx wrangler pages deploy .deploy_tmp`。
+
+- ⚠️ **方式は作業場所で決まる**：Windows/G:アプリなら §3（deploy.ps1）、WSL/正本なら §3-B＝CLAUDE §5。混ぜない。
+- 🔒 トークンを扱うシェルで `set -x` 禁止（`$(cat ~/.cloudflare_token)` がトレースに展開され平文露出。Retrospective L7）。
+- デプロイ後 `https://training-summary-2606.pages.dev/volXX-1.html` の200応答を確認してHiroyaに報告。
+
 ---
 
 ## 4. 禁則事項（最重要・Day10で事故あり）
@@ -143,3 +151,16 @@ Hiroyaがこれをそのまま Antigravity に貼り付けて修正依頼する�
 - **`Retrospective.md`（全AI共有）— デプロイ到達ごとに必ず追記する**。Codexはデプロイ実行者なので、**デプロイ成功＝振り返りトリガー**。その日のDayエントリを起票し、自分の担当（review/deploy）で何が起きたかを1行書く（Pass/Fail件数・つまずき・教訓）。⚠️ 2026-06-28 Hiroya指示で「Hiroya指示待ち」から「必須・自動」に変更（指示待ちだから失敗が蓄積しなかった）。
 - Today_Plan.md には書かない（翌日上書きで消える）
 - レビューで気づいた恒久的な禁止事項は CODEX.md / GEMINI.md の該当ルールに1行昇格。横断的な重大教訓の Obsidian `Web教材制作ハンドブック` への追記は従来どおり Hiroya 指示時のみ。
+
+---
+
+## 9. オーケストレーター連携（フルオート時の信号書込）
+
+フルオートモードでは `scratch/orchestrator.sh` が各ペインにタスクを投入する。**先頭が `【orchestrator】` のメッセージ**がそれ。Codexの担当は従来どおり**レビュー＋デプロイ**（§2→§3）。違いは「完了をsignalファイルで知らせる」点だけ。
+
+- 起動の合図：`【orchestrator】… 機械チェック→WSL直デプロイ … deploy.done を書け`
+- やること：§2の機械チェック → 全Passなら **§3-B のWSL直デプロイ** → 成功後 §8 のとおり Retrospective.md に1行追記。
+- **デプロイ成功後、最後に1回 `scratch/orch/deploy.done` に**
+  `{"status":"OK","url":"https://training-summary-2606.pages.dev/volXX-1.html"}` **を書く。**
+- チェックFail（または目視NG）のときは**デプロイせず**、§5の転送ブロック要旨を **`scratch/orch/HALT`** に書いて止まる（`deploy.done` は書かない）。`{"status":"FAIL"}` を deploy.done に書いてもオーケストレーターは停止する。
+- signalは必ず **`scratch/orch/` 配下**（正本内）に書く。外や別パスに書かない（パイプラインが検知できない）。

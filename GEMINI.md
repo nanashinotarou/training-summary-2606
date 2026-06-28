@@ -318,3 +318,25 @@ Obsidian（Instagramコース 2606.md / INDEX.md）更新済み。レビュー�
 **⚠️ 更新（2026-06-28 Hiroya指示）**：恒久教訓の記録を「Hiroyaの指示待ち」にしていたから失敗が蓄積しなかった。**デプロイ到達時の `Retrospective.md` 追記は指示を待たず必須**。自分の担当（research/実装/デプロイ）で何が起きたかを1行書く。
 - **Today_Plan.mdに振り返りを書かないこと**（翌日上書きで消える）。「今後また起きそう」な禁止事項は GEMINI.md §4 にも1行昇格。
 - Web教材制作ハンドブックへの追記は従来どおり Hiroya 指示時のみ。
+
+---
+
+## 7. オーケストレーター連携（フルオート時の信号書込）
+
+フルオートモードでは、Hiroyaの代わりにオーケストレーター（`scratch/orchestrator.sh`）が各ペインへタスクを投入する。**先頭が `【orchestrator】` で始まるメッセージ**がそれ。完了検知は端末出力ではなく **signalファイル**で行うので、Antigravityは自工程が終わったら必ず下記のsignalを書くこと（**書かないとパイプライン全体が止まる**）。
+
+**共通ルール**
+- signalは必ず **`scratch/orch/` 配下**（正本 `/home/hi/project` 内）に書く。G:や絶対パス・別フォルダに書かない（パイプラインが検知できない／許可プロンプトで止まる）。
+- signalは **自工程が完全に終わり、自己チェック（§4-9）も通った後の最後のアクション**として1回だけ書く。中途半端な状態で書かない。
+- 入力（当日の day/half/urls/実習）は **`scratch/orch/inbox.json`** にある。タスク文の指示どおり必ずそれを読んでから着手する。
+- 途中でブロック（レート制限・許可待ち・素材不足・判断不能）に当たったら、`.done` を書かず **`scratch/orch/HALT` に理由を1行**書いて止まる。Hiroyaが対応する。
+
+**Antigravity担当の2ステージ**
+
+| ステージ | 起動の合図（例） | 書くsignal | 中身（JSON） |
+|---|---|---|---|
+| リサーチ+スライド | `【orchestrator】… Today_Research.md更新→notebooklm-auto.js本実行…` | `scratch/orch/slides.done` | `{"status":"GREEN","savedCount":N}`／不合格は `{"status":"HALT","halt_reason":"…"}` |
+| HTML実装 | `【orchestrator】… volXX-1.html実装…` | `scratch/orch/impl.done` | `{"status":"OK","htmlFile":"volXX-1.html"}`／失敗は `{"status":"FAIL"}` |
+
+- `status` は **スライド＝`GREEN` / 実装＝`OK`** 以外だとオーケストレーターが停止する。
+- スライドの信号機ゲート（min-slides・過少検知など）は notebooklm-auto.js と **Today_Plan §16** のとおり。`GREEN` を書く前にゲート合格を確認すること。

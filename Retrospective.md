@@ -36,6 +36,16 @@
 
 ## 直近の教訓（降順・汎用知見はここに残す）
 
+### L8.〔失敗 2026-06-29〕stale なローカルベースの上に作業し、既存のorigin成果を再実装した
+- **何が**：G:ローカルが origin/master より **7コミット遅れ**なのに気づかず、その stale ベース（fbe5f2a）の上でオーケストレーター最終化を実装 → push時の non-fast-forward で発覚。origin には既に「WSL直§5」「キーパー追跡＋.gitignore例外＋.gitattributes」「orchestrator骨格」「L6」があり、**§5-B・.gitignore例外・.gitattributes・env-file等を重複再実装していた**。
+- **なぜ**：移行で **/home/hi が正本＝そこから push される**運用に変わったのに、旧前提「commitはG:側／WSL push未認証」で動き、作業前に `git fetch` しなかった。G:のCLAUDE §5が旧版に"見えた"のは stale の症状なのに「未更新だから自分が直す」と誤読。
+- **教訓**：①**作業開始前に必ず `git fetch && git status -sb`** で origin 差分を確認（特に G:↔/home-hi の多コピー＋多エージェントが push しうる環境）。②「ファイルが古く見える」＝まず自分のツリーが stale かを疑う（[[feedback_verify_cause_before_asserting]] と同型）。③回収は非破壊：backupブランチ→`reset --hard origin`→net-newだけ再適用。
+
+### L7.〔失敗 2026-06-29〕`set -x` でシークレットを露出させた
+- **何が**：`~/.cloudflare_token` を読むデプロイ設定の動作確認中、変数が空に見え `set -x` でトレース → `export CLOUDFLARE_API_TOKEN=<実値>` が展開され、**Cloudflare APIトークン平文がセッションに露出**（→要再生成）。設計（値をファイルに書かず `$(cat)` で渡す）は正しかったのに、デバッグ手段が防御を貫通した。
+- **真因（別件）**：変数が空に見えたのは env破損でなく、**Windows→WSLのテストハーネス**（PowerShell/Git Bashが `wsl` 呼出時に `/tmp`・`~`・`$VAR` を変換/展開）が不正確だったため。`wsl bash -c` 単一プロセス内で完結したトレースだけが正しかった。
+- **教訓**：①**クレデンシャルを扱うシェルで `set -x` 禁止**。確認は `${#VAR}`・`[ -n ]` で値を出さず。②Win→WSL検証は `wsl bash -c` 単一プロセス内で完結（外殻でパス/`$`が化ける）。③露出は即ローテーション。昇格先：CLAUDE §5・CODEX §3-B・[[feedback_no_setx_with_secrets]]。
+
 ### L6. 異変は"自分のミスかも"を疑い、その場で正体を突き止めてから進む（フルオート基盤の/home/hi移行が本番デプロイまで到達 2026-06-28）
 - **デプロイ到達**：§18の基盤移行（G:依存→WSL ext4正本）を実行し、**WSLからのgit push・wrangler本番デプロイをスモークテストで実証**（本番200確認）。運用方法は [[project_fullauto_base_decision]] と CLAUDE.md §5（WSL直版）。
 - **何が**：デプロイ後の後片付けで .deploy_tmp 再生成が16ファイルを削除（alpaca-feedback.html・Instagram_Growth_Mastery slides）。「自分の操作で本番から必要ファイルを消したかも」と疑い、**その場で参照grepして"死にファイル（参照ゼロ・root非存在）"と確定**してから進んだ。結果むしろstale掃除になった（Codex予言の.deploy_tmp stale事故を実地で回避）。

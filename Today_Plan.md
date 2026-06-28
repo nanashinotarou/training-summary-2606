@@ -1355,3 +1355,26 @@ Step 6【signal規約＆watcher】UNC直書きで足りるか検証→不足な�
 - ⚠️ **現状の注意**：現行tmuxセッションは旧 `/mnt/g` 起動のまま。新WORKを効かせるには**セッション再起動（start-agents.sh再実行）が必要＝Hiroya操作**。
 - ⚠️ **移行期の二重コピー**：当面 G:コピーと /home/hi正本が併存。push認証が整うまで commit は当面G:側で行い、正本は git pull で追従させる（認証後は正本側で編集→pushに一本化）。
 
+---
+
+# §19【実装】オーケストレーター最終化（2026-06-29）
+
+> `scratch/orchestrator.sh` の骨格を「Day13で実走できる」状態へ詰めた。設計の正は本§19ではなく **orchestrator.sh 冒頭コメント＋各ルールの「オーケストレーター連携」節**（GEMINI §7／CLAUDE §8／CODEX §9）。ここは到達点と残タスクの記録。
+> ⚠️ **着手時の事故**：G:ローカルが origin より7コミット stale なのに気づかず作業し、origin に既にある成果（WSL直§5・キーパー追跡・.gitattributes・orchestrator骨格）を一部重複実装 → reset で回収（Retrospective L8）。**次回は作業前に必ず `git fetch`**。
+
+## 19-1. このセッションの net-new（origin骨格の上に追加した分）
+- **signalプロトコルを3ルールに配線**：GEMINI §7（slides.done/impl.done）・CLAUDE §8（plan.done）・CODEX §9（deploy.done）＋全AI共通 `scratch/orch/HALT`。完了検知は端末出力でなくsignalファイルが正。
+- **orchestrator.sh 堅牢化**（骨格 b3e490f → 本番化）：pane `%N`→index形式 `agents:0.N`（claude0.0/codex0.1/agy0.2、実行は空き0.3）／preflight fail-closed（tmux外・pane不在・inbox不在で停止）／入力 `scratch/orch/inbox.json` 注入／段別timeout（research2400・plan900・impl1800・deploy1200）。`--mock` 全段グリーン・tmux外real＝preflight HALT を実機確認。
+- **デプロイ整合**：CODEX §3-B を CLAUDE §5（既にWSL直版・origin）へのポインタ化。CLAUDE §5・CODEX §3-B に「トークン扱いシェルで set -x 禁止」を追記（露出事故 Retrospective L7）。
+- （※キーパー追跡・.gitignore例外・.gitattributes・WSL直§5 は **origin が既に保有**。重複ぶんは reset で破棄。）
+
+## 19-2. Day13実走の残（順序）
+1. **tmuxセッション再起動**（`start-agents.sh`）で正本 `/home/hi/project` 起動に切替（§18-7 ⚠）＝Hiroya操作。
+2. **/home/hi で `git pull`**（本コミットを正本へ反映。WSL push/pull は認証済み＝稼働実績あり）。
+3. **Cloudflareトークン再生成**（⚠ L7で露出）→ `~/.cloudflare_token` 差し替え。デプロイ手順は CLAUDE §5。
+4. **`scratch/orch/inbox.json` を当日値で作成**（day/half/urls/実習）。雛形 `inbox.example.json` は preflight が自動生成。
+5. **空きpane 0.3 で** `bash scratch/orchestrator.sh` → 放置。HALT時は `scratch/orch/STATUS.txt`・`HALT` を見て対応→再実行。
+
+## 19-3. 実AI疎通テスト（未実施・再起動後）
+- mockは状態機械のみ。**実AIにタスク投入→signal書込までの1段ずつの疎通**は、正本起動へ切替後（19-2の1の後）。まず stage1（agy slides）だけ流して `slides.done` が書かれるかを確認するのが安全な第一歩。
+
