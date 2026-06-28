@@ -1339,3 +1339,19 @@ Step 6【signal規約＆watcher】UNC直書きで足りるか検証→不足な�
 ## 18-6. ロールバック
 - 非破壊設計。G:の現行ツリーは温存。問題時は start-agents.sh の WORK を /mnt/g に戻すだけで現行運用へ即復帰。
 
+## 18-7. 移行進捗（2026-06-28 実機検証つき）
+- ✅ **Step 0 保全**：commit `fbe5f2a` を origin/master へ push。WSL ls-remoteでも確認＝往復成立。
+- ✅ **Step 1 clone**：`/home/hi/project`（ext4・/dev/sdd・drvfsゼロ・空き約1TB）。HEAD=fbe5f2a・1209ファイル・status clean。
+- ✅ **Step 2 起動先**：`~/start-agents.sh` の WORK を `/home/hi/project` に。drvfsマウント行を除去。旧版は `~/start-agents.sh.bak-gdrive` に退避。
+- ✅ **Step 3 出力先＝コード改変ゼロで解決（実機検証済み）**：Windows node をUNCパスから実行すると `__dirname` がUNC化し、`outputDir=path.join(__dirname,'dayXX_auto')` が正本ext4へ自動着地。
+  - 新run例：`node "\\wsl.localhost\Ubuntu\home\hi\project\scratch\notebooklm-auto.js" --day 13 --half 前半 --urls "URL" --work "..."`
+  - 後方互換（G:コピーから起動すれば従来どおりG:へ）。signal(GO/STATUS/HALT)・summary.json も同じ __dirname 基準なので同時に正本へ。
+- ✅ **検証済みの基盤能力**：UNC書込(Win→WSL ext4)／Read・Write・Editツールが `\\wsl.localhost\` で動作（＝ClaudeCodeはWindowsから正本を直接編集可）／WSLからorigin到達(public・clone/pull可)。
+- ⏳ **残タスク**：
+  - Step 4 deploy（/home/hi から wrangler 直）＝要実機検証。実デプロイは外向きなのでDay13本番 or 合図で。
+  - Step 5 publish（正本から `git push`）＝**WSLの push 認証が前提＝Hiroya作業**（`gh auth login` or PAT。トークン入力はClaudeCode領分外）。
+  - Step 6 watcher/案E＝run-from-UNCで足りるなら不要。
+  - `.gitattributes`（`* text eol=lf`）＝任意ハードニング（CRLF地雷固定）。
+- ⚠️ **現状の注意**：現行tmuxセッションは旧 `/mnt/g` 起動のまま。新WORKを効かせるには**セッション再起動（start-agents.sh再実行）が必要＝Hiroya操作**。
+- ⚠️ **移行期の二重コピー**：当面 G:コピーと /home/hi正本が併存。push認証が整うまで commit は当面G:側で行い、正本は git pull で追従させる（認証後は正本側で編集→pushに一本化）。
+
