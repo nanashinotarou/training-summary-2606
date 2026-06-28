@@ -4,6 +4,8 @@
 # wranglerローカルキャッシュ（アカウント情報を含むためコミット禁止）
 .wrangler/
 
-# 一時的な使い捨てフォルダ
-scratch/
-scratch/orch/
+# 一時的な使い捨てフォルダ（中身は無視。ただし本番キーパー資産は下の!で例外追跡）
+scratch/*
+!scratch/notebooklm-auto.js
+!scratch/orchestrator.sh
+!scratch/SELECTORS.md
