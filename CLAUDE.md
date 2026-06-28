@@ -71,46 +71,39 @@ HTMLファイル末尾の cache-bust コメントは **必ず以下の形式** �
 
 Cloudflare Pages プロジェクト名: `training-summary-2606`
 
-### ⚠️ 既知の問題：2つの連鎖トラブル（2026-06-09 Day04 で確認）
+### ✅ 推奨：WSL正本から直接デプロイ（2026-06-28 §18移行で確立）
 
-プロジェクトルート（Googleドライブ上の日本語パス）から直接デプロイすると2種類のトラブルが起きる。**必ず下記の推奨手順のみを使うこと。**
+正本が `/home/hi/project`（WSL ext4・**ASCIIパス**）になり、**日本語パス起因のクラッシュ（旧トラブル① `STATUS_STACK_BUFFER_OVERRUN`）は構造的に消滅**。ASCII退避コピーは不要。WSL内で wrangler を直接実行する。
+- **認証**：Cloudflare APIトークンを `~/.cloudflare_token`（Pages:Edit・chmod600）に保存済み。アカウントID `19175dfedd0851ef828b8603a0b446eb`。
+- `git push` 認証も `~/.git-credentials` に保存済み（正本から直接 push 可）。
 
-**トラブル①** `npx wrangler pages deploy` を実行すると起動直後にクラッシュ
-- エラーコード: `-1073740791`（Windows `STATUS_STACK_BUFFER_OVERRUN`）
-- 原因: 日本語パスで wrangler がファイル列挙する際に不安定
-- 対処: `.deploy_tmp` の**中身**を ASCII パスにコピーしてからデプロイ
+```bash
+cd /home/hi/project
 
-**トラブル②** wrangler が「Success!」なのに本番が 404 になる
-- 原因: `Copy-Item ".deploy_tmp" $dest` でフォルダごとコピーすると実パスが `/.deploy_tmp/vol04-1.html` になる
-- 対処: 必ず `".deploy_tmp\*"` で**中身だけ**コピーする
+# Step 1: .deploy_tmp（公開する中身だけ）を毎回クリーン再生成。stale事故防止で不要物を消してから入れ直す（Codex指摘）
+rm -f .deploy_tmp/*.html
+rm -rf .deploy_tmp/assets && mkdir -p .deploy_tmp/assets
+cp index.html vol*.html .deploy_tmp/
+cp -r assets/. .deploy_tmp/assets/
+# ※ clock.js / OGP画像 / favicon 等の追加アセットがあれば明示コピーする（コピー漏れ＝本番404の典型・agy指摘）
 
-### デプロイ手順（PowerShell）
+# Step 2: 参照存在チェック（ルートに volXX-1.html があるか＝旧トラブル②の担保）
+ls .deploy_tmp/vol*.html
 
-```powershell
-# Step 1: .deploy_tmp を同期（プロジェクトルートで実行）
-Set-Location "G:\マイドライブ\研修\【202606】Instagramコース"
-Copy-Item index.html .deploy_tmp\ -Force
-Copy-Item vol*.html .deploy_tmp\ -Force
-Copy-Item assets\dayXX_slide*.png .deploy_tmp\assets\ -Force   # 当日スライドがあれば
-
-# Step 2: 一時フォルダへ「中身だけ」コピー（* が重要）
-$dest = "C:\Users\Hi\AppData\Local\Temp\deploy-instagram-2606"
-if (Test-Path $dest) { Remove-Item $dest -Recurse -Force }
-New-Item -ItemType Directory -Path $dest | Out-Null
-Copy-Item ".deploy_tmp\*" $dest -Recurse -Force   # ← フォルダごとではなく中身だけ
-
-# Step 3: 確認してからデプロイ
-Set-Location $dest
-Get-ChildItem -Filter "vol*.html"   # ← ルートに volXX-1.html があることを確認
-npx wrangler pages deploy . --project-name=training-summary-2606 --commit-dirty=true
+# Step 3: デプロイ（tokenはファイルから直読み／account_id指定で whoami のアカウント一覧取得をスキップ）
+export CLOUDFLARE_API_TOKEN="$(cat ~/.cloudflare_token)"
+export CLOUDFLARE_ACCOUNT_ID="19175dfedd0851ef828b8603a0b446eb"
+npx --yes wrangler pages deploy .deploy_tmp --project-name=training-summary-2606 --commit-dirty=true
 ```
 
-**本番URL確認:** `https://training-summary-2606.pages.dev/volXX-1.html`
+**本番URL確認:** `https://training-summary-2606.pages.dev/volXX-1.html`（200応答を確認）。レビュー対象とデプロイ元は **commit SHA で接続**する（Codex指摘）。
+
+> ⚠️ **緊急フォールバック（WSL不調時のみ）**：Windows側で `.deploy_tmp/*` の**中身だけ**をASCII一時フォルダ（例 `C:\Users\Hi\AppData\Local\Temp\deploy-instagram-2606`）へコピー →そこで `npx wrangler pages deploy .`（既存OAuth認証）。**日本語パスからの直接デプロイは禁止**（旧トラブル①）。
 
 ### git の手順（デプロイとは別）
 
 ```
-git add / commit / push origin master
+正本(WSL)で: git add / commit / push origin master
 ```
 
 ---
