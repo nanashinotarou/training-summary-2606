@@ -36,6 +36,14 @@
 
 ## 直近の教訓（降順・汎用知見はここに残す）
 
+### L10.〔検証成功 2026-06-29〕orchestrator全3エージェントの送信→signal書込をライブ検証完了
+- **結果**：agy/codex/claude すべてが orchestrator のトリガーで**完全ハンズオフ**に `scratch/orch/slides.done` を書き、orchestratorが検出。コアループ（起動→signal→検出→次段）が**実3エージェントで成立**。
+- **各エージェントの自動化要件（実機handshakeで確定）**：
+  - **agy**（Antigravity/Gemini）：そのままでOK（非フォーカスでも送信・無言で書込）。
+  - **codex**：**ペインフォーカス必須**（`select-pane`＋落ち着き待ち。L9）。書込は無言。
+  - **claude**（Claude Code）：既定はファイル書込に**許可を求める** → `claude --permission-mode acceptEdits` 起動 or セッション中「allow all edits」で解決（start-agents.sh反映済）。
+- **教訓**：エージェントごとにTUIの送信キー挙動・許可挙動が**バラバラ**。フルオート化は「各CLIの起動オプション＋送信手順」を**実機handshakeで1体ずつ潰す**のが確実（憶測で進めない＝L9の誤診の反省）。残るは Day13 の全段実走（NotebookLM込み）のみ。
+
 ### L9.〔検証成功 2026-06-29〕codexは「ペインがフォーカスされていない」と send-keys Enter を取りこぼす
 - **何が**：orchestratorのトリガー（`tmux-bridge type` ＋ 生 `tmux send-keys -t agents:0.1 Enter`）で、**agyは即送信できたのにcodexは送信されず**入力ボックスに残った。Hiroyaが「**クリックしてからEnterを押さないとWorking開始しない**」と観察。
 - **真因**：codexのTUIは**フォーカスされたペインでないと注入Enterを確定しない**（agyは非フォーカスでも確定する）。`tmux send-keys -t pane` はフォーカス無視で届くはずだが、codex側がフォーカス状態で入力受理を変えている。
