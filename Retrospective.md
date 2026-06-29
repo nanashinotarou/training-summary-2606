@@ -36,6 +36,13 @@
 
 ## 直近の教訓（降順・汎用知見はここに残す）
 
+### L9.〔検証成功 2026-06-29〕codexは「ペインがフォーカスされていない」と send-keys Enter を取りこぼす
+- **何が**：orchestratorのトリガー（`tmux-bridge type` ＋ 生 `tmux send-keys -t agents:0.1 Enter`）で、**agyは即送信できたのにcodexは送信されず**入力ボックスに残った。Hiroyaが「**クリックしてからEnterを押さないとWorking開始しない**」と観察。
+- **真因**：codexのTUIは**フォーカスされたペインでないと注入Enterを確定しない**（agyは非フォーカスでも確定する）。`tmux send-keys -t pane` はフォーカス無視で届くはずだが、codex側がフォーカス状態で入力受理を変えている。
+- **誤診の自戒**：私は最初「ペインを読んだら Working だったので codex は既に送信済み・あなたのEnterは念のため」と**確かめずに断定**→ Hiroyaに「それでいいの？」と正された。読んだ時点の Working は**手動Enterの後**だった（[[feedback_verify_cause_before_asserting]]）。
+- **解決（実証済み）**：トリガーで Enter の前に **`tmux select-pane -t "$pane"`（フォーカス）＋ `sleep 1.2`（挿入テキストの落ち着き待ち）** を入れる → codexが**完全ハンズオフで瞬時に送信**。orchestrator.sh `trigger_agent` に反映。agy/claudeにも無害（フォーカス＋待ちは上位互換）。
+- **補足**：完了検知は signal ファイルが正なので、codexが数秒もたついても問題ない。要件は「Enterが確実に確定すること」だけ。
+
 ### L8.〔失敗 2026-06-29〕stale なローカルベースの上に作業し、既存のorigin成果を再実装した
 - **何が**：G:ローカルが origin/master より **7コミット遅れ**なのに気づかず、その stale ベース（fbe5f2a）の上でオーケストレーター最終化を実装 → push時の non-fast-forward で発覚。origin には既に「WSL直§5」「キーパー追跡＋.gitignore例外＋.gitattributes」「orchestrator骨格」「L6」があり、**§5-B・.gitignore例外・.gitattributes・env-file等を重複再実装していた**。
 - **なぜ**：移行で **/home/hi が正本＝そこから push される**運用に変わったのに、旧前提「commitはG:側／WSL push未認証」で動き、作業前に `git fetch` しなかった。G:のCLAUDE §5が旧版に"見えた"のは stale の症状なのに「未更新だから自分が直す」と誤読。

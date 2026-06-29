@@ -61,7 +61,11 @@ trigger_agent() {
   if [ "$MOCK" = "1" ]; then status "  (mock) skip trigger $pane"; return; fi
   "$BRIDGE" read "$pane" 3 >/dev/null 2>&1            # read-guard
   "$BRIDGE" type "$pane" "$task"
-  tmux send-keys -t "$pane" Enter                     # 生Enterで送信（tmux-bridge keysは不発の実証あり）
+  # 送信：codexは「ペインが非フォーカスだと send-keys Enter を取りこぼす」実証あり（2026-06-29・Retrospective L9）。
+  # select-paneでフォーカス→挿入テキストが落ち着くのを待ってからEnter。agyは不要だが入れても無害。
+  tmux select-pane -t "$pane"
+  sleep 1.2
+  tmux send-keys -t "$pane" Enter
 }
 
 mock_writer() { sleep 1; echo "{\"status\":\"OK\",\"mock\":true,\"at\":\"$(date -Iseconds)\"}" > "$ORCH_DIR/$1"; }
