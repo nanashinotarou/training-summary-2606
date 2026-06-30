@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DX研修まとめ 2026年6月｜Day 13 情報セキュリティとSNS発信リテラシー — 最終回</title>
+    <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg?v=2">
+    <meta name="description" content="AIを活用したInstagram運用を学ぶDX研修のまとめサイト（2026年6月）。スライド・動画・実習をまとめています。">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="DX研修まとめ">
+    <meta property="og:locale" content="ja_JP">
+    <meta property="og:title" content="DX研修まとめ 2026年6月｜Day 13 情報セキュリティとSNS発信リテラシー — 最終回">
+    <meta property="og:description" content="AIを活用したInstagram運用を学ぶDX研修のまとめサイト（2026年6月）。スライド・動画・実習をまとめています。">
+    <meta property="og:url" content="https://training-summary-2606.pages.dev/vol13-1.html">
+    <meta property="og:image" content="https://training-summary-2606.pages.dev/assets/ogp.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="DX研修まとめ 2026年6月｜Day 13 情報セキュリティとSNS発信リテラシー — 最終回">
+    <meta name="twitter:description" content="AIを活用したInstagram運用を学ぶDX研修のまとめサイト（2026年6月）。スライド・動画・実習をまとめています。">
+    <meta name="twitter:image" content="https://training-summary-2606.pages.dev/assets/ogp.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700;900&family=Teko:wght@600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-body: #fdf4ff;
+            --bg-card: rgba(255, 255, 255, 0.92);
+            --bg-card-solid: #ffffff;
+            --text-main: #1e1035;
+            --text-sub: #64748b;
+            --ig-purple: #833ab4;
+            --ig-magenta: #c13584;
+            --ig-orange: #f77737;
+            --ig-grad: linear-gradient(45deg, #833ab4, #c13584, #f77737);
+            --ig-light: #f3e8ff;
+            --canva-purple: #7B2FF7;
+            --canva-cyan: #00C4CC;
+            --shadow-soft: 0 10px 30px rgba(131, 58, 180, 0.08);
+            --shadow-hover: 0 15px 40px rgba(193, 53, 132, 0.18);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.7);
+            --radius-large: 24px;
+            --radius-medium: 16px;
+            --radius-small: 8px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background-color: var(--bg-body);
+            background-image:
+                radial-gradient(at 0% 0%, rgba(255, 255, 255, 0.9) 0, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(243, 232, 255, 0.9) 0, transparent 50%);
+            background-attachment: fixed;
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 40px 20px;
+        }
+
+        .home-btn {
+            position: fixed; bottom: 30px; right: 30px;
+            width: 60px; height: 60px;
+            background: var(--ig-grad); color: #fff;
+            border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            font-size: 1.5rem; text-decoration: none;
+            box-shadow: 0 10px 25px rgba(193, 53, 132, 0.4);
+            transition: all 0.3s; z-index: 1000;
+        }
+        .home-btn:hover { transform: translateY(-5px) scale(1.05); }
+
+        .container {
+            width: 100%; max-width: 900px;
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            border: var(--glass-border);
+            border-radius: var(--radius-large);
+            box-shadow: var(--shadow-soft);
+            overflow: hidden;
+            animation: fadeIn 0.8s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .header { padding: 36px 40px 20px; text-align: center; border-bottom: 2px solid var(--ig-light); }
+        .header-top {
+            display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 14px; flex-wrap: wrap; gap: 10px;
+        }
+        .header-nav { display: flex; gap: 12px; flex-wrap: wrap; }
+        .back-link {
+            display: inline-flex; align-items: center; gap: 6px;
+            color: var(--ig-purple); text-decoration: none;
+            font-weight: 700; font-size: 0.9rem;
+        }
+        .back-link:hover { color: var(--ig-magenta); }
+        .progress-pill {
+            font-family: 'Roboto', sans-serif;
+            font-size: 0.85rem; font-weight: 700; color: #fff;
+            background: var(--ig-grad);
+            padding: 6px 14px; border-radius: 20px;
+        }
+        .header-tag {
+            display: inline-block; background: var(--ig-grad);
+            color: #fff; font-weight: 700; padding: 4px 14px; border-radius: 20px;
+            font-family: 'Roboto', sans-serif; font-size: 0.85rem; letter-spacing: 1px; margin-bottom: 12px;
+        }
+        .header h1 {
+            font-size: 2rem; font-weight: 900;
+            background: var(--ig-grad);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text; margin-bottom: 10px; line-height: 1.35;
+        }
+        .header-sub { margin: 0; color: var(--text-sub); font-size: 0.95rem; }
+
+        .slide-img {
+            width: 100%; height: auto; display: block;
+            border-radius: var(--radius-medium);
+            margin: 24px 0; box-shadow: var(--shadow-soft);
+            border: 1px solid #ede9f5;
+        }
+        .cover-slide { margin: 0; border-radius: 0; border: none; box-shadow: none; }
+
+        .tabs {
+            display: flex; padding: 0 20px;
+            background: rgba(255, 255, 255, 0.5);
+            border-bottom: 1px solid #ede9f5; overflow-x: auto;
+        }
+        .tab-btn {
+            border: none; background: none; padding: 18px 14px;
+            font-size: 0.88rem; font-weight: 700; color: var(--text-sub);
+            cursor: pointer; position: relative; white-space: nowrap;
+        }
+        .tab-btn:hover, .tab-btn.active { color: var(--ig-purple); }
+        .tab-btn.active::after {
+            content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 3px;
+            background: var(--ig-grad); border-radius: 3px 3px 0 0;
+        }
+        .tab-content {
+            display: none; padding: 40px;
+            background: var(--bg-card-solid); min-height: 500px;
+            animation: fadeInTab 0.4s ease-out;
+        }
+        .tab-content.active { display: block; }
+        @keyframes fadeInTab {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            font-size: 1.55rem; color: var(--text-main);
+            border-left: 5px solid var(--ig-purple);
+            padding-left: 15px; margin: 30px 0 20px;
+            display: flex; align-items: center; gap: 10px;
+        }
+        h2:first-child { margin-top: 0; }
+        h2 .sec-num {
+            font-family: 'Teko', sans-serif; font-size: 1.1rem;
+            color: var(--ig-magenta); font-weight: 600;
+        }
+        h3.sub-heading {
+            font-size: 1.05rem; font-weight: 700; color: var(--ig-purple);
+            margin: 24px 0 16px;
+            background: linear-gradient(to right, rgba(131,58,180,0.07), transparent);
+            border-left: 4px solid var(--ig-purple);
+            padding: 8px 14px;
+            border-radius: 0 var(--radius-small) var(--radius-small) 0;
+        }
+        div + h3.sub-heading,
+        img.slide-img + h3.sub-heading {
+            margin-top: 56px;
+        }
+        p { line-height: 1.72; margin-bottom: 11px; color: #475569; font-size: 1.02rem; }
+
+        .goal-box {
+            background: linear-gradient(135deg, #f5f0ff, #f0fdff);
+            border: 1px solid #e9d5f5; border-radius: var(--radius-medium);
+            padding: 30px; margin-bottom: 28px; text-align: center;
+        }
+        .goal-box i {
+            font-size: 2.5rem;
+            background: var(--ig-grad);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text; margin-bottom: 12px;
+        }
+        .goal-box h3 { font-size: 1.35rem; color: var(--ig-purple); margin-bottom: 12px; }
+        .goal-box p { margin-bottom: 8px; font-size: 1.05rem; color: var(--text-main); }
+        .goal-box p:last-child { margin-bottom: 0; }
+
+        .goal-list {
+            background: #faf8ff; border: 1px solid #ede9f5;
+            border-radius: var(--radius-medium); padding: 22px 26px; margin: 20px 0;
+        }
+        .goal-list h4 { font-size: 1rem; color: var(--ig-purple); margin-bottom: 10px; }
+        .goal-list ul { margin: 0; padding-left: 1.3rem; line-height: 1.72; color: #475569; }
+
+        .section {
+            margin-bottom: 64px; padding-bottom: 64px;
+            border-bottom: 2px dashed #ddd6f5;
+        }
+        .section:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+
+        .card-grid-2 {
+            display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px; margin: 24px 0;
+        }
+        .info-card {
+            background: #fff; border: 1px solid #ede9f5;
+            border-radius: var(--radius-medium); padding: 22px;
+            box-shadow: var(--shadow-soft); transition: 0.25s;
+            position: relative; overflow: hidden;
+        }
+        .info-card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+            background: var(--ig-grad);
+        }
+        .info-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); }
+        .info-card-header {
+            display: flex; align-items: center; gap: 12px; margin-bottom: 14px;
+        }
+        .info-card-icon {
+            flex-shrink: 0;
+            width: 40px; height: 40px; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            background: linear-gradient(135deg, rgba(131,58,180,0.12), rgba(247,119,55,0.10));
+            color: var(--ig-purple); font-size: 1.1rem;
+        }
+        .info-card h3 { font-size: 1.05rem; color: var(--ig-purple); margin-bottom: 0; }
+        .info-card p { font-size: 1rem; margin-bottom: 0; line-height: 1.65; color: var(--text-main); font-weight: 500; }
+
+        .sub-note {
+            font-size: 0.88rem; color: var(--text-sub);
+            background: #faf8ff; border: 1px solid #ede9f5;
+            border-radius: var(--radius-small); padding: 14px 18px;
+            margin-top: 16px; line-height: 1.7;
+        }
+
+        .step-card {
+            display: flex; gap: 16px; align-items: flex-start;
+            background: #fff; border: 1px solid #ede9f5;
+            border-radius: var(--radius-medium); padding: 18px 20px;
+            margin-bottom: 14px; transition: 0.2s;
+        }
+        .step-card:hover { border-color: var(--ig-magenta); box-shadow: var(--shadow-soft); }
+        .step-num {
+            flex-shrink: 0; width: 36px; height: 36px; border-radius: 50%;
+            background: var(--ig-grad);
+            color: #fff; font-family: 'Roboto', sans-serif;
+            font-weight: 900; font-size: 1rem;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .step-card h4 { font-size: 1rem; color: var(--text-main); margin-bottom: 6px; }
+        .step-card p { font-size: 0.92rem; margin-bottom: 0; }
+
+        .warning-box {
+            background: #fff5f5; border: 2px solid #fca5a5;
+            border-radius: var(--radius-medium); padding: 20px 24px; margin: 16px 0;
+        }
+        .warning-box p { margin-bottom: 0; color: #7f1d1d; font-size: 0.96rem; font-weight: 600; }
+
+        .tips-box {
+            background: linear-gradient(135deg, #fdf0ff, #fff8f3);
+            border: 1px solid #e9d5f5; border-left: 5px solid var(--ig-magenta);
+            border-radius: var(--radius-medium); padding: 20px 24px; margin: 20px 0;
+        }
+        .tips-box h4 {
+            color: var(--ig-purple); font-size: 1rem; margin-bottom: 8px;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .tips-box p { margin-bottom: 0; font-size: 0.96rem; }
+
+        .info-box {
+            background: #faf8ff; border: 1px solid #e9d5f5; border-left: 5px solid var(--ig-purple);
+            border-radius: var(--radius-medium); padding: 20px 24px; margin: 20px 0;
+        }
+        .info-box p { margin-bottom: 8px; font-size: 0.96rem; color: #475569; line-height: 1.75; }
+        .info-box p:last-child { margin-bottom: 0; }
+        .info-box ul { margin: 8px 0 0; padding-left: 1.3rem; line-height: 1.72; color: #475569; font-size: 0.96rem; }
+
+        .before-after-grid {
+            display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px; margin: 24px 0;
+        }
+        .ba-card {
+            padding: 22px; border-radius: var(--radius-medium);
+            border: 1px solid #ede9f5;
+        }
+        .ba-card.before { background: #fef2f2; border-color: #fecaca; }
+        .ba-card.after { background: #f0fdf4; border-color: #bbf7d0; }
+        .ba-card h4 { font-size: 1rem; margin-bottom: 10px; }
+        .ba-card.before h4 { color: #b91c1c; }
+        .ba-card.after h4 { color: #15803d; }
+        .ba-card p { font-size: 0.92rem; margin-bottom: 0; line-height: 1.7; }
+
+        .practice-steps {
+            counter-reset: practice; list-style: none; padding: 0; margin: 24px 0;
+        }
+        .practice-steps li {
+            counter-increment: practice; position: relative;
+            padding: 20px 20px 20px 70px; margin-bottom: 14px;
+            background: linear-gradient(135deg, #fdf0ff, #fff);
+            border: 1px solid #e9d5f5; border-radius: var(--radius-medium);
+        }
+        .practice-steps li::before {
+            content: 'Step ' counter(practice);
+            position: absolute; left: 16px; top: 50%; transform: translateY(-50%);
+            font-family: 'Roboto', sans-serif; font-size: 0.72rem; font-weight: 700;
+            color: #fff;
+            background: var(--ig-grad);
+            padding: 6px 10px; border-radius: 8px; white-space: nowrap;
+        }
+        .practice-steps li strong {
+            display: block; font-size: 1rem; color: var(--text-main); margin-bottom: 6px;
+        }
+        .practice-steps li span { font-size: 0.92rem; color: #64748b; line-height: 1.7; }
+
+        .next-step-box {
+            background: var(--ig-light); border: 1px solid #e9d5f5;
+            border-radius: var(--radius-medium); padding: 20px 24px;
+            margin-top: 24px; text-align: center;
+        }
+        .next-step-box p { margin-bottom: 0; color: var(--text-main); font-weight: 500; }
+
+        .tool-link-btn {
+            display: inline-flex; align-items: center; gap: 10px;
+            background: var(--ig-grad);
+            color: #fff; padding: 14px 32px; border-radius: 30px;
+            text-decoration: none; font-weight: bold; font-size: 1.05rem;
+            border: none; cursor: pointer; transition: 0.3s;
+            box-shadow: 0 8px 20px rgba(193, 53, 132, 0.25);
+        }
+        .tool-link-btn:hover { transform: translateY(-3px); }
+        .tool-link-btn.secondary {
+            background: #fff; color: var(--text-main);
+            border: 2px solid #ede9f5; box-shadow: none;
+        }
+        .tab-nav-footer {
+            text-align: center; margin-top: 36px;
+            display: flex; flex-direction: column; gap: 14px; align-items: center;
+        }
+
+        .card-grid-3 {
+            display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 14px; margin: 24px 0;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #fdf0ff, #fff8f3);
+            border: 1px solid #e9d5f5; border-left: 5px solid var(--ig-magenta);
+            border-radius: var(--radius-medium); padding: 22px 26px; margin: 20px 0;
+        }
+        .highlight-box p { margin-bottom: 0; font-weight: 600; color: var(--text-main); }
+
+        .worksheet-grid {
+            display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px; margin: 24px 0;
+        }
+        .worksheet-card {
+            background: #fffef5; border: 2px dashed #fcd34d;
+            border-radius: var(--radius-medium); padding: 16px 16px 12px;
+            min-height: 150px; position: relative;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .worksheet-card:focus-within {
+            border-color: #f59e0b; border-style: solid;
+            box-shadow: 0 0 0 3px rgba(252, 211, 77, 0.3);
+        }
+        .worksheet-card strong {
+            display: block; color: var(--ig-purple); font-size: 0.9rem; margin-bottom: 4px;
+        }
+        .ws-hint {
+            font-size: 0.78rem; color: #9ca3af; margin-bottom: 8px; line-height: 1.4;
+        }
+        .worksheet-card textarea {
+            width: 100%; min-height: 80px;
+            background: transparent; border: none; outline: none;
+            resize: vertical; padding: 2px 0;
+            font-family: 'Noto Sans JP', sans-serif; font-size: 0.92rem;
+            color: var(--text-main); line-height: 1.75;
+        }
+        .worksheet-card textarea::placeholder { color: #d1d5db; font-size: 0.85rem; }
+        .ws-copy-btn {
+            position: absolute; top: 10px; right: 10px;
+            background: none; border: 1px solid #fcd34d; border-radius: 6px;
+            padding: 3px 8px; font-size: 0.72rem; color: #a16207;
+            cursor: pointer; transition: 0.2s; opacity: 0.6;
+            font-family: 'Noto Sans JP', sans-serif;
+        }
+        .ws-copy-btn:hover { background: #fef9c3; opacity: 1; }
+        .ws-copy-btn.ws-copied { background: #d1fae5; border-color: #10b981; color: #065f46; opacity: 1; }
+        .ws-copy-all-btn {
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            width: 100%; margin-top: 12px; padding: 13px;
+            background: #fff; border: 2px solid #fcd34d; border-radius: var(--radius-medium);
+            font-family: 'Noto Sans JP', sans-serif; font-size: 0.95rem; font-weight: 700;
+            color: #a16207; cursor: pointer; transition: 0.2s;
+        }
+        .ws-copy-all-btn:hover { background: #fffbeb; border-color: #f59e0b; }
+
+        .sticky-grid {
+            display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px; margin: 24px 0;
+        }
+        .sticky-card {
+            padding: 20px; border-radius: 4px;
+            box-shadow: 2px 4px 8px rgba(0,0,0,0.1);
+            font-size: 0.95rem; line-height: 1.65;
+        }
+        .sticky-card:nth-child(1) { background: #fef08a; transform: rotate(-1deg); }
+        .sticky-card:nth-child(2) { background: #bbf7d0; transform: rotate(1deg); }
+        .sticky-card:nth-child(3) { background: #fbcfe8; transform: rotate(-0.5deg); }
+        .sticky-card:nth-child(4) { background: #bfdbfe; transform: rotate(0.5deg); }
+        .sticky-card:nth-child(5) { background: #fde68a; transform: rotate(-0.7deg); }
+        .sticky-card strong { display: block; margin-bottom: 6px; color: var(--text-main); }
+
+        .closing-message {
+            text-align: center; font-size: 1.2rem; font-weight: 700;
+            color: var(--ig-purple); margin: 28px 0 16px; line-height: 1.6;
+        }
+
+        .caution-box {
+            background: #fffbeb; border: 2px solid #f59e0b;
+            border-left: 6px solid #d97706; border-radius: var(--radius-medium);
+            padding: 20px 24px; margin: 20px 0;
+        }
+        .caution-box p { margin-bottom: 0; color: #92400e; font-weight: 600; font-size: 0.98rem; }
+
+        .layout-split {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            margin: 24px 0;
+            align-items: start;
+        }
+
+        .video-section {
+            background: #faf8ff; border: 1px solid #e9d5f5;
+            border-radius: var(--radius-medium);
+            padding: 18px 22px; margin-bottom: 36px;
+        }
+        .video-section-title {
+            font-size: 0.9rem; font-weight: 700; color: var(--ig-purple);
+            margin-bottom: 12px; display: flex; align-items: center; gap: 8px;
+        }
+        details.video-item { margin-bottom: 8px; }
+        details.video-item summary {
+            cursor: pointer; font-size: 0.88rem; font-weight: 600;
+            color: var(--text-main); padding: 10px 14px;
+            background: #fff; border: 1px solid #ede9f5;
+            border-radius: var(--radius-small);
+            list-style: none; display: flex; align-items: center; gap: 8px; transition: 0.2s;
+        }
+        details.video-item summary::before { content: '▶'; color: var(--ig-magenta); flex-shrink: 0; }
+        details.video-item[open] summary::before { content: '▼'; }
+        details.video-item summary:hover { background: #fdf0ff; border-color: var(--ig-purple); }
+        details.video-item[open] summary {
+            border-radius: var(--radius-small) var(--radius-small) 0 0; border-bottom: none;
+        }
+        .video-embed {
+            position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;
+            border-radius: 0 0 var(--radius-small) var(--radius-small);
+            border: 1px solid #ede9f5; border-top: none;
+        }
+        .video-embed iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+
+        @media (max-width: 768px) {
+            body { padding: 10px 5px; }
+            .header, .tab-content { padding: 24px 18px; }
+            .header h1 { font-size: 1.5rem; }
+            .card-grid-2, .before-after-grid, .card-grid-3, .worksheet-grid, .sticky-grid { grid-template-columns: 1fr; }
+            .practice-steps li { padding-left: 18px; padding-top: 52px; }
+            .practice-steps li::before { top: 14px; left: 16px; transform: none; }
+        }
+
+        @media (min-width: 769px) {
+            .container { max-width: 1050px; }
+        }
+
+        @media (min-width: 1200px) {
+            .container { max-width: 1240px; }
+            .tab-content { padding: 50px 70px; }
+            .header { padding: 40px 70px 24px; }
+            .tab-btn { font-size: 0.92rem; padding: 20px 18px; }
+            .card-grid-2, .before-after-grid, .worksheet-grid { gap: 24px; }
+            .card-grid-3 { gap: 20px; }
+        }
+
+        /* ── Lightbox ──────────────────────────────── */
+        .lb-overlay {
+            display: none; position: fixed; inset: 0; z-index: 2000;
+            background: rgba(10, 4, 22, 0.9); cursor: zoom-out;
+            justify-content: center; align-items: center; padding: 20px;
+        }
+        .lb-overlay.open { display: flex; animation: lbFadeIn 0.2s ease; }
+        @keyframes lbFadeIn { from { opacity: 0 } to { opacity: 1 } }
+        .lb-img {
+            max-width: 92vw; max-height: 90vh; width: auto; height: auto;
+            border-radius: var(--radius-medium);
+            box-shadow: 0 24px 80px rgba(0, 0, 0, 0.7);
+            cursor: default;
+            animation: lbImgIn 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        @keyframes lbImgIn {
+            from { transform: scale(0.88); opacity: 0; }
+            to   { transform: scale(1);    opacity: 1; }
+        }
+        .lb-close {
+            position: absolute; top: 18px; right: 24px;
+            color: #fff; font-size: 2.2rem; line-height: 1;
+            cursor: pointer; opacity: 0.75; transition: opacity 0.15s;
+            background: none; border: none; padding: 4px 8px;
+        }
+        .lb-close:hover { opacity: 1; }
+        .slide-img:not(.cover-slide) { cursor: zoom-in; }
+
+        .quote-box {
+            background: linear-gradient(135deg, #f3e8ff, #fff7ed);
+            border: 2px solid #d8b4fe; border-left: 6px solid var(--ig-purple);
+            border-radius: var(--radius-medium); padding: 22px 26px; margin: 24px 0;
+        }
+        .quote-box p { margin-bottom: 8px; font-size: 0.96rem; color: #475569; line-height: 1.75; }
+        .quote-box p:last-child { margin-bottom: 0; }
+
+        .day-title { margin-bottom: 4px; }
+
+        /* コース完了バナー */
+        .course-complete-banner {
+            background: var(--ig-grad);
+            color: #fff; border-radius: var(--radius-medium);
+            padding: 30px; text-align: center; margin-bottom: 28px;
+        }
+        .course-complete-banner i { font-size: 2.5rem; margin-bottom: 12px; display: block; }
+        .course-complete-banner h3 { font-size: 1.4rem; margin-bottom: 8px; }
+        .course-complete-banner p { color: rgba(255,255,255,0.9); margin-bottom: 0; font-size: 1rem; }
+    </style>
+</head>
+
+<body>
+
+    <a href="./index.html" class="home-btn" title="ホームに戻る"><i class="fa-solid fa-house"></i></a>
+
+    <div class="container">
+        <header class="header">
+            <div class="header-top">
+                <div class="header-nav">
+                    <a href="./vol12-1.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> Day 12へ</a>
+                    <a href="./index.html" class="back-link"><i class="fa-solid fa-house"></i> ホームへ</a>
+                </div>
+                <span class="progress-pill">Day 13 / 13 最終回</span>
+            </div>
+            <span class="header-tag">DAY 13 FINAL</span>
+            <h1 class="day-title">Day 13</h1>
+            <p class="day-subtitle">情報セキュリティとSNS発信リテラシー</p>
+            <p class="header-sub">著作権・情報漏洩・映り込みリスクを知り、安全で信頼される発信者になる — Jun 2026</p>
+        </header>
+
+        <nav class="tabs">
+            <button class="tab-btn active" onclick="openTab('goal')">今日の目標</button>
+            <button class="tab-btn" onclick="openTab('first')">前半</button>
+            <button class="tab-btn" onclick="openTab('second')">後半</button>
+            <button class="tab-btn" onclick="openTab('summary')">今日のまとめ</button>
+        </nav>
+
+        <!-- ===== 今日の目標 ===== -->
+        <div id="goal" class="tab-content active">
+            <div class="goal-box">
+                <i class="fa-solid fa-shield-halved"></i>
+                <div>
+                    <h3>情報セキュリティを理解し、安全な発信者として研修を締めくくる</h3>
+                    <p>SNSとの関係が深まるほど、コンテンツの責任も増します。本日は著作権・情報漏洩・個人情報の映り込みという3つのリスクを学び、自信を持って発信できる知識を身につけましょう。</p>
+                    <p>最終発表では、研修を通じて制作した作品をPadletシェアボードで共有します。</p>
+                </div>
+            </div>
+
+            <div class="card-grid-3" style="margin-top:24px;">
+                <div class="info-card">
+                    <div class="info-card-header">
+                        <div class="info-card-icon"><i class="fa-solid fa-scale-balanced"></i></div>
+                        <h3>ポイント 1</h3>
+                    </div>
+                    <p>著作権法の基本：SNS発信における「グレーゾーン」と「例外規定（引用・私的使用）」を理解する</p>
+                </div>
+                <div class="info-card">
+                    <div class="info-card-header">
+                        <div class="info-card-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                        <h3>ポイント 2</h3>
+                    </div>
+                    <p>悪意なき情報漏洩：新入社員の「日常共有」がなぜ機密漏洩になるのか、そのメカニズムを知る</p>
+                </div>
+                <div class="info-card">
+                    <div class="info-card-header">
+                        <div class="info-card-icon"><i class="fa-solid fa-camera-slash"></i></div>
+                        <h3>ポイント 3</h3>
+                    </div>
+                    <p>写真の映り込みリスク：BeReal.の仕様が生む「無自覚な情報露出」と防衛策</p>
+                </div>
+            </div>
+
+            <div class="info-box" style="margin-top:24px;">
+                <p><strong>🎉 最終発表回：</strong>本日の講義後、研修を通じて制作した作品（アカウント・コンテンツ等）をPadletシェアボードに投稿し、講師・受講生全員と共有します。</p>
+            </div>
+
+            <div class="tab-nav-footer">
+                <button type="button" class="tool-link-btn" onclick="openTab('first')">前半へ進む <i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+        </div>
+
+        <!-- ===== 前半 ===== -->
+        <div id="first" class="tab-content">
+            <h2 style="margin-top:0;">前半 ／ 情報セキュリティとSNS発信リテラシー（基礎編）</h2>
+
+            <!-- SECTION A: 著作権 -->
+            <section class="section">
+                <h2><span class="sec-num">SECTION A</span> SNS発信と著作権の基本</h2>
+
+                <h3 class="sub-heading">著作権法の本来の目的</h3>
+                <p>著作権法は単に表現を縛るものではなく、著作者の権利を守りつつ、公正な利用を促すことで「文化の発展」に寄与することを目的としています。正しく理解すれば、創作活動をより自由に、かつ安全に行うための羅針盤になります。</p>
+
+                <h3 class="sub-heading">SNS発信における著作権侵害のグレーゾーン</h3>
+                <p>他人が描いたイラストや作成した音源を無断でSNSアイコンや動画のBGMに使用する行為は、基本的に著作権侵害となります。公衆送信権や複製権に抵触するため、「出典を明記すれば使える」という思い込みは危険です。</p>
+
+                <div class="before-after-grid">
+                    <div class="ba-card before">
+                        <h4>❌ 著作権侵害になりうる例</h4>
+                        <p>他者のイラストをSNSアイコンに無断使用、市販楽曲をBGMに使用した動画を投稿、映画や漫画のシーンをそのままRepost</p>
+                    </div>
+                    <div class="ba-card after">
+                        <h4>✅ 合法的に使える範囲</h4>
+                        <p>著作権フリー素材の利用、自身の作品を活用、出所明示＋批評目的の正当な「引用」、個人利用の範囲内での私的複製</p>
+                    </div>
+                </div>
+
+                <h3 class="sub-heading">例外規定（私的使用と引用）</h3>
+                <p>個人のスマートフォンに保存して楽しむだけの「私的使用のための複製」や、批評・報道など公正な慣行に合致し、かつ明確に区別して出所を明記する「引用」など、一定の例外条件を満たせば無断利用が認められます。SNS発信では「引用の目的が主」「出所を明示」「引用部分と自分の文章が区別できる」の3点が重要です。</p>
+
+                <div class="info-box">
+                    <p><strong>💡 チェックポイント：</strong>素材を使う前に「この素材の著作者は誰か」「利用規約はどうなっているか」「無料＝著作権フリーではない」の3点を必ず確認しましょう。</p>
+                </div>
+
+                <!-- 動画1 -->
+                <div class="video-gallery" style="margin-top:20px;">
+                    <details class="video-item">
+                        <summary class="video-summary">
+                            <span class="video-icon"><i class="fa-brands fa-youtube"></i></span>
+                            <div class="video-info">
+                                <span class="video-label">講義動画① (13:30)</span>
+                                <span class="video-title">【これって NG？】SNS や創作の不安を弁護士が解決！【ゆいにしお×水口瑛介】（文化庁）</span>
+                            </div>
+                            <span class="video-chevron"><i class="fa-solid fa-chevron-down"></i></span>
+                        </summary>
+                        <div class="video-content">
+                            <div class="video-embed">
+                                <iframe src="https://www.youtube.com/embed/uXNmFjACZ9w" title="【これって NG？】SNS や創作の不安を弁護士が解決！【ゆいにしお×水口瑛介】（文化庁）" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+                            </div>
+                        </div>
+                    </details>
+                </div>
+            </section>
+
+            <!-- SECTION B: 情報漏洩 -->
+            <section class="section">
+                <h2><span class="sec-num">SECTION B</span> 新入社員とSNSによる内部情報漏洩</h2>
+
+                <h3 class="sub-heading">悪意なき日常共有が招く機密漏洩</h3>
+                <p>近年の新入社員はデジタルネイティブであり、日々の出来事をSNSで共有するハードルが非常に低い状態です。そのため、入社式や研修の様子、配布された資料（社外秘）などを<strong>悪気なくTikTokやInstagramに投稿してしまう</strong>トラブルが多発しています。これは「モラルの低さ」ではなく、「リテラシーの不足」が原因です。</p>
+
+                <div class="caution-box">
+                    <p>⚠️ 「これくらいなら大丈夫」という感覚こそが最大のリスク。社外秘マークのあるスライドが1枚でも映り込めば、それは機密漏洩です。</p>
+                </div>
+
+                <h3 class="sub-heading">企業ブランドや市場への甚大な影響</h3>
+                <p>投稿された画像に「社外秘」マークのあるスライドや、開発中の製品情報、取引先リストなどが写り込んでいた場合、企業の社会的信用失墜だけでなく、競合他社への情報流出など実質的な経営損失に繋がります。個人の失念が、会社全体を揺るがす問題へと発展するのです。</p>
+
+                <h3 class="sub-heading">予防としての意識改革とポリシー策定</h3>
+                <p>悪意がある不正アクセスとは異なり、「これくらいなら大丈夫」という個人のリテラシー不足が原因であるため、入社時のセキュリティ研修で具体的な「投稿NG例」を示すことや、社内SNSガイドラインの徹底が不可欠です。発信する前に「この写真に業務情報が映っていないか」を確認する習慣が重要です。</p>
+
+                <div class="tips-box">
+                    <h4><i class="fa-solid fa-lightbulb"></i> 発信前チェックリスト</h4>
+                    <p>① 写真・動画に社名・社内資料・PC画面が映っていないか　② 音声に社内情報・顧客名が含まれていないか　③ 投稿内容が社内情報から推測できないか</p>
+                </div>
+
+                <!-- 動画2 -->
+                <div class="video-gallery" style="margin-top:20px;">
+                    <details class="video-item">
+                        <summary class="video-summary">
+                            <span class="video-icon"><i class="fa-brands fa-youtube"></i></span>
+                            <div class="video-info">
+                                <span class="video-label">講義動画② (3:30)</span>
+                                <span class="video-title">2026新入社員、続々と社外秘の資料をSNSに投下している模様（解説動画）</span>
+                            </div>
+                            <span class="video-chevron"><i class="fa-solid fa-chevron-down"></i></span>
+                        </summary>
+                        <div class="video-content">
+                            <div class="video-embed">
+                                <iframe src="https://www.youtube.com/embed/OEZCTfQQ3QY" title="2026新入社員、続々と社外秘の資料をSNSに投下している模様（解説動画）" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+                            </div>
+                        </div>
+                    </details>
+                </div>
+            </section>
+
+            <!-- SECTION C: BeReal -->
+            <section class="section">
+                <h2><span class="sec-num">SECTION C</span> BeReal.の罠と写真映り込みリスク</h2>
+
+                <h3 class="sub-heading">BeRealの仕様と無自覚な映り込み</h3>
+                <p>Z世代に人気の「BeReal.」は、1日1回のランダムな通知から<strong>2分以内に撮影</strong>しなければならず、かつ<strong>インカメラとアウトカメラが同時に撮影</strong>されます。撮影時間に猶予がないため、周囲を確認せずに急いでシャッターを切ることで、背景に機密情報が映り込むリスクが極めて高いアプリです。</p>
+
+                <div class="before-after-grid">
+                    <div class="ba-card before">
+                        <h4>⚠️ BeReal.の特性によるリスク</h4>
+                        <p>通知から2分以内という時間的プレッシャー、インカメラ＋アウトカメラの同時撮影、「ありのまま」の日常を投稿するコンセプト → 確認する時間的余裕がない</p>
+                    </div>
+                    <div class="ba-card after">
+                        <h4>✅ 防衛策</h4>
+                        <p>重要情報を扱う執務エリアでのスマートフォン持込規制、撮影前の「背景チェック」習慣化、カメラ起動前にPC画面を閉じるルールの徹底</p>
+                    </div>
+                </div>
+
+                <h3 class="sub-heading">オフィス内や機密区域での事故事例</h3>
+                <p>銀行の窓口や自治体の執務室、あるいは学校の授業中などで、手元の端末の画面や机の上の書類、黒板に書かれた個人情報が背景に映り込んだまま投稿され、問題化するケースが増加しています。BeReal.に限らず、「写真を撮る」というごく日常的な行為がセキュリティリスクになり得ることを意識する必要があります。</p>
+
+                <h3 class="sub-heading">場所と端末管理のルール化</h3>
+                <p>技術的な対策だけでは防げないため、重要情報を扱う執務エリアでのスマートフォン持込規制や、写真撮影時の「周囲の背景チェック」をマニュアル化するなどの防衛策が必要です。「SNSを禁止する」ではなく、「どこで・何を・どのように撮影するか」のルールを作ることが現実的な解決策です。</p>
+
+                <!-- 動画3 -->
+                <div class="video-gallery" style="margin-top:20px;">
+                    <details class="video-item">
+                        <summary class="video-summary">
+                            <span class="video-icon"><i class="fa-brands fa-youtube"></i></span>
+                            <div class="video-info">
+                                <span class="video-label">講義動画③ (20:10)</span>
+                                <span class="video-title">「授業中に一斉にシャッター音が…」Z世代激増の写真動画共有アプリ『BeReal.』なぜ流行？ 自治体や銀行でSNS通じた情報漏洩も…（ABCテレビニュース）</span>
+                            </div>
+                            <span class="video-chevron"><i class="fa-solid fa-chevron-down"></i></span>
+                        </summary>
+                        <div class="video-content">
+                            <div class="video-embed">
+                                <iframe src="https://www.youtube.com/embed/uDrH6fRddZM" title="「授業中に一斉にシャッター音が…」Z世代激増の写真動画共有アプリ『BeReal.』 なぜ流行？ 自治体や銀行でSNS通じた情報漏洩も…" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+                            </div>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="goal-list" style="margin-top:28px;">
+                    <h4>📌 参考リンク</h4>
+                    <ul>
+                        <li><a href="https://www.ipa.go.jp/security/" target="_blank" rel="noopener" style="color:var(--ig-purple);">IPA 情報処理推進機構 — 情報セキュリティ対策</a></li>
+                        <li><a href="https://www.pwc.com/jp/ja/services/digital-trust/cyber-security-consulting/information-disclosure.html" target="_blank" rel="noopener" style="color:var(--ig-purple);">PwC サイバーセキュリティ — 情報開示</a></li>
+                    </ul>
+                </div>
+            </section>
+
+            <div class="tab-nav-footer">
+                <button type="button" class="tool-link-btn" onclick="openTab('second')">後半へ進む <i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+        </div>
+
+        <!-- ===== 後半 ===== -->
+        <div id="second" class="tab-content">
+            <h2 style="margin-top:0;">後半 ／ 情報セキュリティとSNS発信リテラシー（応用編）</h2>
+
+            <!-- SECTION D -->
+            <section class="section">
+                <h2><span class="sec-num">SECTION D</span> 講義動画④</h2>
+
+                <p>後半の講義動画です。前半の著作権・情報漏洩・BeRealリスクの知識を踏まえ、より実践的な視点でセキュリティとSNS発信を深掘りします。</p>
+
+                <!-- 動画4 -->
+                <div class="video-gallery" style="margin-top:20px;">
+                    <details class="video-item">
+                        <summary class="video-summary">
+                            <span class="video-icon"><i class="fa-brands fa-youtube"></i></span>
+                            <div class="video-info">
+                                <span class="video-label">講義動画④</span>
+                                <span class="video-title">後半 講義動画①</span>
+                            </div>
+                            <span class="video-chevron"><i class="fa-solid fa-chevron-down"></i></span>
+                        </summary>
+                        <div class="video-content">
+                            <div class="video-embed">
+                                <iframe src="https://www.youtube.com/embed/HA0iAQXhaDs" title="後半 講義動画①" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+                            </div>
+                        </div>
+                    </details>
+                </div>
+            </section>
+
+            <!-- SECTION E -->
+            <section class="section">
+                <h2><span class="sec-num">SECTION E</span> 講義動画⑤</h2>
+
+                <p>引き続き、SNSセキュリティと発信リテラシーに関する講義動画です。</p>
+
+                <!-- 動画5 -->
+                <div class="video-gallery" style="margin-top:20px;">
+                    <details class="video-item">
+                        <summary class="video-summary">
+                            <span class="video-icon"><i class="fa-brands fa-youtube"></i></span>
+                            <div class="video-info">
+                                <span class="video-label">講義動画⑤</span>
+                                <span class="video-title">後半 講義動画②</span>
+                            </div>
+                            <span class="video-chevron"><i class="fa-solid fa-chevron-down"></i></span>
+                        </summary>
+                        <div class="video-content">
+                            <div class="video-embed">
+                                <iframe src="https://www.youtube.com/embed/8OevsYZbcX0" title="後半 講義動画②" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+                            </div>
+                        </div>
+                    </details>
+                </div>
+            </section>
+
+            <!-- SECTION F: 最終発表WORK -->
+            <section class="section">
+                <h2><span class="sec-num">SECTION F</span> 講義動画⑥</h2>
+
+                <p>後半最後の講義動画です。</p>
+
+                <!-- 動画6 -->
+                <div class="video-gallery" style="margin-top:20px;">
+                    <details class="video-item">
+                        <summary class="video-summary">
+                            <span class="video-icon"><i class="fa-brands fa-youtube"></i></span>
+                            <div class="video-info">
+                                <span class="video-label">講義動画⑥</span>
+                                <span class="video-title">後半 講義動画③</span>
+                            </div>
+                            <span class="video-chevron"><i class="fa-solid fa-chevron-down"></i></span>
+                        </summary>
+                        <div class="video-content">
+                            <div class="video-embed">
+                                <iframe src="https://www.youtube.com/embed/HiyPFQZHrDs" title="後半 講義動画③" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+                            </div>
+                        </div>
+                    </details>
+                </div>
+            </section>
+
+            <!-- WORK: 最終発表 -->
+            <section class="section">
+                <h2><span class="sec-num">WORK</span> 最終発表 — 制作物をPadletに共有しよう</h2>
+                <p><strong>目的：</strong>研修を通じて制作・改善してきたInstagramアカウントやコンテンツを、Padletシェアボードに投稿して講師・受講生全員と共有する</p>
+
+                <div class="practice-steps">
+                    <li>
+                        <strong>制作物を整理する</strong>
+                        <span>研修期間中に作成したInstagramアカウント、リール・投稿コンテンツ、プロフィール設計など、共有したい成果物を確認します。</span>
+                    </li>
+                    <li>
+                        <strong>振り返りをまとめる</strong>
+                        <span>「研修で一番印象に残ったこと」「今後のSNS運用に活かしたいこと」を1〜2文で言語化しておきましょう。</span>
+                    </li>
+                    <li>
+                        <strong>Padletシェアボードに投稿する</strong>
+                        <span>制作物のスクリーンショット・URL・振り返りコメントをPadletに投稿し、講師・他の受講生と共有します。</span>
+                    </li>
+                </div>
+
+                <div class="worksheet-grid">
+                    <div class="worksheet-card">
+                        <strong>最終振り返り：研修を通じて学んだこと</strong>
+                        <div class="ws-hint">研修全体を振り返って、最も印象に残ったこと・今後活かしたいことを自由に記録しましょう</div>
+                        <textarea id="ws-final-1" placeholder="ここに入力..."></textarea>
+                        <button class="ws-copy-btn" onclick="copyText('ws-final-1', this)">コピー</button>
+                    </div>
+                    <div class="worksheet-card">
+                        <strong>今後のアクションプラン</strong>
+                        <div class="ws-hint">研修後に実践したいことを具体的に書いておきましょう（例：「週2回リールを投稿する」「Canva一括作成で月20本量産する」など）</div>
+                        <textarea id="ws-final-2" placeholder="ここに入力..."></textarea>
+                        <button class="ws-copy-btn" onclick="copyText('ws-final-2', this)">コピー</button>
+                    </div>
+                </div>
+                <button class="ws-copy-all-btn" onclick="copyAll('final', this)"><i class="fa-solid fa-copy"></i> 最終振り返りをすべてコピー</button>
+
+                <p style="margin-top:20px; text-align:center;">
+                    <a href="https://padlet.com/platinumzonedx/dx-instagram-sfikt2pbwarlfa1x" target="_blank" rel="noopener" class="tool-link-btn">Padletシェアボードへ <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                </p>
+            </section>
+
+            <div class="tab-nav-footer">
+                <button type="button" class="tool-link-btn" onclick="openTab('summary')">今日のまとめへ <i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+        </div>
+
+        <!-- ===== まとめ ===== -->
+        <div id="summary" class="tab-content">
+
+            <div class="course-complete-banner">
+                <i class="fa-solid fa-trophy"></i>
+                <h3>DX研修（2026年6月）コース修了 おめでとうございます！</h3>
+                <p>Day 1 から Day 13 まで、Instagramマーケティング・AI活用・情報セキュリティを学び抜きました。</p>
+            </div>
+
+            <h2 style="margin-top:0;">今日のまとめ</h2>
+
+            <div class="sticky-grid">
+                <div class="sticky-card">
+                    <strong>1. 著作権は「発信者の責任」</strong>
+                    著作権法の目的は文化の発展。SNS発信者として「グレーゾーン」を理解し、著作権フリー素材・正当な引用のみを使うことで、安全かつ自信を持って発信できます。
+                </div>
+                <div class="sticky-card">
+                    <strong>2. 悪意がなくても漏洩は漏洩</strong>
+                    新入社員の「日常共有」が企業の機密漏洩になる時代。「これくらいなら大丈夫」という感覚がリスクの温床。発信前に「映り込みチェック」の習慣をつけましょう。
+                </div>
+                <div class="sticky-card">
+                    <strong>3. BeReal.の「2分ルール」が生む死角</strong>
+                    2分以内・前後カメラ同時撮影という仕様が、確認する余裕を奪います。執務エリアでの撮影ルール化と「背景チェック」の徹底が、リスクを大幅に下げます。
+                </div>
+                <div class="sticky-card">
+                    <strong>4. セキュリティは「禁止」より「ルール化」</strong>
+                    SNSを全面禁止にするより、「どこで・何を・どのように撮影するか」を具体的にルール化する方が現実的で継続可能。ポリシーを言語化し共有することが鍵です。
+                </div>
+                <div class="sticky-card">
+                    <strong>5. 13日間で身についた「発信者の責任感」</strong>
+                    コンテンツ制作・AI活用・情報セキュリティを学んだ研修の集大成。楽しく発信する力と、安全に守る知識の両方を手に入れました。
+                </div>
+            </div>
+
+            <div class="closing-message">
+                お疲れ様でした！<br>
+                SNS発信の楽しさと責任を両立できる発信者として、これからも活躍してください。
+            </div>
+
+            <div class="tab-nav-footer">
+                <a href="./index.html" class="tool-link-btn"><i class="fa-solid fa-house"></i> コース一覧に戻る</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openTab(tabId) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            const matchingBtn = Array.from(document.querySelectorAll('.tab-btn')).find(
+                b => (b.getAttribute('onclick') || '').includes("'" + tabId + "'")
+            );
+            if (matchingBtn) matchingBtn.classList.add('active');
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            window.scrollTo({ top: document.querySelector('.tabs').offsetTop - 20, behavior: 'smooth' });
+        }
+
+        function copyText(id, btn) {
+            const textarea = document.getElementById(id);
+            if (!textarea) return;
+            navigator.clipboard.writeText(textarea.value).then(() => {
+                const originalText = btn.textContent;
+                btn.textContent = 'コピー完了！';
+                btn.classList.add('ws-copied');
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.classList.remove('ws-copied');
+                }, 2000);
+            });
+        }
+
+        function copyAll(part, btn) {
+            let text = '';
+            if (part === 'final') {
+                text = `【最終振り返り：研修を通じて学んだこと】\n${document.getElementById('ws-final-1').value}\n\n【今後のアクションプラン】\n${document.getElementById('ws-final-2').value}`;
+            }
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '<i class="fa-solid fa-check"></i> コピー完了！';
+                btn.classList.add('ws-copied');
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.classList.remove('ws-copied');
+                }, 2000);
+            });
+        }
+
+        (function () {
+            const overlay = document.createElement('div');
+            overlay.className = 'lb-overlay';
+            overlay.innerHTML = '<button class="lb-close" aria-label="閉じる">&times;</button><img class="lb-img" alt="">';
+            document.body.appendChild(overlay);
+            const lbImg = overlay.querySelector('.lb-img');
+            const lbClose = overlay.querySelector('.lb-close');
+            function openLb(src, alt) {
+                lbImg.src = src; lbImg.alt = alt || '';
+                overlay.classList.add('open');
+                document.body.style.overflow = 'hidden';
+            }
+            function closeLb() {
+                overlay.classList.remove('open');
+                document.body.style.overflow = '';
+            }
+            document.querySelectorAll('.slide-img:not(.cover-slide)').forEach(img => {
+                img.addEventListener('click', () => openLb(img.src, img.alt));
+            });
+            lbClose.addEventListener('click', closeLb);
+            overlay.addEventListener('click', e => { if (e.target === overlay) closeLb(); });
+            document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLb(); });
+        })();
+    </script>
+    <script src="./clock.js?v=20260621a" defer></script>
+</body>
+</html>
+<!-- cache-bust: 2026-06-30T18:00:00 -->

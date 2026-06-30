@@ -132,7 +132,7 @@ preflight
 INBOX="scratch/orch/inbox.json"
 
 run_stage "リサーチ+スライド" "$PANE_AGY" "slides.done" "$T_SLIDES" \
-  "【orchestrator】$INBOX の{day,half,urls,work}を読め。GEMINI.md §1の手順でToday_Research.md更新→当日URLでnotebooklm-auto.js本実行（連番保存）。完了したら scratch/orch/slides.done に {\"status\":\"GREEN\",\"savedCount\":N} を書け（GEMINI.md オーケストレーター連携節）。ブロック/人間判断が要るときは .done でなく scratch/orch/HALT に理由を書いて止まれ。"
+  "【orchestrator】$INBOX の{day,half,urls,work,theme}を読め。(A) Today_Research.md を君自身の動画要約で更新（**yt-dlp禁止・文字起こしツール不要**。NotebookLMがURLを直接読む）。(B) NotebookLMスライドは inbox の値で次を実行：bash scratch/run-notebooklm.sh --day <day> --half <half> --urls <urlsをカンマ区切り> --work <work>（Windows node interopでnotebooklm-auto.jsを起動・連番保存。詳細はrun-notebooklm.sh冒頭）。完了で scratch/orch/slides.done に {\"status\":\"GREEN\",\"savedCount\":N} を書け。**NotebookLM要ログイン/依存不足等で無人継続できないなら、調査ループに入らず即、.done でなく scratch/orch/HALT に具体的な理由（例：NotebookLM未ログイン→headless:falseで手動ログイン要）を書いて止まれ。**"
 
 run_stage "厳選+vol計画" "$PANE_CLAUDE" "plan.done" "$T_PLAN" \
   "【orchestrator】$INBOX と昇格スライド・実習からvolXX計画＋スライド厳選（〜14枚から取捨）。Today_Plan.mdを更新。完了したら scratch/orch/plan.done に {\"status\":\"OK\"} を書け（CLAUDE.md §8）。ブロック時は scratch/orch/HALT に理由を書いて止まれ。"

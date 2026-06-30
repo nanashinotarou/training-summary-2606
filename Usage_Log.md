@@ -87,6 +87,7 @@
 | 2026-06-28 | 13 | fix-plan | ClaudeCode | ~4% | 30分 | Hiroya指摘で記録監査。§14/§16のスライド枚数矛盾3点を修正（プロンプト枚数指定削除・H4降格・厳選工程明記）。全AI共有Retrospective.md新設＋CLAUDE/GEMINI/CODEX.md配線（失敗蓄積機構） |
 | 2026-06-28 | — | plan | ClaudeCode | ~3% | 25分 | WSL×Google Drive(G:)のerrno19問題をライブ検証で確定（間欠故障）。フルオート基盤の方向性3案(A:ミラー/B:git/C:再マウント)を§17に整理しAntigravity・Codexへ意見募集。Retrospective L3を検証結果で更新 |
 | 2026-06-28 | — | plan | ClaudeCode | ~5% | 35分 | tmux-bridgeでCodex/Antigravity/ClaudeCodeペインの3者に相談を実投入→全員回答を回収（AI-to-AI連携 初実証・L4）。/home/hi ext4正本へ移す案に収束→§18移行設計＋project memory化。Codexはレート制限モーダルで停止挙動も観測 |
+| 2026-06-30 | 13 | research | Antigravity | ~10% | 15分 | Today_Research.md更新完了、Windows node環境のpuppeteer-core依存不足を検出しHALT停止 |
 <!-- 上記を最古行として、新しい記録を末尾に追記していく -->
 
 ---
